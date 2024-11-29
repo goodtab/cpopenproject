@@ -215,6 +215,8 @@ module Redmine::MenuManager::TopMenuHelper
 
   def module_top_menu_item_groups
     items = more_top_menu_items
+    return items if items.empty?
+
     item_groups = []
 
     # add untitled group, if no heading is present

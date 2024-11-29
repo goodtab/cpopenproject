@@ -43,6 +43,7 @@ Redmine::MenuManager.map :top_menu do |menu|
   menu.push :activity,
             { controller: "/activities", action: "index" },
             context: :modules,
+            if: Proc.new { User.current.logged? || !Setting.login_required? },
             icon: "history"
 
   menu.push :work_packages,
