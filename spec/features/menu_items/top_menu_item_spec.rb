@@ -67,7 +67,7 @@ RSpec.describe "Top menu items", :js do
   end
 
   describe "Modules" do
-    let!(:top_menu) { find("[title=#{I18n.t('label_modules')}]") }
+    let(:top_menu) { find("[title=#{I18n.t('label_modules')}]") }
 
     shared_let(:menu_link_item) { Struct.new(:label, :path) }
 
@@ -137,6 +137,14 @@ RSpec.describe "Top menu items", :js do
 
     context "as an anonymous user" do
       let(:user) { create(:anonymous) }
+
+      context "when login_required", with_settings: { login_required: true } do
+        let(:open_menu) { false }
+
+        it "redirects to login" do
+          expect(page).to have_current_path /login/
+        end
+      end
 
       context "when not login_required", with_settings: { login_required: false } do
         it "displays only projects, activity and news" do
