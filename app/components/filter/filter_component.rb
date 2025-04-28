@@ -43,17 +43,16 @@ module Filter
     # Returns filters, active and inactive.
     # In case a filter is active, the active one will be preferred over the inactive one.
     def each_filter
-      allowed_filters.each do |filter|
-        active_filter = query.find_active_filter(filter.name)
-        additional_attributes = additional_filter_attributes(filter)
+      allowed_filters.each do |allowed_filter|
+        active_filter = query.find_active_filter(allowed_filter.name)
+        filter = active_filter || allowed_filter
 
-        yield active_filter.presence || filter, active_filter.present?, additional_attributes
+        yield filter, active_filter.present?, additional_filter_attributes(filter)
       end
     end
 
     def allowed_filters
-      query
-        .available_advanced_filters
+      query.available_advanced_filters
     end
 
     def value_hidden_class(selected_operator)
@@ -99,7 +98,6 @@ module Filter
                 else
                   { items: filter.allowed_values.map { |name, id| { name:, id: } } }
                 end
-
       autocomplete_options.merge(options).merge(model: filter.values)
     end
 
@@ -139,8 +137,7 @@ module Filter
         url: ::API::V3::Utilities::PathHelper::ApiV3Path.principals,
         filters: [
           { name: "type", operator: "=", values: ["User"] },
-          { name: "status", operator: "!", values: [Principal.statuses["locked"].to_s] },
-          { name: "member", operator: "=", values: Project.visible.pluck(:id) }
+          { name: "status", operator: "!", values: [Principal.statuses["locked"].to_s] }
         ],
         searchKey: "any_name_attribute",
         focusDirectly: false

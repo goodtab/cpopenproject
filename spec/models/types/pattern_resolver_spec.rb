@@ -46,7 +46,7 @@ RSpec.describe Types::PatternResolver do
 
     it "resolves the pattern" do
       expect(subject.resolve(work_package))
-        .to eq("#{work_package.id} | NA | #{work_package.created_at.to_date.iso8601}")
+        .to eq("#{work_package.id} | N/A | #{work_package.created_at.to_date.iso8601}")
     end
   end
 
@@ -61,8 +61,9 @@ RSpec.describe Types::PatternResolver do
 
   context "when the pattern has custom fields" do
     let(:custom_field) { create(:string_wp_custom_field) }
-    let(:type) { create(:type, custom_fields: [custom_field]) }
-    let(:project) { create(:project, types: [type], work_package_custom_fields: [custom_field]) }
+    let(:multi_value_field) { create(:multi_list_wp_custom_field) }
+    let(:type) { create(:type, custom_fields: [custom_field, multi_value_field]) }
+    let(:project) { create(:project, types: [type], work_package_custom_fields: [custom_field, multi_value_field]) }
     let(:project_custom_field) { create(:project_custom_field, projects: [project], field_format: "string") }
 
     let(:subject_pattern) do
@@ -70,12 +71,20 @@ RSpec.describe Types::PatternResolver do
     end
 
     let(:work_package) do
-      create(:work_package, type:, project:, custom_values: { custom_field.id => "Important Information" })
+      create(:work_package, type:, project:,
+                            custom_values: { custom_field.id => "Important Information",
+                                             multi_value_field.id => multi_value_field.possible_values.take(2) })
     end
 
     before do
       project.public_send :"custom_field_#{project_custom_field.id}=", "PROSPEC"
       project.save
+    end
+
+    it "multi value fields are joined by comma" do
+      subject_pattern = "MCF: {{custom_field_#{multi_value_field.id}}}"
+      resolver = described_class.new(subject_pattern)
+      expect(resolver.resolve(work_package)).to eq("MCF: A, B")
     end
 
     it "resolves the pattern" do

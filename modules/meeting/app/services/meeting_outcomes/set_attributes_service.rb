@@ -30,5 +30,10 @@
 
 module MeetingOutcomes
   class SetAttributesService < ::BaseServices::SetAttributes
+    def set_default_attributes(_params)
+      model.change_by_system do
+        model.author = user
+      end
+    end
   end
 end

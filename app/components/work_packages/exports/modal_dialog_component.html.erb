@@ -51,10 +51,27 @@
       <% end %>
     <% end %>
   <% end %>
-  <% dialog.with_footer do %>
-    <%= render(Primer::ButtonComponent.new(data: { "close-dialog-id": MODAL_ID })) { I18n.t(:button_cancel) } %>
+  <% dialog.with_footer(show_divider: true) do %>
+    <% if offer_to_save_export_settings? %>
+      <%= render(Primer::BaseComponent.new(tag: :span, mr: :auto)) do %>
+        <%= render(
+              Primer::Alpha::CheckBox.new(
+                id: "#{EXPORT_FORM_ID}-save_export_settings",
+                name: "save_export_settings",
+                value: "true",
+                unchecked_value: "false",
+                checked: saved_export_settings?,
+                label: I18n.t("export.dialog.save_export_settings.label"),
+                data: {
+                  test_selector: "#{EXPORT_FORM_ID}-save-export-settings"
+                }
+              )
+            ) %>
+      <% end %>
+    <% end %>
+    <%= render(Primer::Beta::Button.new(data: { "close-dialog-id": MODAL_ID })) { I18n.t(:button_cancel) } %>
     <%= render(
-          Primer::ButtonComponent.new(
+          Primer::Beta::Button.new(
             data: {
               "work-packages--export--dialog-target": "submit"
             },

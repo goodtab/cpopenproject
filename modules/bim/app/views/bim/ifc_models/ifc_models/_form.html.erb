@@ -114,8 +114,7 @@ See COPYRIGHT and LICENSE files for more details.
       setDirectUploadFileName();
 
       <%# rebuild form to post to S3 directly %>
-      if (jQuery("input[name=utf8]").length == 1) {
-        jQuery("input[name=utf8]").remove();
+      if (jQuery("input[name=authenticity_token]").length === 1) {
         jQuery("input[name=authenticity_token]").remove();
         jQuery("input[name=_method]").remove();
 

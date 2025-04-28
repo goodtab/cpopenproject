@@ -64,10 +64,6 @@ module ::TwoFactorAuthentication
         @authenticated_user
       end
 
-      def show_local_breadcrumb
-        false
-      end
-
       def index_path
         two_factor_authentication_request_path
       end

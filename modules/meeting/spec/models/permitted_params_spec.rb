@@ -27,7 +27,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.dirname(__FILE__) + "/../spec_helper"
+require_relative "../spec_helper"
 
 RSpec.describe PermittedParams do
   let(:user) { build_stubbed(:user) }

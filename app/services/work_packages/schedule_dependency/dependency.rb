@@ -56,6 +56,7 @@ class WorkPackages::ScheduleDependency::Dependency
       follows_relations
         .filter_map(&:successor_soonest_start)
         .max
+        .then { days.soonest_working_day(it) }
   end
 
   def start_date
@@ -90,5 +91,9 @@ class WorkPackages::ScheduleDependency::Dependency
 
   def alive_descendants_dates
     alive_descendants.filter_map(&:due_date) + alive_descendants.filter_map(&:start_date)
+  end
+
+  def days
+    WorkPackages::Shared::Days.for(work_package)
   end
 end

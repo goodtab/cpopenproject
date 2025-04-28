@@ -38,40 +38,59 @@ module OpenProject
       #   ee:
       #     # Title used unless it is overwritten for the specific feature
       #     title: "Enterprise add-on"
-      #     # Title of the link used unless it is overwritten for the specific feature
-      #     link_title: "More information"
-      #     upsale:
+      #     upsell:
       #       [feature_key]:
-      #         # Title used for this feature only. If this is missing, the default title is used.
+      #         # Title used for this feature only. If this is missing, the default feature key is used.
       #         title: "A splendid feature"
       #         # Could also be description_html if necessary
       #         description: "This is a splendid feature that you should use. It just might transform your life."
-      #         # Title of the link used for this feature only. If this is missing, the default link title is used.
-      #         title_link: "Even more information"
+      #         # An unordered list of features
+      #         features:
+      #           some_key: "Some feature"
+      #           some_other_key: "Some other feature"
       # ```
+      # You can also provide a custom i18n_scope to change the place where the component looks for
+      # title, description, and features.
       #
-      # The href is inferred from `OpenProject::Static::Links.enterprise_docs[feature_key][:href]`.
-      #
-      # The value of `EnterpriseToken.show_banners?` is used to determine whether the banner should be shown. For this
-      # example, that value is overwritten as the banner might otherwise not show up in the preview.
-      def default
+      # The href is inferred from `OpenProject::Static::Links.enterprise_features[feature_key][:href]`.
+      # @param dismissable toggle
+      # @display min_height 250px
+      def default(dismissable: false)
         render(
           ::EnterpriseEdition::BannerComponent
-            .new(:customize_life_cycle,
-                 skip_render: false)
+            .new(:customize_life_cycle, dismissable:, show_always: true)
         )
       end
 
-      # The defaults can be completely overwritten. This should be used sparingly.
-      def manual_overwrite
+      # @display min_height 350px
+      def medium
         render(
           ::EnterpriseEdition::BannerComponent
-            .new(nil,
-                 title: "A splendid feature",
-                 description: "This is a splendid feature that you should use. It just might transform your life.",
-                 href: "https://www.openproject.org",
-                 link_title: "Get more information",
-                 skip_render: false)
+            .new(:customize_life_cycle,
+                 variant: :medium,
+                 image: "enterprise/internal-comments.png",
+                 show_always: true)
+        )
+      end
+
+      # @display min_height 350px
+      def medium_dismissable
+        render(
+          ::EnterpriseEdition::BannerComponent
+            .new(:customize_life_cycle,
+                 variant: :medium,
+                 dismissable: true,
+                 dismiss_key: nil,
+                 image: "enterprise/internal-comments.png",
+                 show_always: true)
+        )
+      end
+
+      # @display min_height 250px
+      def dismissable
+        render(
+          ::EnterpriseEdition::BannerComponent
+            .new(:customize_life_cycle, dismiss_key: nil, dismissable: true, show_always: true)
         )
       end
     end

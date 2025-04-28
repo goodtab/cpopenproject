@@ -31,28 +31,16 @@
 require "spec_helper"
 
 RSpec.describe WorkPackageCustomField, :model do
-  let!(:bool_cf) { create(:boolean_wp_custom_field) }
-  let!(:text_cf) { create(:text_wp_custom_field) }
-  let!(:hierarchy_cf) { create(:hierarchy_wp_custom_field) }
+  let(:feature) { create(:type_feature) }
+  let(:task) { create(:type_task) }
+  let(:project) { create(:project, types: [feature, task]) }
+  let(:project_without_user) { create(:project, types: [feature, task]) }
 
   describe "scopes" do
-    context "if user has permission to select custom fields" do
-      let(:user) { create(:user) }
-      let(:role) { create(:project_role, permissions: [:select_custom_fields]) }
-      let!(:project) { create(:project, members: { user => role }) }
-
-      it "returns all custom fields" do
-        expect(described_class.visible_by_user(user)).to contain_exactly(bool_cf, text_cf, hierarchy_cf)
-      end
-    end
-
-    context "if user has no access to a project with the enabled custom field" do
-      let(:user) { create(:user) }
-      let(:role) { create(:project_role, permissions: []) }
-      let(:feature) { create(:type_feature) }
-      let(:task) { create(:type_task) }
-      let(:project) { create(:project, members: { user => role }, types: [feature, task]) }
-      let(:project_without_user) { create(:project, types: [feature, task]) }
+    describe "manageable_by_user" do
+      let!(:bool_cf) { create(:boolean_wp_custom_field) }
+      let!(:text_cf) { create(:text_wp_custom_field) }
+      let!(:hierarchy_cf) { create(:hierarchy_wp_custom_field) }
 
       before do
         project.work_package_custom_fields << text_cf
@@ -62,13 +50,48 @@ RSpec.describe WorkPackageCustomField, :model do
         # hierarchy_cf is not enabled in any project
       end
 
-      it "returns only custom fields that are enabled in projects the user has access to" do
-        expect(described_class.visible_by_user(user)).to contain_exactly(text_cf)
+      context "if user has permission to select custom fields" do
+        let(:user) { create(:user, member_with_permissions: { project => [:select_custom_fields] }) }
+
+        it "returns all custom fields" do
+          expect(described_class.manageable_by_user(user)).to contain_exactly(bool_cf, text_cf, hierarchy_cf)
+        end
+      end
+
+      context "if user does not have permission to select custom fields" do
+        let(:user) { create(:user) }
+        let(:role) { create(:project_role, permissions: []) }
+        let(:project) { create(:project, members: { user => role }, types: [feature, task]) }
+
+        it "returns only custom fields that are enabled in projects the user has access to" do
+          expect(described_class.manageable_by_user(user)).to contain_exactly(text_cf)
+        end
+      end
+
+      it "returns custom fields that are usable as custom action" do
+        expect(described_class.usable_as_custom_action).to contain_exactly(bool_cf, text_cf)
       end
     end
+  end
 
-    it "returns custom fields that are usable as custom action" do
-      expect(described_class.usable_as_custom_action).to contain_exactly(bool_cf, text_cf)
+  describe "visible_by_user" do
+    let(:user) { create(:user, member_with_permissions: { project => [] }) }
+
+    it "returns an empty array" do
+      expect(described_class.visible_by_user(user)).to be_empty
+    end
+
+    context "with custom fields and types added to the project" do
+      # User cannot see this field as its type is not enabled in the project:
+      let!(:text_cf) { create(:text_wp_custom_field, projects: [project, project_without_user], types: []) }
+      # User cannot see this field as they are not a member:
+      let!(:hierarchy_cf) { create(:hierarchy_wp_custom_field, projects: [project_without_user], types: [feature, task]) }
+      # User can see this field:
+      let!(:bool_cf) { create(:boolean_wp_custom_field, projects: [project], types: [feature]) }
+
+      it "returns custom fields with types that are enabled in the project" do
+        expect(described_class.visible_by_user(user)).to contain_exactly(bool_cf)
+      end
     end
   end
 end

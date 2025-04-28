@@ -157,6 +157,7 @@ module Components
             expect(page).to have_text(label)
           end
         end
+        yield modal if block_given?
         modal.save
 
         input = find(".group-edit-in-place--input")
@@ -166,11 +167,16 @@ module Components
       end
 
       def edit_query_group(name)
-        SeleniumHubWaiter.wait unless using_cuprite?
+        if using_cuprite?
+          wait_for_reload
+        else
+          SeleniumHubWaiter.wait
+        end
 
         group = find_group(name)
         group.find(".type-form-query-group--edit-button").click
-        wait_for_reload if using_cuprite?
+        # Wait for the modal to appear.
+        expect(page).to have_css(".wp-table--configuration-modal")
       end
 
       def add_attribute_group(name, expect: true)

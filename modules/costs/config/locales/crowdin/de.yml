@@ -50,13 +50,21 @@ de:
         project: Projekt
         user: Benutzer
         work_package: Arbeitspaket
+        subject: Thema
         hours: Stunden
         comments: Kommentar
         activity: Aktivität
         spent_on: Datum
         start_time: Startzeit
         end_time: Endzeit
+        time: Zeit
     models:
+      time_entry:
+        one: "Zeitbuchung"
+        other: "Zeitbuchungen"
+      cost_entry:
+        one: "Kosteneintrag"
+        other: "Kosteneinträge"
       cost_type:
         one: "Kostentyp"
         other: "Kostentypen"
@@ -96,7 +104,7 @@ de:
   caption_save_rate: "Satz speichern"
   caption_set_rate: "Aktuellen Satz festlegen"
   caption_show_locked: "Gesperrte Typen anzeigen"
-  caption_log_time_dialog: "Zeit protokollieren"
+  caption_log_time_dialog: "Zeit buchen"
   description_date_for_new_rate: "Datum für neuen Satz"
   description_costs_settings: "Definieren Sie das gewünschte Format für Kosten in allen Projekten."
   description_time_settings: "Legen Sie fest, welche Felder bei Zeitbuchungen in allen Projekten ausgefüllt werden müssen."
@@ -144,12 +152,28 @@ de:
   label_cost: "Kosten"
   label_costs: "Kosten"
   label_mandatory_fields: "Pflichtfelder"
+  label_my_time_tracking: "Meine Zeiterfassung"
+  label_no_time: "Keine Zeit erfasst"
+  label_next_day: "Nächster Tag"
+  label_next_week: "Woche vor"
+  label_next_month: "Nächster Monat"
+  label_previous_day: "Vorheriger Tag"
+  label_previous_week: "Woche zurück"
+  label_previous_month: "Vorheriger Monat"
+  label_specific_day: "Tag %{day}"
+  label_specific_week: "Kalenderwoche %{week}"
+  label_specific_month: "Monat %{month}"
+  label_list: "Liste"
+  label_month: "Monat"
+  label_day: "Tag"
+  label_today_capitalized: "Heute"
   placeholder_activity_select_work_package_first: Die Auswahl des Arbeitspakets ist zuerst erforderlich
   notice_something_wrong: "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
   notice_successful_restore: "Erfolgreich wiederhergestellt."
   notice_successful_lock: "Erfolgreich gesperrt."
   notice_cost_logged_successfully: "Stückkosten erfolgreich gebucht."
   notice_different_time_zones: "Dieser Benutzer hat eine andere Zeitzone (%{tz}). Die Zeit wird unter Verwendung seiner Zeitzone protokolliert."
+  notice_time_entry_update_failed: "Fehler beim Aktualisieren des Zeiteintrags. Fehler: %{errors}"
   permission_edit_cost_entries: "Bearbeiten gebuchter Stückkosten"
   permission_edit_own_cost_entries: "Bearbeiten eigener gebuchter Stückkosten"
   permission_edit_hourly_rates: "Stundensätze bearbeiten"
@@ -175,9 +199,17 @@ de:
   text_reassign_time_and_cost_entries: "Gebuchte Aufwände diesem Ticket zuweisen:"
   text_warning_hidden_elements: "Es wurden möglicherweise nicht alle Einträge berücksichtigt."
   week: "Woche"
-  js:
-    text_are_you_sure: "Sind Sie sicher?"
+  total_times:
+    week: "Gesamte Woche: %{hours}"
+    month: "Gesamter Monat: %{hours}"
+    day: "Gesamter Tag: %{hours}"
   api_v3:
     errors:
       validation:
         start_time_different_date: "Der Datumsteil von startTime (%{start_time}) muss mit dem Datum von spentOn (%{spent_on}) übereinstimmen."
+  ee:
+    features:
+      time_entry_time_restrictions: Genaue Zeiterfassung erforderlich
+    upsell:
+      time_entry_time_restrictions:
+        description: "Verbessern Sie Ihre Zeiterfassung, indem Sie genaue Start- und Endzeiten für jede Zeitbuchung erfordern."

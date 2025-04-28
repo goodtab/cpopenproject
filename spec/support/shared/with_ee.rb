@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -48,13 +50,22 @@ RSpec.configure do |config|
     if allowed.present?
       allowed = aggregate_parent_array(example, allowed.to_set)
 
+      token_double = instance_double(EnterpriseToken)
+      token_object_double = instance_double(OpenProject::Token)
       allow(EnterpriseToken).to receive(:allows_to?).and_call_original
+      allow(token_object_double).to receive(:has_feature?).and_return(false)
       allowed.each do |enterprise_feature|
         allow(EnterpriseToken).to receive(:allows_to?).with(enterprise_feature).and_return(true)
+        allow(token_object_double).to receive(:has_feature?).with(enterprise_feature).and_return(true)
       end
 
-      # Also disable banners to signal the frontend we're on EE
-      allow(EnterpriseToken).to receive(:show_banners?).and_return(allowed.empty?)
+      # Also signal available features
+      allow(EnterpriseToken).to receive(:current).and_return(token_double)
+      allow(token_double)
+        .to receive_messages(token_object: token_object_double,
+                             available_features: allowed.to_a,
+                             expired?: false,
+                             restrictions: {})
     end
   end
 end

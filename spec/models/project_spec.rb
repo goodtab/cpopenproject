@@ -27,7 +27,6 @@
 #++
 
 require "spec_helper"
-require File.expand_path("../support/shared/become_member", __dir__)
 
 RSpec.describe Project do
   include BecomeMember
@@ -157,10 +156,9 @@ RSpec.describe Project do
     let(:name) { "     Hello    World   " }
     let(:project) { described_class.new attributes_for(:project, name:) }
 
-    context "with white spaces in the name" do
-      it "trims the name" do
-        project.save
-        expect(project.name).to eql("Hello World")
+    context "with whitespace in the name" do
+      it "normalizes excess whitespace" do
+        expect(subject).to normalize(:name).from(name).to("Hello World")
       end
     end
 
@@ -381,47 +379,49 @@ RSpec.describe Project do
     end
   end
 
-  describe "life_cycles" do
-    it { is_expected.to have_many(:life_cycle_steps).class_name("Project::LifeCycleStep").dependent(:destroy) }
+  describe "#project_phases" do
+    it { is_expected.to have_many(:phases).class_name("Project::Phase").dependent(:destroy) }
 
-    it "has many available_life_cycle_steps" do
-      expect(subject).to have_many(:available_life_cycle_steps)
-                    .class_name("Project::LifeCycleStep")
+    it "has many available_phases" do
+      expect(subject).to have_many(:available_phases)
+                    .class_name("Project::Phase")
                     .inverse_of(:project)
                     .dependent(:destroy)
                     .order(position: :asc)
     end
 
     it "checks for active flag" do
-      expect(subject.available_life_cycle_steps.to_sql)
-        .to include("\"project_life_cycle_steps\".\"active\" = TRUE")
+      expect(subject.available_phases.to_sql)
+        .to include("\"project_phases\".\"active\" = TRUE")
     end
 
-    it "checks for :view_project_stages_and_gates permission" do
-      project_condition = described_class.allowed_to(User.current, :view_project_stages_and_gates).select(:id)
+    it "checks for :view_project_phases permission" do
+      project_condition = described_class.allowed_to(User.current, :view_project_phases).select(:id)
 
-      expect(subject.available_life_cycle_steps.to_sql).to include(project_condition.to_sql)
+      expect(subject.available_phases.to_sql).to include(project_condition.to_sql)
     end
 
     it "eager loads :definition" do
-      expect(subject.available_life_cycle_steps.to_sql)
-        .to include("LEFT OUTER JOIN \"project_life_cycle_step_definitions\" ON")
+      expect(subject.available_phases.to_sql)
+        .to include("LEFT OUTER JOIN \"project_phase_definitions\" ON")
     end
 
     describe ".validates_associated" do
       let(:user) do
-        create(:user, member_with_permissions: { project => %i(view_project view_project_stages_and_gates) })
+        create(:user, member_with_permissions: { project => %i(view_project view_project_phases) })
       end
-      let!(:project_stage) { create :project_stage, :skip_validate, project:, start_date: nil }
+      let!(:project_phase) do
+        create :project_phase, :skip_validate, project:, start_date: Date.new(3000, 1, 1), finish_date: Date.new(2000, 1, 1)
+      end
 
-      before { allow(User).to receive(:current).and_return user }
+      current_user { user }
 
       it "is valid without a validation context" do
         expect(project).to be_valid
       end
 
-      it "is invalid with the :saving_life_cycle_steps validation context" do
-        expect(project).not_to be_valid(:saving_life_cycle_steps)
+      it "is invalid with the :saving_phases validation context" do
+        expect(project).not_to be_valid(:saving_phases)
       end
     end
   end

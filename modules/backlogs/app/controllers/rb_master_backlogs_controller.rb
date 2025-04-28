@@ -35,10 +35,4 @@ class RbMasterBacklogsController < RbApplicationController
 
     @last_update = (@sprint_backlogs + @owner_backlogs).filter_map(&:updated_at).max
   end
-
-  private
-
-  def default_breadcrumb
-    I18n.t(:label_backlogs)
-  end
 end

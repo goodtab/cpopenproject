@@ -8,5 +8,5 @@ et:
   label_new_calendar: "Uus Kalender"
   permission_view_calendar: "Vaata kalendrit"
   permission_manage_calendars: "Halda kalendreid"
-  permission_share_calendars: "Subscribe to iCalendars"
+  permission_share_calendars: "Telli iCal"
   project_module_calendar_view: "Kalendrid"

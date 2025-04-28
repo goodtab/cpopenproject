@@ -21,6 +21,9 @@
 #++
 zh-TW:
   js:
+    text_are_you_sure: "是否確定？"
+    myTimeTracking:
+      noSpecificTime: "無指定時間"
     work_packages:
       property_groups:
         costs: "費用"

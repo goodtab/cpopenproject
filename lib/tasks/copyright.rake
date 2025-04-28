@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -101,6 +103,15 @@ namespace :copyright do
     end
   end
 
+  def missing_copyright_regexp(format)
+    case format
+    when :ruby, :rb
+      /\A(?<shebang>#![^\n]+\n\n?)?(?<additional># frozen_string_literal: (?:true|false)\n\n?)?\n*/m
+    else
+      raise "Format #{format} is not yet supported for copyright creation"
+    end
+  end
+
   def rewrite_copyright(ending, additional_excluded_globs, format, path, options = {}) # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
     regexp = options[:regex] || copyright_regexp(format)
     path = "." if path.nil?
@@ -119,6 +130,13 @@ namespace :copyright do
       file_content = File.read(file_name)
       if file_content.match(regexp)
         file_content.gsub!(regexp, "\\k<shebang>\\k<additional>#{copyright}")
+      elsif options[:create]
+        if file_content.include?("OpenProject is a fork of ChiliProject")
+          puts "#{file_name} does not match regexp, but seems to have a copyright header!"
+          next
+        end
+
+        file_content.gsub!(missing_copyright_regexp(format), "\\k<shebang>\\k<additional>#{copyright}\n\n")
       else
         puts "#{file_name} does not match regexp. Missing copyright notice?"
       end
@@ -137,21 +155,22 @@ namespace :copyright do
       .gitignore
     ]
 
-    rewrite_copyright("rb", [], :rb, args[:path], file_list:)
+    rewrite_copyright("rb", [], :rb, args[:path], file_list:, create: true)
   end
 
   desc "Update the copyright on .rb source files"
   task :update_rb, :path do |_task, args|
     excluded = %w[
-      lib_static/plugins/{acts_as_tree,rfpdf,verification}
+      lib_static/plugins/{acts_as_tree,rfpdf,verification}/**/*
+      lib/chronic_duration.rb
     ]
 
-    rewrite_copyright("rb", excluded, :rb, args[:path])
+    rewrite_copyright("rb", excluded, :rb, args[:path], create: true)
   end
 
   desc "Update the copyright on .rake source files"
   task :update_rake, :path do |_task, args|
-    rewrite_copyright("rake", [], :rb, args[:path])
+    rewrite_copyright("rake", [], :rb, args[:path], create: true)
   end
 
   desc "Update the copyright on .yml source files"
@@ -161,27 +180,27 @@ namespace :copyright do
       modules/*/config/locales/crowdin/*.yml
     ]
 
-    rewrite_copyright("yml", excluded, :rb, args[:path])
+    rewrite_copyright("yml", excluded, :rb, args[:path], create: true)
   end
 
   desc "Update the copyright on .yml.example source files"
   task :update_yml_example, :path do |_task, args|
-    rewrite_copyright("yml.example", [], :rb, args[:path])
+    rewrite_copyright("yml.example", [], :rb, args[:path], create: true)
   end
 
   desc "Update the copyright on .rb.example source files"
   task :update_rb_example, :path do |_task, args|
-    rewrite_copyright("rb.example", [], :rb, args[:path])
+    rewrite_copyright("rb.example", [], :rb, args[:path], create: true)
   end
 
   desc "Update the copyright on .rjs source files"
   task :update_rjs, :path do |_task, args|
-    rewrite_copyright("rjs", [], :rb, args[:path])
+    rewrite_copyright("rjs", [], :rb, args[:path], create: true)
   end
 
   desc "Update the copyright on .feature source files"
   task :update_feature, :path do |_task, args|
-    rewrite_copyright("feature", [], :rb, args[:path])
+    rewrite_copyright("feature", [], :rb, args[:path], create: true)
   end
 
   desc "Update the copyright on .css source files"

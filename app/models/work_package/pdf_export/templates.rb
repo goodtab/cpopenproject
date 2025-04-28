@@ -29,16 +29,18 @@
 #++
 
 module WorkPackage::PDFExport::Templates
-  TEMPLATES = [
-    {
-      id: "attributes",
-      label: I18n.t("pdf_generator.template_attributes.label"),
-      caption: I18n.t("pdf_generator.template_attributes.caption")
-    },
-    {
-      id: "contract",
-      label: I18n.t("pdf_generator.template_contract.label"),
-      caption: I18n.t("pdf_generator.template_contract.caption")
-    }
-  ].freeze
+  def built_in_templates
+    [
+      {
+        id: "attributes",
+        label: I18n.t("pdf_generator.template_attributes.label"),
+        caption: I18n.t("pdf_generator.template_attributes.caption")
+      },
+      {
+        id: "contract",
+        label: I18n.t("pdf_generator.template_contract.label"),
+        caption: I18n.t("pdf_generator.template_contract.caption")
+      }
+    ]
+  end
 end

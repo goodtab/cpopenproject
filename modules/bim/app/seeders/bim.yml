@@ -111,7 +111,7 @@ types:
   color_name: 'orange-6'
   is_milestone: true
   position: 2
-- reference: :default_type_phase
+- reference: :default_type_summary_task
   t_name: Phase
   is_default: true
   color_name: :default_color_grey
@@ -152,7 +152,7 @@ workflows:
   - :default_status_new
   - :default_status_in_progress
   - :default_status_closed
-- type: :default_type_phase
+- type: :default_type_summary_task
   statuses:
   - :default_status_new
   - :default_status_in_progress
@@ -199,7 +199,7 @@ global_queries:
       - priority
       - project
 type_configuration:
-  - type: :default_type_phase
+  - type: :default_type_summary_task
     form_configuration:
       - t_group_name: "Children"
         query: :global_query__children
@@ -256,7 +256,7 @@ projects:
     types:
       - :default_type_task
       - :default_type_milestone
-      - :default_type_phase
+      - :default_type_summary_task
     t_categories:
       - Category 1 (to be changed in Project settings)
     queries:
@@ -404,7 +404,7 @@ projects:
     types:
       - :default_type_task
       - :default_type_milestone
-      - :default_type_phase
+      - :default_type_summary_task
     t_categories:
       - Category 1 (to be changed in Project settings)
     queries:
@@ -537,7 +537,7 @@ projects:
         :t_description: This type is hierarchically a parent of the types &quot;Clash&quot;
           and &quot;Request&quot;, thus represents a general note.
         :status: :default_status_new
-        :type: :default_type_phase
+        :type: :default_type_summary_task
         :assigned_to: :group__planners
         :duration: 15
         :schedule_manually: false
@@ -605,7 +605,7 @@ projects:
         :t_description: This type is hierarchically a parent of the types &quot;Clash&quot;
           and &quot;Request&quot;, thus represents a general note.
         :status: :default_status_new
-        :type: :default_type_phase
+        :type: :default_type_summary_task
         :assigned_to: :group__planners
         :duration: 18
         :schedule_manually: false
@@ -676,7 +676,7 @@ projects:
         :t_description: This type is hierarchically a parent of the types &quot;Clash&quot;
           and &quot;Request&quot;, thus represents a general note.
         :status: :default_status_new
-        :type: :default_type_phase
+        :type: :default_type_summary_task
         :assigned_to: :group__planners
         :duration: 46
         :schedule_manually: false
@@ -721,7 +721,7 @@ projects:
         :t_subject: Construction phase
         :description: ''
         :status: :default_status_new
-        :type: :default_type_phase
+        :type: :default_type_summary_task
         :assigned_to: :group__planners
         :duration: 118
         :schedule_manually: false
@@ -885,7 +885,7 @@ projects:
     types:
       - :default_type_task
       - :default_type_milestone
-      - :default_type_phase
+      - :default_type_summary_task
     t_categories:
       - Category 1 (to be changed in Project settings)
     queries:
@@ -1022,7 +1022,7 @@ projects:
         :t_description: This type is hierarchically a parent of the types &quot;Clash&quot;
           and &quot;Request&quot;, thus represents a general note.
         :status: :default_status_new
-        :type: :default_type_phase
+        :type: :default_type_summary_task
         :duration: 38
         :schedule_manually: false
         :children:
@@ -1104,7 +1104,7 @@ projects:
         :t_description: This type is hierarchically a parent of the types &quot;Clash&quot;
           and &quot;Request&quot;, thus represents a general note.
         :status: :default_status_new
-        :type: :default_type_phase
+        :type: :default_type_summary_task
         :assigned_to: :group__architects
         :duration: 10
         :schedule_manually: false
@@ -1172,7 +1172,7 @@ projects:
         :t_description: This type is hierarchically a parent of the types &quot;Clash&quot;
           and &quot;Request&quot;, thus represents a general note.
         :status: :default_status_new
-        :type: :default_type_phase
+        :type: :default_type_summary_task
         :assigned_to: :group__bim_coordinators
         :duration: 9
         :schedule_manually: false
@@ -1260,7 +1260,7 @@ projects:
         :t_description: This type is hierarchically a parent of the types &quot;Clash&quot;
           and &quot;Request&quot;, thus represents a general note.
         :status: :default_status_new
-        :type: :default_type_phase
+        :type: :default_type_summary_task
         :assigned_to: :group__lead_bim_coordinators
         :duration: 5
         :schedule_manually: false
@@ -1290,7 +1290,7 @@ projects:
             :reference: :issue_management_first_cycle
             :description: ''
             :status: :default_status_new
-            :type: :default_type_phase
+            :type: :default_type_summary_task
             :assigned_to: :group__bim_coordinators
             :duration: 4
             :schedule_manually: false
@@ -1312,7 +1312,7 @@ projects:
         :reference: :modelling_and_coordinating_second_cycle
         :t_description: "## Goal\r\n\r\n*   ...\r\n\r\n## Description\r\n\r\n*   ..."
         :status: :default_status_new
-        :type: :default_type_phase
+        :type: :default_type_summary_task
         :assigned_to: :group__lead_bim_coordinators
         :duration: 1
         :schedule_manually: false
@@ -1325,7 +1325,7 @@ projects:
         :t_description: This type is hierarchically a parent of the types &quot;Clash&quot;
           and &quot;Request&quot;, thus represents a general note.
         :status: :default_status_new
-        :type: :default_type_phase
+        :type: :default_type_summary_task
         :assigned_to: :group__lead_bim_coordinators
         :duration: 1
         :schedule_manually: false
@@ -1337,7 +1337,7 @@ projects:
         :reference: :modelling_and_coordinating_penultimate_cycle
         :t_description: "## Goal\r\n\r\n*   ...\r\n\r\n## Description\r\n\r\n*   ..."
         :status: :default_status_new
-        :type: :default_type_phase
+        :type: :default_type_summary_task
         :assigned_to: :group__lead_bim_coordinators
         :duration: 1
         :schedule_manually: false
@@ -1350,7 +1350,7 @@ projects:
         :t_description: This type is hierarchically a parent of the types &quot;Clash&quot;
           and &quot;Request&quot;, thus represents a general note.
         :status: :default_status_new
-        :type: :default_type_phase
+        :type: :default_type_summary_task
         :assigned_to: :group__bim_coordinators
         :duration: 1
         :schedule_manually: false
@@ -1374,7 +1374,7 @@ projects:
         :t_subject: Use model for construction phase
         :description: ''
         :status: :default_status_new
-        :type: :default_type_phase
+        :type: :default_type_summary_task
         :assigned_to: :group__bim_coordinators
         :duration: 110
         :schedule_manually: false
@@ -1435,7 +1435,7 @@ projects:
         :reference: :issue_management_construction_phase
         :description: ''
         :status: :default_status_new
-        :type: :default_type_phase
+        :type: :default_type_summary_task
         :assigned_to: :group__planners
         :duration: 88
         :schedule_manually: false
@@ -1466,7 +1466,7 @@ projects:
         :t_subject: Asset Management
         :t_description: Enjoy your building :)
         :status: :default_status_new
-        :type: :default_type_phase
+        :type: :default_type_summary_task
         :duration: 1
         :schedule_manually: false
         :relations:
@@ -1498,7 +1498,7 @@ projects:
     types:
       - :default_type_task
       - :default_type_milestone
-      - :default_type_phase
+      - :default_type_summary_task
       - :default_type_clash
       - :default_type_request
       - :default_type_issue

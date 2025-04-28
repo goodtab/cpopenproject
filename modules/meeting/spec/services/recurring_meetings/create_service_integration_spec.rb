@@ -47,7 +47,7 @@ RSpec.describe RecurringMeetings::CreateService, "integration", type: :model do
       expect(service_result).to be_success
       expect(series).to be_persisted
 
-      expect(series.template).to be_a(StructuredMeeting)
+      expect(series.template).to be_a(Meeting)
       expect(series.template).to be_template
 
       expect(series.meetings.count).to eq(1)
@@ -84,10 +84,10 @@ RSpec.describe RecurringMeetings::CreateService, "integration", type: :model do
     it_behaves_like "creates the series"
 
     context "when the template cannot be saved" do
-      let(:template) { StructuredMeeting.new }
+      let(:template) { Meeting.new }
 
       before do
-        allow(StructuredMeeting).to receive(:new).and_return(template)
+        allow(Meeting).to receive(:new).and_return(template)
         allow(template).to receive(:save).and_return(false)
       end
 

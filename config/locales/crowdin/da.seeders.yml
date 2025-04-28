@@ -34,16 +34,14 @@ da:
           name: Grå (mørk)
         item_13:
           name: Sort
-      life_cycle_colors:
+      project_phase_colors:
         item_0:
           name: PM2 Orange
         item_1:
-          name: PM2 Purple
-        item_2:
           name: PM2 Red
-        item_3:
+        item_2:
           name: PM2 Magenta
-        item_4:
+        item_3:
           name: PM2 Green Yellow
       document_categories:
         item_0:
@@ -81,21 +79,18 @@ da:
         item_1:
           name: Standard global role
     standard:
-      life_cycles:
+      project_phases:
         item_0:
           name: Initiating
         item_1:
-          name: Ready for Planning
-        item_2:
           name: Planlæg
-        item_3:
-          name: Ready for Executing
-        item_4:
+          start_gate: Ready for Planning
+        item_2:
           name: Executing
-        item_5:
-          name: Ready for Closing
-        item_6:
+          start_gate: Ready for Executing
+        item_3:
           name: Closing
+          start_gate: Ready for Closing
       priorities:
         item_0:
           name: Lav
@@ -108,26 +103,26 @@ da:
       projects:
         demo-project:
           name: Demo project
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
+          status_explanation: Alle opgaver følger tidsplanen. De involverede kender deres opgaver. Systemet er fuldt opsat.
           description: This is a short summary of the goals of this demo project.
           news:
             item_0:
-              title: Welcome to your demo project
+              title: Velkommen til demo-projektet
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
-              description: The actual news
+                Vi er glade for deltagelsen.
+                I dette modul kan man kommunikere projektnyheder til sine teammedlemmer.
+              description: De faktiske nyheder
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Kategori 1 (skal ændres i Projektindstillinger)
           queries:
             item_0:
-              name: Project plan
+              name: Projektplan
             item_1:
-              name: Milestones
+              name: Milepæle
             item_2:
-              name: Tasks
+              name: Opgaver
             item_3:
-              name: Team planner
+              name: Teamplanlægger
           boards:
             kanban:
               name: Kanban board
@@ -148,10 +143,10 @@ da:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Velkommen
               item_1:
                 options:
-                  name: Getting started
+                  name: At komme gang
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -173,7 +168,7 @@ da:
                   name: Arbejdspakker
               item_6:
                 options:
-                  name: Milestones
+                  name: Milepæle
           work_packages:
             item_0:
               subject: Start of project
@@ -226,14 +221,14 @@ da:
             More information: [https://www.openproject.org/docs/user-guide/wiki/](https://www.openproject.org/docs/user-guide/wiki/)
         scrum-project:
           name: Scrum project
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
+          status_explanation: Alle opgaver følger tidsplanen. De involverede kender deres opgaver. Systemet er fuldt opsat.
           description: This is a short summary of the goals of this demo Scrum project.
           news:
             item_0:
               title: Welcome to your Scrum demo project
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
+                Vi er glade for deltagelsen.
+                I dette modul kan man kommunikere projektnyheder til sine teammedlemmer.
           versions:
             item_0:
               name: Bug Backlog
@@ -292,21 +287,21 @@ da:
             item_3:
               name: Sprint 2
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Kategori 1 (skal ændres i Projektindstillinger)
           queries:
             item_0:
-              name: Project plan
+              name: Projektplan
             item_1:
-              name: Product backlog
+              name: Produkt-backlog
             item_2:
               name: Sprint 1
             item_3:
-              name: Tasks
+              name: Opgaver
           boards:
             kanban:
               name: Kanban board
             basic:
-              name: Task board
+              name: Opgaveoversigt
               lists:
                 item_0:
                   name: Wish list
@@ -320,10 +315,10 @@ da:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Velkommen
               item_1:
                 options:
-                  name: Getting started
+                  name: At komme gang
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -344,7 +339,7 @@ da:
                   name: Arbejdspakker
               item_6:
                 options:
-                  name: Project plan
+                  name: Projektplan
           work_packages:
             item_0:
               subject: New login screen
@@ -490,7 +485,7 @@ da:
         item_1:
           name: Milepæl
         item_2:
-          name: Fase
+          name: Summary task
         item_3:
           name: Funktion
         item_4:

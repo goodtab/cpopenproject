@@ -44,10 +44,11 @@ input with the `:input_width` parameter.
 The options are:
 
 - `input_width: :auto` => `width: auto`
+- `input_width: :xsmall` => `max-width: min(144px, 100vw - 2rem)`
 - `input_width: :small` => `max-width: min(256px, 100vw - 2rem)`
 - `input_width: :medium` => `max-width: min(320px, 100vw - 2rem)`
 - `input_width: :large` => `max-width: min(480px, 100vw - 2rem)`
-- `input_width: :xlarge` => `max-width: min(640px, 100vw - 2rem)`
+- `input_width: :xlarge` => `max-width: min(680px, 100vw - 2rem)`
 - `input_width: :xxlarge` => `max-width: min(960px, 100vw - 2rem)`
 
 <%= embed Patterns::FormsPreview, :default, panels: %i[] %>

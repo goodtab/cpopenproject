@@ -60,17 +60,23 @@ ko:
     merge_request_reopened_comment: >
       **MR 다시 열림:** [%{repository}](%{repository_url})에 대한 병합 요청 %{mr_number} [%{mr_title}](%{mr_url})이(가) [%{gitlab_user}](%{gitlab_user_url}) 님에 의해 다시 열렸습니다.
     note_commit_referenced_comment: >
-      **커밋에서 참조됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{repository}](%{repository_url})의 커밋 메모 [%{commit_id}](%{commit_url})에서 이 WP를 참조했습니다: %{commit_note}
+      **커밋에서 참조됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{repository}](%{repository_url})의 커밋 메모 [%{commit_id}](%{commit_url})에서 이 WP를 참조했습니다:
+      %{commit_note}
     note_mr_referenced_comment: >
-      **MR에서 참조됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{repository}](%{repository_url})의 병합 요청 %{mr_number} [%{mr_title}](%{mr_url})에서 이 WP를 참조했습니다: %{mr_note}
+      **MR에서 참조됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{repository}](%{repository_url})의 병합 요청 %{mr_number} [%{mr_title}](%{mr_url})에서 이 WP를 참조했습니다:
+      %{mr_note}
     note_mr_commented_comment: >
-      **MR에서 코멘트 작성됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{repository}](%{repository_url})의 병합 요청 %{mr_number} [%{mr_title}](%{mr_url})에서 이 WP에 대해 코멘트를 작성했습니다: %{mr_note}
+      **MR에서 코멘트 작성됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{repository}](%{repository_url})의 병합 요청 %{mr_number} [%{mr_title}](%{mr_url})에서 이 WP에 대해 코멘트를 작성했습니다:
+      %{mr_note}
     note_issue_referenced_comment: >
-      **이슈에서 참조됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{repository}](%{repository_url})의 이슈 %{issue_number} [%{issue_title}](%{issue_url})에서 이 WP를 참조했습니다: %{issue_note}
+      **이슈에서 참조됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{repository}](%{repository_url})의 이슈 %{issue_number} [%{issue_title}](%{issue_url})에서 이 WP를 참조했습니다:
+      %{issue_note}
     note_issue_commented_comment: >
-      **이슈에서 코멘트 작성됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{repository}](%{repository_url})의 이슈 %{issue_number} [%{issue_title}](%{issue_url})에서 이 WP에 대해 코멘트를 작성했습니다: %{issue_note}
+      **이슈에서 코멘트 작성됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{repository}](%{repository_url})의 이슈 %{issue_number} [%{issue_title}](%{issue_url})에서 이 WP에 대해 코멘트를 작성했습니다:
+      %{issue_note}
     note_snippet_referenced_comment: >
-      **코드 조각에서 참조됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{repository}](%{repository_url})의 코드 조각 %{snippet_number} [%{snippet_title}](%{snippet_url})에서 이 WP를 참조했습니다: %{snippet_note}
+      **코드 조각에서 참조됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{repository}](%{repository_url})의 코드 조각 %{snippet_number} [%{snippet_title}](%{snippet_url})에서 이 WP를 참조했습니다:
+      %{snippet_note}
     issue_opened_referenced_comment: >
       **이슈 열림:** [%{repository}](%{repository_url})에 대한 이슈 %{issue_number} [%{issue_title}](%{issue_url})이(가) [%{gitlab_user}](%{gitlab_user_url}) 님에 의해 열렸습니다.
     issue_closed_referenced_comment: >
@@ -78,8 +84,11 @@ ko:
     issue_reopened_referenced_comment: >
       **이슈 다시 열림:** [%{repository}](%{repository_url})에 대한 이슈 %{issue_number} [%{issue_title}](%{issue_url})이(가) [%{gitlab_user}](%{gitlab_user_url}) 님에 의해 다시 열렸습니다.
     push_single_commit_comment: >
-      **MR에서 푸시됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{commit_number}](%{commit_url})을(를) %{commit_timestamp}, [%{repository}](%{repository_url})에 푸시했습니다: %{commit_note}
+      **MR에서 푸시됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{commit_number}](%{commit_url})을(를) %{commit_timestamp}, [%{repository}](%{repository_url})에 푸시했습니다:
+      %{commit_note}
     push_single_commit_comment_with_ref: >
-      **%{reference}에서 푸시됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{commit_number}](%{commit_url})을(를) %{commit_timestamp}, [%{repository}](%{repository_url})에 푸시했습니다: %{commit_note}
+      **%{reference}에서 푸시됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{commit_number}](%{commit_url})을(를) %{commit_timestamp}, [%{repository}](%{repository_url})에 푸시했습니다:
+      %{commit_note}
     push_multiple_commits_comment: >
-      **MR에서 푸시됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 여러 커밋 [%{commit_number}](%{commit_url})을(를) %{commit_timestamp}, [%{repository}](%{repository_url})에 푸시했습니다: %{commit_note}
+      **MR에서 푸시됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 여러 커밋 [%{commit_number}](%{commit_url})을(를) %{commit_timestamp}, [%{repository}](%{repository_url})에 푸시했습니다:
+      %{commit_note}

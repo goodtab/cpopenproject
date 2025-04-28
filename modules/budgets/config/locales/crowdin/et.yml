@@ -21,7 +21,7 @@
 #++
 et:
   plugin_budgets_engine:
-    name: 'Budgets'
+    name: 'Eelarved'
   activerecord:
     attributes:
       budget:
@@ -43,7 +43,7 @@ et:
       material_budget_item: "Ühik"
   activity:
     filter:
-      budget: "Budgets"
+      budget: "Eelarved"
   attributes:
     budget: "Eelarve"
   button_add_budget_item: "Lisa planeeritud kulud"
@@ -54,25 +54,25 @@ et:
   caption_labor: "Labor"
   caption_labor_costs: "Actual labor costs"
   caption_material_costs: "Actual unit costs"
-  budgets_title: "Budgets"
+  budgets_title: "Eelarved"
   events:
     budget: "Budget edited"
   help_click_to_edit: "Click here to edit."
   help_currency_format: "Format of displayed currency values. %n is replaced with the currency value, %u ist replaced with the currency unit."
   help_override_rate: "Enter a value here to override the default rate."
   label_budget: "Eelarve"
-  label_budget_new: "New budget"
-  label_budget_plural: "Budgets"
-  label_budget_id: "Budget #%{id}"
+  label_budget_new: "Uus eelarve"
+  label_budget_plural: "Eelarved"
+  label_budget_id: "Eelarve #%{id}"
   label_deliverable: "Eelarve"
-  label_example_placeholder: 'e.g., %{decimal}'
+  label_example_placeholder: 'nt., %{decimal}'
   label_view_all_budgets: "View all budgets"
   label_yes: "Jah"
   notice_budget_conflict: "Work packages must be of the same project."
   notice_no_budgets_available: "Ühtegi eelarvet pole saadaval."
   permission_edit_budgets: "Eelarvete muutmine"
   permission_view_budgets: "View budgets"
-  project_module_budgets: "Budgets"
+  project_module_budgets: "Eelarved"
   text_budget_reassign_to: "Reassign them to this budget:"
   text_budget_delete: "Delete the budget from all work packages"
   text_budget_destroy_assigned_wp: "There are %{count} work packages assigned to this budget. What do you want to do?"

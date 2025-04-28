@@ -104,8 +104,6 @@ RSpec.describe CustomFields::Hierarchy::UpdateItemContract do
 
         expect(result).to be_failure
 
-        p result
-
         expect(result.errors[:short]).to match_array("must be unique within the same hierarchy level.")
       end
     end

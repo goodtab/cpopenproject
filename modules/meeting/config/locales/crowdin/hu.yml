@@ -53,7 +53,7 @@ hu:
       recurring_meeting:
         frequency: "Gyakoriság"
         interval: "Időköz"
-        start_date: "Starts on"
+        start_date: "Kezdés ideje"
         start_time: "Kezdés"
         start_time_hour: "Kezdés"
         end_after: "Meeting series ends"
@@ -70,11 +70,9 @@ hu:
         invalid_time_format: "nem egy érvényes időpont. Előírt formátum: óó:pp"
     models:
       recurring_meeting: "Ismétlődő megbeszélés"
-      structured_meeting: "One-time meeting"
-      meeting: "Megbeszélés"
+      meeting: "One-time meeting"
       meeting_agenda_item: "Napirendi pont"
       meeting_agenda: "Napirend"
-      meeting_minutes: "Jegyzőkönyv"
       meeting_section: "Szekció "
   activity:
     filter:
@@ -133,11 +131,13 @@ hu:
   label_recurring_meeting_restore: "Restore this occurrence"
   label_recurring_meeting_schedule: "Schedule"
   label_recurring_meeting_next_occurrence: "Next occurrence"
-  label_recurring_meeting_more: "There are %{count} more scheduled meetings (%{schedule})."
   label_recurring_meeting_no_end_date: "There are more scheduled meetings (%{schedule})."
-  label_recurring_meeting_more_singular: "There is %{count} more scheduled meeting (%{schedule})."
-  label_recurring_meeting_more_past: "There are %{count} more past meetings."
-  label_recurring_meeting_more_past_singular: "There is %{count} more past meeting."
+  label_recurring_meeting_more:
+    one: "There is one more scheduled meeting (%{schedule})."
+    other: "There are %{count} more scheduled meetings (%{schedule})."
+  label_recurring_meeting_more_past:
+    one: "There is one more past meeting."
+    other: "There are %{count} more past meetings."
   label_recurring_meeting_show_more: "Show more"
   label_recurring_meeting_series_create: "Create meeting series"
   label_recurring_meeting_series_edit: "Edit meeting series"
@@ -215,9 +215,6 @@ hu:
         new_date_time: "Új időpont"
     label_mail_all_participants: "Email küldése minden résztvevőnek"
     types:
-      classic: "Szokásos"
-      classic_text: "Organize your meeting as a single formattable text agenda and protocol."
-      structured: "Structured"
       one_time: "One-time"
       recurring: "Recurring"
       recurring_text: "Create meeting series with dynamic template for each occurrence."
@@ -391,9 +388,7 @@ hu:
   label_meeting_details_edit: "Megbeszélés részleteinek szerkesztése"
   label_meeting_state: "A megbeszélés státusza"
   label_meeting_state_open: "Open"
-  label_meeting_state_open_html: "<i>Nyitva</i>"
   label_meeting_state_closed: "Lezárva"
-  label_meeting_state_closed_html: "<i>Lezárva</i>"
   label_meeting_state_agenda_created: "Agenda created"
   label_meeting_state_planned: "Tervezet"
   label_meeting_state_cancelled: "Cancelled"
@@ -401,7 +396,7 @@ hu:
   label_meeting_state_in_progress: "Folyamatban"
   label_meeting_reopen_action: "A megbeszélés újranyitása"
   label_meeting_close_action: "Megbeszélés lezárása"
-  label_meeting_in_progress_action: "Mark as in progress"
+  label_meeting_in_progress_action: "Start meeting"
   text_meeting_open_description: "This meeting is open. You can add/remove agenda items and edit them as you please. Once the agenda is ready, mark it as in progress to document outcomes."
   text_meeting_closed_description: "Ez a megbeszélés zárt. Többé nem tud napirendi pontokat hozzáadni/eltávolítani."
   text_meeting_in_progress_description: "This meeting is in progress. You can document outcomes for each agenda item, re-arrange them, and even add new ones. Once the meeting is complete, you can mark it as closed to lock it."

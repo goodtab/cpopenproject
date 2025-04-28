@@ -132,7 +132,7 @@ You can [assign a custom field to a work package type](../manage-work-packages/w
 
 ### Add a custom field to one or multiple projects
 
-You can activate the custom field for specific projects under the respective [project settings](../../user-guide/projects/project-settings/custom-fields/). 
+You can activate the custom field for specific projects under the respective [project settings](../../user-guide/projects/project-settings/work-packages/#work-package-custom-fields). 
 
 > [!TIP]
 > This is not relevant if the setting **For all projects** has been configured for the custom field.

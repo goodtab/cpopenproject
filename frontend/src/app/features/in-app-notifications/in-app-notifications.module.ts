@@ -10,9 +10,6 @@ import {
 } from 'core-app/features/in-app-notifications/center/in-app-notification-center.component';
 import { IanCenterService } from 'core-app/features/in-app-notifications/center/state/ian-center.service';
 import {
-  InAppNotificationsDateAlertsUpsaleComponent,
-} from 'core-app/features/in-app-notifications/date-alerts-upsale/ian-date-alerts-upsale.component';
-import {
   InAppNotificationEntryComponent,
 } from 'core-app/features/in-app-notifications/entry/in-app-notification-entry.component';
 import { OpenprojectWorkPackagesModule } from 'core-app/features/work-packages/openproject-work-packages.module';
@@ -37,7 +34,6 @@ import { InAppNotificationStatusComponent } from './entry/status/in-app-notifica
     InAppNotificationStatusComponent,
     InAppNotificationActorsLineComponent,
     InAppNotificationDateAlertComponent,
-    InAppNotificationsDateAlertsUpsaleComponent,
     InAppNotificationRelativeTimeComponent,
     InAppNotificationReminderAlertComponent,
   ],

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,8 +28,22 @@
 module WorkPackages::ActivitiesTab::Journals
   class Submit < ApplicationForm
     form do |notes_form|
-      notes_form.submit(name: :submit, label: I18n.t("button_save"), scheme: :primary,
-                        data: { test_selector: "op-submit-work-package-journal-form" })
+      notes_form.submit(
+        name: :submit,
+        label: @label,
+        scheme: :primary,
+        "aria-label": I18n.t("activities.work_packages.activity_tab.label_submit_comment"),
+        data: {
+          test_selector: "op-submit-work-package-journal-form",
+          "work-packages--activities-tab--index-target": "formSubmitButton"
+        }
+      )
+    end
+
+    def initialize(label: I18n.t("button_save"))
+      super()
+
+      @label = label
     end
   end
 end

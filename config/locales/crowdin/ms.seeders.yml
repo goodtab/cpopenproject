@@ -34,16 +34,14 @@ ms:
           name: Kelabu (tua)
         item_13:
           name: Hitam
-      life_cycle_colors:
+      project_phase_colors:
         item_0:
           name: PM2 Jingga
         item_1:
-          name: PM2 Ungu
-        item_2:
           name: PM2 Merah
-        item_3:
+        item_2:
           name: PM2 Magenta
-        item_4:
+        item_3:
           name: PM2 Hijau Kuning
       document_categories:
         item_0:
@@ -81,21 +79,18 @@ ms:
         item_1:
           name: Peranan global standard
     standard:
-      life_cycles:
+      project_phases:
         item_0:
           name: Memulakan
         item_1:
-          name: Bersedia untuk Perancangan
-        item_2:
           name: Perancangan
-        item_3:
-          name: Sedia untuk Melaksanakan
-        item_4:
+          start_gate: Bersedia untuk Perancangan
+        item_2:
           name: Melaksanakan
-        item_5:
-          name: Sedia untuk Penutupan
-        item_6:
+          start_gate: Sedia untuk Melaksanakan
+        item_3:
           name: Penutup
+          start_gate: Sedia untuk Penutupan
       priorities:
         item_0:
           name: Rendah
@@ -155,7 +150,7 @@ ms:
                   text: |
                     Kami gembira anda menyertai kami! Kami cadangkan beberapa perkara sebagai permulaan di OpenProject.
 
-                    Temui fitur paling penting dengan [Lawatan Berpandu ({{opSetting:base_url}}/projects/demo-project/work_packages/?start_onboarding_tour=true) kami.
+                    Temui fitur paling penting dengan [Lawatan Berpandu ({{opSetting:base_url}}/projects/demo-project/work_packages/?start_onboarding_tour=true) kami. 
 
                     _Cuba ikuti langkah-langkah berikut:_
 
@@ -178,7 +173,7 @@ ms:
             item_0:
               subject: Permulaan projek
             item_1:
-              subject: Anjurkan persidangan sumber terbuka
+              subject: Anjurkan persidangan sumber terbuka 
               children:
                 item_0:
                   subject: Tetapkan tarikh dan lokasi persidangan
@@ -224,6 +219,7 @@ ms:
             *Lihat sebagai Markdown
 
             Maklumat lanjut: [https://www.openproject.org/docs/user-guide/wiki/](https://www.openproject.org/docs/user-guide/wiki/)
+
         scrum-project:
           name: Projek Scrum
           status_explanation: Semua tugasan mengikut jadual. Orang yang terlibat tahu akan tugasan mereka. Sistem ini telah siap sepenuhnya.
@@ -266,7 +262,7 @@ ms:
                   * Kotak masa (maks. 15 minit).
                   * Mesyuarat stand-up untuk membincangkan topik-topik berikut dari [Board tugasan](##sprint:scrum_project__version__sprint_1).
                       * Apa yang saya rancang untuk lakukan sehingga mesyuarat harian Scrum?
-                      * Apa yang telah menghalang kerja saya (Halangan)?
+                      * Apa yang telah menghalang kerja saya (Halangan)? 
                   * Ketua Scrum menyelia dan mencatat [Halangan Pecutan](##sprint:scrum_project__version__sprint_1).
                   * Pemilik produk boleh mengambil bahagian untuk kekal maklum.
 
@@ -490,7 +486,7 @@ ms:
         item_1:
           name: Pencapaian
         item_2:
-          name: Fasa
+          name: Summary task
         item_3:
           name: Fitur
         item_4:

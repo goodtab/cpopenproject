@@ -67,7 +67,7 @@ ms:
       text_enforced: "Aktifkan tetapan ini untuk memaksa semua pengguna untuk mendaftar peranti 2FA pada log masuk mereka yang seterusnya. Hanya boleh dinyahaktifkan apabila tidak dikuatkuasakan oleh konfigurasi."
       text_remember: |
         Tetapkan ini kepada lebih daripada kosong untuk membolehkan pengguna untuk mengingat 2FA mereka untuk bilangan hari yang ditetapkan.
-        Mereka tidak akan diminta untuk masukkan semula 2FA dalam tempoh tersebut. Ia hanya boleh ditetapkan apabila ia tidak dikuatkuasakan oleh konfigurasi.
+        Mereka tidak akan diminta untuk masukkan semula 2FA dalam tempoh tersebut. Ia hanya boleh ditetapkan apabila ia tidak dikuatkuasakan oleh konfigurasi. 
       error_invalid_settings: "Strategi 2FA yang anda telah memilih adalah tidak sah."
       failed_to_save_settings: "Gagal untuk kemas kini tetapan 2FA: %{message}"
     admin:
@@ -82,7 +82,7 @@ ms:
       text_2fa_enabled: "Setiap kali log masuk, pengguna ini akan diminta untuk memasukkan token OTP daripada peranti 2FA default mereka."
       text_2fa_disabled: "Pengguna ini tidak menyediakan peranti 2FA melalui 'Laman akaun saya' mereka"
       only_sms_allowed: "Hanya penghantaran SMS boleh disediakan untuk pengguna-pengguna lain."
-    upsale:
+    upsell:
       title: "Pengesahan dua faktor"
       description: "Ketatkan keselamatan contoh OpenProject anda dengan menawarkan (atau kuatkuasakan) pengesahan dua faktor ke semua ahli projek."
     backup_codes:
@@ -91,7 +91,7 @@ ms:
       plural: Kod sandaran
       your_codes: untuk %{login} akaun %{app_name} anda
       overview_description: |
-        Jika anda tidak boleh mengakses peranti dua faktor anda, anda boleh menggunakan kod sandaran untuk mendapatkan semula akses ke akaun anda.
+        Jika anda tidak boleh mengakses peranti dua faktor anda, anda boleh menggunakan kod sandaran untuk mendapatkan semula akses ke akaun anda. 
         Gunakan butang berikutnya untuk menjana set kod sandaran baharu.
       generate:
         title: Janakan kod sandaran

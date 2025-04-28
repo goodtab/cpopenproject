@@ -27,18 +27,18 @@
 #++
 
 require "spec_helper"
-require File.expand_path("../support/permission_specs", __dir__)
+require "support/permission_specs"
 
 RSpec.describe Overviews::OverviewsController, "edit_project_life_cycles permission", # rubocop:disable RSpec/EmptyExampleGroup,RSpec/SpecFilePathFormat
                type: :controller do
   include PermissionSpecs
 
   # render dialog with inputs for editing project attributes with edit_project permission
-  check_permission_required_for("overviews/overviews#project_life_cycles_dialog", :edit_project_stages_and_gates)
+  check_permission_required_for("overviews/project_phases#edit", :edit_project_phases)
 
   # render form with inputs for editing project attributes with edit_project permission
-  check_permission_required_for("overviews/overviews#project_life_cycles_form", :edit_project_stages_and_gates)
+  check_permission_required_for("overviews/project_phases#preview", :edit_project_phases)
 
   # update project attributes with edit_project permission, deeper permission check via contract in place
-  check_permission_required_for("overviews/overviews#update_project_life_cycles", :edit_project_stages_and_gates)
+  check_permission_required_for("overviews/project_phases#update", :edit_project_phases)
 end

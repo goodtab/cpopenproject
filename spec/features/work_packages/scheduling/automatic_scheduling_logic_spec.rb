@@ -105,10 +105,12 @@ RSpec.describe "Automatic scheduling logic test cases (WP #61054)", :js, with_se
       it "cannot change scheduling mode to automatic" do
         open_date_picker
         datepicker.expect_manual_scheduling_mode
+        datepicker.expect_working_days_only_checkbox_visible
 
         datepicker.toggle_scheduling_mode
         datepicker.expect_automatic_scheduling_mode
 
+        datepicker.expect_no_working_days_only_checkbox_visible
         datepicker.expect_save_button_disabled
       end
     end
@@ -149,7 +151,7 @@ RSpec.describe "Automatic scheduling logic test cases (WP #61054)", :js, with_se
         open_date_picker
         datepicker.expect_automatic_scheduling_mode
         datepicker.expect_start_date "2025-01-03", disabled: true
-        datepicker.expect_due_date "2025-01-07", disabled: true
+        datepicker.expect_due_date "2025-01-07", disabled: false
         datepicker.expect_duration "3"
       end
     end
@@ -172,7 +174,7 @@ RSpec.describe "Automatic scheduling logic test cases (WP #61054)", :js, with_se
         datepicker.expect_automatic_scheduling_mode
 
         datepicker.expect_start_date "2025-01-03", disabled: true
-        datepicker.expect_due_date "2025-01-07", disabled: true
+        datepicker.expect_due_date "2025-01-07", disabled: false
         datepicker.expect_duration "3", disabled: false
 
         apply_and_expect_saved(
@@ -202,7 +204,7 @@ RSpec.describe "Automatic scheduling logic test cases (WP #61054)", :js, with_se
         datepicker.expect_automatic_scheduling_mode
 
         datepicker.expect_start_date "2025-01-20", disabled: true
-        datepicker.expect_due_date "2025-01-22", disabled: true
+        datepicker.expect_due_date "2025-01-22", disabled: false
         datepicker.expect_duration "3", disabled: false
 
         apply_and_expect_saved(
@@ -325,7 +327,7 @@ RSpec.describe "Automatic scheduling logic test cases (WP #61054)", :js, with_se
         # parent gets properties from last removed child: child 2
         datepicker.expect_automatic_scheduling_mode
         datepicker.expect_start_date "2025-01-15", disabled: true
-        datepicker.expect_due_date "2025-01-22", disabled: true
+        datepicker.expect_due_date "2025-01-22", disabled: false
         datepicker.expect_duration "6"
         datepicker.expect_working_days_only_enabled
         datepicker.expect_working_days_only true
@@ -346,7 +348,7 @@ RSpec.describe "Automatic scheduling logic test cases (WP #61054)", :js, with_se
         # parent gets properties from last removed child: child 1
         datepicker.expect_automatic_scheduling_mode
         datepicker.expect_start_date "2025-01-15", disabled: true
-        datepicker.expect_due_date "2025-01-19", disabled: true
+        datepicker.expect_due_date "2025-01-19", disabled: false
         datepicker.expect_duration "5"
         datepicker.expect_working_days_only_enabled
         datepicker.expect_working_days_only false
@@ -386,6 +388,77 @@ RSpec.describe "Automatic scheduling logic test cases (WP #61054)", :js, with_se
         )
         expect(child1.reload.schedule_manually).to be(true)
         expect(child2.reload.schedule_manually).to be(false)
+      end
+    end
+  end
+
+  describe "Bug #62261: Invalid error displayed when switching parent to automatic" do
+    context "when changing dates to the ones that would be computed by automatic mode and then switching to automatic" do
+      let_work_packages(<<~TABLE)
+        hierarchy    | start date | due date   | scheduling mode
+        work package | 2025-01-27 | 2025-02-06 | manual
+          child      |            |            | manual
+      TABLE
+
+      it "does not display a 'read-only' error" do
+        open_date_picker
+        datepicker.set_start_date("")
+        datepicker.set_due_date("")
+
+        datepicker.toggle_scheduling_mode
+
+        datepicker.expect_start_date "", disabled: true
+        datepicker.expect_due_date "", disabled: true
+        read_only_error = I18n.t("activerecord.errors.messages.error_readonly")
+        expect(datepicker.container).to have_no_text(/#{Regexp.escape(read_only_error)}/i)
+
+        apply_and_expect_saved(
+          start_date: nil,
+          due_date: nil,
+          duration: nil,
+          schedule_manually: false
+        )
+      end
+    end
+
+    context "when manually changing dates of an automatically scheduled successor, and then switch back to automatic" do
+      let_work_packages(<<~TABLE)
+        subject      | start date | due date   | scheduling mode | predecessors
+        predecessor  | 2025-01-14 | 2025-01-16 | manual          |
+        work package | 2025-01-17 | 2025-01-17 | automatic       | predecessor
+      TABLE
+
+      it "does not display a 'must be set to a later date' error" do
+        open_date_picker
+        datepicker.toggle_scheduling_mode
+        datepicker.expect_manual_scheduling_mode
+
+        # change dates in manual mode
+        datepicker.set_start_date("2025-01-06")
+        datepicker.set_due_date("2025-01-20")
+
+        datepicker.expect_start_date "2025-01-06"
+        datepicker.expect_due_date "2025-01-20"
+        datepicker.expect_duration "11"
+
+        # switch back to automatic
+        datepicker.toggle_scheduling_mode
+        datepicker.expect_automatic_scheduling_mode
+
+        # start date should be derived from predecessors,
+        # while the changed finish date is kept and a new duration calculated
+        datepicker.expect_start_date "2025-01-17", disabled: true
+        datepicker.expect_due_date "2025-01-20", disabled: false
+        datepicker.expect_duration "2"
+
+        expect(datepicker.container).to have_no_text(/Can only be set to ....-..-.. or later/i)
+
+        apply_and_expect_saved(
+          start_date: Date.parse("2025-01-17"),
+          due_date: Date.parse("2025-01-20"),
+          duration: 2,
+          schedule_manually: false
+        )
       end
     end
   end

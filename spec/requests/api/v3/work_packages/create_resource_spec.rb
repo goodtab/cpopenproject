@@ -180,50 +180,90 @@ RSpec.describe "API v3 Work package resource",
       end
     end
 
-    context "when scheduled manually" do
-      let(:work_package) { WorkPackage.first }
+    describe "scheduleManually parameter" do
+      let(:created_work_package) { WorkPackage.find_by(subject: "new work packages") }
 
-      context "with true" do
+      context "when true" do
         # mind the () for the super call, those are required in rspec's super
         let(:parameters) { super().merge(scheduleManually: true) }
 
         it "sets the scheduling mode to manual (schedule_manually: true)" do
-          expect(work_package.schedule_manually).to be true
+          expect(created_work_package.schedule_manually).to be true
+        end
+
+        context "when also being the first child of a manually scheduled parent" do
+          let(:extra_permissions) { %i[manage_subtasks] }
+          let(:parent) do
+            create(:work_package, project:,
+                                  subject: "parent",
+                                  schedule_manually: true,
+                                  start_date: Date.new(2025, 1, 1),
+                                  due_date: Date.new(2025, 1, 31))
+          end
+          let(:parameters) do
+            super().deep_merge(
+              startDate: nil,
+              dueDate: nil,
+              _links: {
+                parent: {
+                  href: api_v3_paths.work_package(parent.id)
+                }
+              }
+            )
+          end
+
+          it "changes the scheduling mode of the parent work package to automatic " \
+             "and sets its dates to match the child's dates" do
+            expect(created_work_package.parent).to eq(parent.reload)
+            expect(created_work_package.parent.schedule_manually).to be false
+            expect(created_work_package.parent.start_date).to be_nil
+            expect(created_work_package.parent.due_date).to be_nil
+          end
         end
       end
 
-      context "with false" do
+      context "when false" do
         let(:parameters) do
           super().merge(scheduleManually: false)
         end
 
         context "when the created work package has an indirect predecessor" do
-          let(:predecessor) { create(:work_package, project:) }
-          let(:parent) { create(:work_package, project:, schedule_manually: false) }
+          let(:extra_permissions) { %i[manage_subtasks] }
+          let(:predecessor) { create(:work_package, project:, subject: "predecessor") }
+          let(:parent) do
+            create(:work_package, project:,
+                                  subject: "parent",
+                                  schedule_manually: false).tap do |parent|
+              create(:follows_relation, predecessor:, successor: parent)
+            end
+          end
           let(:parameters) do
-            super().merge(parent: parent)
+            super().deep_merge(
+              _links: {
+                parent: {
+                  href: api_v3_paths.work_package(parent.id)
+                }
+              }
+            )
           end
 
-          before do
-            create(:follows_relation, from: parent, to: predecessor)
-          end
-
-          it "sets the scheduling mode to automatic (schedule_manually: false)" do
-            expect(work_package.schedule_manually).to be false
+          it "sets the scheduling mode to automatic as requested (schedule_manually: false)" do
+            expect(created_work_package.schedule_manually).to be false
           end
         end
 
         context "when the work package has no direct or indirect predecessors and no children" do
           # TODO: should the API return an error here?
-          it "does not set the scheduling mode to automatic and keeps manual scheduling mode (schedule_manually: true)" do
-            expect(work_package.schedule_manually).to be true
+          it "does not set the scheduling mode to automatic as requested " \
+             "and keeps manual scheduling mode (schedule_manually: true)" do
+            expect(created_work_package.schedule_manually).to be true
           end
         end
       end
 
-      context "with scheduleManually absent" do
+      context "when absent" do
         it "sets the scheduling mode to manual (schedule_manually: true, the default)" do
-          expect(work_package.schedule_manually).to be true
+          expect(created_work_package.schedule_manually).to be true
         end
       end
     end

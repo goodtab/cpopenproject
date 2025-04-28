@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -44,36 +46,44 @@ RSpec.describe AddWorkPackageNoteService, type: :model do
 
   describe "call" do
     let(:mock_contract) do
-      double(WorkPackages::CreateNoteContract,
-             new: mock_contract_instance)
+      class_double(WorkPackages::CreateNoteContract,
+                   new: mock_contract_instance)
     end
+
     let(:mock_contract_instance) do
-      double(WorkPackages::CreateNoteContract,
-             errors: contract_errors,
-             validate: valid_contract)
+      instance_double(WorkPackages::CreateNoteContract,
+                      errors: contract_errors,
+                      validate: valid_contract)
     end
     let(:valid_contract) { true }
-    let(:contract_errors) do
-      double("contract errors")
-    end
+    let(:contract_errors) { instance_double(ActiveModel::Errors, full_messages: ["error message"]) }
 
     let(:send_notifications) { false }
 
     before do
       allow(instance).to receive(:contract_class).and_return(mock_contract)
-      allow(work_package).to receive(:save_journals).and_return true
+      allow(work_package).to receive(:add_journal).and_call_original
+      allow(work_package).to receive(:save_journals).and_return(true)
     end
 
     subject { instance.call("blubs", send_notifications:) }
 
-    it "is successful" do
+    it "persists the value" do
       expect(subject).to be_success
+      expect(work_package).to have_received(:add_journal)
+        .with(user: user, notes: "blubs", internal: false)
+      expect(work_package).to have_received(:save_journals)
     end
 
-    it "persists the value" do
-      expect(work_package).to receive(:save_journals).and_return true
+    context "with internal note" do
+      subject { instance.call("blubs", send_notifications:, internal: true) }
 
-      subject
+      it "persists the value" do
+        expect(subject).to be_success
+        expect(work_package).to have_received(:add_journal)
+          .with(user: user, notes: "blubs", internal: true)
+        expect(work_package).to have_received(:save_journals)
+      end
     end
 
     it "creates an advisory lock" do

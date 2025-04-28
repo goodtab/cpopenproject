@@ -1,12 +1,13 @@
 tr:
+  ee:
+    upsell:
+      grid_widget_wp_graph:
+        description: "İş paketi grafiği gibi bazı bileşenler yalnızca Enterprise sürümünde mevcuttur."
   js:
     grid:
       add_widget: 'Bileşen ekle'
       remove: 'Bileşeni kaldır'
       configure: 'Bileşeni yapılandır'
-      upsale:
-        text: "İş paketi grafiği pencere öğesi gibi bazı pencere öğeleri yalnızca Enterprise sürümünde mevcuttur."
-        link: 'Enterprise sürümü.'
       widgets:
         missing_permission: "Bu bileşeni görüntülemek için gerekli izinlere sahip değilsiniz."
         custom_text:

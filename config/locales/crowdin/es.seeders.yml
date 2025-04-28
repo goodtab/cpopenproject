@@ -34,16 +34,14 @@ es:
           name: Gris (oscuro)
         item_13:
           name: Negro
-      life_cycle_colors:
+      project_phase_colors:
         item_0:
           name: PM2 Naranja
         item_1:
-          name: PM2 Morado
-        item_2:
           name: PM2 Rojo
-        item_3:
+        item_2:
           name: PM2 Magenta
-        item_4:
+        item_3:
           name: PM2 Verde amarillo
       document_categories:
         item_0:
@@ -81,21 +79,18 @@ es:
         item_1:
           name: Rol global estándar
     standard:
-      life_cycles:
+      project_phases:
         item_0:
           name: Iniciando
         item_1:
-          name: Listo para la planificación
-        item_2:
           name: Planificación
-        item_3:
-          name: Listo para la ejecución
-        item_4:
+          start_gate: Listo para la planificación
+        item_2:
           name: Ejecutando
-        item_5:
-          name: Listo para el cierre
-        item_6:
-          name: Cierre
+          start_gate: Listo para la ejecución
+        item_3:
+          name: Cerrando
+          start_gate: Listo para el cierre
       priorities:
         item_0:
           name: Baja
@@ -488,7 +483,7 @@ es:
         item_1:
           name: Hito
         item_2:
-          name: Fase
+          name: Tarea de resumen
         item_3:
           name: Función
         item_4:

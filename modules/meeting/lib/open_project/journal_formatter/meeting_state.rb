@@ -42,8 +42,12 @@ class OpenProject::JournalFormatter::MeetingState < JournalFormatter::Base
   end
 
   def value(html, state)
-    html = html ? "_html" : ""
+    label = I18n.t(:"label_meeting_state_#{state_key(state)}")
 
-    I18n.t(:"label_meeting_state_#{state_key(state)}#{html}")
+    if html
+      content_tag(:i, label)
+    else
+      label
+    end
   end
 end

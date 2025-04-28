@@ -47,7 +47,7 @@ class Queries::Principals::Filters::MentionableOnWorkPackageFilter <
   end
 
   def human_name
-    "mentionable" # intenral use
+    "mentionable" # Only for Internal use, not visible in the UI
   end
 
   def apply_to(query_scope)

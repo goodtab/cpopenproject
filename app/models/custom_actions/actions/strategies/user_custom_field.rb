@@ -30,6 +30,10 @@ module CustomActions::Actions::Strategies::UserCustomField
   include CustomActions::Actions::Strategies::CustomField
   include ::CustomActions::Actions::Strategies::MeAssociated
 
+  def type
+    :user
+  end
+
   def apply(work_package)
     if work_package.respond_to?(custom_field.attribute_setter)
       work_package.send(custom_field.attribute_setter, transformed_value(values.first))

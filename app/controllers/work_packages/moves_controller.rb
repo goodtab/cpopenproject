@@ -97,10 +97,6 @@ class WorkPackages::MovesController < ApplicationController
     end
   end
 
-  def default_breadcrumb
-    I18n.t(:label_move_work_package)
-  end
-
   # Check if project is unique before bulk operations
   def check_project_uniqueness
     unless @project

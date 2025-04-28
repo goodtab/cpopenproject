@@ -52,8 +52,8 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
     applyButton: this.I18n.t('js.modals.button_apply'),
     cancelButton: this.I18n.t('js.modals.button_cancel'),
 
-    upsaleRelationColumns: this.I18n.t('js.modals.upsale_relation_columns'),
-    upsaleRelationColumnsLink: this.I18n.t('js.modals.upsale_relation_columns_link'),
+    upsellRelationColumns: this.I18n.t('js.modals.upsell_relation_columns'),
+    upsellRelationColumnsLink: this.I18n.t('js.modals.upsell_relation_columns_link'),
   };
 
   public onDataUpdated = new EventEmitter<void>();

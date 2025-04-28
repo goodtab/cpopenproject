@@ -21,6 +21,9 @@
 #++
 tr:
   js:
+    text_are_you_sure: "Emin misiniz?"
+    myTimeTracking:
+      noSpecificTime: "No specific time"
     work_packages:
       property_groups:
         costs: "Ücretler"

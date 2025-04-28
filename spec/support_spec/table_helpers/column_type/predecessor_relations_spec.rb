@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -65,8 +65,12 @@ module TableHelpers::ColumnType
         TABLE
         expect(work_package_data)
           .to eq([
-                   [{ raw: "follows main with lag 3", type: :follows, with: "main", lag: 3 }],
-                   [{ raw: "main with lag 3", type: :follows, with: "main", lag: 3 }]
+                   {
+                     "main" => { raw: "follows main with lag 3", type: :follows, with: "main", lag: 3 }
+                   },
+                   {
+                     "main" => { raw: "main with lag 3", type: :follows, with: "main", lag: 3 }
+                   }
                  ])
       end
 
@@ -78,8 +82,12 @@ module TableHelpers::ColumnType
         TABLE
         expect(work_package_data)
           .to eq([
-                   [{ raw: "follows main", type: :follows, with: "main", lag: 0 }],
-                   [{ raw: "main", type: :follows, with: "main", lag: 0 }]
+                   {
+                     "main" => { raw: "follows main", type: :follows, with: "main", lag: 0 }
+                   },
+                   {
+                     "main" => { raw: "main", type: :follows, with: "main", lag: 0 }
+                   }
                  ])
       end
 
@@ -91,15 +99,15 @@ module TableHelpers::ColumnType
         TABLE
         expect(work_package_data)
           .to eq([
-                   [
-                     { raw: "follows wp1", type: :follows, with: "wp1", lag: 0 },
-                     { raw: "follows wp2", type: :follows, with: "wp2", lag: 0 }
-                   ],
-                   [
-                     { raw: "follows wp1", type: :follows, with: "wp1", lag: 0 },
-                     { raw: "wp2", type: :follows, with: "wp2", lag: 0 },
-                     { raw: "wp3", type: :follows, with: "wp3", lag: 0 }
-                   ]
+                   {
+                     "wp1" => { raw: "follows wp1", type: :follows, with: "wp1", lag: 0 },
+                     "wp2" => { raw: "follows wp2", type: :follows, with: "wp2", lag: 0 }
+                   },
+                   {
+                     "wp1" => { raw: "follows wp1", type: :follows, with: "wp1", lag: 0 },
+                     "wp2" => { raw: "wp2", type: :follows, with: "wp2", lag: 0 },
+                     "wp3" => { raw: "wp3", type: :follows, with: "wp3", lag: 0 }
+                   }
                  ])
       end
     end

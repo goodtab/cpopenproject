@@ -82,7 +82,7 @@ vi:
       text_2fa_enabled: "Mỗi lần đăng nhập, người dùng này sẽ được yêu cầu nhập mã OTP từ thiết bị 2FA mặc định của họ."
       text_2fa_disabled: "Người dùng chưa thiết lập thiết bị 2FA thông qua 'Trang tài khoản của họ'"
       only_sms_allowed: "Chỉ có chuyển tin SMS có thể được thiết lập cho các người dùng khác."
-    upsale:
+    upsell:
       title: "Xác thực hai yếu tố"
       description: "Tăng cường bảo mật cho phiên bản OpenProject của bạn bằng cách cung cấp (hoặc áp dụng) xác thực hai yếu tố cho tất cả các thành viên dự án."
     backup_codes:

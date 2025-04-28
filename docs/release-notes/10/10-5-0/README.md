@@ -106,7 +106,7 @@ An export function can then be used to distribute the BCFs back to the local app
 - Fixed: Inconsistent translation of "News" in German \[[#31674](https://community.openproject.org/wp/31674)\]
 - Fixed: Wiki tables not responsive + CSS weird + no markdown \[[#31920](https://community.openproject.org/wp/31920)\]
 - Fixed: Strings not localized (password settings) \[[#31976](https://community.openproject.org/wp/31976)\]
-- Fixed: Multiple Work Package Widgets on MyPage - Groups can't be reduced independently \[[#32030](https://community.openproject.org/wp/32030)\]
+- Fixed: Multiple Work Package Widgets on My page - Groups can't be reduced independently \[[#32030](https://community.openproject.org/wp/32030)\]
 - Fixed: \[Repository\] Error 500 when trying to log time with unmapped changeset user \[[#32038](https://community.openproject.org/wp/32038)\]
 - Fixed: Clean-up Administration -> System settings and remove wiki history compression \[[#32045](https://community.openproject.org/wp/32045)\]
 - Fixed: Work package ID cut off on right side \[[#32069](https://community.openproject.org/wp/32069)\]

@@ -31,7 +31,7 @@ module Notifications::CreateFromModelService::MessageStrategy
     %i(watched subscribed)
   end
 
-  def self.permission
+  def self.permission(*)
     :view_messages
   end
 

@@ -6,6 +6,10 @@ hu:
   permission_show_board_views: "Táblák megtekintése"
   permission_manage_board_views: "Táblák kezelése"
   project_module_board_view: "Táblák"
+  ee:
+    upsell:
+      board_view:
+        description: 'Szeretné automatizálni a munkafolyamatait a Boards-szal? A fejlett táblák Enterprise funkció. Kérjük, frissítsen fizetős csomagra.'
   boards:
     label_board: "Tábla"
     label_boards: "Táblák"
@@ -24,16 +28,19 @@ hu:
     board_type_descriptions:
       basic: >
         Kezdje a semmiből egy üres táblával. Kézzel adjon hozzá kártyákat és oszlopokat ehhez a táblához.
+
       status: >
         Alapvető kanban stílusú tábla oszlopokkal az állapothoz, mint például a Teendő, Folyamatban, Kész.
+
       assignee: >
         Tábla automatikus oszlopokkal a hozzárendelt felhasználók alapján. Ideális munkacsomagok feladásához.
+
       version: >
         Tábla automatikus oszlopokkal a verzióattribútum alapján. Ideális termékfejlesztés tervezéséhez.
+
       subproject: >
         Tábla automatizált oszlopokkal az alprojektekhez. A munkacsomagok más listákra húzása ennek megfelelően frissíti a(z) (al) projektet.
+
       subtasks: >
         Tábla automatizált oszlopokkal az alelemekhez. A munkacsomagok más listákra húzása ennek megfelelően frissíti a szülőt.
-    upsale:
-      teaser_text: 'Szeretné automatizálni a munkafolyamatait a Boards-szal? A fejlett táblák Enterprise funkció. Kérjük, frissítsen fizetős csomagra.'
-      upgrade: 'Frissítés most'
+

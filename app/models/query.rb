@@ -43,6 +43,7 @@ class Query < ApplicationRecord
   has_many :ical_tokens,
            through: :ical_token_query_assignments,
            class_name: "Token::ICal"
+  has_many :export_settings, dependent: :destroy
   # no `dependent: :destroy` as the ical_tokens are destroyed in the following before_destroy callback
   # dependent: :destroy is not possible as this would only delete the ical_token_query_assignments
   before_destroy :destroy_ical_tokens
@@ -418,6 +419,10 @@ class Query < ApplicationRecord
                                    "!*"
                                  end
     subproject_filter
+  end
+
+  def export_settings_for(format)
+    export_settings.where(format:).first_or_initialize
   end
 
   private

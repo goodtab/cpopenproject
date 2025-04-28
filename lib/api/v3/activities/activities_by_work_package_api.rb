@@ -35,11 +35,15 @@ module API
         resource :activities do
           get do
             self_link = api_v3_paths.work_package_activities @work_package.id
-            journals = @work_package.journals.includes(:data,
-                                                       :customizable_journals,
-                                                       :attachable_journals,
-                                                       :storable_journals,
-                                                       :bcf_comment)
+
+            journals = @work_package
+              .journals
+              .internal_visible
+              .includes(:data,
+                        :customizable_journals,
+                        :attachable_journals,
+                        :storable_journals,
+                        :bcf_comment)
 
             Activities::ActivityCollectionRepresenter.new(journals,
                                                           self_link:,

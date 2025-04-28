@@ -48,6 +48,8 @@ export class WpCustomActionsComponent extends UntilDestroyedMixin implements OnI
 
   actions:CustomActionResource[] = [];
 
+  available = !this.bannersService.showBannerFor('custom_actions');
+
   constructor(
     readonly apiV3Service:ApiV3Service,
     readonly cdRef:ChangeDetectorRef,

@@ -1,22 +1,23 @@
 ---
 sidebar_navigation:
   title: Backlogs settings
-  priority: 200
+  priority: 300
 description: Backlogs settings.
 keywords: backlogs settings
 ---
 # Backlogs settings
 
-Configure your backlogs settings for a project.
+In OpenProject, you can configure your backlogs settings specific to each project.
 
 ## Set the definition of done
 
-You can set the definition of done for your backlogs module. This defines when a work packages should be treated as being done and calculated to the burndown (or burnup chart).
+You can define what "done" means for the Backlogs module. This determines when a work package should be considered complete and included in the burndown (or burnup) chart.
 
-Choose the status which should be treated as done.
+Choose the status which should be treated as "done".
 
-Press the blue **Save** button to apply your changes.
+Press the **Save** button to apply your changes.
 
-![manage backlogs settings](image-20200211134305495.png)
+The **Rebuild positions** button recalculates the position of work packages in the product backlog.
 
-The **Rebuild positions button** for the backlogs re-calculates the position of a work package in the product backlog.
+![Manage backlogs settings under project settings in OpenProject](openproject_user_guide_project_settings_backlogs.png)
+

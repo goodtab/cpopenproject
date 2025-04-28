@@ -1,0 +1,38 @@
+.my-time-tracking-calendar-view
+  height: 100%
+
+  .op-fc-wrapper
+    flex-grow: 1
+
+    .fc-timegrid-event-short
+      .fc-event-time::after
+        content: ''
+        display: none
+
+    .calendar-time-entry-event
+      display: flex
+      user-select: none
+      border: 1px solid var(--borderColor-default)
+      border-radius: 5px
+      background: var(--body-background)
+      color: var(--body-font-color)
+      font-size: var(--body-font-size)
+
+      .fc-event-time
+        color: var(--fgColor-default)
+
+    .fc-popover
+      background: var(--fc-page-bg-color) !important
+
+    .fc-daygrid-event
+      background: var(--body-background) !important
+
+      .fc-event-title-container
+        margin: 0 !important
+
+      .fc-event-time
+        font-weight: normal
+
+    .fc-timegrid-more-link
+      background: var(--fc-page-bg-color) !important
+      border: 1px solid var(--borderColor-default)

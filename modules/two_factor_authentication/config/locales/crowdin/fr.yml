@@ -81,7 +81,7 @@ fr:
       text_2fa_enabled: "Lors de chaque connexion, cet utilisateur sera invité à entrer un jeton OTP depuis son appareil 2FA par défaut."
       text_2fa_disabled: "L'utilisateur n'a configuré aucun appareil 2FA sur sa page « Mon compte »"
       only_sms_allowed: "Seul l'envoi de SMS peut être configuré pour d'autres utilisateurs."
-    upsale:
+    upsell:
       title: "Authentification à deux facteurs"
       description: "Renforcez la sécurité de votre instance OpenProject en offrant (ou en forçant) une authentification à deux facteurs à tous les membres du projet."
     backup_codes:

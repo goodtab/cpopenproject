@@ -146,8 +146,6 @@ class PlaceholderUsersController < ApplicationController
 
   def find_placeholder_user
     @placeholder_user = PlaceholderUser.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    render_404
   end
 
   protected
@@ -156,9 +154,5 @@ class PlaceholderUsersController < ApplicationController
     unless helpers.can_delete_placeholder_user?(@placeholder_user, current_user)
       render_403 message: I18n.t("placeholder_users.right_to_manage_members_missing")
     end
-  end
-
-  def show_local_breadcrumb
-    false
   end
 end

@@ -100,6 +100,4 @@ class WorkPackages::DialogsController < ApplicationController
       project: @project
     }
   end
-
-  def default_breadcrumb; end
 end

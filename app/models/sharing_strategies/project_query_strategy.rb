@@ -109,7 +109,7 @@ module SharingStrategies
       if EnterpriseToken.allows_to?(:project_list_sharing)
         super
       else
-        Shares::ProjectQueries::UpsaleComponent.new(modal_content:)
+        Shares::ProjectQueries::UpsellComponent.new(modal_content:)
       end
     end
 

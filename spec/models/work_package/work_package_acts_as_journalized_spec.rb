@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -868,6 +870,99 @@ RSpec.describe WorkPackage do
     it "removes the storable journals" do
       expect(Journal::StorableJournal.find_by(id: attachable_journals.map(&:id)))
         .to be_nil
+    end
+  end
+
+  describe "#journals.internal_visible" do
+    let(:work_package) { create(:work_package) }
+    let(:admin) { create(:admin) }
+    let(:user) { create(:user) }
+
+    let!(:internal_note) do
+      create(:work_package_journal,
+             user: admin,
+             notes: "First comment by admin",
+             journable: work_package,
+             internal: true,
+             version: 2)
+    end
+
+    let!(:public_note) do
+      create(:work_package_journal,
+             user:,
+             notes: "First comment by user",
+             journable: work_package,
+             internal: false,
+             version: 3)
+    end
+
+    subject(:journals) { work_package.journals.internal_visible }
+
+    before do
+      login_as user
+    end
+
+    context "when internal_comments is enabled", with_flag: { internal_comments: true } do
+      context "and setting is enabled for the project" do
+        before do
+          work_package.project.enabled_internal_comments = true
+          work_package.project.save!
+        end
+
+        context "when the user cannot see internal journals" do
+          before do
+            mock_permissions_for(user) do |mock|
+              mock.allow_in_work_package :view_work_packages, work_package:
+            end
+          end
+
+          it "does not return the internal journal" do
+            expect(journals.map(&:id)).not_to include(internal_note.id)
+            expect(journals.map(&:id)).to include(public_note.id)
+          end
+        end
+
+        context "when the user can see internal journals" do
+          before do
+            mock_permissions_for(user) do |mock|
+              mock.allow_in_project(:view_internal_comments, project: work_package.project)
+            end
+          end
+
+          it "returns all journals" do
+            expect(journals.map(&:id)).to include(internal_note.id, public_note.id)
+          end
+        end
+      end
+
+      context "and setting is disabled for the project" do
+        before do
+          work_package.project.enabled_internal_comments = false
+          work_package.project.save!
+
+          mock_permissions_for(user) do |mock|
+            mock.allow_in_project(:view_internal_comments, project: work_package.project)
+          end
+        end
+
+        it "does not return the internal journal" do
+          expect(journals.map(&:id)).not_to include(internal_note.id)
+          expect(journals.map(&:id)).to include(public_note.id)
+        end
+      end
+    end
+
+    context "when internal_comments is disabled", with_flag: { internal_comments: false } do
+      before do
+        mock_permissions_for(user) do |mock|
+          mock.allow_in_project(:view_internal_comments, project: work_package.project)
+        end
+      end
+
+      it "does not return the internal journal regardless of permissions" do
+        expect(journals.map(&:id)).not_to include(internal_note.id)
+        expect(journals.map(&:id)).to include(public_note.id)
+      end
     end
   end
 end

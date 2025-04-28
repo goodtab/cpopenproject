@@ -36,7 +36,7 @@ module Components
       include RSpec::Matchers
       include Toasts::Expectations
 
-      def open_for(work_package, card_view: nil)
+      def open_for(work_package, check_if_open: true, card_view: nil)
         # Close
         find("body").send_keys :escape
         sleep 0.5 unless using_cuprite?
@@ -48,10 +48,12 @@ module Components
             page.find(".wp-row-#{work_package.id}-table").right_click
           end
 
-          raise "Menu not open" unless page.find(:menu, work_package_context_menu_label)
+          if check_if_open && !page.find(:menu, work_package_context_menu_label)
+            raise "Menu not open"
+          end
         end
       rescue StandardError
-        expect_open
+        expect_open if check_if_open
       end
 
       def expect_open

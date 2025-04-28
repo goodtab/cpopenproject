@@ -25,7 +25,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require File.dirname(__FILE__) + "/../../spec_helper"
+require_relative "../../spec_helper"
 
 RSpec.describe OpenProject::AccessControl do
   describe "manage documents permission" do

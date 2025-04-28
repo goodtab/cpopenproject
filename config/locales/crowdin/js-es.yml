@@ -239,22 +239,22 @@ es:
           status_waiting: "correo electrónico enviado - esperando confirmación"
           test_ee: "Pruebe Enterprise de forma gratuita durante 14 días"
           quick_overview: "Obtenga un resumen rápido sobre la gestión de proyectos y la colaboración en equipo con OpenProject Enterprise."
-        upsale:
-          become_hero: "¡Conviértete en un héroe!"
+        upsell:
+          become_hero: "¡Conviértete en héroe!"
           enterprise_info_html: "%{feature_title} es una extensión de la Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span>."
           upgrade_info: "Actualice a un plan de pago para activarla y empiece a usarla en su equipo."
           benefits:
             description: "¿Cuáles son las ventajas de Enterprise On-Premises?"
             high_security: "Funciones de seguridad"
             high_security_text: "Inicio de sesión único (SAML, OpenID Connect, CAS), grupos LDAP."
-            installation: "Ayuda en la instalación"
+            installation: "Soporte de instalación"
             installation_text: "Nuestros ingenieros de software especializados le guiarán en todo el proceso de instalación y configuración en su propia infraestructura."
             premium_features: "Extensión Enterprise"
             premium_features_text: "Tableros Agile, tema y logotipo personalizados, gráficos, flujos de trabajo inteligentes con acciones personalizadas, búsqueda de texto completo en archivos adjuntos de paquetes de trabajo y campos personalizados de selección múltiple."
             professional_support: "Soporte profesional"
             professional_support_text: "Obtenga ayuda rápida y de confianza de nuestros agentes de asistencia con conocimientos especializados sobre cómo ejecutar OpenProject en entornos empresariales críticos."
           button_start_trial: "Iniciar prueba gratuita"
-          button_upgrade: "Actualizar ahora"
+          button_upgrade: "Mejorar ahora"
           button_contact_us: "Contacte con nosotros para solicitar una demostración"
           button_book_now: "Reservar ahora"
           confidence: >
@@ -358,10 +358,10 @@ es:
           learn_about: "Más información sobre las nuevas funciones"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "15_4":
+          "15_5":
             standard:
               new_features_html: >
-                La versión trae varias funciones y mejoras para usted, por ejemplo <br> <ul class="%{list_styling_class}"> <li>Habilitar el modo de programación automática.</li> <li>Establecer los resultados de los puntos del orden del día para las reuniones. </li> <li>Generar documentos PDF a partir de la descripción de un paquete de trabajo.</li> <li>Mejorar la gestión de un gran número de proyectos con una vista mejorada de las listas de proyectos.</li> <li>Utilizar la @-mención del usuario al citar respondiendo a un comentario.</li> </ul>
+                La versión incluye varias funciones y mejoras para usted, por ejemplo: <br> <ul class="%{list_styling_class}"> <li>Filtro para descendientes (secundarios y subsecundarios) de paquetes de trabajo. </li> <li>Benefíciese de la accesibilidad avanzada en el selector de fechas.</li> <li>Vea el % completado incluido en las sumas de la tabla de paquetes de trabajo.</li> <li>Incluya una columna para los elementos secundarios en las tablas de paquetes de trabajo.</li> <li>Utilice mejor el selector de fechas en las pantallas móviles.</li> <li>Exportaciones en PDF que coinciden con el diseño de formulario configurado.</li> </ul>
     ical_sharing_modal:
       title: "Suscribirse al calendario"
       inital_setup_error_message: "Se ha producido un error al obtener los datos."
@@ -463,6 +463,7 @@ es:
     label_menu_collapse: "colapsar"
     label_menu_expand: "expandir"
     label_more_than_ago: "más que hace unos días"
+    label_moderate_comment: "Moderate comment"
     label_next: "Siguiente"
     label_no_color: "Sin color"
     label_no_data: "No hay datos disponibles"
@@ -631,9 +632,6 @@ es:
         property_is: "está en %{difference_in_days}."
         property_was: "fue hace %{difference_in_days}."
         property_is_deleted: "se ha eliminado."
-        upsale:
-          title: "Alertas de fecha"
-          description: "Con las alertas de fecha, recibirá notificaciones de próximas fechas de inicio o finalización para que nunca olvide una fecha límite importante."
       center:
         label_actor_and: "y"
         and_more_users:
@@ -696,7 +694,6 @@ es:
           date_alerts:
             title: "Alertas de fecha"
             description: "Notificaciones automáticas cuando se acercan fechas importantes para paquetes de trabajo abiertos en los que está involucrado (asignado, responsable u observador)."
-            teaser_text: "Con las alertas de fecha, recibirá notificaciones de próximas fechas de inicio o finalización para que nunca olvide una fecha límite importante."
           overdue: Cuando vencido
         project_specific:
           title: "Configuración de notificaciones específicas de proyectos"
@@ -799,6 +796,7 @@ es:
       typeahead_placeholder: Buscar posibles observadores
     relation_labels:
       parent: "Principal"
+      child: "Elemento secundario"
       children: "Sub-elemento"
       relates: "Relacionado con"
       duplicates: "Duplicados"
@@ -828,7 +826,7 @@ es:
       add_new_child: "Crear nuevo sub-elemento"
       create_new: "Crear nuevo"
       add_existing: "Agregar existente"
-      add_existing_child: "Añadir sub-elemento existente"
+      add_existing_child: "Añadir elemento secundario"
       remove_child: "Eliminar sub-elemento"
       add_new_relation: "Crear nueva relación"
       add_existing_relation: "Agregar relación existente"
@@ -867,7 +865,7 @@ es:
     tl_toolbar:
       zooms: "Nivel de zoom"
       outlines: "Nivel de jerarquía"
-    upsale:
+    upsell:
       ee_only: "Extensión Enterprise"
     wiki_formatting:
       strong: "Negrita"
@@ -1046,8 +1044,6 @@ es:
       sharing:
         title: "Compartir paquete de trabajo"
         show_all_users: "Mostrar todos los usuarios con los que se ha compartido el paquete de trabajo"
-        upsale:
-          description: "Compartir paquetes de trabajo con usuarios que no son miembros del proyecto."
       table:
         configure_button: "Configurar tabla de paquetes de trabajo"
         summary: "Tabla con filas de paquetes de trabajo y columnas con sus atributos."
@@ -1082,10 +1078,6 @@ es:
           manually: "Manual"
           warning: "Al activar el modo de ordenación automática, se perderá la ordenación actual."
         columns_help_text: "Use el campo de entrada anterior para añadir columnas a la vista de tabla. Puede arrastrar y colocar las columnas para cambiar el orden."
-        upsale:
-          attribute_highlighting: "¿Necesita que algunos paquetes de trabajo destaquen del resto?"
-          relation_columns: "¿Necesita ver las relaciones en la lista de paquetes de trabajo?"
-          check_out_link: "Echa un vistazo a Enterprise."
         relation_filters:
           filter_work_packages_by_relation_type: "Filtrar paquetes de trabajo por tipo de relación"
       tabs:
@@ -1299,9 +1291,7 @@ es:
       clear: "Despejar"
       apply: "Aplicar"
       header_description: "Resalte los cambios realizados en esta lista desde cualquier momento en el pasado."
-      enterprise_header_description: "Resalte los cambios realizados en esta lista desde cualquier momento en el pasado con la edición Enterprise."
       show_changes_since: "Mostrar cambios desde"
-      baseline_comparison: "Comparación de referencia"
       help_description: "Zona horaria de referencia para la referencia."
       time_description: "En tu hora local: %{datetime}"
       time: "Tiempo"

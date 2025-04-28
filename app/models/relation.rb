@@ -49,9 +49,13 @@ class Relation < ApplicationRecord
   TYPE_PARENT       = "parent"
   TYPE_CHILD        = "child"
 
+  # The order of the types is important. It's used to build up `ORDERED_TYPES`
+  # which is used to order relations of different kind like in the "Add relation"
+  # menu or the relations tab.
   TYPES = {
     TYPE_RELATES => {
-      name: :label_relates_to, sym_name: :label_relates_to, order: 1, sym: TYPE_RELATES
+      name: :label_relates_to, sym_name: :label_relates_to, order: 1,
+      sym: TYPE_RELATES
     },
     TYPE_FOLLOWS => {
       name: :label_follows, sym_name: :label_precedes, order: 7,
@@ -62,14 +66,16 @@ class Relation < ApplicationRecord
       sym: TYPE_FOLLOWS, reverse: TYPE_FOLLOWS
     },
     TYPE_DUPLICATES => {
-      name: :label_duplicates, sym_name: :label_duplicated_by, order: 6, sym: TYPE_DUPLICATED
+      name: :label_duplicates, sym_name: :label_duplicated_by, order: 6,
+      sym: TYPE_DUPLICATED
     },
     TYPE_DUPLICATED => {
       name: :label_duplicated_by, sym_name: :label_duplicates, order: 7,
       sym: TYPE_DUPLICATES, reverse: TYPE_DUPLICATES
     },
     TYPE_BLOCKS => {
-      name: :label_blocks, sym_name: :label_blocked_by, order: 4, sym: TYPE_BLOCKED
+      name: :label_blocks, sym_name: :label_blocked_by, order: 4,
+      sym: TYPE_BLOCKED
     },
     TYPE_BLOCKED => {
       name: :label_blocked_by, sym_name: :label_blocks, order: 5,
@@ -92,6 +98,8 @@ class Relation < ApplicationRecord
       sym: TYPE_REQUIRES, reverse: TYPE_REQUIRES
     }
   }.freeze
+
+  ORDERED_TYPES = [*TYPES.keys, TYPE_PARENT, TYPE_CHILD].freeze
 
   include ::Scopes::Scoped
 
@@ -165,11 +173,10 @@ class Relation < ApplicationRecord
     successor.start_date || successor.due_date
   end
 
-  def successor_soonest_start(gap: 1.day)
+  def successor_soonest_start
     if follows? && predecessor_date
-      days = WorkPackages::Shared::Days.for(from)
-      relation_start_date = predecessor_date + gap
-      days.soonest_working_day(relation_start_date, lag:)
+      days = WorkPackages::Shared::WorkingDays.new
+      days.add_lag(predecessor_date, lag)
     end
   end
 

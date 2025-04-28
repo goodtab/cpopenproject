@@ -21,6 +21,9 @@
 #++
 vi:
   js:
+    text_are_you_sure: "Bạn có chắc không?"
+    myTimeTracking:
+      noSpecificTime: "No specific time"
     work_packages:
       property_groups:
         costs: "Chi phí"

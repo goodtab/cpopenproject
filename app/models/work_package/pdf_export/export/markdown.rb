@@ -45,6 +45,9 @@ module WorkPackage::PDFExport::Export::Markdown
     def draw_markdown(markdown, pdf, image_loader)
       @pdf = pdf
       @image_loader = image_loader
+      @pdf.stroke_color = "000000"
+      @pdf.line_width = 1
+      @pdf.fill_color = "000000"
       root = parse_markdown(markdown)
       begin
         draw_node(root, pdf_root_options(@styles.page), true)

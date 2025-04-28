@@ -239,7 +239,7 @@ pl:
           status_waiting: "wysłano wiadomość e-mail — oczekiwanie na potwierdzenie"
           test_ee: "Testuj wersję Enterprise przez 14 dni za darmo"
           quick_overview: "Zapoznaj się z krótkim omówieniem zarządzania projektami i pracy zespołowej w OpenProject w wersji Enterprise."
-        upsale:
+        upsell:
           become_hero: "Zostań bohaterem!"
           enterprise_info_html: "%{feature_title} jest dodatkiem wersji Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span>."
           upgrade_info: "Aby ją aktywować i zacząć korzystać z niej w zespole, przejdź na plan płatny."
@@ -254,7 +254,7 @@ pl:
             professional_support: "Profesjonalne wsparcie"
             professional_support_text: "Uzyskaj niezawodne, wysokiej klasy wsparcie od starszych inżynierów wsparcia technicznego posiadających wiedzę fachową na temat uruchamiania oprogramowania OpenProject w środowiskach o znaczeniu krytycznym dla biznesu."
           button_start_trial: "Rozpocznij bezpłatny okres próbny"
-          button_upgrade: "Aktualizuj teraz"
+          button_upgrade: "Uaktualnij teraz"
           button_contact_us: "Skontaktuj się z nami, aby uzyskać demo"
           button_book_now: "Zarezerwuj teraz"
           confidence: >
@@ -358,10 +358,10 @@ pl:
           learn_about: "Dowiedz się więcej o nowych funkcjach"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "15_4":
+          "15_5":
             standard:
               new_features_html: >
-                Ta wersja wprowadza różne funkcje i ulepszenia, np. <br> <ul class="%{list_styling_class}"> <li>Włącz automatyczny tryb planowania.</li> <li>Ustaw wyniki punktów planu spotkania.</li> <li>Generuj dokumenty PDF na podstawie opisu pakietu roboczego.</li> <li>Lepiej zarządzaj dużą liczbą projektów dzięki ulepszonemu widokowi list projektów.</li> <li>Użyj @-wzmianki o użytkowniku, gdy go cytujesz, odpowiadając na komentarz.</li> </ul>
+                Wersja zawiera różne nowe funkcje i ulepszenia, np. <br> <ul class="%{list_styling_class}"> <li>Filtr elementów potomnych (podrzędnych i ich elementów podrzędnych) pakietów roboczych.</li> <li>Korzystaj z zaawansowanej dostępności w selektorze dat.</li> <li>Wyświetlanie % ukończenia w tabeli pakietów roboczych.</li> <li>Dołącz kolumnę elementów podrzędnych w tabelach pakietów roboczych.</li> <li>Poprawione używanie selektora dat na ekranach urządzeń mobilnych.</li> <li>Eksport w formacie PDF pasujący do skonfigurowanego układu formularza.</li> </ul>
     ical_sharing_modal:
       title: "Subskrybuj kalendarz"
       inital_setup_error_message: "Podczas pobierania danych wystąpił błąd."
@@ -463,6 +463,7 @@ pl:
     label_menu_collapse: "Zwiń"
     label_menu_expand: "Rozwiń"
     label_more_than_ago: "Więcej niż dni temu"
+    label_moderate_comment: "Moderate comment"
     label_next: "Następny"
     label_no_color: "Bez koloru"
     label_no_data: "Brak danych do pokazania"
@@ -631,9 +632,6 @@ pl:
         property_is: "jest za %{difference_in_days}."
         property_was: "była %{difference_in_days} temu."
         property_is_deleted: "została usunięta."
-        upsale:
-          title: "Alerty dotyczące dat"
-          description: "Dzięki alertom dotyczącym dat będziesz otrzymywać powiadomienia o zbliżających się terminach rozpoczęcia lub zakończenia pracy, dzięki czemu nigdy nie przegapisz ani nie zapomnisz ważnego terminu."
       center:
         label_actor_and: "i"
         and_more_users:
@@ -698,7 +696,6 @@ pl:
           date_alerts:
             title: "Data ostrzeżeń"
             description: "Automatyczne powiadomienia, gdy zbliżają się ważne daty otwartych pakietów roboczych, do których Cię zaangażowano (jako osobę: przypisaną, odpowiedzialną lub obserwatora)"
-            teaser_text: "Dzięki alertom dotyczącym dat będziesz otrzymywać powiadomienia o zbliżających się terminach rozpoczęcia lub zakończenia pracy, dzięki czemu nigdy nie przegapisz ani nie zapomnisz ważnego terminu."
           overdue: Po upływie terminu
         project_specific:
           title: "Ustawienia powiadomień dla danego projektu"
@@ -801,6 +798,7 @@ pl:
       typeahead_placeholder: Szukaj możliwych obserwatorów
     relation_labels:
       parent: "Rodzic"
+      child: "Element podrzędny"
       children: "Dzieci"
       relates: "Powiązany z"
       duplicates: "Duplikaty"
@@ -830,7 +828,7 @@ pl:
       add_new_child: "Utwórz nowy podrzędny"
       create_new: "Utwórz nową"
       add_existing: "Dodaj istniejącą"
-      add_existing_child: "Dodaj istniejący podrzędny"
+      add_existing_child: "Dodaj element podrzędny"
       remove_child: "Usuń podrzędny"
       add_new_relation: "Utwórz nową relację"
       add_existing_relation: "Dodaj istniejącą relację"
@@ -869,7 +867,7 @@ pl:
     tl_toolbar:
       zooms: "Powiększenie"
       outlines: "Poziom hierarchii"
-    upsale:
+    upsell:
       ee_only: "Dodatek do wersji Enterprise"
     wiki_formatting:
       strong: "Pogrubienie"
@@ -1048,8 +1046,6 @@ pl:
       sharing:
         title: "Udostępnij pakiet roboczy"
         show_all_users: "Pokaż wszystkich użytkowników, którym udostępniono pakiet roboczy"
-        upsale:
-          description: "Udostępnij pakiety robocze użytkownikom, którzy nie są członkami projektu."
       table:
         configure_button: "Konfiguruj tabelę pakietów roboczych"
         summary: "Tabela, której wiersze zawierają pakiety pracy, a kolumny ich atrybuty."
@@ -1084,10 +1080,6 @@ pl:
           manually: "Ręcznie"
           warning: "Wskutek aktywacji trybu automatycznego sortowania utracisz poprzednie sortowanie."
         columns_help_text: "Użyj powyższego pola wprowadzania danych, aby dodać kolumny do widoku tabeli. Możesz przeciągać i upuszczać kolumny, aby zmienić ich kolejność."
-        upsale:
-          attribute_highlighting: "Czy określone pakiety robocze trzeba wyróżnić?"
-          relation_columns: "Chcesz zobaczyć relacje w tej liście pakietów roboczych?"
-          check_out_link: "Sprawdź wersję Enterprise."
         relation_filters:
           filter_work_packages_by_relation_type: "Filtruj pakiety robocze według typu relacji"
       tabs:
@@ -1307,9 +1299,7 @@ pl:
       clear: "Wyczyść"
       apply: "Zastosuj"
       header_description: "Wyróżnij zmiany wprowadzone na tej liście od dowolnego momentu w przeszłości."
-      enterprise_header_description: "Wyróżnij zmiany wprowadzone na tej liście w wersji Enterprise Edition od dowolnego momentu w przeszłości."
       show_changes_since: "Pokaż zmiany od"
-      baseline_comparison: "Porównanie linii odniesienia"
       help_description: "Referencyjna strefa czasowa linii odniesienia."
       time_description: "W Twoim czasie lokalnym: %{datetime}"
       time: "Czas"

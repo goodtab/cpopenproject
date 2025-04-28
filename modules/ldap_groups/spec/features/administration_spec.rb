@@ -9,8 +9,9 @@ RSpec.describe "LDAP group sync administration spec", :js do
   end
 
   context "without EE" do
-    it "shows upsale" do
-      expect(page).to have_css(".upsale-notification")
+    it "shows upsell" do
+      expect(page).to have_enterprise_upsell_page
+      expect(page).to have_text "Available starting with the Premium enterprise plan"
     end
   end
 
@@ -19,8 +20,7 @@ RSpec.describe "LDAP group sync administration spec", :js do
     let!(:auth_source) { create(:ldap_auth_source, name: "ldap") }
 
     it "allows synced group administration flow" do
-      expect(page).to have_no_css(".upsale-notification")
-
+      expect(page).not_to have_enterprise_upsell_page
       # Open create menu
       page.find_test_selector("op-admin-synchronized-groups--button-new", text: I18n.t(:button_add)).click
       # Create group

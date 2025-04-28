@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -53,8 +55,7 @@ class SearchController < ApplicationController
   private
 
   def prepare_tokens
-    @question = search_params[:q] || ""
-    @question.strip!
+    @question = (search_params[:q] || "").strip
     @tokens = scan_query_tokens(@question).uniq
 
     unless @tokens.any?

@@ -68,7 +68,7 @@ The Meetings module is currently being continuously improved. With OpenProject 1
 Apart from these features that apply the Meetings module directly, the following changes concerning OpenProject meetings have been made:
 
 - In work packages, the project name is now shown in the Meetings tab.
-- Calendar widgets on the My Page and project overview pages can now show meetings.
+- Calendar widgets on the My page and project overview pages can now show meetings.
 
 ![A calendar widget on a project overview page, now showing upcoming meetings](openproject-14-1-meetings-widget-project-overview.png)
 
@@ -136,7 +136,7 @@ Apart from the features mentioned above, there have been a lot of other changes,
 - Feature: Add support for Batches on the JobStatus API \[[#54034](https://community.openproject.org/wp/54034)\]
 - Feature: Activate Storage module when a user has "Manage file storages in project" permission \[[#54178](https://community.openproject.org/wp/54178)\]
 - Feature: Show project name in meetings tab \[[#54192](https://community.openproject.org/wp/54192)\]
-- Feature: Show meetings in My Page / Project overview calendar widgets \[[#54286](https://community.openproject.org/wp/54286)\]
+- Feature: Show meetings in My page / Project overview calendar widgets \[[#54286](https://community.openproject.org/wp/54286)\]
 - Feature: PDF export gantt chart \[[#54296](https://community.openproject.org/wp/54296)\]
 - Feature: PDF export gantt chart options \[[#54297](https://community.openproject.org/wp/54297)\]
 - Feature: Open notes for new agenda items \[[#54347](https://community.openproject.org/wp/54347)\]

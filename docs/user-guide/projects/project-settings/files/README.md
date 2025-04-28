@@ -1,13 +1,14 @@
 ---
 sidebar_navigation:
   title: File storages
-  priority: 110
+  priority: 100
 description: Manage the storages connected to the project and add a project folder.
 keywords: file storages, project folder, storages
 ---
 # File storages
 
-> **Info**: Before a storage service can be added to a project, an administrator must first set up [Nextcloud integration](../../../../system-admin-guide/integrations/nextcloud/) or [OneDrive/SharePoint integration](../../../../system-admin-guide/integrations/one-drive/) with OpenProject.
+> [!NOTE]
+> Before a storage service can be added to a project, an administrator must first set up [Nextcloud integration](../../../../system-admin-guide/integrations/nextcloud/) or [OneDrive/SharePoint integration](../../../../system-admin-guide/integrations/one-drive/) with OpenProject.
 
 | Topic                                                        | Description                                       |
 | ------------------------------------------------------------ | :------------------------------------------------ |
@@ -27,6 +28,7 @@ To activate or de-activate the attachments being shown under **Files** tab in wo
 
 ![Show attachments in the work packages files tab in OpenProject](project-settings-attachments.png)
 
+> [!NOTE]
 > Please note that you need a *Manage files in project* permission to be able to activate or deactivate this work package attachment option.
 
 ## Add a new storage to a project
@@ -43,7 +45,8 @@ In the page that follows, you will be able to select one of the file storages se
 
 ## Add a OneDrive/SharePoint storage to a project (Enterprise add-on)
 
-> **Note**: OneDrive/SharePoint integration is an Enterprise add-on and can only be used with [Enterprise cloud](../../../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community edition is easy and helps support OpenProject.
+> [!NOTE]
+> OneDrive/SharePoint integration is an Enterprise add-on and can only be used with [Enterprise cloud](../../../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community edition is easy and helps support OpenProject.
 
 If you have selected the OneDrive/SharePoint option in the previous step of storage selection, you will now see the **Project folder** options.
 
@@ -59,7 +62,8 @@ Click on **Add** to add your new OneDrive/SharePoint file storage to this projec
 
 The SharePoint file storage is now available to all work packages in this project.
 
-> **Note:** Please refer to the [OneDrive/SharePoint user guide](../../../file-management/one-drive-integration) for further instructions on using the integration at a user level.
+> [!TIP]
+> Please refer to the [OneDrive/SharePoint user guide](../../../file-management/one-drive-integration) for further instructions on using the integration at a user level.
 
 ## Add a Nextcloud storage to a project
 
@@ -79,7 +83,8 @@ Click on **Add** to add your new Nextcloud file storage to this project.
 
 The Nextcloud file storage is now available to all work packages in this project.
 
-> **Note:** For information on how to use the file storage (link Nextcloud user accounts at a user level, link files to a work package, view and download linked files, unlink files), please read our [Nextcloud integration user guide](../../../file-management/nextcloud-integration/).
+> [!TIP]
+> For information on how to use the file storage (link Nextcloud user accounts at a user level, link files to a work package, view and download linked files, unlink files), please read our [Nextcloud integration user guide](../../../file-management/nextcloud-integration/).
 
 If you do not yet have an access token for the file storage in a project, you will be prompted to log into your file storage. You can choose to login immediately to establish the connection or to do it later.
 
@@ -105,7 +110,8 @@ For the moment, you will only be able to edit which project folder type is used 
 
 ![Edit the project folder type](storage-edit.png)
 
-> **Note:** If the previously selected project folder type was **New folder with automatically managed permissions**, changing the project folder type will not delete the already created project folder. Changing it back will try to reconnect the previously created and used project folder.
+> [!TIP]
+> If the previously selected project folder type was **New folder with automatically managed permissions**, changing the project folder type will not delete the already created project folder. Changing it back will try to reconnect the previously created and used project folder.
 
 ### Delete an existing file storage
 

@@ -61,7 +61,7 @@ export class PrincipalRendererService {
 
     if (users.length > maxCount) {
       const badge = document.createElement('span');
-      badge.classList.add('op-principal-list--badge', 'badge', '-secondary');
+      badge.classList.add('op-principal-list--badge', 'badge');
       badge.textContent = users.length.toString();
       wrapper.appendChild(badge);
     }

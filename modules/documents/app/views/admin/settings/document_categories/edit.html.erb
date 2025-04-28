@@ -26,7 +26,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), t("documents.categories") %>
+<% html_title t(:label_administration), t("documents.label_categories") %>
 
 <%=
   render(Primer::OpenProject::PageHeader.new) do |header|
@@ -35,13 +35,13 @@ See COPYRIGHT and LICENSE files for more details.
       [
         { href: admin_index_path, text: t("label_administration") },
         { href: admin_settings_storages_path, text: t("project_module_storages") },
-        { href: url_for(action: :index), text: t("documents.categories") },
+        { href: url_for(action: :index), text: t("documents.label_categories") },
         @enumeration.name
       ]
     )
   end
 %>
 
-<%= primer_form_with(model: @enumeration, url: url_for(action: :update, id: @enumeration)) do |f| %>
+<%= admin_settings_primer_form_with(model: @enumeration, scope: :enumeration, url: url_for(action: :update, id: @enumeration)) do |f| %>
   <%= render(Admin::Enumerations::ItemForm.new(f)) %>
 <% end %>

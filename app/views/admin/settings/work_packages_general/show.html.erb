@@ -63,16 +63,11 @@ See COPYRIGHT and LICENSE files for more details.
               options[:disabled] = "disabled" unless EnterpriseToken.allows_to?(:conditional_highlighting)
             end
           ) %>
-      <%= render partial: "enterprise_feature_hint",
-                 locals: {
-                   ee_feature: :conditional_highlighting,
-                   explanation: t("js.work_packages.table_configuration.upsale.attribute_highlighting"),
-                   link_out: {
-                     href: "https://www.openproject.org/enterprise-edition/?op_edition=community-edition&op_referrer=settings-wp-attribute-highlighting#attribute-highlighting",
-                     caption: t("js.work_packages.table_configuration.upsale.check_out_link")
-                   }
-                 } %>
-    </div>
+      <div class="form--field-extra-actions">
+        <%=
+          render(EnterpriseEdition::BannerComponent.new(:conditional_highlighting, mt: 2))
+        %>
+      </div>
     <% if EnterpriseToken.allows_to? :conditional_highlighting %>
       <div class="form--field -indented -vertical settings--highlighted-attributes" style="<%= "display: none" unless Setting[:work_package_list_default_highlighting_mode] == "inline" %>">
         <%= setting_multiselect(

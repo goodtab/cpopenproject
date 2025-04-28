@@ -49,7 +49,7 @@ RSpec.describe Meetings::SidePanel::DetailsComponent, type: :component do
                     frequency: "working_days")
     end
     let(:meeting) do
-      build_stubbed(:structured_meeting_template,
+      build_stubbed(:meeting_template,
                     recurring_meeting: series)
     end
 
@@ -65,7 +65,7 @@ RSpec.describe Meetings::SidePanel::DetailsComponent, type: :component do
                     frequency: "weekly")
     end
     let(:meeting) do
-      build_stubbed(:structured_meeting_template,
+      build_stubbed(:meeting_template,
                     recurring_meeting: series)
     end
 

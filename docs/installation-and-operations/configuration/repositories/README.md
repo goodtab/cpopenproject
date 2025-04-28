@@ -291,6 +291,20 @@ Depending on your installation, it may reside in `/usr/libexec/git-core/git-http
 We create bare Git repositories in OpenProject with the [`--shared`](https://www.kernel.org/pub/software/scm/git/docs/git-init.html) option of `git-init` set to group-writable.
 Thus, if you use a separate user for Apache and OpenProject, they need to reside in a common group that is used for repository management. That group must be set in the `configuration.yml` (see above).
 
+In newer versions of Git, you might see this error:
+
+```
+fatal: detected dubious ownership in repository at <path>
+```
+
+This happens because the owner of the repository (openproject) is not the one accessing it (www-data / web user), which is expected in this case. You will need to disable this check:
+
+```bash
+git config --system --add safe.directory '*'
+```
+
+Please inform yourself about the ramifications of this change. For more information, please see https://stackoverflow.com/a/73100228/420614, https://git-scm.com/docs/git-config/2.35.2#Documentation/git-config.txt-safedirectory
+
 #### Exemplary Apache Configuration
 
 We provide an example apache configuration. Some details are explained inline as comments.

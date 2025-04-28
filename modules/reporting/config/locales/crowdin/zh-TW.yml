@@ -93,7 +93,9 @@ zh-TW:
       button: "匯出 PDF 時間表"
       timesheet: "時間表"
       time: "時間"
-      sum_hours: 總和
+      sums_hours: 加總
+      overview_per_user_total: "總覽： 每位使用者的總時數"
+      overview_per_user_day: "總覽： 每位使用者每天的使用時數"
     cost_reports:
       title: "您的成本報表(以XLS匯出)"
       start_time: "開始時間"

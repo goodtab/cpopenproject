@@ -62,15 +62,20 @@ it:
     note_commit_referenced_comment: >
       **Citazione in Commit:** [%{gitlab_user}](%{gitlab_user_url}) ha referenziato questa macro-attività in una nota di commit [%{commit_id}](%{commit_url}) su [%{repository}](%{repository_url}): %{commit_note}
     note_mr_referenced_comment: >
-      **Citazione in MR:** [%{gitlab_user}](%{gitlab_user_url}) ha inserito un riferimento a questa macro-attività nella richiesta di merge %{mr_number} [%{mr_title}](%{mr_url}) su [%{repository}](%{repository_url}): %{mr_note}
+      **Citazione in MR:** [%{gitlab_user}](%{gitlab_user_url}) ha inserito un riferimento a questa macro-attività nella richiesta di merge %{mr_number} [%{mr_title}](%{mr_url}) su [%{repository}](%{repository_url}):
+      %{mr_note}
     note_mr_commented_comment: >
-      **Commento in MR:** [%{gitlab_user}](%{gitlab_user_url}) ha commentato questa macro-attività nella richiesta di merge %{mr_number} [%{mr_title}](%{mr_url}) su [%{repository}](%{repository_url}): %{mr_note}
+      **Commento in MR:** [%{gitlab_user}](%{gitlab_user_url}) ha commentato questa macro-attività nella richiesta di merge %{mr_number} [%{mr_title}](%{mr_url}) su [%{repository}](%{repository_url}):
+      %{mr_note}
     note_issue_referenced_comment: >
-      **Citazione nel problema:** [%{gitlab_user}](%{gitlab_user_url}) ha inserito un riferimento a questa macro-attività nel problema %{issue_number} [%{issue_title}](%{issue_url}) su [%{repository}](%{repository_url}): %{issue_note}
+      **Citazione nel problema:** [%{gitlab_user}](%{gitlab_user_url}) ha inserito un riferimento a questa macro-attività nel problema %{issue_number} [%{issue_title}](%{issue_url}) su [%{repository}](%{repository_url}):
+      %{issue_note}
     note_issue_commented_comment: >
-      **Commento nel problema:** [%{gitlab_user}](%{gitlab_user_url}) ha commentato questa macro-attività nel problema %{issue_number} [%{issue_title}](%{issue_url}) su [%{repository}](%{repository_url}): %{issue_note}
+      **Commento nel problema:** [%{gitlab_user}](%{gitlab_user_url}) ha commentato questa macro-attività nel problema %{issue_number} [%{issue_title}](%{issue_url}) su [%{repository}](%{repository_url}):
+      %{issue_note}
     note_snippet_referenced_comment: >
-      **Citazione nel frammento di codice:** [%{gitlab_user}](%{gitlab_user_url}) ha inserito un riferimento a questa macro-attività nel frammento di codice %{snippet_number} [%{snippet_title}](%{snippet_url}) on [%{repository}](%{repository_url}): %{snippet_note}
+      **Citazione nel frammento di codice:** [%{gitlab_user}](%{gitlab_user_url}) ha inserito un riferimento a questa macro-attività nel frammento di codice %{snippet_number} [%{snippet_title}](%{snippet_url}) on [%{repository}](%{repository_url}):
+      %{snippet_note}
     issue_opened_referenced_comment: >
       **Problema aperto:** Il problema %{issue_number} [%{issue_title}](%{issue_url}) per [%{repository}](%{repository_url}) è stato aperto da [%{gitlab_user}](%{gitlab_user_url}).
     issue_closed_referenced_comment: >

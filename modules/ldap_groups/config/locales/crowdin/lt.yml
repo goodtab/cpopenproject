@@ -1,4 +1,9 @@
 lt:
+  ee:
+    upsell:
+      ldap_groups:
+        title: 'LDAP grupės sinchronizacija'
+        description: 'Synchronize LDAP groups with OpenProject groups to manage users, change their permissions and facilitate user management across groups.'
   plugin_openproject_ldap_groups:
     name: "OpenProject LDAP grupės"
     description: "LDAP grupių narysčių sinchronizavimas."
@@ -71,5 +76,5 @@ lt:
           Jei jūs įjungsite šį nustatymą, visiems rastiems naudotojams bus automatiškai sukurti OpenProject naudotojai. Neįjungus, tik dabar esantys OpenProject naudotojai bus pridėti į grupes.
         dn_text: 'Įveskite LDAP grupės pilną DN.'
         group_text: 'Parinkite esamą OpenProject grupę, su kuria būtų sinchronizuojami LDAP grupės nariai'
-      upsale:
+      upsell:
         description: 'Pasinaudokite sinchronizuotomis LDAP grupėmis naudotojų tvarkymui, jų teisių keitimui ir tarpgrupiniam naudotjų valdymui.'

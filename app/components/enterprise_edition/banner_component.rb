@@ -33,76 +33,88 @@ module EnterpriseEdition
   # This component uses conventional names for translation keys or URL look-ups based on the feature_key passed in.
   # It will only be rendered if necessary.
   class BannerComponent < ApplicationComponent
+    include Primer::FetchOrFallbackHelper
+    include Primer::ClassNameHelper
     include OpPrimer::ComponentHelpers
+    include OpTurbo::Streamable
+    include PlanForFeature
+
+    DEFAULT_VARIANT = :inline
+    VARIANT_OPTIONS = %i[inline medium].freeze
 
     # @param feature_key [Symbol, NilClass] The key of the feature to show the banner for.
-    # @param title [String] The title of the banner.
-    # @param description [String] The description of the banner.
-    # @param href [String] The URL to link to.
-    # @param skip_render [Boolean] Whether to skip rendering the banner.
+    # @param variant [Symbol, NilClass] The variant of the banner comopnent.
+    # @param image [String, NilClass] Path to the image to show on the banner, or nil.
+    #   Required when variant is :medium.
+    # @param i18n_scope [String] Provide the i18n scope to look for title, description, and features.
+    #                            Defaults to "ee.upsell.{feature_key}"
+    # @param dismissable [boolean] Allow this banner to be dismissed.
+    # @param show_always [boolean] Always show the banner, regardless of the dismissed or feature state.
+    # @param dismiss_key [String] Provide a string to identify this banner when being dismissed. Defaults to feature_key
     # @param system_arguments [Hash] <%= link_to_system_arguments_docs %>
-    def initialize(feature_key,
-                   title: nil,
-                   description: nil,
-                   link_title: nil,
-                   href: nil,
-                   skip_render: !EnterpriseToken.show_banners?,
+    def initialize(feature_key, # rubocop:disable Metrics/AbcSize
+                   variant: DEFAULT_VARIANT,
+                   image: nil,
+                   i18n_scope: "ee.upsell.#{feature_key}",
+                   dismissable: false,
+                   show_always: false,
+                   dismiss_key: feature_key,
                    **system_arguments)
-      @system_arguments = system_arguments
-      @system_arguments[:tag] = "div"
-      @system_arguments[:test_selector] = "op-ee-banner-#{feature_key.to_s.tr('_', '-')}"
-      super
+      @variant = fetch_or_fallback(VARIANT_OPTIONS, variant, DEFAULT_VARIANT)
+      @image = image
+      @dismissable = dismissable
+      @dismiss_key = dismiss_key
+      @show_always = show_always
 
-      @feature_key = feature_key
-      @title = title
-      @description = description
-      @link_title = link_title
-      @href = href
-      @skip_render = skip_render
+      self.feature_key = feature_key
+      self.i18n_scope = i18n_scope
+
+      if @variant == :medium && @image.nil?
+        raise ArgumentError, "The 'image' parameter is required when the variant is :medium."
+      end
+
+      @system_arguments = system_arguments
+      @system_arguments[:tag] = :div
+      @system_arguments[:mb] ||= 2
+      @system_arguments[:id] = "op-enterprise-banner-#{feature_key.to_s.tr('_', '-')}"
+      @system_arguments[:test_selector] = "op-enterprise-banner"
+      @system_arguments[:classes] = class_names(
+        @system_arguments[:classes],
+        "op-enterprise-banner",
+        @variant == :medium ? "op-enterprise-banner_medium" : nil
+      )
+
+      super
+    end
+
+    def medium?
+      @variant == :medium
+    end
+
+    def inline?
+      @variant == :inline
+    end
+
+    def wrapper_key
+      "enterprise_banner_#{feature_key}"
     end
 
     private
 
-    attr_reader :skip_render,
-                :feature_key
-
-    def title
-      @title || I18n.t("ee.upsale.#{feature_key}.title", default: I18n.t("ee.upsale.title"))
-    end
-
-    def description
-      @description || begin
-        I18n.t("ee.upsale.#{feature_key}.description")
-      rescue StandardError
-        I18n.t("ee.upsale.#{feature_key}.description_html")
-      end
-    rescue I18n::MissingTranslationData => e
-      raise e.exception(
-        <<~TEXT.squish
-          The expected '#{I18n.locale}.ee.upsale.#{feature_key}.description' key does not exist.
-          Ideally, provide it in the locale file.
-          If that isn't applicable, a description parameter needs to be provided.
-        TEXT
-      )
-    end
-
-    def link_title
-      @link_title || I18n.t("ee.upsale.#{feature_key}.link_title", default: I18n.t("ee.upsale.link_title"))
-    end
-
-    def href
-      href_value = @href || OpenProject::Static::Links.links.dig(:enterprise_docs, feature_key, :href)
-
-      unless href_value
-        raise "Neither a custom href is provided nor is a value set " \
-              "in OpenProject::Static::Links.enterprise_docs[#{feature_key}][:href]"
-      end
-
-      href_value
-    end
-
     def render?
-      !skip_render
+      return true if @show_always
+
+      !(EnterpriseToken.hide_banners? || feature_available? || dismissed?)
+    end
+
+    def feature_available?
+      EnterpriseToken.allows_to?(feature_key)
+    end
+
+    def dismissed?
+      return false unless @dismissable
+
+      User.current.pref.dismissed_banner?(@dismiss_key)
     end
   end
 end

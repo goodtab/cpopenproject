@@ -41,14 +41,14 @@ import { EnterpriseTrialService } from 'core-app/features/enterprise/enterprise-
 })
 export class EnterpriseBaseComponent {
   public text = {
-    button_trial: this.I18n.t('js.admin.enterprise.upsale.button_start_trial'),
-    button_book: this.I18n.t('js.admin.enterprise.upsale.button_book_now'),
-    link_quote: this.I18n.t('js.admin.enterprise.upsale.link_quote'),
-    become_hero: this.I18n.t('js.admin.enterprise.upsale.become_hero'),
-    you_contribute: this.I18n.t('js.admin.enterprise.upsale.you_contribute'),
+    button_trial: this.I18n.t('js.admin.enterprise.upsell.button_start_trial'),
+    button_book: this.I18n.t('js.admin.enterprise.upsell.button_book_now'),
+    link_quote: this.I18n.t('js.admin.enterprise.upsell.link_quote'),
+    become_hero: this.I18n.t('js.admin.enterprise.upsell.become_hero'),
+    you_contribute: this.I18n.t('js.admin.enterprise.upsell.you_contribute'),
     email_not_received: this.I18n.t('js.admin.enterprise.trial.email_not_received'),
-    enterprise_edition: this.I18n.t('js.admin.enterprise.upsale.text'),
-    confidence: this.I18n.t('js.admin.enterprise.upsale.confidence'),
+    enterprise_edition: this.I18n.t('js.admin.enterprise.upsell.text'),
+    confidence: this.I18n.t('js.admin.enterprise.upsell.confidence'),
     try_another_email: this.I18n.t('js.admin.enterprise.trial.try_another_email'),
   };
 

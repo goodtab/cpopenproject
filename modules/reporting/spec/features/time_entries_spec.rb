@@ -4,8 +4,7 @@ require "spec_helper"
 require_relative "support/pages/cost_report_page"
 require_relative "support/components/cost_reports_base_table"
 
-RSpec.describe "Cost report showing time entries with start & end times", :js,
-               with_flag: { track_start_and_end_times_for_time_entries: true } do
+RSpec.describe "Cost report showing time entries with start & end times", :js do
   shared_let(:project) { create(:project) }
   shared_let(:user) { create(:admin) }
   shared_let(:work_package) { create(:work_package, project:) }

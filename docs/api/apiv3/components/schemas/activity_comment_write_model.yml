@@ -1,0 +1,6 @@
+# Schema: ActivityCommentWriteModel
+---
+type: object
+properties:
+  comment:
+    type: string

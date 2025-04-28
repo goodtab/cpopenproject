@@ -61,10 +61,4 @@ class HomescreenController < ApplicationController
       redirect_to_global_menu_item(params[:jump]) && return
     end
   end
-
-  def default_breadcrumb; end
-
-  def show_local_breadcrumb
-    false
-  end
 end

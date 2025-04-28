@@ -27,7 +27,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 <% html_title t(:label_administration), t("oauth.application.singular"), h(@application.name) -%>
-<% local_assigns[:additional_breadcrumb] = h(@application.name) %>
 
 <%= render OAuth::ShowPageHeaderComponent.new(application: @application) %>
 

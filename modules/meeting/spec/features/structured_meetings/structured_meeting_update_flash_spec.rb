@@ -1,7 +1,8 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,10 +30,9 @@
 
 require "spec_helper"
 
-require_relative "../../support/pages/meetings/new"
-require_relative "../../support/pages/structured_meeting/show"
+require_relative "../../support/pages/meetings/show"
 
-RSpec.describe "Structured meetings CRUD",
+RSpec.describe "Meetings CRUD",
                :js,
                :selenium do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
@@ -41,9 +41,8 @@ RSpec.describe "Structured meetings CRUD",
   shared_let(:user) { create(:admin) }
 
   current_user { user }
-  let(:new_page) { Pages::Meetings::New.new(project) }
-  let(:meeting) { create(:structured_meeting, project:, author: current_user) }
-  let(:show_page) { Pages::StructuredMeeting::Show.new(meeting) }
+  let(:meeting) { create(:meeting, project:, author: current_user) }
+  let(:show_page) { Pages::Meetings::Show.new(meeting) }
 
   describe "meeting update flash" do
     before do
@@ -134,7 +133,7 @@ RSpec.describe "Structured meetings CRUD",
       ## Edit meeting details
       within_window(first_window) do
         find_test_selector("edit-meeting-details-button").click
-        fill_in "structured_meeting_duration", with: "2.5"
+        fill_in "meeting_duration", with: "2.5"
         click_link_or_button "Save"
 
         # Expect updated duration

@@ -1,7 +1,7 @@
 <%= flex_layout do |container| %>
   <%= container.with_row do |_columns| %>
     <%= render WorkPackages::Exports::ColumnSelectionComponent.new(
-          query,
+          export_settings,
           "columns-select-export-xls",
           I18n.t("export.dialog.columns.input_caption_table")
         ) %>
@@ -14,6 +14,7 @@
             name: "show_relations",
             value: "true",
             unchecked_value: "false",
+            checked: export_settings.true?(:show_relations),
             label: I18n.t("export.dialog.xls.include_relations.label"),
             caption: I18n.t("export.dialog.xls.include_relations.caption"),
             visually_hide_label: false
@@ -28,6 +29,7 @@
             name: "show_descriptions",
             value: "true",
             unchecked_value: "false",
+            checked: export_settings.true?(:show_descriptions),
             label: I18n.t("export.dialog.xls.include_descriptions.label"),
             caption: I18n.t("export.dialog.xls.include_descriptions.caption"),
             visually_hide_label: false

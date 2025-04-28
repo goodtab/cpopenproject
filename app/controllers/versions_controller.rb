@@ -136,8 +136,6 @@ class VersionsController < ApplicationController
 
   def find_project
     @project = Project.find(params[:project_id])
-  rescue ActiveRecord::RecordNotFound
-    render_404
   end
 
   def retrieve_selected_type_ids(selectable_types, default_types = nil)

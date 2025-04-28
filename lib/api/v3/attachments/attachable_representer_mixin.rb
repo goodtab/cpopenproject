@@ -82,7 +82,7 @@ module API
           end
 
           def attachments_by_resource
-            path = "attachments_by_#{_type.singularize.underscore}"
+            path = "attachments_by_#{_type.gsub('::', '_').singularize.underscore}"
 
             api_v3_paths.send(path, represented.id)
           end

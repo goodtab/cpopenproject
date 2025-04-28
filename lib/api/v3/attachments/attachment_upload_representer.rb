@@ -141,7 +141,9 @@ module API
         end
 
         def v3_container_name
-          ::API::Utilities::PropertyNameConverter.from_ar_name(represented.container.class.name.underscore).underscore
+          ar_name = represented.container.class.name.underscore
+
+          ::API::Utilities::PropertyNameConverter.from_ar_name_with_aliases(ar_name, "journal" => "activity").underscore
         end
 
         def container_title_attribute

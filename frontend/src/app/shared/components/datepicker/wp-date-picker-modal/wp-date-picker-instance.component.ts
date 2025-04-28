@@ -71,7 +71,6 @@ export class OpWpDatePickerInstanceComponent extends UntilDestroyedMixin impleme
   @Input() public dueDate:string|null;
 
   @Input() public isSchedulable:boolean = true;
-  @Input() public minimalSchedulingDate:Date|null;
   @Input() public dateMode:DateMode;
 
   @Input() startDateFieldId:string;
@@ -85,6 +84,7 @@ export class OpWpDatePickerInstanceComponent extends UntilDestroyedMixin impleme
   private datePickerInstance:DatePicker;
   private startDateValue:Date|null;
   private dueDateValue:Date|null;
+  private minimalSchedulingDate:Date|null;
   private onFlatpickrSetValuesBound = this.onFlatpickrSetValues.bind(this);
 
   constructor(
@@ -101,6 +101,7 @@ export class OpWpDatePickerInstanceComponent extends UntilDestroyedMixin impleme
     populateInputsFromDataset(this);
     this.startDateValue = this.toDate(this.startDate);
     this.dueDateValue = this.toDate(this.dueDate);
+    this.computeMinimalSchedulingDate();
   }
 
   ngAfterViewInit():void {
@@ -130,6 +131,7 @@ export class OpWpDatePickerInstanceComponent extends UntilDestroyedMixin impleme
     // that date if it's not visible.
     const dateToJumpTo = this.findDateToJumpTo(details.dates);
     [this.startDateValue, this.dueDateValue] = details.dates;
+    this.computeMinimalSchedulingDate();
     this.setDatePickerDates(details.dates, dateToJumpTo);
 
     this.datePickerInstance.setOption('mode', details.mode);
@@ -145,6 +147,10 @@ export class OpWpDatePickerInstanceComponent extends UntilDestroyedMixin impleme
     }
   }
 
+  private computeMinimalSchedulingDate() {
+    this.minimalSchedulingDate = this.startDateValue && this.timezoneService.utcDateToLocalDate(this.startDateValue);
+  }
+
   private findDateToJumpTo(dates:Date[]):Date|null {
     const [start, end] = dates;
     if (start && start?.getTime() !== this.startDateValue?.getTime()) {
@@ -157,14 +163,21 @@ export class OpWpDatePickerInstanceComponent extends UntilDestroyedMixin impleme
     return null;
   }
 
+  private isDifferentFromDatePickerSelectedDates(isoDates:string[]):boolean {
+    const datePickerSelectedDates = this.datePickerInstance.datepickerInstance.selectedDates;
+    const isoDatePickerSelectedDates = datePickerSelectedDates.map((date) => this.timezoneService.formattedISODate(date));
+    return !_.isEqual(isoDates, isoDatePickerSelectedDates);
+  }
+
   // set dates on flatpickr, trying to avoid jumping to a different month when possible
   private setDatePickerDates(dates:Date[], jumpToDate:Date|null) {
     const monthBefore = this.datePickerInstance.datepickerInstance.currentMonth;
     const yearBefore = this.datePickerInstance.datepickerInstance.currentYear;
 
     // only set dates if they changed to avoid jumping
-    if (!_.isEqual(dates, this.datePickerInstance.datepickerInstance.selectedDates)) {
-      this.datePickerInstance.setDates(dates);
+    const isoDates = this.timezoneService.utcDatesToISODateStrings(dates);
+    if (this.isDifferentFromDatePickerSelectedDates(isoDates)) {
+      this.datePickerInstance.setDates(isoDates);
     }
 
     // jump to the date that has been changed if there is one
@@ -191,19 +204,13 @@ export class OpWpDatePickerInstanceComponent extends UntilDestroyedMixin impleme
     }
   }
 
-  private isDifferentDates(dates:Date[], mode:DateMode):boolean {
-    const [start, end] = dates;
-    return mode === 'single'
-      ? start?.getTime() !== this.startDateValue?.getTime()
-      : start?.getTime() !== this.startDateValue?.getTime() || end?.getTime() !== this.dueDateValue?.getTime();
-  }
-
   private toDate(date:string|null):Date|null {
     return date ? new Date(date) : null;
   }
 
-  private currentDates():Date[] {
-    return _.compact([this.startDateValue, this.dueDateValue]);
+  private currentDates():string[] {
+    const compactedDates = _.compact([this.startDateValue, this.dueDateValue]);
+    return this.timezoneService.utcDatesToISODateStrings(compactedDates);
   }
 
   private initializeDatepicker() {
@@ -249,8 +256,10 @@ export class OpWpDatePickerInstanceComponent extends UntilDestroyedMixin impleme
   }
 
   private isDayDisabled(dayElement:DayElement):boolean {
-    const minimalDate = this.minimalSchedulingDate || null;
-    return !this.isSchedulable || (!this.scheduleManually && !!minimalDate && dayElement.dateObj <= minimalDate);
+    return !this.isSchedulable
+      || (!this.scheduleManually
+        && !!this.minimalSchedulingDate
+        && dayElement.dateObj < this.minimalSchedulingDate);
   }
 
   /**

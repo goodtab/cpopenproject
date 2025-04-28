@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -171,9 +173,9 @@ RSpec.describe "OIDC administration CRUD",
   end
 
   context "without EE", without_ee: %i[sso_auth_providers] do
-    it "renders the upsale page" do
+    it "renders the upsell page" do
       visit "/admin/openid_connect/providers"
-      expect(page).to have_text "OpenID providers is an Enterprise  add-on"
+      expect(page).to have_enterprise_banner(:premium)
     end
   end
 end

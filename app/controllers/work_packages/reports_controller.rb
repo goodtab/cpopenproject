@@ -59,10 +59,4 @@ class WorkPackages::ReportsController < ApplicationController
       end
     end
   end
-
-  private
-
-  def default_breadcrumb
-    I18n.t(:label_summary)
-  end
 end

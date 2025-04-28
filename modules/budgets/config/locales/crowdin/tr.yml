@@ -51,9 +51,9 @@ tr:
   button_add_cost_type: "Maliyet türü ekle"
   button_cancel_edit_budget: "Bütçeyi düzenleme iptal et"
   button_cancel_edit_costs: "Düzenleme maliyetlerini iptal et"
-  caption_labor: "Emek"
-  caption_labor_costs: "Gerçek işçilik masrafları"
-  caption_material_costs: "Gerçek birim maliyeti"
+  caption_labor: "İş gücü"
+  caption_labor_costs: "Gerçek iş gücü maliyetleri"
+  caption_material_costs: "Gerçek birim maliyetler"
   budgets_title: "Bütçeler"
   events:
     budget: "Bütçe düzenlendi"

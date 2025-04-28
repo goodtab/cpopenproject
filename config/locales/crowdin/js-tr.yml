@@ -112,7 +112,7 @@ tr:
         inline: "Satır içi vurgula:"
         entire_card_by: "Kartın tamamı"
       remove_from_list: "Kartı listeden çıkar"
-    caption_rate_history: "Ücret geçmişi"
+    caption_rate_history: "Değerleme geçmişi"
     clipboard:
       browser_error: "Tarayıcınız panoya kopyalamayı desteklemiyor. Lütfen elle kopyalayın: %{content}"
       copied_successful: "Panoya başarıyla kopyalandı!"
@@ -239,7 +239,7 @@ tr:
           status_waiting: "e-posta gönderildi - onay bekleniyor"
           test_ee: "Kurumsal sürümü 14 gün ücretsiz deneyin"
           quick_overview: "OpenProject Kurumsal sürümü ile proje yönetimi ve ekip işbirliğine hızlı bir genel bakış elde edin."
-        upsale:
+        upsell:
           become_hero: "Kahraman olun!"
           enterprise_info_html: "%{feature_title} Kurumsal <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> bir eklentidir."
           upgrade_info: "Etkinleştirmek ve ekibinizde kullanmaya başlamak için lütfen ücretli bir plana yükseltin."
@@ -254,7 +254,7 @@ tr:
             professional_support: "Profesyonel destek"
             professional_support_text: "İş açısından kritik ortamlarda OpenProject çalıştırma konusunda uzman bilgiye sahip kıdemli destek mühendislerinden güvenilir, yüksek dokunuşlu destek alın."
           button_start_trial: "Deneme sürümüne başla"
-          button_upgrade: "Şimdi Yükselt"
+          button_upgrade: "Şimdi yükselt"
           button_contact_us: "Demo için bizimle iletişime geçin"
           button_book_now: "Şimdi rezervasyon yaptırın"
           confidence: >
@@ -357,10 +357,10 @@ tr:
           learn_about: "Yeni özellikler hakkında daha fazla bilgi edinin"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "15_4":
+          "15_5":
             standard:
               new_features_html: >
-                Bu sürüm size çeşitli özellikler ve iyileştirmeler getiriyor, örneğin: <br> <ul class="%{list_styling_class}"> <li>Otomatik planlama modunu etkinleştirme.</li> <li>Toplantılar için gündem maddesi sonuçları belirleme.</li> <li>Bir iş paketi açıklamasından PDF belgeleri oluşturma.</li> <li>Geliştirilmiş proje listeleri görünümü ile çok sayıda projeyi daha iyi yönetme.</li> <li>Bir yoruma alıntı yaparken kullanıcıyı @ etiketi ile anma.</li> </ul>
+                The release brings various features and improvements for you, e.g. <br> <ul class="%{list_styling_class}"> <li>Filter for descendants (children and grandchildren) of work packages.</li> <li>Benefit from advanced accessibility in the date picker.</li> <li>See % Complete included in work package table sums.</li> <li>Include a column for children in work package tables.</li> <li>Better use the date picker in mobile screens.</li> <li>PDF exports matching configured form layout.</li> </ul>
     ical_sharing_modal:
       title: "Takvime abone ol"
       inital_setup_error_message: "Veri alınırken bir hata oluştu."
@@ -462,6 +462,7 @@ tr:
     label_menu_collapse: "çöküş"
     label_menu_expand: "genişlet"
     label_more_than_ago: "günler önce"
+    label_moderate_comment: "Moderate comment"
     label_next: "Sonraki"
     label_no_color: "Renk yok"
     label_no_data: "Görüntülenecek veri yok"
@@ -506,7 +507,7 @@ tr:
     label_sort_lower: "Aşağı taşı"
     label_sorting: "Sıralama"
     label_spent_time: "Harcanan zaman"
-    label_star_query: "avantajlı"
+    label_star_query: "Favori"
     label_press_enter_to_save: "Kaydetmek için enter tuşuna basın."
     label_public_query: "Herkese Açık"
     label_sum: "toplam\n"
@@ -587,7 +588,7 @@ tr:
         boards:
           overview: "Görünümü değiştirmek ve çevik panolar görünümünü kullanarak projenizi yönetmek için <b>panolar</b>'ı seçin."
           lists_kanban: "Burada panonuzda birden çok liste (sütun) oluşturabilirsiniz. Bu özellik, örneğin bir <b>Kanban panosu</b> oluşturmanıza olanak tanır."
-          lists_basic: "Burada, hızlı panonuz içinde birden fazla liste (sütun) oluşturabilirsiniz."
+          lists_basic: "Burada, çevik panonuz içinde birden fazla liste (sütun) oluşturabilirsiniz."
           add: "Panodaki listeye <b>yeni bir kart oluşturmak</b> veya <b>mevcut bir kartı eklemek</b> için artı (+) simgesini tıklayın."
           drag: "Yeniden sıralamak veya başka bir listeye taşımak için kartlarınızı belirli bir listeye sürükleyip bırakın. <br> Sağ üst köşedeki bilgi (i) simgesine tıklayabilir veya bir kartı çift tıklayarak ayrıntılarını açabilirsiniz."
         wp:
@@ -630,9 +631,6 @@ tr:
         property_is: "%{difference_in_days} içinde."
         property_was: "%{difference_in_days} önce idi."
         property_is_deleted: "silindi."
-        upsale:
-          title: "Tarih uyarısı"
-          description: "Tarih uyarıları ile yaklaşan başlangıç veya bitiş tarihleri hakkında bilgilendirileceksiniz, böylece önemli bir teslim tarihini asla kaçırmaz veya unutmazsınız."
       center:
         label_actor_and: "ve"
         and_more_users:
@@ -695,7 +693,6 @@ tr:
           date_alerts:
             title: "Tarih uyarısı"
             description: "Dahil olduğunuz açık iş paketleri için önemli tarihler yaklaştığında otomatik bildirimler (atanan, sorumlu veya izleyici)."
-            teaser_text: "Tarih uyarıları ile yaklaşan başlangıç veya bitiş tarihleri hakkında bilgilendirileceksiniz, böylece önemli bir teslim tarihini asla kaçırmaz veya unutmazsınız."
           overdue: Süresi geçtiğinde
         project_specific:
           title: "Projeye özel bildirim ayarları"
@@ -798,6 +795,7 @@ tr:
       typeahead_placeholder: Olası takip edenler için arayın
     relation_labels:
       parent: "Üst"
+      child: "Alt"
       children: "Çocuk"
       relates: "İlişkili"
       duplicates: "Kopyalayan"
@@ -827,7 +825,7 @@ tr:
       add_new_child: "Yeni alt birim oluştur"
       create_new: "Yeni oluştur"
       add_existing: "Mevcut olanı ekle"
-      add_existing_child: "Mevcut bir alt birim ekle"
+      add_existing_child: "Alt iş paketi ekle"
       remove_child: "Alt bileşeni kaldır"
       add_new_relation: "Yeni ilişki oluştur"
       add_existing_relation: "Varolan ilişki ekle"
@@ -866,7 +864,7 @@ tr:
     tl_toolbar:
       zooms: "Yakınlaştırma düzeyi"
       outlines: "Hiyerarşi düzeyi"
-    upsale:
+    upsell:
       ee_only: "Enterprise sürümü eklentisi"
     wiki_formatting:
       strong: "Kalın"
@@ -1045,8 +1043,6 @@ tr:
       sharing:
         title: "İş paketini paylaş"
         show_all_users: "İş paketinin paylaşıldığı tüm kullanıcıları gösterin"
-        upsale:
-          description: "İş paketlerini proje üyesi olmayan kullanıcılarla paylaşın."
       table:
         configure_button: "İş paketi tablosunu kopyala"
         summary: "İş paketi satır tabloları ve iş paketi nitelik sütunları."
@@ -1081,10 +1077,6 @@ tr:
           manually: "Elle"
           warning: "Otomatik sıralama modunu etkinleştirirken önceki sıralamanızı kaybedeceksiniz."
         columns_help_text: "Tablo görünümünüze sütun eklemek için yukarıdaki giriş alanını kullanın. Sütunları yeniden sıralamak için sürükleyip bırakabilirsiniz."
-        upsale:
-          attribute_highlighting: "Kitleden sıyrılmak için bazı iş paketlerine mi ihtiyacınız var?"
-          relation_columns: "İş paketleri listesindeki ilişkileri görmek ister misiniz?"
-          check_out_link: "Enterprise sürümünü inceleyin."
         relation_filters:
           filter_work_packages_by_relation_type: "İş paketlerini ilişki türüne göre filtreleme"
       tabs:
@@ -1298,9 +1290,7 @@ tr:
       clear: "Temizle"
       apply: "Uygula"
       header_description: "Geçmişte herhangi bir noktadan bu yana bu listede yapılan değişiklikleri vurgulayın."
-      enterprise_header_description: "Enterprise sürümü ile geçmişte herhangi bir zamandan bu yana bu listede yapılan değişiklikleri vurgulayın."
       show_changes_since: "Şu zamandan sonraki değişiklikleri göster"
-      baseline_comparison: "Temel Karşılaştırma"
       help_description: "Karşılaştırma için referans zaman dilimi."
       time_description: "Yerel saatinizle: %{datetime}"
       time: "Saat"

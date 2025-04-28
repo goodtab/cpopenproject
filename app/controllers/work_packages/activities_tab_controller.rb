@@ -111,6 +111,7 @@ class WorkPackages::ActivitiesTabController < ApplicationController
       call = create_journal_service_call
 
       if call.success? && call.result
+        claim_journal_attachments_for(call.result)
         set_last_server_timestamp_to_headers
         handle_successful_create_call(call)
       else
@@ -128,6 +129,7 @@ class WorkPackages::ActivitiesTabController < ApplicationController
       call = update_journal_service_call
 
       if call.success? && call.result
+        claim_journal_attachments_for(call.result)
         update_item_show_component(journal: call.result, grouped_emoji_reactions: grouped_emoji_reactions_for_journal)
       else
         handle_failed_create_or_update_call(call)
@@ -136,6 +138,13 @@ class WorkPackages::ActivitiesTabController < ApplicationController
       handle_internal_server_error(e)
     end
 
+    respond_with_turbo_streams
+  end
+
+  def sanitize_internal_mentions
+    render plain: sanitized_journal_notes
+  rescue StandardError => e
+    handle_internal_server_error(e)
     respond_with_turbo_streams
   end
 
@@ -221,8 +230,12 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     User.current.preference&.comments_sorting || OpenProject::Configuration.default_comment_sort_order
   end
 
+  def sanitized_journal_notes
+    WorkPackages::ActivitiesTab::InternalCommentMentionsSanitizer.sanitize(@work_package, journal_params[:notes])
+  end
+
   def journal_params
-    params.require(:journal).permit(:notes)
+    params.expect(journal: %i[notes internal])
   end
 
   def handle_successful_create_call(call)
@@ -295,24 +308,36 @@ class WorkPackages::ActivitiesTabController < ApplicationController
   end
 
   def create_journal_service_call
-    ### taken from ActivitiesByWorkPackageAPI
+    internal = to_boolean(journal_params[:internal], false)
+    notes = internal ? sanitized_journal_notes : journal_params[:notes]
+
     AddWorkPackageNoteService
       .new(user: User.current,
            work_package: @work_package)
-      .call(journal_params[:notes],
-            send_notifications: !(params.has_key?(:notify) && params[:notify] == "false"))
-    ###
+      .call(notes,
+            send_notifications: to_boolean(params[:notify], true),
+            internal:)
+  end
+
+  def to_boolean(value, default)
+    ActiveRecord::Type::Boolean.new.cast(value.presence || default)
   end
 
   def update_journal_service_call
-    Journals::UpdateService.new(model: @journal, user: User.current).call(
-      notes: journal_params[:notes]
-    )
+    notes = @journal.internal? ? sanitized_journal_notes : journal_params[:notes]
+    Journals::UpdateService.new(model: @journal, user: User.current).call(notes:)
+  end
+
+  def claim_journal_attachments_for(journal)
+    WorkPackages::ActivitiesTab::CommentAttachmentsClaims::ClaimsService
+      .new(user: User.current, model: journal)
+      .call
   end
 
   def generate_time_based_update_streams(last_update_timestamp)
     journals = @work_package
                  .journals
+                 .internal_visible
                  .with_sequence_version
 
     if @filter == :only_comments

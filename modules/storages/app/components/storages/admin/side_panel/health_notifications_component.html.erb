@@ -30,9 +30,40 @@ See COPYRIGHT and LICENSE files for more details.
 <%=
   component_wrapper(data: { turbo: true }) do
     render(Primer::OpenProject::SidePanel::Section.new) do |section|
-      section.with_title { t("storages.health_email_notifications.title") }
+      section.with_title { t("storages.health.project_folders.subtitle") }
 
       flex_layout do |notifications_container|
+        notifications_container.with_row do
+          concat(
+            render(Primer::Beta::Text.new(pr: 2, test_selector: "storage-health-checked-at")) do
+              I18n.t("storages.health.checked", datetime: helpers.format_time(@storage.health_checked_at))
+            end
+          )
+
+          concat(
+            render(
+              Primer::Beta::Label.new(
+                scheme: health_status_indicator[:scheme],
+                test_selector: "storage-health-status"
+              )
+            ) do
+              health_status_indicator[:label]
+            end
+          )
+        end
+
+        if @storage.health_unhealthy?
+          notifications_container.with_row(mt: 2) do
+            render(Primer::Beta::Text.new(color: :muted, test_selector: "storage-health-error")) do
+              formatted_health_reason
+            end
+          end
+        end
+
+        notifications_container.with_row(mt: 2) do
+          render(Primer::Beta::Text.new(font_weight: :bold)) { t("storages.health_email_notifications.title") }
+        end
+
         notifications_container.with_row(mt: 2) do
           form_for(
             @storage, method: :patch,

@@ -31,8 +31,10 @@ require_relative "base"
 module Queries::Filters::Shared
   module CustomFields
     class ListOptional < Base
+      delegate :field_format, to: :custom_field, allow_nil: true
+
       def value_objects
-        case custom_field.field_format
+        case field_format
         when "version"
           ::Version.where(id: values)
         when "list"
@@ -40,6 +42,11 @@ module Queries::Filters::Shared
         else
           super
         end
+      end
+
+      def allowed_values
+        options = field_format == "version" ? { scope: :visible } : {}
+        custom_field.possible_values_options(project, options:)
       end
 
       def ar_object_filter?

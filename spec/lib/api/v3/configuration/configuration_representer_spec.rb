@@ -245,6 +245,24 @@ RSpec.describe API::V3::Configuration::ConfigurationRepresenter do
         end
       end
     end
+
+    describe "availableFeatures" do
+      context "without any features" do
+        it "is an empty array" do
+          expect(subject)
+            .to be_json_eql([].to_json)
+                  .at_path("availableFeatures")
+        end
+      end
+
+      context "with certain features allowed", with_ee: %i[some_value foobar] do
+        it "is an array of strings of those flags" do
+          expect(subject)
+            .to be_json_eql(%w(some_value foobar).to_json)
+                  .at_path("availableFeatures")
+        end
+      end
+    end
   end
 
   describe "_embedded" do

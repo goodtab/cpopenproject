@@ -35,8 +35,6 @@ module IndividualPrincipals
 
     def find_membership
       @membership = Member.visible(current_user).find(params[:id])
-    rescue ActiveRecord::RecordNotFound
-      render_404
     end
 
     def respond_with_service_call(call, message:)

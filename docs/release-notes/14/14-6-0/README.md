@@ -44,7 +44,7 @@ Additionally, users can include sub-projects when adding, which automatically se
 
 ![Screenshot showing the new administration page to add custom fields to multiple projects](open-project-14-6-custom-fields-new-highlighted.png)
 
-Learn more about [custom fields and how to create them](../../../user-guide/projects/project-settings/custom-fields/) in our user guide.
+Learn more about [custom fields and how to create them](../../../user-guide/projects/project-settings/work-packages/#work-package-custom-fields) in our user guide.
 
 ### Use relative work package attribute macros
 

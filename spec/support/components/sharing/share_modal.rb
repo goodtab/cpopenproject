@@ -377,10 +377,10 @@ module Components
                             results_selector: "body"
       end
 
-      def expect_upsale_banner
+      def expect_upsell_banner
         within_modal do
           expect(page)
-            .to have_text(I18n.t(:"ee.upsale.title"))
+            .to have_text(I18n.t(:"ee.upsell.title"))
         end
       end
 

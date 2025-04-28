@@ -53,7 +53,6 @@ RSpec.describe "Work Package highlighting fields",
     # Ensure Rails and Capybara caches are cleared
     Rails.cache.clear
     Capybara.reset!
-    allow(EnterpriseToken).to receive(:show_banners?).and_return(false)
     login_as(user)
     wp_table.visit_query query
     wp_table.expect_work_package_listed wp_1, wp_2

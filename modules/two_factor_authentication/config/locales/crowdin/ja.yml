@@ -82,7 +82,7 @@ ja:
       text_2fa_enabled: "ログインごとに、このユーザはデフォルトの2FAデバイスからOTPトークンを入力するよう要求されます。"
       text_2fa_disabled: "ユーザーは2FAデバイスを「マイアカウントページ」から設定していません"
       only_sms_allowed: "他のユーザーにはSMS配信のみ設定可能です。"
-    upsale:
+    upsell:
       title: "2要素認証"
       description: "すべてのプロジェクトメンバーに2要素認証を提供(または強制)することで、OpenProjectインスタンスのセキュリティを強化します。"
     backup_codes:

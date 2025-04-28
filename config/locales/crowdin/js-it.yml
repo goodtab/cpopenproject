@@ -239,7 +239,7 @@ it:
           status_waiting: "email inviata, in attesa di conferma"
           test_ee: "Prova l'Enterprise edition gratuitamente per 14 giorni"
           quick_overview: "Veloce panoramica sulla gestione dei progetti e il lavoro di squadra nell'edizione OpenProject Enterprise."
-        upsale:
+        upsell:
           become_hero: "Diventa un eroe!"
           enterprise_info_html: "%{feature_title} è un componente aggiuntivo per Imprese <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span>."
           upgrade_info: "Esegui l'upgrade a un piano a pagamento per attivarlo e iniziare a usarlo nel tuo team."
@@ -254,13 +254,13 @@ it:
             professional_support: "Supporto professionale"
             professional_support_text: "Ottieni un supporto affidabile e di livello da esperti tecnici con conoscenze dettagliate sulla gestione di OpenProject in ambienti critici per le imprese."
           button_start_trial: "Inizia la prova gratuita"
-          button_upgrade: "Aggiorna ora"
+          button_upgrade: "Effettua l'upgrade ora"
           button_contact_us: "Contattaci per una demo"
           button_book_now: "Prenota ora"
           confidence: >
             Forniamo la sicurezza di un software di gestione di progetti di classe aziendale collaudato e supportato, con l'Open Source e una mente aperta.
           link_quote: "Richiedi un preventivo"
-          more_info: "Ulteriori informazioni"
+          more_info: "Altre informazioni"
           text: >
             L'edizione OpenProject Enterprise si basa sull'edizione Community. Include aggiunte premium e supporto professionale principalmente rivolto alle organizzazioni con più di 10 utenti che gestiscono progetti critici di business con OpenProject.
           unlimited: "Illimitato"
@@ -358,10 +358,10 @@ it:
           learn_about: "Scopri di più sulle nuove funzionalità"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "15_4":
+          "15_5":
             standard:
               new_features_html: >
-                Questa versione offre diverse funzionalità e miglioramenti, ad esempio <br> <ul class="%{list_styling_class}"> <li>Abilita la modalità di pianificazione automatica.</li> <li>Imposta i risultati dei punti all'ordine del giorno per le riunioni.</li> <li>Genera documenti PDF da una descrizione di macro-attività.</li> <li>Gestisci meglio un gran numero di progetti con una visualizzazione migliorata degli elenchi di progetti.</li> <li>Utilizza la menzione di un'utente con la chiocciola @ per citarlo nella risposta a un commento.</li> </ul>
+                Questa versione offre diverse funzionalità e miglioramenti, ad esempio <br> <ul class="%{list_styling_class}"> <li>Filtro per discendenti (figli e nipoti) della macro-attività.</li> <li>Approfitta dell'accessibilità avanzata nel selettore data.</li> <li>Visualizza la % di completamento inclusa nelle somme delle tabelle delle macro-attività.</li> <li>Includi una colonna per i figli nelle tabelle delle macro-attività.</li> <li>Utilizza meglio il selettore data nelle schermate dei dispositivi mobili.</li> <li>Esportazioni PDF corrispondenti al layout del modulo configurato.</li> </ul>
     ical_sharing_modal:
       title: "Iscriviti al calendario"
       inital_setup_error_message: "Si è verificato un errore recuperando i dati."
@@ -463,6 +463,7 @@ it:
     label_menu_collapse: "collassa"
     label_menu_expand: "espandi"
     label_more_than_ago: "più di qualche giorno fa"
+    label_moderate_comment: "Moderate comment"
     label_next: "Prossimo"
     label_no_color: "Nessun colore"
     label_no_data: "Nessun dato da visualizzare"
@@ -631,9 +632,6 @@ it:
         property_is: "tra %{difference_in_days}."
         property_was: "era %{difference_in_days} fa."
         property_is_deleted: "eliminato."
-        upsale:
-          title: "Avvisi data"
-          description: "Con gli avvisi sulle date, sarai avvisato delle prossime date di inizio o di fine in modo da non perdere mai o dimenticare una scadenza importante."
       center:
         label_actor_and: "e"
         and_more_users:
@@ -696,7 +694,6 @@ it:
           date_alerts:
             title: "Avvisi data"
             description: "Notifiche automatiche quando si avvicinano date importanti per le macro-attività aperte in cui sei coinvolto (assegnatario, responsabile od osservatore)"
-            teaser_text: "Con gli avvisi sulle date, sarai avvisato delle prossime date di inizio o di fine in modo da non perdere mai o dimenticare una scadenza importante."
           overdue: Alla scadenza
         project_specific:
           title: "Impostazioni di notifica specifiche del progetto"
@@ -799,6 +796,7 @@ it:
       typeahead_placeholder: Ricerca possibili osservatori
     relation_labels:
       parent: "Superiore"
+      child: "Figlio"
       children: "Figli"
       relates: "Riferito a"
       duplicates: "Duplica"
@@ -828,7 +826,7 @@ it:
       add_new_child: "Crea nuovo figlio"
       create_new: "Crea nuovo"
       add_existing: "Aggiungi esistente"
-      add_existing_child: "Aggiungi figlio esistente"
+      add_existing_child: "Aggiungi figlio"
       remove_child: "Rimuovi figlio"
       add_new_relation: "Crea nuova relazione"
       add_existing_relation: "Aggiungere relazione esistente"
@@ -867,7 +865,7 @@ it:
     tl_toolbar:
       zooms: "Livello di zoom"
       outlines: "Livello della gerarchia"
-    upsale:
+    upsell:
       ee_only: "Addon dell'edizione per Imprese"
     wiki_formatting:
       strong: "Grassetto"
@@ -1046,8 +1044,6 @@ it:
       sharing:
         title: "Condividi macro-attività"
         show_all_users: "Mostra tutti gli utenti con i quali la macro-attività è stata condivisa"
-        upsale:
-          description: "Condividi macro-attività con utenti che non sono membri del progetto."
       table:
         configure_button: "Configura la tabella della macro-attività"
         summary: "Tabella con righe di macro-attività e colonne dei loro attributi."
@@ -1082,10 +1078,6 @@ it:
           manually: "Manuale"
           warning: "Perderai il tuo ordinamento precedente quando attivi la modalità di ordinamento automatico."
         columns_help_text: "Utilizza il campo di input sopra per aggiungere colonne alla visualizzazione della tabella. È possibile trascinare e rilasciare le colonne per riordinarle."
-        upsale:
-          attribute_highlighting: "Vuoi che alcune macro-attività si distinguano dalla massa?"
-          relation_columns: "Vuoi visualizzare le relazioni nell'elenco di macro-attività?"
-          check_out_link: "Scopri l'edizione Enterprise."
         relation_filters:
           filter_work_packages_by_relation_type: "Filtra le macro-attività per tipo di relazione"
       tabs:
@@ -1299,9 +1291,7 @@ it:
       clear: "Pulisci"
       apply: "Applica"
       header_description: "Evidenzia le modifiche apportate a questo elenco da qualsiasi punto nel passato."
-      enterprise_header_description: "Evidenzia le modifiche apportate a questo elenco da qualsiasi punto nel passato con l'edizione Imprese."
       show_changes_since: "Mostra le modifiche da"
-      baseline_comparison: "Confronto della base di riferimento"
       help_description: "Fuso orario di riferimento per la base di riferimento."
       time_description: "Nella tua ora locale: %{datetime}"
       time: "Tempo"

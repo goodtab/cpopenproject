@@ -166,6 +166,8 @@ paths:
     "$ref": "./paths/action.yml"
   "/api/v3/activities/{id}":
     "$ref": "./paths/activity.yml"
+  "/api/v3/activities/{id}/attachments":
+    "$ref": "./paths/activity_attachments.yml"
   "/api/v3/attachments":
     "$ref": "./paths/attachments.yml"
   "/api/v3/attachments/{id}":
@@ -489,6 +491,8 @@ paths:
 
 components:
   examples:
+    ActivityResponse:
+      $ref: "./components/examples/activity_response.yml"
     DateAlertNotification:
       $ref: "./components/examples/date_alert_notification.yml"
     GridSimpleCollectionResponse:
@@ -607,6 +611,8 @@ components:
   schemas:
     ActivityModel:
       "$ref": "./components/schemas/activity_model.yml"
+    ActivityCommentWriteModel:
+      "$ref": "./components/schemas/activity_comment_write_model.yml"
     AttachmentModel:
       "$ref": "./components/schemas/attachment_model.yml"
     Attachments_Model:
@@ -671,6 +677,8 @@ components:
       $ref: "./components/schemas/file_link_read_model.yml"
     FileLinkWriteModel:
       $ref: "./components/schemas/file_link_write_model.yml"
+    FileUploadForm:
+      $ref: "./components/schemas/file_upload_form.yml"
     Formattable:
       "$ref": "./components/schemas/formattable.yml"
     GridCollectionModel:

@@ -1,7 +1,7 @@
 <%= flex_layout do |container| %>
   <% container.with_row do |_columns| %>
     <%= render WorkPackages::Exports::ColumnSelectionComponent.new(
-          query,
+          export_settings,
           "columns-select-export-pdf-report",
           I18n.t("export.dialog.columns.input_caption_report"),
           I18n.t("export.dialog.columns.input_label_report"),
@@ -31,7 +31,7 @@
     <%= render(
           Primer::Alpha::CheckBox.new(
             name: "show_images",
-            checked: true,
+            checked: export_settings.true?(:show_images, default: true),
             value: "true",
             unchecked_value: "false",
             label: I18n.t("export.dialog.pdf.include_images.label"),

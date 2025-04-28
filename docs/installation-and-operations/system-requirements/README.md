@@ -64,7 +64,7 @@ In the _packaged installation_ you can have multiple servers running OpenProject
 > [!NOTE]
 >
 > We recommend to run OpenProject in a [Kubernetes deployment using our Helm charts](../installation/helm-chart), or in smaller environments, [docker compose](../installation/docker-compose) or [docker Swarm](../installation/docker/#docker-swarm). Kubernetes and Docker swarm are fully horizontally scalable
- 
+
 [For more information on applying scaling options depending on your installation method, please see this document](../operation/scaling/).
 
 
@@ -162,7 +162,6 @@ The [package-based installation](../installation/packaged) requires one of the f
 | Debian 12 Bookworm              |
 | Debian 11 Bullseye              |
 | CentOS/RHEL 9.x                 |
-| CentOS/RHEL 8.x                 |
 | Suse Linux Enterprise Server 15 |
 
 The [docker-based installation](../installation/docker) requires a system with Docker installed. Please see the [official Docker page](https://docs.docker.com/install/) for the list of supported systems.

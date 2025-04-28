@@ -53,7 +53,7 @@ module OpenProject::Meeting
                    permissible_on: :project
         permission :create_meetings,
                    {
-                     meetings: %i[new create copy new_dialog],
+                     meetings: %i[new create copy new_dialog fetch_timezone],
                      recurring_meetings: %i[new create copy init template_completed],
                      "recurring_meetings/schedule": %i[update_text],
                      "meetings/menus": %i[show]
@@ -188,6 +188,13 @@ module OpenProject::Meeting
 
     patches [:Project]
     patch_with_namespace :BasicData, :SettingSeeder
+
+    replace_principal_references "Meeting" => %i[author_id],
+                                 "MeetingAgenda" => %i[author_id],
+                                 "MeetingMinutes" => %i[author_id],
+                                 "MeetingAgendaItem" => %i[author_id presenter_id],
+                                 "MeetingParticipant" => :user_id,
+                                 "MeetingOutcome" => :author_id
 
     extend_api_response(:v3, :work_packages, :work_package,
                         &::OpenProject::Meeting::Patches::API::WorkPackageRepresenter.extension)

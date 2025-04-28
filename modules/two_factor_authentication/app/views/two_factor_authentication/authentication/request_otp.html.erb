@@ -2,7 +2,6 @@
 <% has_other_devices = @active_devices.count > 1 %>
 <% has_backup_codes = @authenticated_user.otp_backup_codes.exists? %>
 <% html_title t(:field_otp) %>
-<% breadcrumb_paths(t(:field_otp)) %>
 <div id="login-form"
      class="form -bordered"
      data-controller="two-factor-authentication"

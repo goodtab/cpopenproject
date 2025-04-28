@@ -44,7 +44,7 @@ module WorkPackages
           render(Primer::Beta::Octicon.new(
                    icon: "op-enterprise-addons",
                    "aria-label": I18n.t(:label_enterprise_edition),
-                   classes: "upsale-colored", ml: 2
+                   classes: "upsell-colored", ml: 2
                  ))
         end
 

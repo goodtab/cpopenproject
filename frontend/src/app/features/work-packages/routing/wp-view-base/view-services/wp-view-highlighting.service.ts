@@ -6,14 +6,18 @@ import { BannersService } from 'core-app/core/enterprise/banners.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 import { QuerySchemaResource } from 'core-app/features/hal/resources/query-schema-resource';
-import { WorkPackageViewHighlight } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-table-highlight';
+import {
+  WorkPackageViewHighlight,
+} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-table-highlight';
 import { WorkPackageQueryStateService } from './wp-view-base.service';
 
 @Injectable()
 export class WorkPackageViewHighlightingService extends WorkPackageQueryStateService<WorkPackageViewHighlight> {
-  public constructor(readonly states:States,
+  public constructor(
+    readonly states:States,
     readonly Banners:BannersService,
-    readonly querySpace:IsolatedQuerySpace) {
+    readonly querySpace:IsolatedQuerySpace,
+  ) {
     super(querySpace);
   }
 
@@ -28,7 +32,7 @@ export class WorkPackageViewHighlightingService extends WorkPackageQueryStateSer
    */
   public shouldHighlightInline(name:string):boolean {
     // 1. Are we in inline mode or unable to render?
-    if (!this.isInline || this.Banners.eeShowBanners) {
+    if (!this.isInline || this.Banners.showBannerFor('conditional_highlighting')) {
       return false;
     }
 
@@ -82,10 +86,13 @@ export class WorkPackageViewHighlightingService extends WorkPackageQueryStateSer
       value.selectedAttributes = undefined;
     }
 
-    this.Banners.conditional(() => {
-      value.mode = 'none';
-      value.selectedAttributes = undefined;
-    });
+    void this.Banners.conditional(
+      'conditional_highlighting',
+      () => {
+        value.mode = 'none';
+        value.selectedAttributes = undefined;
+      },
+    );
 
     return value;
   }

@@ -303,8 +303,8 @@ RSpec.describe "Bulk update work packages through Rails view", :js do
     let(:current_user) { dev }
 
     it "does not allow to copy" do
-      context_menu.open_for work_package
-      context_menu.expect_no_options "Bulk edit"
+      context_menu.open_for work_package, check_if_open: false
+      context_menu.expect_closed
     end
   end
 end

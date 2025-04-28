@@ -62,7 +62,12 @@ module OpenProject::TextFormatting
           transformers: base[:transformers] + transformers,
 
           # Allow relaxed CSS styles for the given attributes
-          css: ::Sanitize::Config::RELAXED[:css]
+          css: ::Sanitize::Config::RELAXED[:css],
+
+          # Allow our protocols, and relative links always
+          protocols: {
+            "a" => { "href" => Setting::AllowedLinkProtocols.all + %i[relative] }
+          }
         )
       end
 

@@ -19,9 +19,8 @@ export function addTurboEventListeners() {
       if (dialog) {
         if (dialog.dataset.keepOpenOnSubmit !== 'true') {
           dialog.close('close-event-already-dispatched');
+          document.dispatchEvent(new CustomEvent('dialog:close', { detail: { dialog, submitted: true } }));
         }
-
-        document.dispatchEvent(new CustomEvent('dialog:close', { detail: { dialog, submitted: true } }));
       }
     }
   });

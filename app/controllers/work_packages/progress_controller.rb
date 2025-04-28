@@ -172,8 +172,16 @@ class WorkPackages::ProgressController < ApplicationController
     WorkPackages::SetAttributesService
       .new(user: current_user,
            model: @work_package,
-           contract_class: WorkPackages::CreateContract)
+           contract_class:)
       .call(work_package_progress_params)
+  end
+
+  def contract_class
+    if @work_package.new_record?
+      WorkPackages::CreateContract
+    else
+      WorkPackages::UpdateContract
+    end
   end
 
   def formatted_duration(hours)

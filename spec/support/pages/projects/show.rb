@@ -85,9 +85,9 @@ module Pages
         wait_for_size_animation_completion("[data-test-selector='async-dialog-content']")
       end
 
-      def open_edit_dialog_for_life_cycles
+      def open_edit_dialog_for_life_cycle(life_cycle)
         within_life_cycles_sidebar do
-          page.find("[data-test-selector='project-life-cycles-edit-button']").click
+          page.find("[data-test-selector='project-life-cycle-edit-button-#{life_cycle.id}']").click
         end
 
         Components::Projects::ProjectLifeCycles::EditDialog.new.tap(&:expect_open)

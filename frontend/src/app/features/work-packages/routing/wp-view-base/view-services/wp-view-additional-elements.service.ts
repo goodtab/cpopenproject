@@ -68,8 +68,9 @@ export class WorkPackageViewAdditionalElementsService {
     const workPackageIds = rows.map((el) => el.id!);
 
     // Add relations to the stack
-    Promise.all([
+    void Promise.all([
       this.requireInvolvedRelations(workPackageIds),
+      this.requireInvolvedChildren(rows),
       this.requireHierarchyElements(rows),
       this.requireWorkPackageShares(workPackageIds),
       this.requireSumsSchema(results),
@@ -106,6 +107,22 @@ export class WorkPackageViewAdditionalElementsService {
         const ids = this.getInvolvedWorkPackages(rows.map((id) => this.wpRelations.state(id).value!));
         return _.flatten(ids);
       });
+  }
+
+  /**
+   * Requires the work package children of the given work package ids
+   * if a child relation column is present
+   */
+  private requireInvolvedChildren(rows:WorkPackageResource[]):Promise<string[]> {
+    if (!this.wpTableColumns.hasChildRelationsColumn()) {
+      return Promise.resolve([]);
+    }
+
+    const ids = _.flatten(
+      rows.map((el) => el.children?.map((child) => child.id as string) || []),
+    );
+
+    return Promise.resolve(ids);
   }
 
   /**

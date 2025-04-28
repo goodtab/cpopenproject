@@ -26,7 +26,7 @@ your OpenProject installation to this
   - Very long custom field names break design on custom field settings
     page
     ([#24407](https://community.openproject.org/wp/24407)).
-  - Filter “Show all work packages” on MyPage did not work
+  - Filter “Show all work packages” on My page did not work
     correctly.
   - Project filter was lost on the second page of the search results page.
 

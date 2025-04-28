@@ -35,7 +35,7 @@ module API
             after_validation do
               @activity = Journal.find(declared_params[:id])
 
-              authorize_by_with_raise @activity.journable.visible?(current_user) do
+              authorize_by_with_raise @activity.visible?(current_user) do
                 raise API::Errors::NotFound
               end
             end
@@ -56,6 +56,8 @@ module API
                                                                  { notes: declared_params[:comment] }
                                                                })
                                                           .mount
+
+            mount ::API::V3::Attachments::AttachmentsByActivityCommentAPI
           end
         end
       end

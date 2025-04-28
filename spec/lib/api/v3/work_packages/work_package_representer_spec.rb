@@ -87,7 +87,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       add_work_package_watchers
       delete_work_package_watchers
       manage_work_package_relations
-      add_work_package_notes
+      add_work_package_comments
       add_work_packages
       view_time_entries
       view_changesets
@@ -850,7 +850,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
 
       context "when the user does not have the permission to add comments" do
-        let(:permissions) { all_permissions - [:add_work_package_notes] }
+        let(:permissions) { all_permissions - [:add_work_package_comments] }
 
         it "does not have a link to add comment" do
           expect(subject).not_to have_json_path("_links/addComment/href")

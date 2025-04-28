@@ -33,6 +33,8 @@ module Storages
     ParentFolder = Data.define(:path) do
       delegate :split, :empty?, to: :path
 
+      def self.root = new("/")
+
       def root?
         path == "/"
       end

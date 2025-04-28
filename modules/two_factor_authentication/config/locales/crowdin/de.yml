@@ -81,7 +81,7 @@ de:
       text_2fa_enabled: "Bei jeder Anmeldung wird dieser Benutzer aufgefordert, ein OTP-Token über sein Standard-2FA-Gerät einzugeben."
       text_2fa_disabled: "Der Benutzer hat kein 2FA-Gerät über seine Seite „Mein Konto“ eingerichtet"
       only_sms_allowed: "Für andere Benutzer kann nur der SMS-Versand eingerichtet werden."
-    upsale:
+    upsell:
       title: "Zwei-Faktor-Authentifizierung"
       description: "Stärken Sie die Sicherheit Ihrer OpenProject Instanz, indem Sie allen Projektmitgliedern eine Zwei-Faktor-Authentifizierung anbieten (oder durchsetzen)."
     backup_codes:

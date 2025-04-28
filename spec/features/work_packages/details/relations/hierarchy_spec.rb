@@ -64,23 +64,19 @@ RSpec.shared_examples "work package relations tab", :js, :with_cuprite do
       relations.add_parent(parent.id, parent)
       wp_page.expect_and_dismiss_toaster(message: "Successful update.")
       relations.expect_parent(parent)
+      tabs.expect_counter(relations_tab, 1)
 
       ##
       # Add child #1
       relations.add_existing_child(child)
       relations.expect_child(child)
+      tabs.expect_counter(relations_tab, 2)
 
       ##
       # Add child #2
       relations.add_existing_child(child2)
       relations.expect_child(child2)
-
-      # Count child relations in split view
-      # Marking as "visible: :all" because the counter
-      # is hidden by some weird white element only in TEST mode
-      # in the header.
-
-      tabs.expect_counter(relations_tab, 2)
+      tabs.expect_counter(relations_tab, 3)
     end
   end
 
@@ -141,7 +137,7 @@ RSpec.shared_examples "work package relations tab", :js, :with_cuprite do
           expect(page).to have_test_selector("op-wp-breadcrumb-parent", text: parent.subject)
 
           # And it should count the two relations
-          tabs.expect_counter(relations_tab, 2)
+          tabs.expect_counter(relations_tab, 3)
         end
       end
 
@@ -155,6 +151,7 @@ RSpec.shared_examples "work package relations tab", :js, :with_cuprite do
           relations.add_parent(parent.id, parent)
           wp_page.expect_and_dismiss_toaster(message: "Successful update.")
           relations.expect_parent(parent)
+          tabs.expect_counter(relations_tab, 3)
 
           ##
           # Add child
@@ -162,12 +159,13 @@ RSpec.shared_examples "work package relations tab", :js, :with_cuprite do
           relations.expect_child(child)
 
           # Expect counter to add up child to the existing relations
-          tabs.expect_counter(relations_tab, 3)
+          tabs.expect_counter(relations_tab, 4)
 
           # Remove parent
           relations.remove_parent
           wp_page.expect_and_dismiss_toaster(message: "Successful update.")
           relations.expect_no_parent
+          tabs.expect_counter(relations_tab, 3)
 
           # Remove child
           relations.remove_child(child)

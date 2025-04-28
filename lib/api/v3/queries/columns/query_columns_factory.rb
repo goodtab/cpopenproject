@@ -37,6 +37,8 @@ module API
               ::API::V3::Queries::Columns::QueryRelationToTypeColumnRepresenter
             when ::Queries::WorkPackages::Selects::RelationOfTypeSelect
               ::API::V3::Queries::Columns::QueryRelationOfTypeColumnRepresenter
+            when ::Queries::WorkPackages::Selects::RelationChildSelect
+              ::API::V3::Queries::Columns::QueryRelationChildColumnRepresenter
             else
               ::API::V3::Queries::Columns::QueryPropertyColumnRepresenter
             end

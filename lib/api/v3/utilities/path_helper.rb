@@ -123,6 +123,18 @@ module API
             "#{root}/attachments/#{id}/content"
           end
 
+          def self.attachments_by_activity_bcf_comment(id)
+            attachments_by_activity(id)
+          end
+
+          def self.attachments_by_activity_comment(id)
+            attachments_by_activity(id)
+          end
+
+          def self.attachments_by_activity(id)
+            "#{root}/activities/#{id}/attachments"
+          end
+
           def self.attachments_by_post(id)
             "#{post(id)}/attachments"
           end
@@ -547,7 +559,7 @@ module API
           resources :work_package, except: :schema
 
           def self.work_package(id, timestamps: nil)
-            "#{root}/work_packages/#{id}" + \
+            "#{root}/work_packages/#{id}" +
               if (param_value = timestamps_to_param_value(timestamps)).present? && Array(timestamps).any?(&:historic?)
                 "?#{{ timestamps: param_value }.to_query}"
               end.to_s

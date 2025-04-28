@@ -31,7 +31,7 @@ module Notifications::CreateFromModelService::NewsStrategy
     %i(subscribed)
   end
 
-  def self.permission
+  def self.permission(*)
     :view_news
   end
 

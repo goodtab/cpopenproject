@@ -59,30 +59,34 @@ module Storages
 
       namespace("components") do
         namespace("forms") do
-          register(:automatically_managed_folders, ::Storages::Admin::Forms::AutomaticallyManagedProjectFoldersFormComponent)
-          register(:general_information, ::Storages::Admin::Forms::GeneralInfoFormComponent)
-          register(:storage_audience, ::Storages::Admin::Forms::StorageAudienceFormComponent)
-          register(:oauth_application, ::Storages::Admin::OAuthApplicationInfoCopyComponent)
-          register(:oauth_client, ::Storages::Admin::Forms::OAuthClientFormComponent)
+          register(:automatically_managed_folders, Admin::Forms::AutomaticallyManagedProjectFoldersFormComponent)
+          register(:general_information, Admin::Forms::GeneralInfoFormComponent)
+          register(:storage_audience, Admin::Forms::StorageAudienceFormComponent)
+          register(:oauth_application, Admin::OAuthApplicationInfoCopyComponent)
+          register(:oauth_client, Admin::Forms::OAuthClientFormComponent)
         end
 
         register(:setup_wizard, NextcloudStorageWizard)
 
-        register(:automatically_managed_folders, ::Storages::Admin::AutomaticallyManagedProjectFoldersInfoComponent)
-        register(:general_information, ::Storages::Admin::GeneralInfoComponent)
-        register(:storage_audience, ::Storages::Admin::StorageAudienceInfoComponent)
-        register(:oauth_application, ::Storages::Admin::OAuthApplicationInfoComponent)
-        register(:oauth_client, ::Storages::Admin::OAuthClientInfoComponent)
+        register(:automatically_managed_folders, Admin::AutomaticallyManagedProjectFoldersInfoComponent)
+        register(:general_information, Admin::GeneralInfoComponent)
+        register(:storage_audience, Admin::StorageAudienceInfoComponent)
+        register(:oauth_application, Admin::OAuthApplicationInfoComponent)
+        register(:oauth_client, Admin::OAuthClientInfoComponent)
       end
 
       namespace("contracts") do
-        register(:storage, ::Storages::Storages::NextcloudContract)
-        register(:general_information, ::Storages::Storages::NextcloudGeneralInformationContract)
-        register(:storage_audience, ::Storages::Storages::NextcloudAudienceContract)
+        register(:storage, Storages::NextcloudContract)
+        register(:general_information, Storages::NextcloudGeneralInformationContract)
+        register(:storage_audience, Storages::NextcloudAudienceContract)
       end
 
       namespace("models") do
         register(:managed_folder_identifier, ManagedFolderIdentifier::Nextcloud)
+      end
+
+      namespace("validators") do
+        register(:connection, ConnectionValidators::NextcloudValidator)
       end
 
       namespace("authentication") do

@@ -21,6 +21,9 @@
 #++
 hr:
   js:
+    text_are_you_sure: "Da li ste sigurni?"
+    myTimeTracking:
+      noSpecificTime: "No specific time"
     work_packages:
       property_groups:
         costs: "Troškovi"

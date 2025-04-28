@@ -102,12 +102,6 @@ class ColorsController < ApplicationController
 
   protected
 
-  def show_local_breadcrumb
-    false
-  end
-
-  def default_breadcrumb; end
-
   def require_admin_unless_readonly_api_request
     require_admin unless %w[index show].include? action_name and
                          api_request?

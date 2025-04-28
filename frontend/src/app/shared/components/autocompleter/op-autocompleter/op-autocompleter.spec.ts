@@ -151,9 +151,6 @@ describe('autocompleter', () => {
       const inputElement = inputDebugElement.nativeElement as HTMLInputElement;
 
       fixture.detectChanges();
-      tick();
-      expect(getOptionsFnSpy).not.toHaveBeenCalled();
-      tick(50);
       expect(getOptionsFnSpy).toHaveBeenCalledWith("");
       getOptionsFnSpy.calls.reset();
 

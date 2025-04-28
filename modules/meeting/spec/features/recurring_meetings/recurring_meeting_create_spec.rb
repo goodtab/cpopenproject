@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -29,8 +30,7 @@
 
 require "spec_helper"
 
-require_relative "../../support/pages/meetings/new"
-require_relative "../../support/pages/structured_meeting/show"
+require_relative "../../support/pages/meetings/show"
 require_relative "../../support/pages/recurring_meeting/show"
 require_relative "../../support/pages/meetings/index"
 
@@ -61,7 +61,7 @@ RSpec.describe "Recurring meetings creation",
   let(:current_user) { user }
   let(:meeting) { RecurringMeeting.last }
   let(:show_page) { Pages::RecurringMeeting::Show.new(meeting) }
-  let(:template_page) { Pages::StructuredMeeting::Show.new(meeting.template) }
+  let(:template_page) { Pages::Meetings::Show.new(meeting.template) }
   let(:meetings_page) { Pages::Meetings::Index.new(project:) }
 
   before do

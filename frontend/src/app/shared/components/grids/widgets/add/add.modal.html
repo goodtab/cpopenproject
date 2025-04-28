@@ -7,16 +7,6 @@
   <div class="spot-divider"></div>
 
   <div class="ngdialog-body spot-modal--body spot-container">
-
-    <op-enterprise-banner
-      *ngIf="eeShowBanners"
-      [linkMessage]="text.upsale_link"
-      [textMessage]="text.upsale_text"
-      [moreInfoLink]="text.more_info_link"
-      class="grid--add-widget-ee"
-      opReferrer="grids#add-widget"
-    ></op-enterprise-banner>
-
     <ul class="spot-list">
       <li
         *ngFor="let widget of selectable;trackBy: trackWidgetBy"

@@ -64,6 +64,12 @@ module API
                  required: false,
                  writable: false
 
+          schema :percentage_done,
+                 type: "Integer",
+                 name_source: :done_ratio,
+                 required: false,
+                 writable: false
+
           schema :overall_costs,
                  type: "String",
                  required: false,

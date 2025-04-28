@@ -200,7 +200,7 @@ pt-PT:
       storage_delete_result_3: No caso de este armazenamento ter pastas de projeto geridas automaticamente, estas e os seus ficheiros serão eliminados para sempre.
     dependencies:
       nextcloud:
-        group_folders_app: Agrupar pastas
+        group_folders_app: Group Folders
         integration_app: Integração do OpenProject
     enabled_in_projects:
       setup_incomplete_description: Este armazenamento tem uma configuração incompleta. Conclua a configuração antes de o ativar em vários projetos.
@@ -230,39 +230,99 @@ pt-PT:
       storage_oauth: Nextcloud OAuth
       storage_provider: Fornecedor de armazenamento
     health:
+      actions:
+        download_report: Transferir
+        rerun_checks: Re-run all checks
+        run_checks: Run checks now
       checked: Última verificação em %{datetime}
+      checks:
+        ampf_configuration:
+          files_request: Fetching group folder files
+          group_folder_app: 'Dependency: Group Folders'
+          group_folder_contents: Group folder has expected content
+          group_folder_presence: Group folder exists
+          header: Automatically managed project folder configuration
+          userless_access: Server-side request authentication
+        authentication:
+          existing_token: User token
+          header: Autenticação
+          non_provisioned_user: User provisioned by IDP
+          provisioned_user_provider: User provisioned by OIDC
+          token_negotiable: User token capabilities
+          user_bound_request: User-based request authentication
+        base_configuration:
+          capabilities_request: Remote file storage capabilities
+          client_id: ID do cliente
+          client_secret: Client Secret
+          dependencies_check: Dependências
+          dependencies_versions: Dependencies (version)
+          diagnostic_request: Diagnostic request
+          drive_id_format: Drive ID format
+          drive_id_not_found: Drive exists
+          header: Basic configuration
+          host_url_accessible: Host URL accessible
+          storage_configured: Configuration complete
+          tenant_id: Tenant ID
+        failures:
+          zero: All checks passed
+          one: "%{count} check failed"
+          other: "%{count} checks failed"
+        warnings:
+          one: "%{count} check returned a warning"
+          other: "%{count} checks returned a warning"
       connection_validation:
-        action: Verifique novamente a ligação
-        app_version_mismatch: A versão da aplicação Integration OpenProject não é suportada. Atualize o seu servidor do Nextcloud.
         client_id_wrong: O ID de cliente OAuth 2 configurado é inválido. Verifique a configuração.
         client_secret_wrong: O segredo do cliente OAuth 2 configurado é inválido. Verifique a configuração.
+        dependency_version_mismatch: The %{dependency} app version is not supported. Please update your Nextcloud server.
         drive_id_wrong: Não foi possível encontrar o Drive ID configurado. Verifique a configuração.
         group_folder_not_found: Não foi possível encontrar a pasta do grupo.
         group_folder_version_mismatch: A versão da pasta de grupo não é suportada. Atualize o seu servidor do Nextcloud.
         host_not_found: Não foi encontrado nenhum servidor do Nextcloud no URL do anfitrião configurado. Verifique a configuração.
         missing_dependencies: 'Está em falta uma dependência necessária no armazenamento de ficheiros. Adicione a seguinte dependência: %{dependency}.'
+        nextcloud:
+          oauth_request_not_found: O OpenProject não conseguiu encontrar a pasta raiz do Nextcloud usando o utilizador com sessão iniciada atualmente. Consulte os registos do servidor para obter mais informações.
+          oauth_request_unauthorized: O utilizador atual não está autorizado a ver a pasta principal do Nextcloud ou não conseguirmos adquirir uma ficha. Consulte os registos do servidor para obter mais informações.
+          oauth_token_missing: OpenProject cannot test the user level communication with Nextcloud as the user did not yet link their Nextcloud account.
+          unexpected_content: Conteúdo inesperado encontrado na pasta do grupo gerido.
         not_configured: Não foi possível validar a ligação.Termine, primeiro, a configuração.
         oidc_cant_acquire_token: A sua configuração do OpenID Connect não fornece o público necessário, nem fornece capacidades de troca de tokens. Consulte a nossa documentação para obter mais informações.
         oidc_cant_exchange_token: Parece haver um problema com a configuração do Token Exchange no seu fornecedor OpenID Connect. Verifique a sua configuração e tente novamente.
         oidc_cant_refresh_token: Ocorreu um erro ao tentar verificar o seu acesso ao armazenamento. Consulte os registos do servidor para obter mais informações.
         oidc_non_oidc_user: O utilizador atual, embora aprovisionado, não foi aprovisionado por um fornecedor de identidade OpenID Connect (OIDC). Volte a executar a verificação com um utilizador aprovisionado pelo OIDC.
         oidc_non_provisioned_user: O utilizador atual não é fornecido por um fornecedor de identidade OpenID Connect. Volte a executar a verificação com um utilizador fornecido.
+        one_drive:
+          client_cant_delete_folder: O cliente está a ter problemas a eliminar pastas. Consulte a documentação de configuração para o seu armazenamento.
+          client_write_permission_missing: O cliente parece estár ter permissões de escrita em falta. Consulte a documentação de configuração para o seu armazenamento.
+          drive_id_not_found: Não foi possível encontrar o Drive ID configurado. Verifique a configuração.
+          drive_id_wrong: O Drive ID configurado parece ser inválido. Verifique a configuração.
+          existing_test_folder: A pasta %{folder_name} necessária para teste já existe. Elimine a pasta e tente novamente.
+          oauth_request_not_found: OpenProject couldn't find the root folder in the drive using the current logged-in user. Please check the server logs for further information.
+          oauth_request_unauthorized: The current user isn't authorized to see the root folder of OneDrive or we couldn't acquire a token. Please check the server logs for further information.
+          oauth_token_missing: OpenProject cannot test the user level communication with OneDrive/SharePoint as the user did not yet link their Microsoft account.
+          unexpected_content: Conteúdo inesperado encontrado na unidade.
         placeholder: Verifique a sua ligação com o servidor.
         subtitle: Validação da ligação
         tenant_id_wrong: O ID do diretório (inquilino) configurado é inválido. Verifique a configuração.
-        unexpected_content:
-          nextcloud: Conteúdo inesperado encontrado na pasta do grupo gerido.
-          one_drive: Conteúdo inesperado encontrado na unidade.
         unknown_error: Não foi possível validar a ligação. Ocorreu um erro desconhecido. Consulte os registos do servidor para obter mais informações.
         userless_access_denied: A palavra-passe da aplicação configurada é inválida.
       label_error: Erro
+      label_failed: Failed
       label_healthy: Bom estado
+      label_passed: Passed
       label_pending: Pendente
+      label_skipped: Ignorada
       label_warning: Aviso
+      no_report: No report available
+      no_report_description: Run the checks now for a full health status report for this file storage.
+      open_report: Open full health report
       project_folders:
         subtitle: Pastas do projeto geridas automaticamente
       since: desde %{datetime}
-      title: Estado de funcionamento atual
+      summary:
+        failure: Some checks failed and the system does not work as expected.
+        success: All connections and systems are working as expected.
+        warning: Some checks returned a warning. This can lead to unexpected behaviour.
+      title: Health status report
     health_email_notifications:
       description_subscribed: Todos os administradores recebem notificações por e-mail sobre o estado de funcionamento deste armazenamento.
       description_unsubscribed: As notificações por e-mail sobre o estado de funcionamento deste armazenamento foram desativadas para todos os administradores.
@@ -425,7 +485,7 @@ pt-PT:
       description: Adicione um armazenamento para vê-lo aqui.
       heading: Ainda não tem nenhum armazenamento.
     successful_storage_connection: Armazenamento ligado com sucesso! Lembre-se de ativar o armazenamento no separador Projetos de cada projeto pretendido para o utilizar.
-    upsale:
+    upsell:
       description: |-
         Integre o seu OneDrive/SharePoint como um armazenamento de ficheiros com o OpenProject. Carregue ficheiros e ligue-os diretamente aos pacotes de trabalho de um projeto.
-      title: Integração com OneDrive/SharePoint
+      title: Integração OneDrive/SharePoint

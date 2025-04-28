@@ -59,8 +59,6 @@ class JournalsController < ApplicationController
                          journals: @journals }
       end
     end
-  rescue ActiveRecord::RecordNotFound
-    render_404
   end
 
   def diff
@@ -87,8 +85,6 @@ class JournalsController < ApplicationController
     @journal = Journal.find(params[:id])
     @journable = @journal.journable
     @project = @journable.project
-  rescue ActiveRecord::RecordNotFound
-    render_404
   end
 
   def ensure_permitted

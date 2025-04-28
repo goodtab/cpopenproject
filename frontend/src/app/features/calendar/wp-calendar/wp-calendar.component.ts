@@ -400,11 +400,15 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
       const startDate = this.workPackagesCalendar.eventDate(workPackage, 'start');
       const endDate = this.workPackagesCalendar.eventDate(workPackage, 'due');
 
-      const exclusiveEnd = moment(endDate).add(1, 'days').format('YYYY-MM-DD');
+      const exclusiveEnd = endDate && moment(endDate).add(1, 'days').format('YYYY-MM-DD');
+      // An event is visible on the calendar only if it has a start date.
+      // That's why the end date is used as event start date if the work package
+      // does not have a proper start date.
+      const visibleStart = startDate || endDate;
 
       return {
         title: workPackage.subject,
-        start: startDate,
+        start: visibleStart,
         editable: this.workPackagesCalendar.dateEditable(workPackage),
         durationEditable: this.workPackagesCalendar.eventDurationEditable(workPackage),
         end: exclusiveEnd,

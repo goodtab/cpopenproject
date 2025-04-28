@@ -27,7 +27,7 @@
 #++
 
 class Activities::ProjectActivityProvider < Activities::BaseActivityProvider
-  activity_provider_for type: "project_attributes",
+  activity_provider_for type: "project_details",
                         permission: :view_project
 
   def event_query_projection

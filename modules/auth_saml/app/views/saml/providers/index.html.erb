@@ -15,6 +15,7 @@
           aria: { label: I18n.t("saml.providers.label_add_new") },
           title: I18n.t("saml.providers.label_add_new"),
           tag: :a,
+          disabled: !EnterpriseToken.allows_to?(:sso_auth_providers),
           href: new_saml_provider_path
         ) do |button|
           button.with_leading_visual_icon(icon: :plus)
@@ -23,4 +24,5 @@
       end %>
 <% end %>
 
+<%= render EnterpriseEdition::BannerComponent.new(:sso_auth_providers, i18n_scope: "saml.providers.upsell")%>
 <%= render ::Saml::Providers::TableComponent.new(rows: @providers) %>

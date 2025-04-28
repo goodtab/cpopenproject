@@ -330,9 +330,7 @@ RSpec.describe "API v3 time_entry resource" do
       end
     end
 
-    context "when start- & end-time tracking is enabled",
-            with_flag: { track_start_and_end_times_for_time_entries: true },
-            with_settings: { allow_tracking_start_and_end_times: true } do
+    context "when start- & end-time tracking is enabled", with_settings: { allow_tracking_start_and_end_times: true } do
       context "when start and end time were tracked" do
         let!(:time_entry) do
           create(:time_entry, :with_start_and_end_time, project:, work_package:, user: current_user)
@@ -370,9 +368,7 @@ RSpec.describe "API v3 time_entry resource" do
       end
     end
 
-    context "when start- & end-time tracking is disabled",
-            with_flag: { track_start_and_end_times_for_time_entries: false },
-            with_settings: { allow_tracking_start_and_end_times: false } do
+    context "when start- & end-time tracking is disabled", with_settings: { allow_tracking_start_and_end_times: false } do
       context "when start and end time were tracked" do
         let!(:time_entry) do
           create(:time_entry, :with_start_and_end_time, project:, work_package:, user: current_user)

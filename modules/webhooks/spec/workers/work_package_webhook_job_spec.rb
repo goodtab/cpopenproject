@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -74,7 +76,6 @@ RSpec.describe WorkPackageWebhookJob, :webmock, type: :model do
 
     before do
       allow(Webhooks::Webhook).to receive(:find).with(webhook.id).and_return(webhook)
-      login_as user
       stub
     end
 
@@ -136,6 +137,33 @@ RSpec.describe WorkPackageWebhookJob, :webmock, type: :model do
       let(:event) { "work_package:updated" }
       let(:response_code) { 404 }
       let(:response_body) { "not found" }
+    end
+  end
+
+  describe "triggering a work package with an admin only custom field set on the embedded project Regression #62444" do
+    shared_let(:project) { work_package.project }
+    shared_let(:custom_field) do
+      create(:project_custom_field, :string, admin_only: true, projects: [project])
+    end
+    shared_let(:custom_value) do
+      create(:custom_value,
+             custom_field:,
+             customized: project,
+             value: "wat")
+    end
+
+    it_behaves_like "a work package webhook call" do
+      let(:event) { "work_package:created" }
+
+      it "includes the custom field value" do
+        subject
+
+        expect(stub).to have_been_requested
+
+        log = Webhooks::Log.last
+        embedded_project = JSON.parse(log.request_body)["work_package"]["_embedded"]["project"]
+        expect(embedded_project[custom_field.attribute_name(:camel_case)]).to eq "wat"
+      end
     end
   end
 end

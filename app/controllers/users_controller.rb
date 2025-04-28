@@ -244,8 +244,6 @@ class UsersController < ApplicationController
     else
       @user = User.find(params[:id])
     end
-  rescue ActiveRecord::RecordNotFound
-    render_404
   end
 
   def authorize_for_user
@@ -283,10 +281,6 @@ class UsersController < ApplicationController
   end
 
   protected
-
-  def show_local_breadcrumb
-    false
-  end
 
   def build_user_update_params # rubocop:disable Metrics/AbcSize
     pref_params = permitted_params.pref.to_h

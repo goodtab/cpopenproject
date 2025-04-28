@@ -31,10 +31,17 @@ module Migration
     module PermissionAdder
       module_function
 
-      def add(having, add) # rubocop:disable Metrics/AbcSize
+      # Adds a permission to all roles that have the filter permission.
+      # E.g. this can be used to add a new permission to all roles having the :view_work_packages permission.
+      # It is possible to force adding the permission. This might be necessary for older migrations
+      # where the permission has been removed/renamed in the meantime.
+      # @param [Symbol] having The permission to filter the roles by
+      # @param [Symbol] add The permission to add
+      # @param [FalseClass, TrueClass] force Whether to force adding the permission even if it is not a valid permission.
+      def add(having, add, force: false) # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
         added_permission = OpenProject::AccessControl.permission(add)
 
-        if added_permission.blank?
+        if added_permission.blank? && !force
           OpenProject.logger.warn("Permission #{add} is not a valid permission in use. Skipping...")
           return
         end
@@ -49,10 +56,10 @@ module Migration
           next if RolePermission.exists?(role_id: role.id, permission: add.to_s)
 
           # we cannot add permissions that require a member to a non-member role
-          next if added_permission.require_member? && role.builtin == Role::BUILTIN_NON_MEMBER
+          next if !force && added_permission.require_member? && role.builtin == Role::BUILTIN_NON_MEMBER
 
           # we cannot add permissions that require a logged in user to an anonymous role
-          next if added_permission.require_loggedin? && role.builtin == Role::BUILTIN_ANONYMOUS
+          next if !force && added_permission.require_loggedin? && role.builtin == Role::BUILTIN_ANONYMOUS
 
           role.add_permission! add
         end

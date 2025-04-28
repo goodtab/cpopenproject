@@ -3,13 +3,14 @@
     align_items: :center,
     justify_content: :space_between
   ) do |step_container|
-    step_container.with_column(flex_layout: true, mr: 2, classes: "min-width-0") do |title_container|
-      title_container.with_column(pt: 1, mr: 3, classes: "ellipsis") do
-        render(Primer::Beta::Text.new(classes: "filter-target-visible-text")) { definition.name }
-      end
-      title_container.with_column(pt: 1, classes: "no-wrap") do
-        render(Projects::LifeCycleTypeComponent.new(definition))
-      end
+    step_container.with_column(mr: 2, classes: "min-width-0") do
+      render(
+        Projects::PhaseDefinitionComponent.new(
+          definition,
+          edit_link: User.current.admin?,
+          phase_text_options: { classes: "filter-target-visible-text" }
+        )
+      )
     end
     # py: 1 quick fix: prevents the row from bouncing as the toggle switch currently changes height while toggling
     step_container.with_column(py: 1, mr: 2) do

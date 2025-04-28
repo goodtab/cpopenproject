@@ -42,6 +42,6 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
-<%= primer_form_with(model: @enumeration, scope: :enumeration, url: url_for(action: :delete, id: @enumeration), method: :delete) do |f| %>
+<%= primer_form_with(model: @enumeration, scope: :enumeration, url: url_for(action: :destroy, id: @enumeration), method: :delete) do |f| %>
   <%= render(Admin::Enumerations::ReassignForm.new(f, other_enumerations: @other_enumerations)) %>
 <% end %>

@@ -35,7 +35,7 @@ RSpec.describe MeetingSections::UpdateContract do
   include_context "ModelContract shared context"
 
   shared_let(:project) { create(:project) }
-  shared_let(:meeting) { create(:structured_meeting, project:) }
+  shared_let(:meeting) { create(:meeting, project:) }
   shared_let(:section) { create(:meeting_section, meeting:) }
   let(:contract) { described_class.new(section, user) }
 

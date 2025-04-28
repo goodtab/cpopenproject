@@ -45,12 +45,27 @@ See COPYRIGHT and LICENSE files for more details.
       <legend class="form--fieldset-legend"><%= I18n.t("settings.general") %></legend>
       <div class="form--field"><%= setting_check_box :login_required %></div>
 
-      <div class="form--field"><%= setting_select :self_registration, [[t(:label_disabled), Setting::SelfRegistration.disabled.to_s],
-                                                                       [t(:label_registration_activation_by_email), Setting::SelfRegistration.by_email.to_s],
-                                                                       [t(:label_registration_manual_activation), Setting::SelfRegistration.manual.to_s],
-                                                                       [t(:label_registration_automatic_activation), Setting::SelfRegistration.automatic.to_s]],
-                                                  container_class: "-middle" %>
+      <div class="form--field">
+        <%= setting_select :self_registration, [[t(:label_disabled), Setting::SelfRegistration.disabled.to_s],
+                                                [t(:label_registration_activation_by_email), Setting::SelfRegistration.by_email.to_s],
+                                                [t(:label_registration_manual_activation), Setting::SelfRegistration.manual.to_s],
+                                                [t(:label_registration_automatic_activation), Setting::SelfRegistration.automatic.to_s]],
+                           container_class: "-middle" %>
+        <div class="form--field-instructions">
+          <% if Setting::SelfRegistration.unsupervised_registration? %>
+            <%=
+              render Primer::Alpha::Banner.new(
+                scheme: :warning,
+                icon: :alert,
+                my: 2
+              ) do
+                I18n.t(:setting_self_registration_warning)
+              end
+            %>
+          <% end %>
+        </div>
       </div>
+
 
       <div class="form--field">
         <%= setting_check_box :email_login, title: I18n.t("tooltip.setting_email_login") %>
@@ -93,8 +108,8 @@ See COPYRIGHT and LICENSE files for more details.
         <div class="form--field -wide-label"><%= setting_text_field :password_min_length, size: 6, container_class: "-xslim" %></div>
         <div class="form--field -wide-label">
           <% rules = OpenProject::Passwords::Evaluator.known_rules.map do |rule|
-               [t("label_password_rule_#{rule}"), rule]
-             end %>
+            [t("label_password_rule_#{rule}"), rule]
+          end %>
           <%= setting_multiselect :password_active_rules, rules %>
         </div>
         <div class="form--field -wide-label"><%= setting_text_field :password_min_adhered_rules, size: 6, container_class: "-xslim" %></div>

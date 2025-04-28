@@ -27,12 +27,12 @@
 #++
 
 require "spec_helper"
-require File.expand_path("../support/permission_specs", __dir__)
+require "support/permission_specs"
 
 RSpec.describe Overviews::OverviewsController, "view_project_life_cycles permission", # rubocop:disable RSpec/EmptyExampleGroup,RSpec/SpecFilePathFormat
                type: :controller do
   include PermissionSpecs
 
   # render sidebar on project overview page with view_project permission
-  check_permission_required_for("overviews/overviews#project_life_cycles_sidebar", :view_project_stages_and_gates)
+  check_permission_required_for("overviews/overviews#project_life_cycles_sidebar", :view_project_phases)
 end

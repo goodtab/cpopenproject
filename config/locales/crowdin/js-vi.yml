@@ -239,7 +239,7 @@ vi:
           status_waiting: "email đã được gửi - chờ xác nhận"
           test_ee: "Dùng thử phiên bản Enterprise miễn phí trong 14 ngày"
           quick_overview: "Nhận cái nhìn nhanh về quản lý dự án và hợp tác nhóm với phiên bản Enterprise của OpenProject."
-        upsale:
+        upsell:
           become_hero: "Trở thành anh hùng!"
           enterprise_info_html: "%{feature_title} là một phần mở rộng Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span>."
           upgrade_info: "Vui lòng nâng cấp lên kế hoạch trả phí để kích hoạt và bắt đầu sử dụng nó trong nhóm của bạn."
@@ -260,7 +260,7 @@ vi:
           confidence: >
             Chúng tôi cung cấp sự tự tin với phần mềm quản lý dự án cấp doanh nghiệp đã được kiểm tra và hỗ trợ - với mã nguồn mở và tâm trí cởi mở.
           link_quote: "Nhận báo giá"
-          more_info: "Thêm thông tin"
+          more_info: "Thông tin thêm"
           text: >
             Phiên bản Enterprise của OpenProject xây dựng trên phiên bản Community. Nó bao gồm các phần mở rộng Enterprise và hỗ trợ chuyên nghiệp chủ yếu nhằm vào các tổ chức có hơn 10 người dùng quản lý các dự án quan trọng với OpenProject.
           unlimited: "Không giới hạn"
@@ -358,10 +358,10 @@ vi:
           learn_about: "Tìm hiểu thêm về các tính năng mới"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "15_4":
+          "15_5":
             standard:
               new_features_html: >
-                The release brings various features and improvements for you, e.g. <br> <ul class="%{list_styling_class}"> <li>Enable automatic scheduling mode.</li> <li>Set agenda item outcomes for meetings.</li> <li>Generate PDF documents from a work package description.</li> <li>Better manage a large number of projects with an enhanced project lists view.</li> <li>Use @-mention of user when quote replying to a comment.</li> </ul>
+                The release brings various features and improvements for you, e.g. <br> <ul class="%{list_styling_class}"> <li>Filter for descendants (children and grandchildren) of work packages.</li> <li>Benefit from advanced accessibility in the date picker.</li> <li>See % Complete included in work package table sums.</li> <li>Include a column for children in work package tables.</li> <li>Better use the date picker in mobile screens.</li> <li>PDF exports matching configured form layout.</li> </ul>
     ical_sharing_modal:
       title: "Đăng ký lịch"
       inital_setup_error_message: "Đã xảy ra lỗi khi lấy dữ liệu."
@@ -463,6 +463,7 @@ vi:
     label_menu_collapse: "thu gọn"
     label_menu_expand: "mở rộng"
     label_more_than_ago: "hơn ngày trước"
+    label_moderate_comment: "Moderate comment"
     label_next: "Tiếp theo"
     label_no_color: "Không có màu"
     label_no_data: "Không có dữ liệu để hiển thị"
@@ -631,9 +632,6 @@ vi:
         property_is: "is in %{difference_in_days}."
         property_was: "was %{difference_in_days} ago."
         property_is_deleted: "is deleted."
-        upsale:
-          title: "Cảnh báo ngày"
-          description: "Với cảnh báo ngày, bạn sẽ được thông báo về các ngày bắt đầu hoặc kết thúc sắp tới để không bao giờ bỏ lỡ hoặc quên hạn chót quan trọng."
       center:
         label_actor_and: "và"
         and_more_users:
@@ -695,7 +693,6 @@ vi:
           date_alerts:
             title: "Cảnh báo ngày"
             description: "Thông báo tự động khi các ngày quan trọng sắp đến cho các gói công việc mở mà bạn tham gia (người được giao, người chịu trách nhiệm hoặc người theo dõi)."
-            teaser_text: "Với cảnh báo ngày, bạn sẽ được thông báo về các ngày bắt đầu hoặc kết thúc sắp tới để không bao giờ bỏ lỡ hoặc quên hạn chót quan trọng."
           overdue: Khi quá hạn
         project_specific:
           title: "Cài đặt thông báo theo dự án"
@@ -798,6 +795,7 @@ vi:
       typeahead_placeholder: Tìm kiếm người có thể theo dõi
     relation_labels:
       parent: "Cha"
+      child: "Child"
       children: "Con"
       relates: "Liên quan đến"
       duplicates: "Trùng lặp"
@@ -827,7 +825,7 @@ vi:
       add_new_child: "Tạo con mới"
       create_new: "Tạo mới"
       add_existing: "Thêm hiện có"
-      add_existing_child: "Thêm con hiện có"
+      add_existing_child: "Add child"
       remove_child: "Xóa con"
       add_new_relation: "Tạo quan hệ mới"
       add_existing_relation: "Thêm quan hệ hiện có"
@@ -866,7 +864,7 @@ vi:
     tl_toolbar:
       zooms: "Mức thu phóng"
       outlines: "Mức phân cấp"
-    upsale:
+    upsell:
       ee_only: "Bổ sung phiên bản Doanh nghiệp"
     wiki_formatting:
       strong: "In đậm"
@@ -1045,8 +1043,6 @@ vi:
       sharing:
         title: "Chia sẻ gói công việc"
         show_all_users: "Hiển thị tất cả người dùng mà gói công việc đã được chia sẻ"
-        upsale:
-          description: "Chia sẻ gói công việc với người dùng không phải là thành viên của dự án."
       table:
         configure_button: "Cấu hình bảng gói công việc"
         summary: "Bảng với hàng gói công việc và cột thuộc tính gói công việc."
@@ -1081,10 +1077,6 @@ vi:
           manually: "Thủ công"
           warning: "Bạn sẽ mất sắp xếp trước đó khi kích hoạt chế độ sắp xếp tự động."
         columns_help_text: "Sử dụng trường đầu vào phía trên để thêm cột vào chế độ xem bảng của bạn. Bạn có thể kéo và thả các cột để thay đổi thứ tự của chúng."
-        upsale:
-          attribute_highlighting: "Cần làm nổi bật các gói công việc nhất định khỏi đám đông?"
-          relation_columns: "Cần xem các mối quan hệ trong danh sách gói công việc?"
-          check_out_link: "Xem thêm phiên bản Doanh nghiệp."
         relation_filters:
           filter_work_packages_by_relation_type: "Lọc gói công việc theo loại mối quan hệ"
       tabs:
@@ -1295,9 +1287,7 @@ vi:
       clear: "Xóa"
       apply: "Áp dụng"
       header_description: "Nổi bật các thay đổi đã thực hiện đối với danh sách này kể từ bất kỳ thời điểm nào trong quá khứ."
-      enterprise_header_description: "Nổi bật các thay đổi đã thực hiện đối với danh sách này kể từ bất kỳ thời điểm nào trong quá khứ với phiên bản Doanh nghiệp."
       show_changes_since: "Hiển thị các thay đổi kể từ"
-      baseline_comparison: "So sánh cơ sở"
       help_description: "Múi giờ tham chiếu cho cơ sở."
       time_description: "Theo giờ địa phương của bạn: %{datetime}"
       time: "Thời gian"

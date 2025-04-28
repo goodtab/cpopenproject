@@ -85,6 +85,7 @@ import {
   WidgetProjectFavoritesComponent,
 } from 'core-app/shared/components/grids/widgets/project-favorites/widget-project-favorites.component';
 import { IconModule } from 'core-app/shared/components/icon/icon.module';
+import { OpenprojectEnterpriseModule } from 'core-app/features/enterprise/openproject-enterprise.module';
 
 @NgModule({
   imports: [
@@ -97,6 +98,7 @@ import { IconModule } from 'core-app/shared/components/icon/icon.module';
     OpenprojectWorkPackageGraphsModule,
     OpenprojectCalendarModule,
     OpenprojectTimeEntriesModule,
+    OpenprojectEnterpriseModule,
 
     OpenprojectAttachmentsModule,
 

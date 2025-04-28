@@ -50,13 +50,25 @@ uk:
         project: Проєкт
         user: Користувач
         work_package: Пакет робіт
+        subject: Заголовок
         hours: Години
         comments: Коментар
         activity: Активність
         spent_on: Дата
         start_time: Час початку
         end_time: Час закінчення
+        time: Час
     models:
+      time_entry:
+        one: "Запис часу"
+        few: "Записи часу"
+        many: "Записи часу"
+        other: "Записи часу"
+      cost_entry:
+        one: "Запис витрат"
+        few: "Записи витрат"
+        many: "Записи витрат"
+        other: "Записи витрат"
       cost_type:
         one: "Тип вартості"
         few: "Види витрат"
@@ -148,12 +160,28 @@ uk:
   label_cost: "Витрата"
   label_costs: "Витрати"
   label_mandatory_fields: "Обов’язкові поля"
+  label_my_time_tracking: "My time tracking"
+  label_no_time: "No time tracked"
+  label_next_day: "Next day"
+  label_next_week: "Наступний тиждень"
+  label_next_month: "Next month"
+  label_previous_day: "Previous day"
+  label_previous_week: "Попередній тиждень"
+  label_previous_month: "Previous month"
+  label_specific_day: "Day %{day}"
+  label_specific_week: "Calendar week %{week}"
+  label_specific_month: "Month %{month}"
+  label_list: "Список"
+  label_month: "Місяць"
+  label_day: "День"
+  label_today_capitalized: "Сьогодні"
   placeholder_activity_select_work_package_first: Спочатку потрібно вибрати пакет робіт
   notice_something_wrong: "Щось пішло не так. Будь ласка спробуйте ще раз."
   notice_successful_restore: "Успішне відновлення."
   notice_successful_lock: "Успішно заблоковано."
   notice_cost_logged_successfully: "Вартість одиниць успішно зареєстрована."
   notice_different_time_zones: "Часовий пояс цього користувача (%{tz}) відрізняється. Час записуватиметься за його поясом."
+  notice_time_entry_update_failed: "Failed to update time entry. Errors: %{errors}"
   permission_edit_cost_entries: "Відредагувати витрати на одиницю"
   permission_edit_own_cost_entries: "Редагування власних витрат на одиницю"
   permission_edit_hourly_rates: "Редагування погодинних ставок"
@@ -179,9 +207,17 @@ uk:
   text_reassign_time_and_cost_entries: "Перепризначення повідомлених годин і витрат до цього робочого пакету :"
   text_warning_hidden_elements: "Деякі записи можуть бути виключені з агрегації."
   week: "тиждень"
-  js:
-    text_are_you_sure: "Ви впевненені?"
+  total_times:
+    week: "Week Total: %{hours}"
+    month: "Month Total: %{hours}"
+    day: "Day Total: %{hours}"
   api_v3:
     errors:
       validation:
         start_time_different_date: "Частина дати в значенні startTime (%{start_time}) має збігатися зі значенням дати spentOn (%{spent_on})."
+  ee:
+    features:
+      time_entry_time_restrictions: Вимагати точного відстеження часу
+    upsell:
+      time_entry_time_restrictions:
+        description: "Удоскональте відстеження часу, вимагаючи введення точного часу початку й завершення робіт."

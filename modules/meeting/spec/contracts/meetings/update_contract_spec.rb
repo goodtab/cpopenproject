@@ -35,7 +35,7 @@ RSpec.describe Meetings::UpdateContract do
   include_context "ModelContract shared context"
 
   shared_let(:project) { create(:project) }
-  shared_let(:meeting) { create(:structured_meeting, project:) }
+  shared_let(:meeting) { create(:meeting, project:) }
   let(:contract) { described_class.new(meeting, user) }
 
   context "with permission" do

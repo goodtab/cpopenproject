@@ -93,7 +93,9 @@ zh-CN:
       button: "导出 PDF 时间表"
       timesheet: "时间表"
       time: "时间"
-      sum_hours: 总和
+      sums_hours: 总计
+      overview_per_user_total: "概览：每个用户的总工时数"
+      overview_per_user_day: "概览：每个用户每日工时数"
     cost_reports:
       title: "您的成本报告 XLS 导出"
       start_time: "开始时间"

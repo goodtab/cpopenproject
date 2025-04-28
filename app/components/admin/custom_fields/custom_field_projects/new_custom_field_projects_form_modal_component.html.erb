@@ -48,8 +48,8 @@ See COPYRIGHT and LICENSE files for more details.
 
       concat(
         render(Primer::Alpha::Dialog::Footer.new(show_divider: false)) do
-          concat(render(Primer::ButtonComponent.new(data: { "close-dialog-id": dialog_id })) { cancel_button_text })
-          concat(render(Primer::ButtonComponent.new(scheme: :primary, type: :submit)) { submit_button_text })
+          concat(render(Primer::Beta::Button.new(data: { "close-dialog-id": dialog_id })) { cancel_button_text })
+          concat(render(Primer::Beta::Button.new(scheme: :primary, type: :submit)) { submit_button_text })
         end
       )
     end

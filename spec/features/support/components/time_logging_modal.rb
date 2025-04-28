@@ -52,6 +52,7 @@ module Components
     end
 
     def submit
+      wait_for_autocompleter_options_to_be_loaded
       within modal_container do
         click_on I18n.t("button_log_time")
       end

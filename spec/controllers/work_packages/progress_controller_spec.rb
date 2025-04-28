@@ -31,12 +31,153 @@
 require "spec_helper"
 
 RSpec.describe WorkPackages::ProgressController do
-  shared_let(:user) { create(:admin) }
   shared_let(:work_package) { create(:work_package) }
+  shared_let(:user) do
+    create(:user,
+           member_with_permissions: {
+             work_package.project => %i[add_work_packages edit_work_packages view_work_packages]
+           })
+  end
 
   current_user { user }
 
-  describe "POST /work_packages/:d/progress" do
+  def progress_errors(work_package)
+    work_package.errors.group_by_attribute.slice(:estimated_hours, :remaining_hours, :done_ratio)
+  end
+
+  describe "GET /work_packages/progress/new" do
+    let(:params) do
+      {
+        "work_package" => {
+          "initial" => {
+            "estimated_hours" => "7.0",
+            "remaining_hours" => "7.0",
+            "done_ratio" => "0"
+          },
+          "estimated_hours" => "7h",
+          "remaining_hours" => "7h",
+          "done_ratio" => "0",
+          "estimated_hours_touched" => "false",
+          "remaining_hours_touched" => "false",
+          "done_ratio_touched" => "false"
+        }
+      }
+    end
+
+    it "assigns work package initialized with initial values and updated with touched and derived values" do
+      params["work_package"]["estimated_hours"] = "5" # won't be used because not touched
+      params["work_package"]["remaining_hours"] = "3"
+      params["work_package"]["remaining_hours_touched"] = "true"
+
+      get("new", params:, as: :turbo_stream)
+
+      assigned_work_package = assigns(:work_package)
+      expect(assigned_work_package).to be_new_record
+      expect(assigned_work_package.estimated_hours).to eq(7)
+      expect(assigned_work_package.remaining_hours).to eq(3)
+      expect(assigned_work_package.done_ratio).to eq(57) # derived
+      expect(progress_errors(assigned_work_package)).to be_empty
+    end
+
+    context "when the user edits fields and does not have 'Add work packages' permission" do
+      before do
+        RolePermission.where(permission: "add_work_packages").delete_all
+      end
+
+      it "displays read-only errors" do
+        params["work_package"]["remaining_hours"] = "3"
+        params["work_package"]["remaining_hours_touched"] = "true"
+
+        get("new", params:, as: :turbo_stream)
+
+        assigned_work_package = assigns(:work_package)
+        expect(progress_errors(assigned_work_package)).to match(
+          remaining_hours: [have_attributes(class: ActiveModel::Error, type: :error_readonly)]
+        )
+      end
+    end
+
+    context "when the user edits fields and does not have 'Edit work packages' permission" do
+      before do
+        RolePermission.where(permission: "edit_work_packages").delete_all
+      end
+
+      it "does not display any errors" do
+        params["work_package"]["remaining_hours"] = "3"
+        params["work_package"]["remaining_hours_touched"] = "true"
+
+        get("new", params:, as: :turbo_stream)
+
+        assigned_work_package = assigns(:work_package)
+        expect(progress_errors(assigned_work_package)).to be_empty
+      end
+    end
+  end
+
+  describe "GET /work_packages/:id/progress" do
+    let(:params) do
+      {
+        "work_package_id" => work_package.id,
+        "work_package" => {
+          "estimated_hours" => "42",
+          "remaining_hours" => "4h",
+          "done_ratio" => "90",
+          "estimated_hours_touched" => "false",
+          "remaining_hours_touched" => "false",
+          "done_ratio_touched" => "false"
+        }
+      }
+    end
+
+    it "assigns work package updated with touched and derived values" do
+      params["work_package"]["estimated_hours"] = "50h"
+      params["work_package"]["estimated_hours_touched"] = "true"
+
+      get("edit", params:, as: :turbo_stream)
+
+      assigned_work_package = assigns(:work_package)
+      expect(assigned_work_package.estimated_hours).to eq(50)
+      expect(assigned_work_package.remaining_hours).to eq(50) # derived
+      expect(assigned_work_package.done_ratio).to eq(0) # derived
+      expect(progress_errors(assigned_work_package)).to be_empty
+    end
+
+    context "when the user edits fields and does not have 'Add work packages' permission" do
+      before do
+        RolePermission.where(permission: "add_work_packages").delete_all
+      end
+
+      it "does not display any errors" do
+        params["work_package"]["estimated_hours"] = "50h"
+        params["work_package"]["estimated_hours_touched"] = "true"
+
+        get("edit", params:, as: :turbo_stream)
+
+        assigned_work_package = assigns(:work_package)
+        expect(progress_errors(assigned_work_package)).to be_empty
+      end
+    end
+
+    context "when the user edits fields and does not have 'Edit work packages' permission" do
+      before do
+        RolePermission.where(permission: "edit_work_packages").delete_all
+      end
+
+      it "display read-only errors" do
+        params["work_package"]["estimated_hours"] = "50h"
+        params["work_package"]["estimated_hours_touched"] = "true"
+
+        get("edit", params:, as: :turbo_stream)
+
+        assigned_work_package = assigns(:work_package)
+        expect(progress_errors(assigned_work_package)).to match(
+          estimated_hours: [have_attributes(class: ActiveModel::Error, type: :error_readonly)]
+        )
+      end
+    end
+  end
+
+  describe "POST /work_packages/:id/progress" do
     let(:params) do
       {
         "work_package_id" => work_package.id,

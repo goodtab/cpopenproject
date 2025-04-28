@@ -20,7 +20,7 @@ module OpenProject
           header.with_action_icon_button(icon: :trash, mobile_icon: :trash, label: "Delete", scheme: :danger)
 
           header.with_action_menu(menu_arguments: { anchor_align: :end },
-                                  button_arguments: { icon: "op-kebab-vertical", "aria-label": "Menu" }) do |menu|
+                                  button_arguments: { icon: "kebab-horizontal", "aria-label": "Menu" }) do |menu|
             menu.with_item(label: "Subitem 1") do |item|
               item.with_leading_visual_icon(icon: :paste)
             end
@@ -63,7 +63,7 @@ module OpenProject
           if with_actions
             header.with_action_icon_button(icon: "pencil", mobile_icon: "pencil", label: "Edit")
             header.with_action_menu(menu_arguments: { anchor_align: :end },
-                                    button_arguments: { icon: "op-kebab-vertical",
+                                    button_arguments: { icon: "kebab-horizontal",
                                                         "aria-label": "Menu" }) do |menu, _button|
               menu.with_item(label: "Subitem 1") do |item|
                 item.with_leading_visual_icon(icon: :unlock)

@@ -164,7 +164,7 @@ We are happy to announce that we have released the multi-select custom fields fo
 - Fixed: GitHub integration reference uses author instead of commenter \[[#48246](https://community.openproject.org/wp/48246)\]
 - Fixed: Work package in query without timestamps have cached timestamps url parameter \[[#48248](https://community.openproject.org/wp/48248)\]
 - Fixed: Archived subprojects appear in the subproject widget \[[#48327](https://community.openproject.org/wp/48327)\]
-- Fixed: My Page: My spent time hows incorrect non-working days \[[#48328](https://community.openproject.org/wp/48328)\]
+- Fixed: My page: My spent time hows incorrect non-working days \[[#48328](https://community.openproject.org/wp/48328)\]
 - Fixed: Error 500 on versions when Wiki page is linked \[[#48336](https://community.openproject.org/wp/48336)\]
 - Fixed: Opening work packages in github tab from table with active baseline causes an internal error \[[#48362](https://community.openproject.org/wp/48362)\]
 - Fixed: PDF export reports faulty interface usage \[[#48393](https://community.openproject.org/wp/48393)\]

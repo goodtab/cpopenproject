@@ -42,7 +42,7 @@
         anchor_align: :end
       },
       button_arguments: {
-        icon: "op-kebab-vertical",
+        icon: "kebab-horizontal",
         "aria-label": t(:label_more),
         test_selector: "project-settings-more-menu"
       }
@@ -61,6 +61,20 @@
         end
       end
 
+      if User.current.allowed_in_project?(:edit_project, @project)
+        menu.with_item(
+          tag: :a,
+          label: public? ? t(:button_unpublish) : t(:button_publish),
+          href: toggle_public_dialog_project_settings_general_path(@project),
+          content_arguments: {
+            data: { turbo_stream: true },
+            test_selector: "project-settings--toggle-public"
+          }
+        ) do |item|
+          item.with_leading_visual_icon(icon: public? ? :lock : :unlock)
+        end
+      end
+
       if User.current.allowed_in_project?(:archive_project, @project)
         menu.with_item(
           tag: :a,
@@ -74,6 +88,7 @@
           item.with_leading_visual_icon(icon: "lock")
         end
       end
+
       if User.current.admin?
         label = @project.templated ? "remove_from_templates" : "make_template"
         menu.with_item(

@@ -217,6 +217,7 @@ module Pages
 
     def save
       page.find(".editable-toolbar-title--save").click
+      wait_for_lists_reload
       expect_and_dismiss_toaster message: "Successful update."
     end
 

@@ -47,6 +47,7 @@ RSpec.describe CostQuery::PDF::TimesheetGenerator do
            user: user,
            spent_on: Date.new(2024, 12, 0o1),
            start_time: 8 * 60,
+           hours: 28,
            time_zone: "UTC")
   end
   let(:time_entry) do
@@ -124,12 +125,14 @@ RSpec.describe CostQuery::PDF::TimesheetGenerator do
   end
 
   def expected_entry_row(t_entry, with_times_column)
-    [format_date(t_entry.spent_on)].concat(expected_entry_columns(t_entry, with_times_column))
+    result = [generator.format_date_with_weekday(t_entry.spent_on)]
+    result.concat(expected_entry_columns(t_entry, with_times_column))
   end
 
   def expected_entry_columns(t_entry, with_times_column)
     time_column = generator.format_spent_on_time(t_entry)
     [
+      "##{t_entry.work_package.id} ",
       t_entry.work_package&.subject || "",
       with_times_column && time_column.present? ? time_column : nil,
       generator.format_hours(t_entry.hours),
@@ -138,22 +141,50 @@ RSpec.describe CostQuery::PDF::TimesheetGenerator do
     ].compact
   end
 
+  def expected_overview_table_content
+    [
+      I18n.t("export.timesheet.overview_per_user_total"),
+      TimeEntry.human_attribute_name(:user),
+      I18n.t("export.timesheet.sums_hours"),
+      user.name,
+      generator.format_hours(time_entries.select { |entry| entry.user == user }.sum(&:hours)),
+      time_entry_user.name,
+      generator.format_hours(time_entries.select { |entry| entry.user == time_entry_user }.sum(&:hours)),
+      generator.format_hours(time_entries.sum(&:hours)),
+    ]
+  end
+
+  def expected_overview_sums_content
+    [
+      I18n.t("export.timesheet.overview_per_user_day"),
+      TimeEntry.human_attribute_name(:spent_on),
+      user.name,
+      time_entry_user.name,
+
+      generator.format_date_with_weekday(user_time_entry.spent_on),
+      generator.format_hours(user_time_entry.hours), generator.format_hours(time_entry.hours + other_time_entry.hours),
+
+      generator.format_date_with_weekday(time_entry_with_comment.spent_on),
+      generator.format_hours(time_entry_with_comment.hours),
+
+      generator.format_date_with_weekday(time_entry_without_time.spent_on),
+      generator.format_hours(time_entry_without_time.hours),
+
+      I18n.t("export.timesheet.sums_hours"),
+      generator.format_hours(time_entries.select { |entry| entry.user == user }.sum(&:hours)),
+      generator.format_hours(time_entries.select { |entry| entry.user == time_entry_user }.sum(&:hours))
+    ]
+  end
+
   def expected_overview_page_content
-    result = [query.name,
-              TimeEntry.human_attribute_name(:user), I18n.t("export.timesheet.sum_hours")]
-    time_entries.group_by(&:user).each do |user, entries|
-      result << user.name
-      result << generator.format_hours(entries.sum(&:hours))
-    end
-    result << generator.format_hours(time_entries.sum(&:hours))
+    [query.name] + expected_overview_table_content + expected_overview_sums_content
   end
 
   def expected_first_user_table(with_times_column)
     [
       user.name,
       *expected_table_header(with_times_column),
-      *expected_entry_row(user_time_entry, with_times_column),
-      *expected_sum_row(user, with_times_column)
+      *expected_entry_row(user_time_entry, with_times_column)
     ]
   end
 
@@ -161,9 +192,10 @@ RSpec.describe CostQuery::PDF::TimesheetGenerator do
     [
       time_entry.user.name,
       *expected_table_header(with_times_column),
-      format_date(time_entry.spent_on), # merged date rows
+      generator.format_date_with_weekday(time_entry.spent_on), # merged date rows
       *expected_entry_columns(time_entry, with_times_column),
       *expected_entry_columns(other_time_entry, with_times_column),
+      generator.format_hours(time_entry.hours + other_time_entry.hours),
       *expected_entry_row(time_entry_with_comment, with_times_column),
       *expected_entry_row(time_entry_without_time, with_times_column),
       *expected_sum_row(time_entry.user, with_times_column)

@@ -27,8 +27,18 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t("create_new_page") %>
+<% html_title t(:create_wiki_page) %>
 
+<%=
+  render Primer::OpenProject::PageHeader.new do |header|
+    header.with_title { t(:create_wiki_page) }
+    header.with_breadcrumbs(
+      [{ href: project_overview_path(@project.id), text: @project.name },
+       { href: url_for({ controller: "/wiki", action: "index", project_id: @project.identifier }), text: t("activerecord.models.wiki") },
+       t(:create_wiki_page)]
+    )
+  end
+%>
 <%= labelled_tabular_form_for @page,
                               as: :page,
                               url: create_project_wiki_index_path(project_id: @project),

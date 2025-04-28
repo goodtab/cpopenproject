@@ -13,14 +13,6 @@
     &:has(+ .op-baseline--body_ranged)
       width: auto
 
-  &--enterprise-title
-    color: $spot-color-feedback-warning-dark
-    @include spot-body-small (bold)
-    display: flex
-    flex-direction: row
-    align-items: center
-    gap: $spot-spacing-1 $spot-spacing-0_25
-
   &--info-button
     display: flex
     align-items: center
@@ -32,7 +24,6 @@
     margin-top: 0 !important
 
     @media screen and #{$spot-mq-drop-modal-in-context}
-      width: 316px
       max-height: 70vh
 
     &_ranged
@@ -84,3 +75,6 @@
       margin-left: 0
     .op-baseline--range-container
       margin: 0
+
+  &_banner_active.op-baseline--header
+    width: 450px

@@ -41,7 +41,7 @@ et:
         sprint:
           cannot_end_before_it_starts: "Sprint cannot end before it starts."
   backlogs:
-    add_new_story: "New Story"
+    add_new_story: "Uus lugu"
     any: "any"
     backlog_settings: "Backlogs settings"
     burndown_graph: "Burndown Graph"
@@ -95,8 +95,8 @@ et:
   backlogs_wiki_template: "Template for sprint wiki page"
   backlogs_empty_title: "No versions are defined to be used in backlogs"
   backlogs_empty_action_text: "To get started with backlogs, create a new version and assign it to a backlogs column."
-  button_edit_wiki: "Edit wiki page"
-  error_backlogs_task_cannot_be_story: "The settings are invalid. The selected task type can not also be a story type."
+  button_edit_wiki: "Muuda vikilehte"
+  error_backlogs_task_cannot_be_story: "Seaded pole korrektsed. Valitud ülesande liik ei saa olla ka loo liik."
   error_intro_plural: "The following errors were encountered:"
   error_intro_singular: "The following error was encountered:"
   error_outro: "Please correct the above errors before submitting again."
@@ -104,7 +104,7 @@ et:
   event_sprint_summary: "%{project}: %{summary}"
   ideal: "ideal"
   inclusion: "ei ole nimistus"
-  label_back_to_project: "Back to project page"
+  label_back_to_project: "Tagasi projekti lehele"
   label_backlog: "Backlog"
   label_backlogs: "Backlogs"
   label_backlogs_unconfigured: "You have not configured Backlogs yet. Please go to %{administration} > %{plugins}, then click on the %{configure} link for this plugin. Once you have set the fields, come back to this page to start using the tool."

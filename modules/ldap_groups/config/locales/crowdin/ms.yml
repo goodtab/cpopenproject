@@ -1,4 +1,9 @@
 ms:
+  ee:
+    upsell:
+      ldap_groups:
+        title: 'Sinkronisasi kumpulan LDAP'
+        description: 'Synchronize LDAP groups with OpenProject groups to manage users, change their permissions and facilitate user management across groups.'
   plugin_openproject_ldap_groups:
     name: "Kumpulan LDAP OpenProject"
     description: "Penyelarasan keahlian kumpulan LDAP"
@@ -71,5 +76,5 @@ ms:
           Jika anda mengaktifkan pilihan ini, pengguna yang ditemui akan dicipta secara automatik di OpenProject. Tanpanya, hanya akaun yang sedia ada dalam OpenProject akan ditambah ke dalam kumpulan.
         dn_text: 'Masukkan DN penuh kumpulan dalam LDAP'
         group_text: 'Pilih kumpulan OpenProject sedia ada yang ahli-ahli kumpulan LDAP akan diselaraskan dengannya'
-      upsale:
+      upsell:
         description: 'Manfaatkan kumpulan LDAP yang diselaraskan untuk mengurus pengguna-pengguna, menukar kebenaran mereka dan memudahkan pengurusan pengguna di kalangan kumpulan.'

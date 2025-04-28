@@ -21,7 +21,7 @@
     dialog.with_footer do
       component_collection do |modal_footer|
         modal_footer.with_component(
-          Primer::ButtonComponent.new(
+          Primer::Beta::Button.new(
             data: { "close-dialog-id": "new-meeting-dialog" }
           )
         ) do
@@ -29,7 +29,7 @@
         end
 
         modal_footer.with_component(
-          Primer::ButtonComponent.new(
+          Primer::Beta::Button.new(
             scheme: :primary,
             form: "meeting-form",
             type: :submit

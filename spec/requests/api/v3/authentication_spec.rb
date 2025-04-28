@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -404,7 +406,7 @@ RSpec.describe "API V3 Authentication" do
              "manage-clients",
              "query-groups"] },
           "account" => { "roles" => ["manage-account", "manage-account-links", "view-profile"] } },
-        "scope" => "email profile",
+        "scope" => token_scope,
         "sid" => "eb235240-0b47-48fa-8b3e-f3b310d352e3",
         "email_verified" => false,
         "preferred_username" => "admin"
@@ -415,21 +417,34 @@ RSpec.describe "API V3 Authentication" do
     let(:token_sub) { "b70e2fbf-ea68-420c-a7a5-0a287cb689c6" }
     let(:token_aud) { ["https://openproject.local", "master-realm", "account"] }
     let(:token_issuer) { "https://keycloak.local/realms/master" }
+    let(:token_scope) { "email profile api_v3" }
     let(:expected_message) { "You did not provide the correct credentials." }
-    let(:keys_request_stub) { nil }
+    let(:keys_request_stub) do
+      stub_request(:get, "https://keycloak.local/realms/master/protocol/openid-connect/certs")
+        .to_return(status: 200, body: JWT::JWK::Set.new(jwk_response).export.to_json, headers: {})
+    end
+    let(:jwk_response) { jwk }
+    let(:user) { create(:user, identity_url: "keycloak:#{token_sub}") }
 
     before do
       create(:oidc_provider, slug: "keycloak")
-      create(:user, identity_url: "keycloak:#{token_sub}")
+      user.save!
       keys_request_stub
 
       header "Authorization", "Bearer #{token}"
     end
 
+    it "succeeds" do
+      get resource
+
+      expect(last_response).to have_http_status :ok
+      expect(last_response.header["WWW-Authenticate"]).to be_blank
+    end
+
     context "when token is issued by provider not configured in OP" do
       let(:token_issuer) { "https://eve.example.com" }
 
-      it do
+      it "fails with HTTP 401 Unauthorized" do
         get resource
         expect(last_response).to have_http_status :unauthorized
         expect(last_response.header["WWW-Authenticate"])
@@ -438,103 +453,106 @@ RSpec.describe "API V3 Authentication" do
       end
     end
 
-    context "when token is issued by provider configured in OP" do
-      context "when token signature algorithm is not supported" do
-        let(:token) { JWT.encode(payload, "secret", "HS256", { kid: "97AmyvoS8BFFRfm585GPgA16G1H2V22EdxxuAYUuoKk" }) }
+    context "when token signature algorithm is not supported" do
+      let(:token) { JWT.encode(payload, "secret", "HS256", { kid: "97AmyvoS8BFFRfm585GPgA16G1H2V22EdxxuAYUuoKk" }) }
 
-        it do
-          get resource
-          expect(last_response).to have_http_status :unauthorized
-          error = "Token signature algorithm HS256 is not supported"
-          expect(last_response.header["WWW-Authenticate"])
-            .to eq(%{Bearer realm="OpenProject API", error="invalid_token", error_description="#{error}"})
-          expect(JSON.parse(last_response.body)).to eq(error_response_body)
-        end
+      it "fails with HTTP 401 Unauthorized" do
+        get resource
+        expect(last_response).to have_http_status :unauthorized
+        error = "Token signature algorithm HS256 is not supported"
+        expect(last_response.header["WWW-Authenticate"])
+          .to eq(%{Bearer realm="OpenProject API", error="invalid_token", error_description="#{error}"})
+        expect(JSON.parse(last_response.body)).to eq(error_response_body)
+      end
+    end
+
+    context "when aud does not contain client_id" do
+      let(:token_aud) { ["Lisa", "Bart"] }
+
+      it "fails with HTTP 401 Unauthorized" do
+        get resource
+
+        expect(last_response).to have_http_status :unauthorized
+        error = 'Invalid audience. Expected https://openproject.local, received ["Lisa", "Bart"]'
+        expect(last_response.header["WWW-Authenticate"])
+          .to eq(%{Bearer realm="OpenProject API", error="invalid_token", error_description="#{error}"})
+        expect(JSON.parse(last_response.body)).to eq(error_response_body)
+      end
+    end
+
+    context "when the scope does not permit access to APIv3" do
+      let(:token_scope) { "profile email" }
+
+      it "fails with HTTP 403 Forbidden" do
+        get resource
+
+        expect(last_response).to have_http_status :forbidden
+        error = "Requires scope api_v3 to access this resource."
+        expect(last_response.header["WWW-Authenticate"])
+          .to eq(%{Bearer realm="OpenProject API", error="insufficient_scope", error_description="#{error}"})
+        expect(JSON.parse(last_response.body)).to eq(error_response_body)
+      end
+    end
+
+    context "when access token has expired already" do
+      let(:token_exp) { 5.minutes.ago }
+
+      it "fails with HTTP 401 Unauthorized" do
+        get resource
+
+        expect(last_response).to have_http_status :unauthorized
+        expect(last_response.header["WWW-Authenticate"])
+          .to eq(%{Bearer realm="OpenProject API", error="invalid_token", error_description="Signature has expired"})
+        expect(JSON.parse(last_response.body)).to eq(error_response_body)
       end
 
-      context "when kid is present" do
-        let(:keys_request_stub) do
-          stub_request(:get, "https://keycloak.local/realms/master/protocol/openid-connect/certs")
-            .with(
-              headers: {
-                "Accept" => "*/*",
-                "Accept-Encoding" => "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
-                "User-Agent" => /JSON::JWK::Set::Fetcher \d+\.\d+\.\d+/
-              }
-            )
-            .to_return(status: 200, body: JWT::JWK::Set.new(jwk).export.to_json, headers: {})
-        end
+      it "caches keys request to keycloak" do
+        get resource
+        expect(last_response).to have_http_status :unauthorized
 
-        context "when access token has not expired yet" do
-          context "when aud does not contain client_id" do
-            let(:token_aud) { ["Lisa", "Bart"] }
+        get resource
+        expect(last_response).to have_http_status :unauthorized
 
-            it do
-              get resource
-
-              expect(last_response).to have_http_status :unauthorized
-              error = 'Invalid audience. Expected https://openproject.local, received ["Lisa", "Bart"]'
-              expect(last_response.header["WWW-Authenticate"])
-                .to eq(%{Bearer realm="OpenProject API", error="invalid_token", error_description="#{error}"})
-              expect(JSON.parse(last_response.body)).to eq(error_response_body)
-            end
-          end
-
-          context "when aud contains client_id" do
-            it do
-              get resource
-
-              expect(last_response).to have_http_status :ok
-            end
-          end
-        end
-
-        context "when access token has expired already" do
-          let(:token_exp) { 5.minutes.ago }
-
-          it do
-            get resource
-
-            expect(last_response).to have_http_status :unauthorized
-            expect(last_response.header["WWW-Authenticate"])
-              .to eq(%{Bearer realm="OpenProject API", error="invalid_token", error_description="Signature has expired"})
-            expect(JSON.parse(last_response.body)).to eq(error_response_body)
-          end
-
-          it "caches keys request to keycloak" do
-            get resource
-            expect(last_response).to have_http_status :unauthorized
-
-            get resource
-            expect(last_response).to have_http_status :unauthorized
-
-            expect(keys_request_stub).to have_been_made.once
-          end
-        end
+        expect(keys_request_stub).to have_been_made.once
       end
+    end
 
-      context "when kid is absent in keycloak keys response" do
-        let(:keys_request_stub) do
-          wrong_key = JWT::JWK.new(OpenSSL::PKey::RSA.new(2048), kid: "your-kid", use: "sig", alg: "RS256")
-          stub_request(:get, "https://keycloak.local/realms/master/protocol/openid-connect/certs")
-            .with(
-              headers: {
-                "Accept" => "*/*",
-                "Accept-Encoding" => "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
-                "User-Agent" => /JSON::JWK::Set::Fetcher \d+\.\d+\.\d+/
-              }
-            )
-            .to_return(status: 200, body: JWT::JWK::Set.new(wrong_key).export.to_json, headers: {})
-        end
+    context "when kid is absent in keycloak keys response" do
+      let(:jwk_response) { JWT::JWK.new(OpenSSL::PKey::RSA.new(2048), kid: "your-kid", use: "sig", alg: "RS256") }
 
-        it do
-          get resource
-          expect(last_response).to have_http_status :unauthorized
-          expect(JSON.parse(last_response.body)).to eq(error_response_body)
-          error = "The signature key ID is unknown"
-          expect(last_response.header["WWW-Authenticate"])
-            .to eq(%{Bearer realm="OpenProject API", error="invalid_token", error_description="#{error}"})
-        end
+      it "fails with HTTP 401 Unauthorized" do
+        get resource
+        expect(last_response).to have_http_status :unauthorized
+        expect(JSON.parse(last_response.body)).to eq(error_response_body)
+        error = "The signature key ID is unknown"
+        expect(last_response.header["WWW-Authenticate"])
+          .to eq(%{Bearer realm="OpenProject API", error="invalid_token", error_description="#{error}"})
+      end
+    end
+
+    context "when user identified by token is not known" do
+      let(:user) { create(:user, identity_url: "keycloak:not-the-token-sub") }
+
+      it "fails with HTTP 401 Unauthorized" do
+        get resource
+        expect(last_response).to have_http_status :unauthorized
+        expect(JSON.parse(last_response.body)).to eq(error_response_body)
+        error = "The user identified by the token is not known"
+        expect(last_response.header["WWW-Authenticate"])
+          .to eq(%{Bearer realm="OpenProject API", error="invalid_token", error_description="#{error}"})
+      end
+    end
+
+    context "when user identified by token is locked" do
+      let(:user) { create(:user, :locked, identity_url: "keycloak:#{token_sub}") }
+
+      it "fails with HTTP 401 Unauthorized" do
+        get resource
+        expect(last_response).to have_http_status :unauthorized
+        expect(JSON.parse(last_response.body)).to eq(error_response_body)
+        error = "The user account is locked"
+        expect(last_response.header["WWW-Authenticate"])
+          .to eq(%{Bearer realm="OpenProject API", error="invalid_token", error_description="#{error}"})
       end
     end
   end

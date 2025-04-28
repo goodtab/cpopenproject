@@ -2,8 +2,8 @@
 pt-PT:
   plugin_openproject_calendar:
     name: "Calendário OpenProject"
-    description: "Fornece visualizações do calendário."
-  label_calendar: "Calendário"
+    description: "Fornece vistas de calendários."
+  label_calendar: "Calendários"
   label_calendar_plural: "Calendários"
   label_new_calendar: "Novo calendário"
   permission_view_calendar: "Ver calendários"

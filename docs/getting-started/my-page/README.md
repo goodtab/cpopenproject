@@ -1,24 +1,24 @@
 ---
 sidebar_navigation:
-  title: My Page
+  title: My page
   priority: 300
-description: My Page in OpenProject - your personal dashboard
+description: My page in OpenProject - your personal dashboard
 keywords: my page, personal overview page, dashboard
 ---
 
-# My Page
+# My page
 
-The My Page is your **personal dashboard** with important overarching project information, such as work package reports, news, spent time, or a calendar. It can be configured to your specific needs.
+The My page is your **personal dashboard** with important overarching project information, such as work package reports, news, spent time, or a calendar. It can be configured to your specific needs.
 
 | Topic                                           | Content                                    |
-|-------------------------------------------------|--------------------------------------------|
-| [My Page introduction](#my-page-introduction)   | What is My Page and what can I do with it? |
-| [Configure the My Page](#configure-the-my-page) | How to add and edit widgets on My Page.    |
-| [My spent time widget](#my-spent-time-widget)   | How to track spent time on My Page.        |
+| ----------------------------------------------- | ------------------------------------------ |
+| [My page introduction](#my-page-introduction)   | What is My page and what can I do with it? |
+| [Configure the My page](#configure-the-my-page) | How to add and edit widgets on My page.    |
+| [My spent time widget](#my-spent-time-widget)   | How to track spent time on My page.        |
 
-## My Page introduction
+## My page introduction
 
-My Page is your personal dashboard where you can display important information of your projects. This personal dashboard contains information from all your projects. **My page** can be configured according to your preferences. You can include project information, for example the latest news, work packages assigned to you or reported work packages.
+My page is your personal dashboard where you can display important information of your projects. This personal dashboard contains information from all your projects. **My page** can be configured according to your preferences. You can include project information, for example the latest news, work packages assigned to you or reported work packages.
 
 You can open your **My page** by clicking on your user avatar in the upper right corner and then selecting **My page** from the dropdown menu. Alternatively, you can select *My Page* by clicking the respective option in the menu on the left. 
 
@@ -26,21 +26,21 @@ You can open your **My page** by clicking on your user avatar in the upper right
 
 As a default, you will see two lists of all **work packages assigned to you** and **work packages created by you** from all your projects.
 
-![Default view of My Page in OpenProject](openproject_getting_started_my_page_default_view.png)
+![Default view of My page in OpenProject](openproject_getting_started_my_page_default_view.png)
 
-## Configure the My Page
+## Configure the My page
 
-![Configuring widgets on My Page in OpenProject](openproject-mypage-widgets.gif)
+![Configuring widgets on My page in OpenProject](openproject-mypage-widgets.gif)
 
 ### Add widgets
 
-In order to **add a widget to My Page**, decide where you want to place the widget (above, below or between the existing widgets) hover to the respective location around the existing widgets. The **+** icon will appear automatically.
+In order to **add a widget to My page**, decide where you want to place the widget (above, below or between the existing widgets) hover to the respective location around the existing widgets. The **+** icon will appear automatically.
 
 ![Plus icon to add a new widget to My page in OpenProject](openproject_getting_started_my_page_add_widget_icon.png)
 
 Press the plus icon and choose from a number of different widgets that can be included on your dashboard.
 
-![my page new widgets](my-page-widget-list.png)
+![My page new widgets](my-page-widget-list.png)
 
 For a **detailed explanation of the widgets**, visit the section in the [project overview](../../user-guide/project-overview/#available-project-overview-widgets).
 
@@ -56,7 +56,7 @@ Click the dots next to the title and drag it to the new place.
 
 If you click the dots on the lower right hand corner in a widget you can change the size of a widget by pulling the widget left and right, up and down with the mouse.
 
-![Change widget size in OpenProject MyPage](my-page-size-handle.png)
+![Change widget size in OpenProject My page](my-page-size-handle.png)
 
 ### Configure the view of a widget (for work package tables)
 
@@ -77,14 +77,14 @@ You can configure the work package table (e.g. filter, group, highlight, sort) a
 
 To delete a widget from the dashboard, click on the three dots in the upper right corner of the widget and select **Remove widget**.
 
-![my page remove widget](my-page-remove-widget.png)
+![My page remove widget](my-page-remove-widget.png)
 
 ## My spent time widget
 
-To track spent time, [add the **My spent time** widget](#add-widgets) in the My Page.
+To track spent time, [add the **My spent time** widget](#add-widgets) in the My page.
 
 You can directly create new time entries by clicking on the day, change the date with drag and drop, edit or remove time entries.
 
 Watch the short video to see how to activate the spent time widget, add spent time, edit spent time (e.g. change the date or work packages or change the time booked) and delete spent time.
 
-![my page time log](my-page-time-log.gif)
+![My page time log](my-page-time-log.gif)

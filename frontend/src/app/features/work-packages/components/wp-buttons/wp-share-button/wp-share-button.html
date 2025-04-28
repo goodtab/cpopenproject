@@ -10,14 +10,14 @@
     size="small"
   ></svg>
   <span class="button--text" *ngIf="(shareCount$ | async) as shareCount">
-    <span class="badge -secondary"
+    <span class="badge"
           [textContent]="shareCount"></span>
   </span>
 
   <svg
     *ngIf="showEnterpriseIcon"
     op-enterprise-addons-icon
-    class="button--icon upsale-colored"
+    class="button--icon upsell-colored"
     size="small"
   ></svg>
 

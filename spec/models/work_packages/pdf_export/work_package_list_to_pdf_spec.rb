@@ -31,46 +31,50 @@ require "spec_helper"
 RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
   include Redmine::I18n
   include PDFExportSpecUtils
-  let(:type_standard) { create(:type_standard) }
-  let(:type_bug) { create(:type_bug) }
-  let!(:list_custom_field) do
+  shared_let(:type_standard) { create(:type_standard) }
+  shared_let(:type_bug) { create(:type_bug) }
+  shared_let(:list_custom_field) do
     create(:list_wp_custom_field,
            types: [type_standard, type_bug],
            multi_value: true,
            possible_values: %w[Foo Bar])
   end
-  let!(:text_custom_field_a) do
+  shared_let(:text_custom_field_a) do
     create(:issue_custom_field, :text, types: [type_standard, type_bug], name: "Notes A")
   end
-  let!(:text_custom_field_b) do
+  shared_let(:text_custom_field_b) do
     create(:issue_custom_field, :text, types: [type_standard, type_bug], name: "Notes B")
   end
-  let(:custom_value_first) do
+  shared_let(:custom_value_first) do
     create(:work_package_custom_value,
            custom_field: list_custom_field,
            value: list_custom_field.custom_options.first.id)
   end
-  let(:types) { [type_standard, type_bug] }
-  let(:project) do
+  shared_let(:types) { [type_standard, type_bug] }
+  shared_let(:project) do
     create(:project,
            name: "Foo Bla. Report No. 4/2021 with/for Case 42",
            types:,
            work_package_custom_fields: [list_custom_field, text_custom_field_a, text_custom_field_b])
   end
-  let(:user) do
+  shared_let(:user) do
     create(:user,
            member_with_permissions: { project => %w[view_work_packages export_work_packages] })
   end
-  let(:export_time) { DateTime.new(2023, 6, 30, 23, 59) }
-  let(:export_time_formatted) { format_time(export_time, include_date: true) }
-  let(:work_package_parent) do
+  shared_let(:export_time) { DateTime.new(2023, 6, 30, 23, 59) }
+  shared_let(:export_time_formatted) { format_time(export_time, include_date: true) }
+  shared_let(:work_package_parent) do
     create(:work_package,
            project:,
            type: type_standard,
            subject: "Work package 1",
            story_points: 1,
+           estimated_hours: 10,
+           derived_estimated_hours: 20,
+           remaining_hours: 7.5,
+           derived_remaining_hours: 12.5,
            done_ratio: 25,
-           derived_done_ratio: 50,
+           derived_done_ratio: 38,
            description: "This is a description",
            text_custom_field_a.attribute_name => "Rich text 1.A",
            text_custom_field_b.attribute_name => "Rich text 1.B",
@@ -79,12 +83,14 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
              list_custom_field.value_of("Bar")
            ])
   end
-  let(:work_package_child) do
+  shared_let(:work_package_child) do
     create(:work_package,
            project:,
            parent: work_package_parent,
            type: type_bug,
            subject: "Work package 2",
+           estimated_hours: 10,
+           remaining_hours: 5,
            done_ratio: 50,
            story_points: 2,
            description: "This is work package 2",
@@ -92,12 +98,9 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
            text_custom_field_b.attribute_name => "Rich text 2.B",
            list_custom_field.attribute_name => list_custom_field.value_of("Foo"))
   end
-  let(:work_packages) do
-    [work_package_parent, work_package_child]
-  end
   let(:query_attributes) { {} }
   let!(:query) do
-    build(:query, user:, project:, **query_attributes).tap do |q|
+    build(:query, user:, project:, **query_attributes) do |q|
       q.column_names = column_names
       q.sort_criteria = [%w[id asc]]
     end
@@ -106,7 +109,6 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
   let(:options) { {} }
   let(:export) do
     login_as(user)
-    work_packages
     described_class.new(query, options)
   end
   let(:export_pdf) do
@@ -131,7 +133,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
   end
 
   def work_package_done_ratio(work_package)
-    work_package.done_ratio == 25 ? "25% · Σ 50%" : "50%"
+    work_package.done_ratio == 25 ? "25% · Σ 38%" : "50%"
   end
 
   def work_package_details(work_package, index, ltfs = [])
@@ -218,11 +220,11 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
           work_package_parent.type.name,
           *column_titles,
           *work_package_columns(work_package_parent),
-          I18n.t("js.label_sum"), work_package_parent.story_points.to_s,
+          I18n.t("js.label_sum"), work_package_parent.story_points.to_s, "25%",
           work_package_child.type.name,
           *column_titles,
           *work_package_columns(work_package_child),
-          I18n.t("js.label_sum"), work_package_child.story_points.to_s,
+          I18n.t("js.label_sum"), work_package_child.story_points.to_s, "50%",
           "1/1", export_time_formatted, query.name
         ].join(" ")
       end
@@ -237,11 +239,11 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
           "Foo",
           *column_titles,
           *work_package_columns(work_package_child),
-          I18n.t("js.label_sum"), work_package_child.story_points.to_s,
+          I18n.t("js.label_sum"), work_package_child.story_points.to_s, "50%",
           "Foo, Bar",
           *column_titles,
           *work_package_columns(work_package_parent),
-          I18n.t("js.label_sum"), work_package_parent.story_points.to_s,
+          I18n.t("js.label_sum"), work_package_parent.story_points.to_s, "25%",
           "1/1", export_time_formatted, query.name
         ].join(" ")
       end
@@ -334,7 +336,8 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
           "1/2", export_time_formatted, query.name,
           I18n.t("js.work_packages.tabs.overview"),
           column_title(:story_points),
-          I18n.t("js.label_sum"), work_packages_sum.to_s,
+          column_title(:done_ratio),
+          I18n.t("js.label_sum"), work_packages_sum.to_s, "38%",
           *work_package_details(work_package_parent, "1", long_text_fields),
           *work_package_details(work_package_child, "2", long_text_fields),
           "2/2", export_time_formatted, query.name
@@ -353,10 +356,10 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
           "2.", "2", work_package_child.subject,
           "1/2", export_time_formatted, query.name,
           I18n.t("js.work_packages.tabs.overview"),
-          column_title(:type), column_title(:story_points),
-          work_package_parent.type.name, work_package_parent.story_points.to_s,
-          work_package_child.type.name, work_package_child.story_points.to_s,
-          I18n.t("js.label_sum"), work_packages_sum.to_s,
+          column_title(:type), column_title(:story_points), column_title(:done_ratio),
+          work_package_parent.type.name, work_package_parent.story_points.to_s, "25%",
+          work_package_child.type.name, work_package_child.story_points.to_s, "50%",
+          I18n.t("js.label_sum"), work_packages_sum.to_s, "38%",
           *work_package_details(work_package_parent, "1", long_text_fields),
           *work_package_details(work_package_child, "2", long_text_fields),
           "2/2", export_time_formatted, query.name
@@ -375,11 +378,11 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
           "2.", "2", work_package_parent.subject,
           "1/2", export_time_formatted, query.name,
           I18n.t("js.work_packages.tabs.overview"),
-          list_custom_field.name.upcase, column_title(:story_points),
+          list_custom_field.name, column_title(:story_points), column_title(:done_ratio),
 
-          "Foo", work_package_child.story_points.to_s,
-          "Foo, Bar", work_package_parent.story_points.to_s,
-          I18n.t("js.label_sum"), work_packages_sum.to_s,
+          "Foo", work_package_child.story_points.to_s, "50%",
+          "Foo, Bar", work_package_parent.story_points.to_s, "25%",
+          I18n.t("js.label_sum"), work_packages_sum.to_s, "38%",
 
           *work_package_details(work_package_child, "1", long_text_fields),
           *work_package_details(work_package_parent, "2", long_text_fields),

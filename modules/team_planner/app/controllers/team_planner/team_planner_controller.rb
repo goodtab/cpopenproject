@@ -4,7 +4,7 @@ module ::TeamPlanner
     include Layout
     before_action :load_and_authorize_in_optional_project
     before_action :build_plan_view, only: %i[new]
-    before_action :require_ee_token, except: %i[upsale]
+    before_action :require_ee_token, except: %i[upsell]
     before_action :find_plan_view, only: %i[destroy]
 
     menu_item :team_planner_view
@@ -38,7 +38,7 @@ module ::TeamPlanner
       render layout: "angular/angular"
     end
 
-    def upsale; end
+    def upsell; end
 
     def destroy
       if @view.destroy
@@ -52,7 +52,7 @@ module ::TeamPlanner
 
     def require_ee_token
       unless EnterpriseToken.allows_to?(:team_planner_view)
-        redirect_to action: :upsale
+        redirect_to action: :upsell
       end
     end
 
@@ -82,8 +82,6 @@ module ::TeamPlanner
       @view = Query
         .visible(current_user)
         .find(params[:id])
-    rescue ActiveRecord::RecordNotFound
-      render_404
     end
 
     def visible_plans(project = nil)

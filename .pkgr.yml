@@ -25,6 +25,7 @@ targets:
     env:
       - NODE_ENV=production
       - NPM_CONFIG_PRODUCTION=false
+      - SECRET_KEY_BASE=1
     dependencies:
       - epel-release
       - ImageMagick
@@ -52,3 +53,4 @@ buildpack: https://github.com/opf/heroku-buildpack-multi.git#master
 env:
   - NODE_ENV=production
   - NPM_CONFIG_PRODUCTION=false
+  - SECRET_KEY_BASE=1

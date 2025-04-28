@@ -87,6 +87,10 @@ export class ConfigurationService {
     return this.systemPreference('perPageOptions');
   }
 
+  public get allowedLinkProtocols():string[]|null {
+    return this.systemPreference('allowedLinkProtocols') || null;
+  }
+
   public dateFormatPresent():boolean {
     return !!this.systemPreference('dateFormat');
   }
@@ -140,6 +144,10 @@ export class ConfigurationService {
 
   public get activeFeatureFlags():string[] {
     return this.systemPreference<string[]>('activeFeatureFlags');
+  }
+
+  public get availableFeatures():string[] {
+    return this.systemPreference<string[]>('availableFeatures');
   }
 
   private loadConfiguration() {

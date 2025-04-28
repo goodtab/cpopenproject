@@ -30,7 +30,7 @@
 
 Rails.application.configure do
   config.after_initialize do
-    # Retry jobs that failed with "NameError: uninitialized constant ...Job" as
+    # Retry jobs that failed with "NameError: uninitialized constant ..." as
     # the worker may have failed to load it because the job class did not exist
     # at the time of execution. This can happen on upgrades when the worker is
     # still running the previous version while a migration is enqueuing jobs defined
@@ -42,8 +42,15 @@ Rails.application.configure do
 
     GoodJob::Job
       .discarded
-      .where("error LIKE ?", "NameError: uninitialized constant %Job")
-      .find_each do |job|
+      .where("error LIKE ?", "NameError: uninitialized constant %")
+      .filter do |job|
+        # Only retry jobs with NameError related to the job class name.
+        # For instance, error is "NameError: uninitialized constant WorkPackages::AutomaticMode"
+        # and the job class name is "WorkPackages::AutomaticMode::MigrateValuesJob".
+        name = job.error.delete_prefix("NameError: uninitialized constant ")
+        job.job_class.include?(name)
+      end # rubocop:disable Style/MultilineBlockChain
+      .each do |job|
         job.retry_job
         Rails.logger.info("Successfully enqueued job for retry #{job.display_name} (job id: #{job.id})")
       rescue StandardError => e

@@ -29,6 +29,6 @@
 # -- load spec_helper from OpenProject core
 require "spec_helper"
 
-require File.join(File.dirname(__FILE__), "plugin_spec_helper")
+require_relative "plugin_spec_helper"
 
 Dir[File.join(File.dirname(__FILE__), "support/**/*.rb")].sort.each { |f| require f }

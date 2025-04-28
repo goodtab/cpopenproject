@@ -106,7 +106,7 @@ RSpec.describe "API v3 storages resource", :storage_server_helpers, :webmock, co
 
   describe "POST /api/v3/storages" do
     let(:path) { api_v3_paths.storages }
-    let(:host) { "https://example.nextcloud.local" }
+    let(:host) { "https://example.nextcloud.local/" }
     let(:name) { "APIStorage" }
     let(:type) { "urn:openproject-org:api:v3:storages:Nextcloud" }
     let(:params) do
@@ -136,6 +136,13 @@ RSpec.describe "API v3 storages resource", :storage_server_helpers, :webmock, co
         subject { last_response.body }
 
         it_behaves_like "successful response", 201
+
+        it "creates a storage", :aggregate_failures do
+          expect { last_response }.to change(Storages::NextcloudStorage, :count).by(1)
+
+          expect(Storages::NextcloudStorage.last.name).to eq(name)
+          expect(Storages::NextcloudStorage.last.host).to eq(host)
+        end
 
         it { is_expected.to have_json_path("_embedded/oauthApplication/clientSecret") }
       end
@@ -180,6 +187,24 @@ RSpec.describe "API v3 storages resource", :storage_server_helpers, :webmock, co
 
         it_behaves_like "constraint violation" do
           let(:message) { "Host is not a valid URL." }
+        end
+      end
+
+      context "when creating a storage for SSO authentication" do
+        let(:params) do
+          super().tap do |p|
+            p[:storageAudience] = "the-audience"
+            p[:_links][:authenticationMethod] = { href: "urn:openproject-org:api:v3:storages:authenticationMethod:OAuth2SSO" }
+          end
+        end
+
+        it_behaves_like "successful response", 201
+
+        it "creates a storage with SSO authentication", :aggregate_failures do
+          expect { last_response }.to change(Storages::NextcloudStorage, :count).by(1)
+
+          expect(Storages::NextcloudStorage.last.authentication_method).to eq("oauth2_sso")
+          expect(Storages::NextcloudStorage.last.storage_audience).to eq("the-audience")
         end
       end
     end

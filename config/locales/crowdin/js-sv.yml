@@ -238,7 +238,7 @@ sv:
           status_waiting: "email sent - waiting for confirmation"
           test_ee: "Test the Enterprise edition 14 days for free"
           quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
-        upsale:
+        upsell:
           become_hero: "Bli en hjälte!"
           enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
           upgrade_info: "Vänligen uppgradera till en betalplan för att aktivera och börja använda den i ditt team."
@@ -357,10 +357,10 @@ sv:
           learn_about: "Learn more about the new features"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "15_4":
+          "15_5":
             standard:
               new_features_html: >
-                The release brings various features and improvements for you, e.g. <br> <ul class="%{list_styling_class}"> <li>Enable automatic scheduling mode.</li> <li>Set agenda item outcomes for meetings.</li> <li>Generate PDF documents from a work package description.</li> <li>Better manage a large number of projects with an enhanced project lists view.</li> <li>Use @-mention of user when quote replying to a comment.</li> </ul>
+                The release brings various features and improvements for you, e.g. <br> <ul class="%{list_styling_class}"> <li>Filter for descendants (children and grandchildren) of work packages.</li> <li>Benefit from advanced accessibility in the date picker.</li> <li>See % Complete included in work package table sums.</li> <li>Include a column for children in work package tables.</li> <li>Better use the date picker in mobile screens.</li> <li>PDF exports matching configured form layout.</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -462,6 +462,7 @@ sv:
     label_menu_collapse: "fäll ihop"
     label_menu_expand: "expandera"
     label_more_than_ago: "mer än dagar sedan"
+    label_moderate_comment: "Moderate comment"
     label_next: "Nästa"
     label_no_color: "Ingen färg"
     label_no_data: "Ingen data att visa"
@@ -630,9 +631,6 @@ sv:
         property_is: "is in %{difference_in_days}."
         property_was: "was %{difference_in_days} ago."
         property_is_deleted: "is deleted."
-        upsale:
-          title: "Date alerts"
-          description: "With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline."
       center:
         label_actor_and: "och"
         and_more_users:
@@ -695,7 +693,6 @@ sv:
           date_alerts:
             title: "Date alerts"
             description: "Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher)."
-            teaser_text: "With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline."
           overdue: When overdue
         project_specific:
           title: "Project-specific notification settings"
@@ -798,6 +795,7 @@ sv:
       typeahead_placeholder: Sök efter möjliga bevakare
     relation_labels:
       parent: "Överordnad"
+      child: "Child"
       children: "Barn"
       relates: "Relaterade till"
       duplicates: "Dubbletter"
@@ -827,7 +825,7 @@ sv:
       add_new_child: "Skapa nytt barn"
       create_new: "Skapa ny"
       add_existing: "Lägg till befintlig"
-      add_existing_child: "Lägg till befintligt barn"
+      add_existing_child: "Lägg till underordnad"
       remove_child: "Ta bort barn"
       add_new_relation: "Skapa ny relation"
       add_existing_relation: "Lägg till befintlig relation"
@@ -866,7 +864,7 @@ sv:
     tl_toolbar:
       zooms: "Zoomnivå"
       outlines: "Hierarkinivå"
-    upsale:
+    upsell:
       ee_only: "Enterprise edition add-on"
     wiki_formatting:
       strong: "Fetstil"
@@ -1045,8 +1043,6 @@ sv:
       sharing:
         title: "Share work package"
         show_all_users: "Show all users with whom the work package has been shared with"
-        upsale:
-          description: "Share work packages with users who are not members of the project."
       table:
         configure_button: "Konfigurera arbetspakets-tabell"
         summary: "Tabell med ett arbetspaket för varje rad och kolumner för varje arbetspaketsattribut."
@@ -1081,10 +1077,6 @@ sv:
           manually: "Manuellt"
           warning: "Du förlorar din tidigare sortering när du aktiverar det automatiska sorteringsläget."
         columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
-        upsale:
-          attribute_highlighting: "Behöver vissa arbetspaket sticka ut från massan?"
-          relation_columns: "Behöver du se relationer i listan på arbetspaket?"
-          check_out_link: "Check out the Enterprise edition."
         relation_filters:
           filter_work_packages_by_relation_type: "Filter work packages by relation type"
       tabs:
@@ -1298,9 +1290,7 @@ sv:
       clear: "Rensa"
       apply: "Tilldela"
       header_description: "Highlight changes made to this list since any point in the past."
-      enterprise_header_description: "Highlight changes made to this list since any point in the past with Enterprise edition."
       show_changes_since: "Show changes since"
-      baseline_comparison: "Baseline comparison"
       help_description: "Reference time zone for the baseline."
       time_description: "In your local time: %{datetime}"
       time: "Tid"

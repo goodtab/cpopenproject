@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -82,15 +84,15 @@ module Redmine::MenuManager::TopMenu::HelpMenu
     controller.render_to_string(partial: "onboarding/menu_item")
   end
 
-  def render_help_and_support(result)
+  def render_help_and_support(result) # rubocop:disable Metrics/AbcSize
     result << content_tag(:li, class: "op-menu--item") do
       content_tag :span, I18n.t("top_menu.help_and_support"),
                   class: "op-menu--headline",
                   title: I18n.t("top_menu.help_and_support")
     end
-    if EnterpriseToken.show_banners?
-      result << static_link_item(:upsale,
-                                 href_suffix: "/?utm_source=unknown&utm_medium=op-instance&utm_campaign=ee-upsale-help-menu")
+    unless EnterpriseToken.hide_banners? && EnterpriseToken.active?
+      result << static_link_item(:upsell,
+                                 href_suffix: "/?utm_source=unknown&utm_medium=op-instance&utm_campaign=ee-upsell-help-menu")
     end
     result << static_link_item(:user_guides)
     result << content_tag(:li, class: "op-menu--item") do
@@ -111,7 +113,7 @@ module Redmine::MenuManager::TopMenu::HelpMenu
     result << content_tag(:hr, "", class: "op-menu--separator")
   end
 
-  def render_additional_resources(result)
+  def render_additional_resources(result) # rubocop:disable Metrics/AbcSize
     result << content_tag(:li, class: "op-menu--item") do
       content_tag :span,
                   I18n.t("top_menu.additional_resources"),

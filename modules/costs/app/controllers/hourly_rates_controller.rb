@@ -172,19 +172,13 @@ class HourlyRatesController < ApplicationController
 
   def find_project
     @project = Project.find(params[:project_id])
-  rescue ActiveRecord::RecordNotFound
-    render_404
   end
 
   def find_optional_project
     @project = params[:project_id].blank? ? nil : Project.find(params[:project_id])
-  rescue ActiveRecord::RecordNotFound
-    render_404
   end
 
   def find_user
     @user = params[:id] ? User.find(params[:id]) : User.current
-  rescue ActiveRecord::RecordNotFound
-    render_404
   end
 end

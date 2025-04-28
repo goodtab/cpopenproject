@@ -30,7 +30,7 @@ There are several ways to get an overview of all your projects. You can press th
 ![project lists button](Project-list-button.png)
 
 > [!TIP]
->If you have already selected a project, the **x** icon next to that project will navigate you away from that selected project. 
+> If you have already selected a project, the **x** icon next to that project will navigate you away from that selected project. 
 
 ![Close an already selected project](openproject_user_guide_project_project_list.png)
 

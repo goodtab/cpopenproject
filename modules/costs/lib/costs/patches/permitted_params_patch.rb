@@ -68,7 +68,7 @@ module Costs::Patches::PermittedParamsPatch
     def time_entries
       additional_fields = []
 
-      additional_fields << :start_time if TimeEntry.can_track_start_and_end_time?
+      additional_fields << :start_time if TimeEntry.can_track_start_and_end_time? || params.dig(:time_entry, :start_time).nil?
 
       params
         .require(:time_entry)

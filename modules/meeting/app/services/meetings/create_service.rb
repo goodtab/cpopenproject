@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -30,17 +31,6 @@
 module Meetings
   class CreateService < ::BaseServices::Create
     protected
-
-    def instance(params)
-      # Setting the #type as attributes will not work
-      # as the STI instance is not changed without using e.g., +becomes!+
-      case params.delete(:type)
-      when "StructuredMeeting"
-        StructuredMeeting.new
-      else
-        Meeting.new
-      end
-    end
 
     def after_perform(call)
       if call.success? && Journal::NotificationConfiguration.active?

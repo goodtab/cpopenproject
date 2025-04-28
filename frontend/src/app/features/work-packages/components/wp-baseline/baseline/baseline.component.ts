@@ -98,7 +98,7 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
 
   public tooltipPosition = SpotDropAlignmentOption.TopRight;
 
-  eeShowBanners = this.Banner.eeShowBanners;
+  available = !this.Banner.showBannerFor('baseline_comparison');
 
   public text = {
     toggle_title: this.I18n.t('js.baseline.toggle_title'),
@@ -113,10 +113,7 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
     date: this.I18n.t('js.label_date'),
     time: this.I18n.t('js.baseline.time'),
     today: this.I18n.t('js.label_today'),
-    moreInfoLink: enterpriseDocsUrl.website,
-    more_info_text: this.I18n.t('js.admin.enterprise.upsale.more_info'),
     help_description: this.I18n.t('js.baseline.help_description'),
-    baseline_comparison: this.I18n.t('js.baseline.baseline_comparison'),
     time_description: (i:number) => {
       const date = this.selectedDates[i];
       const time = this.selectedTimes[i];

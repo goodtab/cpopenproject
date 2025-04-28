@@ -25,4 +25,21 @@ RSpec.describe TwoFactorAuthentication::LoginToken, :with_2fa_ee do
     expect(described_class.find_by(id: token.id)).to be_nil
     expect(described_class.find(new_token.id)).not_to be_nil
   end
+
+  describe ".generate_token_value" do
+    subject { described_class.generate_token_value }
+
+    it "generates tokens consisting of 6 numerical digits" do
+      expect(subject).to match(/\A[0-9]{6}\z/)
+    end
+
+    it "generates tokens that can contain any digit (regression test)" do
+      generated_digits = ""
+      100.times { generated_digits += described_class.generate_token_value }
+
+      (0..9).each do |digit|
+        expect(generated_digits).to include(digit.to_s)
+      end
+    end
+  end
 end

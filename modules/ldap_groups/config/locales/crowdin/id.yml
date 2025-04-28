@@ -1,4 +1,9 @@
 id:
+  ee:
+    upsell:
+      ldap_groups:
+        title: 'Sinkronisasi grup LDAP'
+        description: 'Sinkronisasi grup LDAP dengan grup OpenProject untuk mengatur pengguna, mengubah hak akses, dan memberikan fasilitas manajemen antar grup.'
   plugin_openproject_ldap_groups:
     name: "OpenProject LDAP groups"
     description: "Synchronization of LDAP group memberships."
@@ -6,12 +11,12 @@ id:
     attributes:
       ldap_groups/synchronized_group:
         dn: 'DN'
-        auth_source: 'Auth source'
+        auth_source: 'Sumber Otentikasi'
         ldap_auth_source: 'koneksi LDAP'
         sync_users: 'Sinkronkan pengguna'
       ldap_groups/synchronized_filter:
         filter_string: 'penyaring LDAP'
-        auth_source: 'Auth source'
+        auth_source: 'Sumber Otentikasi'
         ldap_auth_source: 'koneksi LDAP'
         group_name_attribute: "Atribut nama grup"
         sync_users: 'Sinkronkan pengguna'
@@ -67,5 +72,5 @@ id:
           Jika Anda mengaktifkan opsi ini, pengguna yang ditemukan juga akan dibuat secara otomatis di OpenProject.  Tanpanya, hanya akun yang ada di OpenProject yang akan ditambahkan ke grup.
         dn_text: 'Masukkan DN lengkap grup di LDAP'
         group_text: 'Pilih grup OpenProject yang ada yang akan disinkronkan dengan anggota grup LDAP'
-      upsale:
+      upsell:
         description: 'Manfaatkan grup LDAP tersinkronisasi untuk mengelola pengguna, mengubah izin mereka, dan memfasilitasi pengelolaan pengguna di seluruh grup.'

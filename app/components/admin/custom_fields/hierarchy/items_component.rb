@@ -54,13 +54,9 @@ module Admin
           list = model.children
           return list unless @new_item
 
-          position = @new_item.sort_order&.to_i
-
-          if position
-            list[0...position] + [@new_item] + list[position..]
-          else
-            list + [@new_item]
-          end
+          # Sort by sort order. But if there is a new item, sort it to be before the other
+          # item that has the same sort order.
+          list.sort { |a, b| [a.sort_order.to_i, a.id.to_i] <=> [b.sort_order.to_i, b.id.to_i] }
         end
 
         def item_header

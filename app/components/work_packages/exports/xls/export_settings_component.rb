@@ -32,6 +32,9 @@ module WorkPackages
   module Exports
     module XLS
       class ExportSettingsComponent < BaseExportSettingsComponent
+        def format
+          "xls"
+        end
       end
     end
   end

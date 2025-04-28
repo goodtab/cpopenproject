@@ -56,7 +56,7 @@ module Admin
         end
 
         def new
-          @new_item = ::CustomField::Hierarchy::Item.new(parent: @active_item, sort_order: params[:position])
+          @new_item = @active_item.children.build(sort_order: params[:position])
         end
 
         def edit; end
@@ -103,7 +103,7 @@ module Admin
           item_service
             .delete_branch(item: @active_item)
             .either(
-              ->(_) { update_via_turbo_stream(component: ItemsComponent.new(item: @active_item.parent)) },
+              ->(_) { update_via_turbo_stream(component: ItemsComponent.new(item: @active_item.parent.reload)) },
               ->(errors) { render_error_flash_message_via_turbo_stream(message: errors.full_messages) }
             )
 
@@ -146,8 +146,6 @@ module Admin
         def find_model_object
           @object = CustomField.hierarchy_root_and_children.find(params[:custom_field_id])
           @custom_field = @object
-        rescue ActiveRecord::RecordNotFound
-          render_404
         end
 
         def find_active_item
@@ -156,8 +154,6 @@ module Admin
                          else
                            @object.hierarchy_root
                          end
-        rescue ActiveRecord::RecordNotFound
-          render_404
         end
       end
     end

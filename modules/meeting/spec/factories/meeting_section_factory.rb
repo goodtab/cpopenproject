@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -29,7 +30,7 @@
 
 FactoryBot.define do
   factory :meeting_section do |m|
-    meeting factory: :structured_meeting
+    meeting factory: :meeting
 
     m.sequence(:title) { |n| "Section #{n}" }
   end

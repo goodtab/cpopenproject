@@ -43,9 +43,5 @@ module My
         end
       end
     end
-
-    def default_breadcrumb
-      t("js.my_page.label")
-    end
   end
 end

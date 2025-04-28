@@ -32,7 +32,7 @@ module ::Webhooks
           if count <= 3
             selected_events.join(", ")
           else
-            content_tag("span", count, class: "badge -border-only")
+            content_tag("span", count, class: "badge")
           end
         end
 
@@ -52,7 +52,7 @@ module ::Webhooks
           elsif selected.size <= 3
             webhook.projects.pluck(:name).join(", ")
           else
-            content_tag("span", selected, class: "badge -border-only")
+            content_tag("span", selected, class: "badge")
           end
         end
 

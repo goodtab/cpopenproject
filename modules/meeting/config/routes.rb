@@ -95,6 +95,7 @@ Rails.application.routes.draw do
     collection do
       get :new_dialog
       get "menu" => "meetings/menus#show"
+      get :fetch_timezone
     end
 
     resources :agenda_items, controller: "meeting_agenda_items" do

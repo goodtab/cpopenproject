@@ -19,17 +19,29 @@ You can configure general system settings in OpenProject. Under System settings 
 
 5. **Cache formatted text** allows to save formatted text in cache, which will help load Wiki Pages faster.
 
-6. **Enable feeds** – enables RSS feeds on wiki pages, forums and news via RSS client.
+6. **Allowed link protocols** allows protocols to be rendered as links in work package descriptions, long text fields and comments. Some examples are: 
+- vis://FE0E3D1D-9DC5-4931-BF6C-9E01216047A4/3/8326584
+- dict://term lookup
+- vscode://file/path/to/file
+- figma://
+- element://vector/webapp/#/room/!ID
+- tel://number
+- sms://number
+- facetime://number
+One protocol should be entered per line.
+> [!NOTE]
+> Protocols http, https, and mailto are always allowed. 
+7. **Enable feeds** – enables RSS feeds on wiki pages, forums and news via RSS client.
 
-7. Set **feed content limit**.
+8. Set **feed content limit**.
 
-8. **Work packages and projects export limit** defines the maximum items a structured export for work packages and projects can contain (i.e., lines of CSV, XLS etc.). Increasing this value allows you to export more items at once, but at the cost of higher RAM consumption. If you're experiencing errors exporting with a high value, try reducing this number first.
+9. **Work packages and projects export limit** defines the maximum items a structured export for work packages and projects can contain (i.e., lines of CSV, XLS etc.). Increasing this value allows you to export more items at once, but at the cost of higher RAM consumption. If you're experiencing errors exporting with a high value, try reducing this number first.
 
-9. **Max size of text files displayed inline** defines the maximum file size up to which different versions of a file are displayed next to each other when comparing (diff) two versions in a repository.
+10. **Max size of text files displayed inline** defines the maximum file size up to which different versions of a file are displayed next to each other when comparing (diff) two versions in a repository.
 
-10. **Max number of diff lines displayed** defines the maximum number of lines displayed when comparing (diff) two versions in a repository.
+11. **Max number of diff lines displayed** defines the maximum number of lines displayed when comparing (diff) two versions in a repository.
 
-11. **Display security badge** enables to display a badge with your installation status in the [Information administration panel](../../information), and on the [start page](../../../user-guide/home/). It is displayed to administrators only.
+12. **Display security badge** enables to display a badge with your installation status in the [Information administration panel](../../information), and on the [start page](../../../user-guide/home/). It is displayed to administrators only.
 
 > [!NOTE]
 > If enabled, this will display a badge with your installation status in the [Information](https://qa.openproject-edge.com/admin/info) administration panel, and on the home page. It is displayed to administrators only.

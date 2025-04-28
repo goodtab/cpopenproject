@@ -90,12 +90,6 @@ class AdminController < ApplicationController
     @storage_information = OpenProject::Storage.mount_information
   end
 
-  def default_breadcrumb; end
-
-  def show_local_breadcrumb
-    false
-  end
-
   private
 
   def hidden_admin_menu_items

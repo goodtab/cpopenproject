@@ -64,7 +64,8 @@ ca:
         The following fields control which attributes provided by the SAML identity provider are used to provide user attributes in OpenProject
       metadata:
         dialog: "This is the URL where the OpenProject SAML metadata is available. Optionally use it to configure your identity provider:"
-      upsale:
+      upsell:
+        title: "Single Sign-On (SSO) with SAML"
         description: Connect OpenProject to a SAML identity provider
       request_attributes:
         title: 'Requested attributes'

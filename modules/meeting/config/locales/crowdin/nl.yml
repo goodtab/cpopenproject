@@ -70,11 +70,9 @@ nl:
         invalid_time_format: "is geen geldige tijd. Vereist formaat: UH:MM"
     models:
       recurring_meeting: "Terugkerende vergadering"
-      structured_meeting: "Eenmalige vergadering"
-      meeting: "Vergadering"
+      meeting: "Eenmalige vergadering"
       meeting_agenda_item: "Agendapunt"
       meeting_agenda: "Agenda"
-      meeting_minutes: "Minuten"
       meeting_section: "Sectie"
   activity:
     filter:
@@ -133,11 +131,13 @@ nl:
   label_recurring_meeting_restore: "Herstel deze gebeurtenis"
   label_recurring_meeting_schedule: "Planning"
   label_recurring_meeting_next_occurrence: "Volgende gebeurtenis"
-  label_recurring_meeting_more: "Er zijn nog %{count} geplande vergaderingen (%{schedule})."
   label_recurring_meeting_no_end_date: "Er zijn meer geplande vergaderingen (%{schedule})."
-  label_recurring_meeting_more_singular: "Er zijn nog %{count} geplande vergaderingen (%{schedule})."
-  label_recurring_meeting_more_past: "Er zijn %{count} meer eerdere vergaderingen."
-  label_recurring_meeting_more_past_singular: "Er zijn %{count} meer eerdere vergaderingen."
+  label_recurring_meeting_more:
+    one: "There is one more scheduled meeting (%{schedule})."
+    other: "Er zijn nog %{count} geplande vergaderingen (%{schedule})."
+  label_recurring_meeting_more_past:
+    one: "There is one more past meeting."
+    other: "Er zijn %{count} meer eerdere vergaderingen."
   label_recurring_meeting_show_more: "Toon meer"
   label_recurring_meeting_series_create: "Maak vergader reeks"
   label_recurring_meeting_series_edit: "Vergaderreeks bewerken"
@@ -215,9 +215,6 @@ nl:
         new_date_time: "Nieuwe datum/tijd"
     label_mail_all_participants: "E-mail verzenden naar alle deelnemers"
     types:
-      classic: "Klassiek"
-      classic_text: "Organiseer uw vergadering met een opmaakbare tekstagenda en protocol."
-      structured: "Gestructureerd"
       one_time: "Eenmalig"
       recurring: "Terugkerend"
       recurring_text: "Maak vergaderreeksen met dynamische sjablonen voor elke gebeurtenis."
@@ -290,7 +287,7 @@ nl:
       full_past: "%{base} op %{time}, geëindigd op %{end_date}"
       never_ending: "%{base} op %{time}"
     open:
-      title: "Agenda opened"
+      title: "Agenda geopend"
       subtitle: >
         Open vergaderingen hebben agenda's die bewerkt kunnen worden en verschijnen in het gedeelte "Mijn vergaderingen" van individuele gebruikers. Wijzigingen aan het sjabloon voor reeksen vergaderingen hebben geen invloed op al geopende vergaderingen.
       blankslate:
@@ -391,9 +388,7 @@ nl:
   label_meeting_details_edit: "Bewerk vergader details"
   label_meeting_state: "Vergaderstatus"
   label_meeting_state_open: "Openen"
-  label_meeting_state_open_html: "<i>Open</i>"
   label_meeting_state_closed: "Gesloten"
-  label_meeting_state_closed_html: "<i>Gesloten</i>"
   label_meeting_state_agenda_created: "Agenda aangemaakt"
   label_meeting_state_planned: "Gepland"
   label_meeting_state_cancelled: "Geannuleerd"
@@ -401,7 +396,7 @@ nl:
   label_meeting_state_in_progress: "In behandeling"
   label_meeting_reopen_action: "Heropen vergadering"
   label_meeting_close_action: "Vergadering sluiten"
-  label_meeting_in_progress_action: "Mark as in progress"
+  label_meeting_in_progress_action: "Start meeting"
   text_meeting_open_description: "This meeting is open. You can add/remove agenda items and edit them as you please. Once the agenda is ready, mark it as in progress to document outcomes."
   text_meeting_closed_description: "Deze vergadering is gesloten. U kunt geen agendapunten meer toevoegen/verwijderen."
   text_meeting_in_progress_description: "This meeting is in progress. You can document outcomes for each agenda item, re-arrange them, and even add new ones. Once the meeting is complete, you can mark it as closed to lock it."

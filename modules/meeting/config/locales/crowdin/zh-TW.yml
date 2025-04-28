@@ -69,11 +69,9 @@ zh-TW:
         invalid_time_format: "不是有效時間。所需格式: HH:MM"
     models:
       recurring_meeting: "重複性會議"
-      structured_meeting: "一次性會議"
-      meeting: "會議"
+      meeting: "一次性會議"
       meeting_agenda_item: "議程項目"
       meeting_agenda: "會議大綱"
-      meeting_minutes: "會議記錄"
       meeting_section: "區段"
   activity:
     filter:
@@ -132,11 +130,11 @@ zh-TW:
   label_recurring_meeting_restore: "恢復此事件"
   label_recurring_meeting_schedule: "排程"
   label_recurring_meeting_next_occurrence: "下一次會議"
-  label_recurring_meeting_more: "還有 %{count} 預定會議 (%{schedule})。"
   label_recurring_meeting_no_end_date: "有更多排定的會議 (%{schedule})。"
-  label_recurring_meeting_more_singular: "還有 %{count} 預定會議 (%{schedule})。"
-  label_recurring_meeting_more_past: "還有 %{count} 更多過去的會議。"
-  label_recurring_meeting_more_past_singular: "還有 %{count} 更多過去的會議。"
+  label_recurring_meeting_more:
+    other: "還有 %{count} 預定會議 (%{schedule})。"
+  label_recurring_meeting_more_past:
+    other: "還有 %{count} 個更多過去的會議。"
   label_recurring_meeting_show_more: "顯示更多"
   label_recurring_meeting_series_create: "建立會議系列"
   label_recurring_meeting_series_edit: "編輯系列會議"
@@ -213,9 +211,6 @@ zh-TW:
         new_date_time: "新日期/時間"
     label_mail_all_participants: "發送電子郵件給所有參與者"
     types:
-      classic: "經典"
-      classic_text: "將會議組織為單一可格式化的文字議程和規程。"
-      structured: "結構化"
       one_time: "一次性"
       recurring: "重覆"
       recurring_text: "為每次發生的事件建立具有動態範本的會議系列。"
@@ -387,9 +382,7 @@ zh-TW:
   label_meeting_details_edit: "編輯會議詳情"
   label_meeting_state: "會議狀態"
   label_meeting_state_open: "開啟"
-  label_meeting_state_open_html: "<i>開啟</i>"
   label_meeting_state_closed: "關閉"
-  label_meeting_state_closed_html: "<i>關閉</i>"
   label_meeting_state_agenda_created: "議程已建立"
   label_meeting_state_planned: "已規劃"
   label_meeting_state_cancelled: "已取消"
@@ -397,7 +390,7 @@ zh-TW:
   label_meeting_state_in_progress: "進行中"
   label_meeting_reopen_action: "重新開啟會議"
   label_meeting_close_action: "關閉會議"
-  label_meeting_in_progress_action: "標記為進行中"
+  label_meeting_in_progress_action: "會議開始"
   text_meeting_open_description: "此會議是開放的。您可以新增/移除議程項目，並隨意編輯。一旦議程準備就緒，請將其標示為進行中，以記錄結果。"
   text_meeting_closed_description: "此會議已關閉。您不能再新增/移除議程項目。"
   text_meeting_in_progress_description: "此會議正在進行中。您可以記錄每個議程項目的結果、重新排列它們，甚至新增新的項目。會議完成後，您可以將其標示為已結束，以鎖定它。"

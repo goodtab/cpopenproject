@@ -28,7 +28,6 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <% html_title t(:label_administration), "#{t('.label_edit_color')} #{h @color.name}" %>
-<% local_assigns[:additional_breadcrumb] = @color.name %>
 
 <%= render Colors::EditPageHeaderComponent.new(color: @color) %>
 

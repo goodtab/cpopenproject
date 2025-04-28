@@ -20,7 +20,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: WP is not disabled in the background when a modal is open \[[#40141](https://community.openproject.org/wp/40141)\]
 - Fixed: Dropdown menu empty when adding new element to parent child board \[[#40154](https://community.openproject.org/wp/40154)\]
 - Fixed: Optional header sso does not log in plain user \[[#40240](https://community.openproject.org/wp/40240)\]
-- Fixed: Auth source SSO redirects to my page on login \[[#40248](https://community.openproject.org/wp/40248)\]
+- Fixed: Auth source SSO redirects to My page on login \[[#40248](https://community.openproject.org/wp/40248)\]
 
 ## Contributions
 

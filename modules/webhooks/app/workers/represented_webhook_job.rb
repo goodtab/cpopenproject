@@ -69,11 +69,8 @@ class RepresentedWebhookJob < WebhookJob
   end
 
   def represented_payload
-    User.system.run_given do |user|
-      payload_representer_class
-        .create(resource, current_user: user, embed_links: true)
-        .to_hash # to_hash needs to be called within the system user block
-    end
+    payload_representer_class
+      .create(resource, current_user: User.current, embed_links: true)
   end
 
   def payload_representer_class
@@ -81,9 +78,13 @@ class RepresentedWebhookJob < WebhookJob
   end
 
   def request_body
-    {
-      :action => event_name,
-      payload_key => represented_payload
-    }.to_json
+    # to_json needs to be called within the system user block in order to
+    # have all the custom field visibility permissions set up correctly.
+    User.system.run_given do
+      {
+        action: event_name,
+        payload_key => represented_payload
+      }.to_json
+    end
   end
 end

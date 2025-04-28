@@ -32,6 +32,9 @@ module WorkPackages
   module Exports
     module CSV
       class ExportSettingsComponent < BaseExportSettingsComponent
+        def format
+          "csv"
+        end
       end
     end
   end

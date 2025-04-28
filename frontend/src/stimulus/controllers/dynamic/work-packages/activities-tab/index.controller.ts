@@ -1,3 +1,33 @@
+/*
+ * -- copyright
+ * OpenProject is an open source project management software.
+ * Copyright (C) 2023 the OpenProject GmbH
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License version 3.
+ *
+ * OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+ * Copyright (C) 2006-2013 Jean-Philippe Lang
+ * Copyright (C) 2010-2013 the ChiliProject Team
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * See COPYRIGHT and LICENSE files for more details.
+ * ++
+ */
+
 import { Controller } from '@hotwired/stimulus';
 import {
   ICKEditorInstance,
@@ -28,6 +58,7 @@ export default class IndexController extends Controller {
     notificationCenterPathName: String,
     lastServerTimestamp: String,
     showConflictFlashMessageUrl: String,
+    unsavedChangesConfirmationMessage: String,
   };
 
   static targets = ['journalsContainer', 'buttonRow', 'formRow', 'form', 'formSubmitButton', 'reactionButton'];
@@ -53,11 +84,14 @@ export default class IndexController extends Controller {
   declare rescuedEditorDataKey:string;
   declare latestKnownChangesetUpdatedAtKey:string;
   declare showConflictFlashMessageUrlValue:string;
+  declare unsavedChangesConfirmationMessageValue:string;
+
   private handleWorkPackageUpdateBound:EventListener;
   private handleVisibilityChangeBound:EventListener;
   private rescueEditorContentBound:EventListener;
 
   private onSubmitBound:EventListener;
+  private onEscapeEditorBound:EventListener;
   private adjustMarginBound:EventListener;
   private onBlurEditorBound:EventListener;
   private onFocusEditorBound:EventListener;
@@ -461,7 +495,7 @@ export default class IndexController extends Controller {
     return this.element.querySelector('opce-ckeditor-augmented-textarea');
   }
 
-  private getCkEditorInstance():ICKEditorInstance | null {
+  getCkEditorInstance():ICKEditorInstance | null {
     const AngularCkEditorElement = this.getCkEditorElement();
     return AngularCkEditorElement ? jQuery(AngularCkEditorElement).data('editor') as ICKEditorInstance : null;
   }
@@ -488,7 +522,7 @@ export default class IndexController extends Controller {
   }
 
   // Code Maintenance: Get rid of this JS based view port checks when activities are rendered in fully primierized activity tab in all contexts
-  private isMobile():boolean {
+  isMobile():boolean {
     if (this.isWithinNotificationCenter() || this.isWithinSplitScreen()) {
       return window.innerWidth < 1013;
     }
@@ -514,6 +548,7 @@ export default class IndexController extends Controller {
 
   private addEventListenersToCkEditorInstance() {
     this.onSubmitBound = () => { void this.onSubmit(); };
+    this.onEscapeEditorBound = () => { void this.closeEditor(); };
     this.adjustMarginBound = () => { void this.adjustJournalContainerMargin(); };
     this.onBlurEditorBound = () => { void this.onBlurEditor(); };
     this.onFocusEditorBound = () => {
@@ -526,6 +561,7 @@ export default class IndexController extends Controller {
     const editorElement = this.getCkEditorElement();
     if (editorElement) {
       editorElement.addEventListener('saveRequested', this.onSubmitBound);
+      editorElement.addEventListener('editorEscape', this.onEscapeEditorBound);
       editorElement.addEventListener('editorKeyup', this.adjustMarginBound);
       editorElement.addEventListener('editorBlur', this.onBlurEditorBound);
       editorElement.addEventListener('editorFocus', this.onFocusEditorBound);
@@ -536,6 +572,7 @@ export default class IndexController extends Controller {
     const editorElement = this.getCkEditorElement();
     if (editorElement) {
       editorElement.removeEventListener('saveRequested', this.onSubmitBound);
+      editorElement.removeEventListener('editorEscape', this.onEscapeEditorBound);
       editorElement.removeEventListener('editorKeyup', this.adjustMarginBound);
       editorElement.removeEventListener('editorBlur', this.onBlurEditorBound);
       editorElement.removeEventListener('editorFocus', this.onFocusEditorBound);
@@ -613,44 +650,6 @@ export default class IndexController extends Controller {
     }
   }
 
-  quote(event:Event) {
-    event.preventDefault();
-    const target = event.currentTarget as HTMLElement;
-    const userId = target.dataset.userIdParam as string;
-    const userName = target.dataset.userNameParam as string;
-    const textWrote = target.dataset.textWroteParam as string;
-    const content = target.dataset.contentParam as string;
-
-    const quotedText = this.quotedText(content, userId, userName, textWrote);
-    const formVisible = !this.formRowTarget.classList.contains('d-none');
-    if (formVisible) {
-      this.insertQuoteOnExistingEditor(quotedText);
-    } else {
-      this.openEditorWithInitialData(quotedText);
-    }
-  }
-
-  private quotedText(rawComment:string, userId:string, userName:string, textWrote:string) {
-    const quoted = rawComment.split('\n')
-      .map((line:string) => `\n> ${line}`)
-      .join('');
-
-    // if we ever change CKEditor or how @mentions work this will break
-    return `<mention class="mention" data-id="${userId}" data-type="user" data-text="@${userName}">@${userName}</mention> ${textWrote}:\n\n${quoted}`;
-  }
-
-  insertQuoteOnExistingEditor(quotedText:string) {
-    const ckEditorInstance = this.getCkEditorInstance();
-    if (ckEditorInstance) {
-      const editorData = ckEditorInstance.getData({ trim: false });
-      if (editorData.endsWith('<br>') || editorData.endsWith('\n')) {
-        ckEditorInstance.setData(`${editorData}${quotedText}`);
-      } else {
-        ckEditorInstance.setData(`${editorData}\n\n${quotedText}`);
-      }
-    }
-  }
-
   openEditorWithInitialData(quotedText:string) {
     this.showForm();
     const ckEditorInstance = this.getCkEditorInstance();
@@ -661,14 +660,6 @@ export default class IndexController extends Controller {
 
   clearEditor() {
     this.getCkEditorInstance()?.setData('');
-  }
-
-  hideEditorIfEmpty() {
-    const ckEditorInstance = this.getCkEditorInstance();
-
-    if (ckEditorInstance && ckEditorInstance.getData({ trim: false }).length === 0) {
-      this.hideEditor();
-    }
   }
 
   hideEditor() {
@@ -690,18 +681,39 @@ export default class IndexController extends Controller {
     }
   }
 
-  onBlurEditor() {
-    const ckEditorInstance = this.getCkEditorInstance();
-
-    if (ckEditorInstance && ckEditorInstance.getData({ trim: false }).length === 0) {
-      this.hideEditor();
+  closeEditor() {
+    if (this.isEditorEmpty()) {
+      this.closeForm();
     } else {
+      // eslint-disable-next-line no-alert
+      const shouldClose = window.confirm(this.unsavedChangesConfirmationMessageValue);
+
+      if (shouldClose) {
+        this.closeForm();
+      }
+    }
+  }
+
+  onBlurEditor() {
+    if (!this.isEditorEmpty()) {
       this.adjustJournalContainerMargin();
     }
   }
 
   onFocusEditor() {
     this.adjustJournalContainerMargin();
+  }
+
+  private closeForm() {
+    this.hideEditor();
+    this.formTarget.reset();
+    this.notifyFormClose();
+  }
+
+  private isEditorEmpty():boolean {
+    const ckEditorInstance = this.getCkEditorInstance();
+
+    return !!(ckEditorInstance?.getData({ trim: false }).length === 0);
   }
 
   async onSubmit(event:Event | null = null) {
@@ -715,13 +727,19 @@ export default class IndexController extends Controller {
     void this.submitForm(formData)
       .then(({ html, headers }) => {
         this.handleSuccessfulSubmission(html, headers);
+        this.formTarget.reset();
       })
       .catch((error) => {
         console.error('Error saving activity:', error);
       })
       .finally(() => {
         this.setFormSubmitInProgress(false);
+        this.notifyFormClose();
       });
+  }
+
+  private notifyFormClose() {
+    this.dispatch('onSubmit-end');
   }
 
   private setFormSubmitInProgress(inProgress:boolean) {

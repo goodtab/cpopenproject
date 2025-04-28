@@ -62,7 +62,7 @@ RSpec.describe "Recurring meetings complete template",
   end
 
   context "when past occurrence is already created" do
-    let!(:meeting) { create(:structured_meeting, recurring_meeting:, start_time: recurring_meeting.start_time) }
+    let!(:meeting) { create(:meeting, recurring_meeting:, start_time: recurring_meeting.start_time) }
     let!(:schedule) do
       create :scheduled_meeting,
              meeting:,
@@ -81,7 +81,7 @@ RSpec.describe "Recurring meetings complete template",
   end
 
   context "when start_time < current time" do
-    let!(:meeting) { create(:structured_meeting, recurring_meeting:, start_time: recurring_meeting.start_time) }
+    let!(:meeting) { create(:meeting, recurring_meeting:, start_time: recurring_meeting.start_time) }
     let!(:schedule) do
       create :scheduled_meeting,
              meeting:,

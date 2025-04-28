@@ -34,16 +34,14 @@ tr:
           name: Gri (koyu)
         item_13:
           name: Siyah
-      life_cycle_colors:
+      project_phase_colors:
         item_0:
           name: PM2 Turuncu
         item_1:
-          name: PM2 Mor
-        item_2:
           name: PM2 Kırmızı
-        item_3:
+        item_2:
           name: PM2 Macenta
-        item_4:
+        item_3:
           name: PM2 Yeşil Sarı
       document_categories:
         item_0:
@@ -81,21 +79,18 @@ tr:
         item_1:
           name: Standart genel rol
     standard:
-      life_cycles:
+      project_phases:
         item_0:
           name: Başlatılıyor
         item_1:
-          name: Planlama için Hazır
-        item_2:
           name: Planlanıyor
+          start_gate: Planlama için Hazır
+        item_2:
+          name: Yürütülüyor
+          start_gate: Yürütmeye Hazır
         item_3:
-          name: Yürütmeye Hazır
-        item_4:
-          name: Yürütme
-        item_5:
-          name: Kapanışa Hazır
-        item_6:
           name: Kapatılıyor
+          start_gate: Kapanışa Hazır
       priorities:
         item_0:
           name: Düşük
@@ -148,7 +143,7 @@ tr:
             widgets:
               item_0:
                 options:
-                  name: Hoş geldiniz
+                  name: Hoş geldiniz 
               item_1:
                 options:
                   name: Başlarken
@@ -320,7 +315,7 @@ tr:
             widgets:
               item_0:
                 options:
-                  name: Hoş geldiniz
+                  name: Hoş geldiniz 
               item_1:
                 options:
                   name: Başlarken
@@ -490,7 +485,7 @@ tr:
         item_1:
           name: Kilometre taşı
         item_2:
-          name: Aşama
+          name: Görev özeti
         item_3:
           name: Özellik
         item_4:

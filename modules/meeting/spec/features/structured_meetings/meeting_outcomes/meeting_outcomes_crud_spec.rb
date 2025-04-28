@@ -11,14 +11,18 @@
 # Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
-# This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
-# You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
@@ -26,7 +30,7 @@
 
 require "spec_helper"
 
-require_relative "../../../support/pages/structured_meeting/show"
+require_relative "../../../support/pages/meetings/show"
 
 RSpec.describe "Meeting Outcomes CRUD", :js do
   shared_let(:project) { create(:project, enabled_module_names: %w[meetings]) }
@@ -42,7 +46,7 @@ RSpec.describe "Meeting Outcomes CRUD", :js do
            member_with_permissions: { project => %i[view_meetings manage_agendas close_meeting_agendas] }
   end
   shared_let(:meeting) do
-    create :structured_meeting,
+    create :meeting,
            project:,
            start_time: "2024-12-31T13:30:00Z",
            duration: 1.5,
@@ -55,7 +59,7 @@ RSpec.describe "Meeting Outcomes CRUD", :js do
 
   let(:current_user) { user }
   let(:state) { :in_progress }
-  let(:show_page) { Pages::StructuredMeeting::Show.new(meeting) }
+  let(:show_page) { Pages::Meetings::Show.new(meeting) }
   let(:field) do
     TextEditorField.new(page, "Outcome", selector: test_selector("meeting-outcome-input"))
   end

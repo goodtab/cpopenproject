@@ -245,7 +245,7 @@ RSpec.describe WorkflowsController do
   end
 
   describe "#update" do
-    let(:status_params) { { "1" => "2" } }
+    let(:status_params) { { "1" => { "2" => ["always"] } } }
     let(:service) do
       service = instance_double(Workflows::BulkUpdateService)
 

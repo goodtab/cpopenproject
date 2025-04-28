@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+# Temporary fix for https://community.openproject.org/wp/63568
+# Issue exists in Arabic (ar) and Latvian (lv) languages. Replace it in all
+# languages to be extra safe.
+echo "Fixing storages.health.checks.failures.zero key in crowdin translation files of storages module"
+if [ "$(uname -s)" = "Darwin" ]; then
+  sed -i '' 's/^          zero: "%{count} checks failed"$/          zero: "All checks passed"/' \
+    modules/storages/config/locales/crowdin/*.yml
+else
+  sed -i 's/^          zero: "%{count} checks failed"$/          zero: "All checks passed"/' \
+    modules/storages/config/locales/crowdin/*.yml
+fi

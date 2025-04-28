@@ -35,11 +35,20 @@ pt-BR:
         label_sort_desc: "Mais recentes em cima"
         label_type_to_comment: "Adicione um comentário. Digite @ para notificar as pessoas."
         label_submit_comment: "Enviar comentário"
+        label_who: Quem?
         changed_on: "alterado em"
         created_on: "criou em"
         changed: "alterou"
         created: "criou"
         commented: "comentou"
+        internal_comment: Internal comment
+        internal_journal: Internal comments are visible to a limited group of members.
+        unsaved_changes_confirmation_message: Você tem alterações não salvas. Tem certeza que deseja fechar o editor?
+        internal_comment_confirmation:
+          title: "Make this comment public?"
+          heading: "Make this comment public?"
+          description: "Your comment will be visible to anyone who can access this work package. Are you sure you want to do this?"
+          confirm_button_text: "Tornar público"
   admin:
     plugins:
       no_results_title_text: Atualmente, não existem plugins instalados.
@@ -59,9 +68,6 @@ pt-BR:
         main-menu-bg-selected-background: "Menu principal quando selecionado"
         main-menu-bg-hover-background: "Menu principal ao passar o mouse"
       custom_colors: "Cores personalizadas"
-      customize: "Personalize a instalação de seu OpenProject com seu logotipo e cores."
-      enterprise_notice: "Como agradecimento especial por sua contribuição financeira para o desenvolvimento do OpenProject, este singelo complemento está disponível apenas para assinantes que deram suporte à edição Enterprise."
-      enterprise_more_info: "Obs.: o logotipo usado pode ser acessado publicamente."
       manage_colors: "Editar opções de seleção de cor"
       instructions:
         primary-button-color: "Cor de destaque forte, usada para o botão mais importante na tela."
@@ -210,9 +216,6 @@ pt-BR:
     new: "Nova ação personalizada"
     edit: "Editar ação personalizada %{name}"
     execute: "Executar %{name}"
-    upsale:
-      title: "Ações personalizadas"
-      description: "As ações personalizadas são atalhos de clique único para um conjunto de ações pré-definidas que você pode disponibilizar em certos pacotes de trabalho com base no estado, função, tipo ou projeto."
   custom_fields:
     admin:
       custom_field_projects:
@@ -242,8 +245,6 @@ pt-BR:
           zero: sem subitens
           one: 1 subitem
           other: "%{count} subitens"
-    upsale:
-      custom_field_format_hierarchy: "Precisa de hierarquia nos campos personalizados dos pacotes de trabalho?"
     text_add_new_custom_field: >
       Para adicionar campos personalizados a um projeto é necessário criá-los primeiro para depois adicioná-los a este projeto.
     is_enabled_globally: "Está habilitado globalmente"
@@ -295,8 +296,9 @@ pt-BR:
   global_search:
     placeholder: "Buscar em %{app_title}"
     overwritten_tabs:
-      wiki_pages: "Wiki"
+      all: "Todos"
       messages: "Fórum"
+      wiki_pages: "Wiki"
   groups:
     index:
       no_results_title_text: Atualmente, não existem grupos.
@@ -348,6 +350,18 @@ pt-BR:
         heading: "Excluir esta lista de projeto?"
         text: "Esta ação não excluirá nenhum projeto contido na lista. Você tem certeza de que deseja excluir esta lista de projetos?"
     settings:
+      public_warning: >
+        This project is public. Anyone who has access to this instance will be able to view and interact with this project depending on their role and associated permissions. Sub-projects are not affected and have their own settings.
+      public_confirmation:
+        checkbox: "I understand that this will make the previously private content public"
+        title: "Make this project public?"
+        description: >
+          Anyone who has access to this instance will be able to view and interact with this project depending on their role and authentication settings. Sub-projects are not affected and have their own settings.
+      private_confirmation:
+        checkbox: "I understand that this will make the previously public content private."
+        title: "Make this project private?"
+        description: >
+          The project will only be visible to project members depending on their role and associated permissions. Sub-projects are not affected and have their own settings.
       change_identifier: Mudar identificador
       actions:
         label_enable_all: "Habilitar todos"
@@ -365,13 +379,13 @@ pt-BR:
       life_cycle:
         header:
           title: "Ciclo de vida do projeto"
-          description_html: 'Essas fases e marcos no ciclo de vida do projeto serão exibidos na sua <a href=%{overview_url} target="_blank">página de visão geral do projeto</a> e são definidos nas <a href=%{admin_settings_url} target="_blank">configurações de administração</a> pelo administrador da instância. Você pode ativar ou desativar atributos individuais.'
-        non_defined: "Nem fases nem marcos estão atualmente definidos."
-        section_header: "Fases e marcos"
+          description_html: "As fases ativas definem o ciclo de vida deste projeto e podem ser definidas nas<a href=%{admin_settings_url} target=\"_blank\">configurações de administração</a>. As fases habilitadas serão exibidas na <a href=%{overview_url} target=\"_blank\">visão geral do projeto</a>."
+        non_defined: "Nenhuma fase foi definida no momento."
+        section_header: "Fases"
         step:
           use_in_project: "Use %{step} neste projeto"
         filter:
-          label: "Pesquisar fase ou marco do projeto"
+          label: "Buscar fase de projeto"
       project_custom_fields:
         header:
           title: "Atributos do projeto"
@@ -396,7 +410,7 @@ pt-BR:
         no_results_title_text: Não há espaço adicional gravado em disco que seja consumido por este projeto.
       work_package_priorities:
         new_label: "Nova prioridade"
-  project_stage:
+  project_phase:
     working_days_count:
       one: "Duração: %{count} dia útil"
       other: "Duração: %{count} dias úteis"
@@ -539,10 +553,6 @@ pt-BR:
         Todas as ocorrências do usuário de espaço reservado (por exemplo, como responsável, competente ou outros valores de usuário) serão reatribuídas a uma conta chamada "Usuário excluído". Como os dados de todas as contas excluídas são reatribuídos a esta conta, não será possível diferenciar os dados criados por usuários de dados excluídos por outra conta.
       irreversible: "Esta ação é irreversível"
       confirmation: "Digite o nome de usuário do espaço reservado %{name} para confirmar a exclusão."
-    upsale:
-      title: Usuários de espaço reservado
-      description: >
-        Usuários reservados são uma maneira de atribuir pacotes de trabalho aos usuários que não fazem parte do seu projeto. Eles podem ser úteis em vários cenários; por exemplo, se você precisa acompanhar as tarefas de uma fonte que ainda não foi nomeada ou disponibilizada, ou, se você não deseja dar a esta pessoa acesso ao OpenProject, mas ainda deseja acompanhar as tarefas atribuídas a ela.
   prioritiies:
     edit:
       priority_color_text: |
@@ -597,8 +607,6 @@ pt-BR:
     edit:
       form_configuration:
         tab: "Configuração do formulário"
-      more_info_text_html: >
-        A edição Enterprise permite a personalização da configuração do formulário com estes complementos adicionais: <br> <ul class="%{list_styling_class}"> <li><b>Adicionar novos grupos de atributos</b></li> <li><b>Renomear grupos de atributos</b></li> <li><b>Adicionar uma tabela de pacotes de trabalho relacionados</b></li> </ul>
       projects:
         tab: "Projetos"
         enabled_projects: "Projetos habilitados"
@@ -615,8 +623,12 @@ pt-BR:
           caption: "Defina um padrão usando atributos referenciados e texto para gerar automaticamente os tópicos dos pacotes de trabalho. Os usuários não poderão editar os tópicos manualmente."
         pattern:
           label: "Padrão de assunto"
-          caption: "Pesquise um atributo ou adicione texto. Para inserir um espaço entre os elementos, adicione-o como texto."
-          insert_as_text: "Adicionar como texto: \"%{word}\""
+          caption: "Digite o texto ou aperte / para pesquisar um atributo. Você pode separá-los por espaço."
+          headings:
+            work_package: "Pacote de trabalho"
+            parent: "Pai"
+            project: "Projeto"
+          insert_as_text: "Nenhum atributo encontrado. Digite um texto como: \"%{word}\""
       export_configuration:
         tab: "Gerar PDF"
         intro: "Selecione quais modelos disponíveis você deseja ativar para este tipo. O modelo define o design e os atributos visíveis no PDF exportado de um pacote de trabalho desse tipo. O primeiro modelo da lista é selecionado por padrão."
@@ -751,7 +763,7 @@ pt-BR:
       label_child_plural: "filhos"
       new_child: "Novo filho"
       new_child_text: "Cria um pacote de trabalho relacionado como um subpacote do pacote de trabalho atual (pai)"
-      existing_child: "Filho existente"
+      child: "Filho"
       child_description: "Torna o pacote de trabalho relacionado uma subtarefa do pacote de trabalho atual (pai)"
       label_closest: "Mais próximo"
       label_blocks_singular: "blocos"
@@ -943,17 +955,23 @@ pt-BR:
       project_custom_field:
         is_required: "Obrigatório para todos os projetos"
         custom_field_section: Seção
-      project/life_cycle_step:
+      project/phase:
+        date_range: "Período"
         definition: "Definição"
-      project/life_cycle_step_definition:
+      project/phase_definition:
         name: "Nome"
         color: "Cor"
+        start_gate: "Controle de fase inicial"
+        start_gate_name: "Nome do controle de fase inicial"
+        finish_gate: "Controle de fase final"
+        finish_gate_name: "Nome do controle de fase final"
       query:
         sums: "Somas"
         columns: "Colunas"
         column_names: "Colunas"
         relations_to_type_column: "Relações com %{type}"
         relations_of_type_column: "Relações de %{type}"
+        child_work_packages: "Pacotes de trabalho filhos"
         group_by: "Agrupar resultados por"
         sort_by: "Ordenar resultados por"
         filters: "Filtros"
@@ -1032,6 +1050,7 @@ pt-BR:
         consented_at: "Consentido em"
       user_preference:
         comments_sorting: "Exibir comentários"
+        dismissed_enterprise_banners: "Banners empresariais ocultos"
         impaired: "Modo de acessibilidade"
         auto_hide_popups: "Auto-ocultar notificações de sucesso"
         warn_on_leaving_unsaved: "Alertar-me ao sair de um pacote de trabalho sem salvar as alterações"
@@ -1048,7 +1067,9 @@ pt-BR:
       wiki_page:
         parent_title: "Página pai"
         redirect_existing_links: "Redireciona links existentes"
+        text: "Conteúdo da página"
       work_package:
+        ancestor: "Descendentes de" #used for filtering of work packages that are descendants of a given work package
         begin_insertion: "Início da inserção"
         begin_deletion: "Início da exclusão"
         children: "Subelementos"
@@ -1064,6 +1085,7 @@ pt-BR:
           title: "Dias úteis"
           false: "Apenas dias úteis"
           true: "incluindo dias não-úteis"
+        journal_internal: Internal Journal
         notify: "Notificar" #used in custom actions
         parent: "Pai"
         parent_issue: "Pai"
@@ -1107,6 +1129,7 @@ pt-BR:
         empty: "não pode ser vazio."
         even: "deve ser par."
         exclusion: "está reservado."
+        feature_disabled: não está disponível.
         file_too_large: "é muito grande (tamanho máximo é %{count} Bytes)."
         filter_does_not_exist: "filtro não existe."
         format: "não corresponde ao formato '%{expected}' esperado."
@@ -1243,42 +1266,12 @@ pt-BR:
           attributes:
             project_ids:
               blank: "Selecione um projeto."
-        project/life_cycle_step_definition:
-          attributes:
-            type:
-              must_be_a_stage_or_gate: "deve ser Project::StageDefinition ou Project::GateDefinition"
-              type_and_class_name_mismatch: "deve corresponder ao nome da classe instanciada"
-        project/gate_definition:
-          attributes:
-            type:
-              type_and_class_name_mismatch: "deve ser um Project::GateDefinition"
-        project/stage_definition:
-          attributes:
-            type:
-              type_and_class_name_mismatch: "deve ser um Project::StageDefinition"
-        project/life_cycle_step:
-          attributes:
-            type:
-              must_be_a_stage_or_gate: "deve ser Project::Stage ou Project::Gate"
-              must_be_a_stage: "deve ser um Project::Stage"
-              must_be_a_gate: "deve ser um Project::Gate"
-              type_and_class_name_mismatch: "deve corresponder ao nome da classe instanciada"
-        project/gate:
-          attributes:
-            base:
-              end_date_not_allowed: "Não é possível atribuir data de término a um Project::Gate"
-            type:
-              type_and_class_name_mismatch: "deve ser um Project::Gate"
-            date:
-              non_continuous_dates: "não pode ser anterior à data de término do %{step} anterior."
-        project/stage:
+        project/phase:
           attributes:
             date_range:
-              start_date_must_be_before_end_date: "a data inicial deve ser anterior à data final."
-              non_continuous_dates: "não pode ser anterior à data de término do %{step} anterior."
-              incomplete: "está incompleto."
-            type:
-              type_and_class_name_mismatch: "deve ser um Project::Stage"
+              start_date_must_be_before_finish_date: "a data inicial deve ser anterior à data final."
+              non_continuous_dates: "não pode ser anterior à data final da fase anterior."
+              incomplete: "não foi concluído."
         query:
           attributes:
             project:
@@ -1313,6 +1306,10 @@ pt-BR:
             values:
               inclusion: "o filtro tem valores inválidos."
               format: "%{message}"
+        queries/principals/filters/internal_mentionable_on_work_package_filter:
+          attributes:
+            values:
+              single_value_requirement: "deve ser um único pacote de trabalho"
         relation:
           typed_dag:
             circular_dependency: "O relacionamento cria um círculo de relacionamentos."
@@ -1509,8 +1506,6 @@ pt-BR:
         other: "Notificações"
       placeholder_user: "Usuário do espaço reservado"
       project: "Projeto"
-      project/gate_definition: "Portão"
-      project/stage_definition: "Fase"
       project_query:
         one: "Lista de projetos"
         other: "Listas de projeto"
@@ -1569,11 +1564,19 @@ pt-BR:
       changeset: "Cj de alterações"
       message: "Fóruns"
       news: "Notícias"
-      project_attribute: "Atributos do projeto"
+      project_details: "Detalhes do projeto"
       subproject: "Incluir subprojetos"
       time_entry: "Tempo gasto"
       wiki_edit: "Wiki"
       work_package: "Pacotes de trabalho"
+    project_phase:
+      activated: "ativado"
+      deactivated: "desativado"
+      added_date: "definido para %{date}"
+      changed_date: "alterado de %{from} para %{to}"
+      removed_date: "data excluída %{date}"
+      phase_and_one_gate: "%{phase_message}. %{gate_message}"
+      phase_and_both_gates: "%{phase_message}. %{start_gate_message} e %{finish_gate_message}"
   #common attributes of all models
   attributes:
     active: "Ativo"
@@ -1815,7 +1818,8 @@ pt-BR:
     text:
       failed: 'Não foi possível copiar o projeto "%{source_project_name}" para o projeto "%{target_project_name}".'
       succeeded: 'Projeto "%{source_project_name}" copiado para "%{target_project_name}".'
-  create_new_page: "Página wiki"
+  create_wiki_page: "Create new wiki page"
+  create_wiki_page_button: "Página wiki"
   date:
     abbr_day_names:
       - "Dom"
@@ -1967,17 +1971,77 @@ pt-BR:
   #Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
   direction: da esquerda para a direita
   ee:
-    upsale:
+    features:
+      baseline_comparison: Baseline Comparisons
+      board_view: Advanced Boards
+      conditional_highlighting: Realce condicional
+      internal_comments: Internal Comments
+      custom_actions: Ações Personalizadas
+      custom_field_hierarchies: Custom fields of type hierarchy
+      customize_life_cycle: Personalizar Ciclo de Vida
+      date_alerts: Alertas de data
+      define_custom_style: Custom theme and logo
+      edit_attribute_groups: Editar atributo de grupos
+      gantt_pdf_export: Exportar diagrama de Gantt para PDF
+      grid_widget_wp_graph: Widget de Grid para gráficos de pacotes de trabalho
+      ldap_groups: LDAP users and group sync
+      one_drive_sharepoint_file_storage: Armazenamento de Arquivos OneDrive/SharePoint
+      placeholder_users: Usuários Genéricos
+      project_list_sharing: Compartilhamento de Lista de Projetos
+      readonly_work_packages: Pacotes de Trabalho somente leitura
+      sso_auth_providers: Single sign-on
+      team_planner_view: Planejador de Equipes
+      two_factor_authentication: 2FA Authentication
+      virus_scanning: Antivirus Scanning
+      work_package_query_relation_columns: Colunas de relação de consulta do pacote de trabalho
+      work_package_sharing: Share work packages with external users
+      work_package_subject_generation: Geração de assunto do pacote de trabalho
+    upsell:
       title: "Complemento empresarial"
-      link_title: "Mais informações"
-      automatic_subject_generation:
+      plan_title: "Enterprise %{plan} add-on"
+      plan_name: "%{plan} enterprise plan"
+      plan_text_html: "Available starting with the %{plan_name}."
+      hide_banner: "Hide this banner"
+      baseline_comparison:
+        description: Destaque as alterações realizadas nesta lista desde qualquer ponto no passado.
+      work_package_subject_generation:
         description: "Crie assuntos gerados automaticamente com base em atributos e textos referenciados."
       customize_life_cycle:
-        description: "Crie e organize estágios e marcos do projeto diferentes dos definidos no planejamento do ciclo de vida do projeto PM2."
-      form_configuration:
-        description: "Personalize a configuração do formulário com estes complementos adicionais:"
-        add_groups: "Adicionar novos grupos de atributos"
-        rename_groups: "Renomear grupos de atributos"
+        description: "Create and organize different project phases than the ones provided by PM2 project cycle planning."
+      conditional_highlighting:
+        description: "Need certain work packages to stand out from the mass? Use conditional highlighting in the work packages table."
+      work_package_query_relation_columns:
+        description: "Need to see relations or child elements in the work package list?"
+      edit_attribute_groups:
+        description: "Customize form configuration with these additional add-ons:"
+        features:
+          groups: "Adicionar novos grupos de atributos"
+          rename: "Rename attribute groups"
+          related: "Add a table of related work packages"
+      readonly_work_packages:
+        description: "Mark work packages as read-only for specific statuses."
+      custom_field_hierarchies:
+        description: "Hierarchy custom fields allow organizing hierarchical structures in work packages by making use of multi-level select lists."
+      date_alerts:
+        description: "Com os alertas de data, você receberá uma notificação das futuras datas de início e conclusão, assim você nunca perderá ou esquecerá prazos importante. "
+      work_package_sharing:
+        description: "Compartilhe pacotes de trabalho com usuários que não são membros do projeto."
+      define_custom_style:
+        title: "Custom color theme and logo"
+        more_info: "Obs.: o logotipo usado pode ser acessado publicamente."
+        description: Personalize a instalação de seu OpenProject com seu logotipo e cores.
+      custom_actions:
+        title: "Ações personalizadas"
+        description: "As ações personalizadas são atalhos de clique único para um conjunto de ações pré-definidas que você pode disponibilizar em certos pacotes de trabalho com base no estado, função, tipo ou projeto."
+      virus_scanning:
+        description: "Garantir que os arquivos carregados no OpenProject sejam verificados quanto à presença de vírus antes de serem acessados por outros usuários."
+      placeholder_users:
+        title: Usuários de espaço reservado
+        description: >
+          Usuários reservados são uma maneira de atribuir pacotes de trabalho aos usuários que não fazem parte do seu projeto. Eles podem ser úteis em vários cenários; por exemplo, se você precisa acompanhar as tarefas de uma fonte que ainda não foi nomeada ou disponibilizada, ou, se você não deseja dar a esta pessoa acesso ao OpenProject, mas ainda deseja acompanhar as tarefas atribuídas a ela.
+      internal_comments:
+        title: "For your eyes only"
+        description: "Internal comments allow an internal team to communicate amongst themselves privately. These are only visible to certain project roles and will never be visible publicly."
   enumeration_activities: "Atividades de controle de tempo"
   enumeration_work_package_priorities: "Prioridades do pacote de trabalho"
   enumeration_reported_project_statuses: "Situação de projeto comunicada"
@@ -2043,7 +2107,7 @@ pt-BR:
     changeset: "Conjunto de alterações editadas"
     message: Mensagem editada
     news: Notícias
-    project_attributes: "Atributos do projeto editado"
+    project_details: "Detalhes do projeto editados"
     project: "Projeto editado"
     projects: "Projeto editado"
     reply: Respondida
@@ -2059,6 +2123,8 @@ pt-BR:
     dialog:
       title: "Exportar"
       submit: "Exportar"
+      save_export_settings:
+        label: "Salvar configurações"
       format:
         label: "Formato do arquivo"
         options:
@@ -2122,6 +2188,8 @@ pt-BR:
     your_work_packages_export: "Os pacotes de trabalho estão sendo exportados"
     succeeded: "Exportação concluída"
     failed: "Ocorreu um erro ao tentar exportar os pacotes de trabalho: %{message}"
+    errors:
+      embedded_table_with_too_many_columns: "Essa tabela embutida de pacotes de trabalho não coube na página, por favor, reduza o número de colunas."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -2166,6 +2234,12 @@ pt-BR:
         caption: Quebra a linha entre as palavras para melhor exibição e justificação.
       hyphenation_language:
         label: Idioma e hifenização
+      page_orientation:
+        label: Orientação da página
+        caption: Selecione a orientação das páginas no documento PDF.
+        options:
+          portrait: Retrato
+          landscape: Paisagem
   extraction:
     available:
       pdftotext: "Pdftotext disponível (opcional)"
@@ -2194,9 +2268,8 @@ pt-BR:
       users: "Usuários mais recentes registrados nesta instância."
     blocks:
       community: "Comunidade do OpenProject"
-      upsale:
+      upsell:
         title: "Atualizar para a edição Enterprise"
-        more_info: "Mais informações"
     links:
       upgrade_enterprise_edition: "Atualizar para a edição Enterprise"
       postgres_migration: "Migrando sua instalação para PostgreSQL"
@@ -2673,6 +2746,7 @@ pt-BR:
   label_modules: "Módulos"
   label_months_from: "meses de"
   label_more: "Mais"
+  label_more_information: "Mais informações"
   label_more_than_ago: "mais do que dias atrás"
   label_move_column_left: "Mover coluna para esquerda"
   label_move_column_right: "Mover coluna para direita"
@@ -2772,7 +2846,7 @@ pt-BR:
   label_project_new: "Novo projeto"
   label_project_plural: "Projetos"
   label_project_list_plural: "Listas de projeto"
-  label_project_lifecycle: "Ciclo de vida do projeto"
+  label_project_life_cycle: "Ciclo de vida do projeto"
   label_project_attributes_plural: "Atributos do projeto"
   label_project_custom_field_plural: "Atributos do projeto"
   label_project_settings: "Configurações do projeto"
@@ -3231,6 +3305,7 @@ pt-BR:
   notice_successful_delete: "Exclusão bem sucedida."
   notice_successful_cancel: "Cancelamento bem-sucedido."
   notice_successful_update: "Atualizado com sucesso."
+  notice_unsuccessful_update: "Falha na atualização."
   notice_successful_update_custom_fields_added_to_project: |
     Atualização bem-sucedida. Os campos personalizados dos tipos ativados são ativados automaticamente
     no formulário do pacote de trabalho. <a href="%{url}" target="_blank">Ver mais</a>.
@@ -3269,12 +3344,13 @@ pt-BR:
     text_getting_started_description: "Obtenha uma visão geral da gestão de projetos e colaboração entre equipes com o OpenProject. Você pode assistir este vídeo novamente no menu de ajuda."
     welcome: "Bem-vindo ao %{app_title}"
     select_language: "Por favor, selecione seu idioma"
-  permission_add_work_package_notes: "Adicionar comentários"
+  permission_add_work_package_comments: "Adicionar comentários"
   permission_add_work_packages: "Adicionar pacotes de trabalho"
   permission_add_messages: "Postar mensagens"
   permission_add_project: "Criar projetos"
   permission_add_work_package_attachments: "Adicionar anexos"
   permission_add_work_package_attachments_explanation: "Permite adicionar anexos sem permissão de edição de pacotes de trabalho"
+  permission_add_internal_comments: "Write internal comments"
   permission_archive_project: "Arquivar projeto"
   permission_create_user: "Criar usuários"
   permission_manage_user: "Editar usuários"
@@ -3299,16 +3375,19 @@ pt-BR:
   permission_delete_timelines: "Excluir cronogramas"
   permission_delete_wiki_pages: "Excluir páginas wiki"
   permission_delete_wiki_pages_attachments: "Excluir anexos"
-  permission_edit_work_package_notes: "Moderar comentários"
-  permission_edit_work_package_notes_explanation: "Atenção: Usuários com esta permissão podem editar comentários de qualquer pessoa."
+  permission_edit_work_package_comments: "Moderar comentários"
+  permission_edit_work_package_comments_explanation: "Atenção: Usuários com esta permissão podem editar comentários de qualquer pessoa."
   permission_edit_work_packages: "Editar pacotes de trabalho"
   permission_edit_messages: "Editar mensagens"
-  permission_edit_own_work_package_notes: "Editar os próprios comentários"
+  permission_edit_own_internal_comments: "Edit own internal comments"
+  permission_edit_own_work_package_comments: "Editar os próprios comentários"
   permission_edit_own_messages: "Editar as próprias mensagens"
   permission_edit_own_time_entries: "Editar os próprios registros de tempo"
+  permission_edit_others_internal_comments: "Moderate internal comments"
+  permission_edit_others_internal_comments_explanation: "Caution: Users with this permission are able to edit other users' internal comments."
   permission_edit_project: "Editar projeto"
   permission_edit_project_attributes: "Editar atributos do projeto"
-  permission_edit_project_stages_and_gates: "Editar fases e marcos do projeto"
+  permission_edit_project_phases: "Editar fase de projeto"
   permission_edit_reportings: "Editar relatórios"
   permission_edit_time_entries: "Editar registro de hora para outros usuários"
   permission_edit_timelines: "Editar cronogramas"
@@ -3338,14 +3417,15 @@ pt-BR:
   permission_search_project: "Buscar projeto"
   permission_select_custom_fields: "Selecionar campos personalizados"
   permission_select_project_custom_fields: "Selecione os atributos do projeto"
-  permission_select_project_life_cycle: "Selecionar fases e marcos do projeto"
-  permission_select_project_life_cycle_explanation: "Ative ou desative os estágios e marcos de um projeto. Isso permite que o usuário selecione o ciclo de vida adequado para o projeto, pois os estágios e marcos desativados não serão exibidos na página de visão geral nem na lista de projetos."
+  permission_select_project_phases: "Selecionar fases de projeto"
+  permission_select_project_phases_explanation: "Ativar/Desativar as fases de um projeto. Permite ao usuário selecionar o ciclo de vida adequado para o projeto, pois fases desativadas não serão visíveis na página de visão geral do projeto nem na lista de projetos."
   permission_select_project_modules: "Selecionar módulos do projeto"
   permission_share_work_packages: "Compartilhar pacotes de trabalho"
   permission_manage_types: "Selecionar tipos"
   permission_manage_own_reminders: "Criar seus próprios lembretes"
   permission_view_project: "Visualizar projetos"
   permission_view_changesets: "Revisões do repositório vistas no OpenProject"
+  permission_view_internal_comments: "View internal comments"
   permission_view_commit_author_statistics: "Ver estatísticas de commits do autor"
   permission_view_dashboards: "Visualizar painéis"
   permission_view_work_package_watchers: "Visualizar lista de observadores"
@@ -3364,7 +3444,7 @@ pt-BR:
   permission_work_package_assigned_explanation: "Pacotes de trabalho podem ser atribuídos a usuários e grupos em posse deste papel no respectivo projeto"
   permission_view_project_activity: "Visualizar a atividade do projeto"
   permission_view_project_attributes: "Visualizar atributos do projeto"
-  permission_view_project_stages_and_gates: "Visualizar fases e marcos do projeto"
+  permission_view_project_phases: "Visualizar fase de projeto"
   permission_save_bcf_queries: "Salvar consultas a BCF"
   permission_manage_public_bcf_queries: "Gerenciar consultas públicas a BCF"
   permission_edit_attribute_help_texts: "Editar textos de ajuda do atributos"
@@ -3390,9 +3470,9 @@ pt-BR:
       subprojects_confirmation: "Seu(s) subprojeto(s): %{value} também será(ão) excluído(s)."
       title: "Excluir o projeto %{name}"
     filters:
-      life_cycle_any: "Ciclo de Vida: Qualquer fase ou marco"
-      life_cycle_stage: "Fase do Ciclo de Vida: %{stage}"
-      life_cycle_gate: "Marco de Ciclo de Vida: %{gate}"
+      project_phase: "Fase de projeto: %{phase}"
+      project_phase_any: "Fase de projeto: Qualquer"
+      project_phase_gate: "Controle da fase de projeto: %{gate}"
     identifier:
       warning_one: Membros do projeto terão que realocar os repositórios do projeto.
       warning_two: Links existentes para o projeto deixarão de funcionar.
@@ -3537,6 +3617,9 @@ pt-BR:
     manual: "definir como Manual"
     automatic: "definido como Automático"
   search_input_placeholder: "Pesquisar..."
+  setting_allowed_link_protocols: "Protocolos de link permitidos"
+  setting_allowed_link_protocols_text_html: >-
+    Permite que estes protocolos sejam apresentados como links nas descrições do pacote de trabalho, campos de texto e comentários. Por exemplo, %{tel_code} ou %{element_code}. Insira um protocolo por linha. <br/> Os protocolos %{http_code}, %{https_code} e %{mailto_code} estão sempre permitidos.
   setting_after_first_login_redirect_url: "Redirecionamento de primeiro login"
   setting_after_first_login_redirect_url_text_html: >
     Defina um caminho para redirecionar os usuários após o primeiro login. Se deixado em branco, eles serão redirecionados para a página inicial do tour de introdução. <br/> Exemplo: <code>/my/page</code>
@@ -3673,6 +3756,8 @@ pt-BR:
   setting_repository_truncate_at: "Número máximo de arquivos exibidos no navegador de repositório"
   setting_rest_api_enabled: "Habilitar serviço REST"
   setting_self_registration: "Auto-registro"
+  setting_self_registration_warning: >
+    The user will be able to activate their own accounts. Please note that this will give them access to all public projects and their content. Please make sure that no sensitive or private data is exposed in public projects.
   setting_session_ttl: "Tempo de expiração de sessão após inatividade"
   setting_session_ttl_hint: "Valor abaixo de 5 funciona como desativado"
   setting_session_ttl_enabled: "Sessão expira"
@@ -3717,8 +3802,6 @@ pt-BR:
         Os arquivos restantes foram verificados. Há %{file_count} em quarentena. Você está sendo redirecionado para a página de quarentena. Utilize essa página para excluir ou substituir arquivos em quarentena.
       remaining_rescanned_files: >
         A verificação de vírus foi ativada com sucesso. Há %{file_count} arquivos que foram carregados anteriormente e ainda precisam ser verificados. Este processo foi agendado em segundo plano. Os arquivos permanecerão acessíveis durante a verificação.
-      upsale:
-        description: "Garantir que os arquivos carregados no OpenProject sejam verificados quanto à presença de vírus antes de serem acessados por outros usuários."
       actions:
         delete: "Excluir o arquivo"
         quarantine: "Colocar o arquivo em quarentena"
@@ -3769,27 +3852,27 @@ pt-BR:
       new:
         heading: "Novo atributo"
         description: "As alterações realizadas neste atributo do projeto serão aplicadas em todos os projetos onde ele estiver habilitado. Atributos obrigatórios não podem ser desativados em projetos específicos."
-    project_life_cycle_step_definitions:
+    project_phase_definitions:
       heading: "Ciclo de vida do projeto"
-      heading_description: "O ciclo de vida do projeto é composto por fases e marcos que estruturam seus projetos. Eles serão exibidos na página de visão geral do projeto e estarão disponíveis na lista de projetos. É possível selecionar fases e marcos individuais para personalizar um projeto, mas a reordenação não pode ser feita no nível do projeto."
+      heading_description: "O ciclo de vida do projeto define as fases que podem ser usadas no planejamento do projeto e que serão exibidas na página de visão geral de cada projeto. Esses atributos podem ser ativados ou desativados, mas não é possível reordená-los no nível do projeto."
       label_add: "Adicionar"
-      label_add_description: "Adicionar definição de ciclo de vida"
-      label_add_stage: "Fase"
-      label_add_gate: "Portão"
+      label_add_description: "Adicionar definição da fase de projeto"
       filter:
-        label: "Pesquisar fase ou marco do projeto"
-      section_header: "Fases e marcos"
-      non_defined: "Nem fases nem marcos estão atualmente definidos."
+        label: "Buscar fase de projeto"
+      section_header: "Fases"
+      non_defined: "Nenhuma fase foi definida no momento."
+      phase_gates: "Controles de fase"
       new:
-        description: "Alterações neste estágio do projeto serão aplicadas a todos os projetos nos quais ele esteja ativado."
-      new_stage:
-        heading: "Novo fase"
-      new_gate:
-        heading: "Novo marco"
-      edit_stage:
+        description: "As alterações nesta fase do projeto serão aplicadas a todos os projetos nos quais ela esteja ativada."
+        heading: "Nova fase"
+      edit:
         heading: "Editar fase"
-      edit_gate:
-        heading: "Editar marco"
+      both_gate: "Controle inicial e controle final"
+      no_gate: "Sem controle"
+      start_gate: "Data inicial"
+      start_gate_caption: "Adicione um controle com a data inicial da fase"
+      finish_gate: "Data final"
+      finish_gate_caption: "Adicione um controle com a data final da fase"
     projects:
       missing_dependencies: "Módulo de projeto %{module} foi verificado e depende de %{dependencies}. Você também precisa verificar estas dependências."
       section_new_projects: "Configurações para novos projetos"
@@ -3803,10 +3886,10 @@ pt-BR:
       section_work_week: "Semana de trabalho"
       section_holidays_and_closures: "Feriados e fechamentos"
     work_packages:
-      categories_tab: "Categories"
-      custom_fields_tab: "Custom Fields"
-      types_tab: "Types"
-      not_allowed_text: "You do not have the necessary permissions to view this page."
+      not_allowed_text: "Você não tem as permissões necessárias para visualizar esta página."
+      activities:
+        enable_internal_comments: "Enable internal comments"
+        helper_text: "Internal comments allow an internal team to communicate amongst themselves privately. These are only visible to selected roles that have the necessary permissions and will not be visible publicly. %{link}"
   text_formatting:
     markdown: "Markdown"
     plain: "Texto simples"
@@ -3828,7 +3911,7 @@ pt-BR:
   text_are_you_sure_continue: "Tem certeza de que deseja continuar?"
   text_are_you_sure_with_children: "Excluir o pacote de trabalho e todos os pacotes de trabalho filhos?"
   text_are_you_sure_with_project_custom_fields: "Ao excluir este atributo, os valores associados a ele serão removidos de todos os projetos. Tem certeza de que deseja continuar?"
-  text_are_you_sure_with_project_life_cycle_step: "Ao excluir esta etapa, os usos associados a ele serão removidos de todos os projetos. Tem certeza de que deseja continuar?"
+  text_are_you_sure_with_project_life_cycle_step: "Ao excluir esta fase, os usos associados a ela também serão removidos de todos os projetos. Tem certeza de que deseja continuar?"
   text_assign_to_project: "Atribuir ao projeto"
   text_form_configuration: >
     Você pode personalizar quais campos serão exibidos em formulários de pacote de trabalho. Livremente, você pode agrupar os campos para refletir as necessidades para o seu domínio.
@@ -3842,8 +3925,6 @@ pt-BR:
     Quando utilizar campos personalizados: lembre-se de que os campos personalizados precisam ser ativados também por projeto.
   text_custom_field_hint_activate_per_project_and_type: >
     Os campos personalizados precisam ser ativados por tipo de pacote de trabalho e por projeto.
-  text_wp_status_read_only_html: >
-    A edição Enterprise (Edição corporative) conta com estes complemento adicionais para os campos personalizados dos pacotes de trabalho: <br> <ul> <li><b>Permite marcar pacotes de trabalho como "apenas leitura" para status específicos</b></li> </ul>
   text_project_custom_field_html: >
     A edição Enterprise (Edição corporativa) contará com estes complementos adicionais para campos personalizados dos Projetos: <br> <ul> <li><b>Adicionar campos personalizados para projetos a sua Lista de projetos para criar uma visão do portfólio de projetos</b></li> </ul>
   text_custom_logo_instructions: >
@@ -4156,7 +4237,7 @@ pt-BR:
         view_description: "Pode visualizar esta lista de projetos."
         edit: "Editar"
         edit_description: "Pode visualizar, compartilhar e editar esta lista de projetos."
-      upsale:
+      upsell:
         message: "Compartilhar listas de projetos com usuários individuais é um complemento Enterprise."
   working_days:
     info: >
@@ -4387,27 +4468,3 @@ pt-BR:
     description: "Adiciona o fornecedor SAML OmniAuth ao OpenProject"
   enterprise_plans:
     legacy_enterprise: "Plano Enterprise"
-  enterprise_features:
-    baseline_comparison: Comparação de linha base
-    board_view: Visão do quadro
-    conditional_highlighting: Realce condicional
-    custom_actions: Ações Personalizadas
-    custom_field_hierarchies: Hierarquias de Campos Personalizados
-    customize_life_cycle: Personalizar Ciclo de Vida
-    date_alerts: Alertas de data
-    define_custom_style: Definir estilo personalizado
-    edit_attribute_groups: Editar atributo de grupos
-    gantt_pdf_export: Exportar diagrama de Gantt para PDF
-    grid_widget_wp_graph: Widget de Grid para gráficos de pacotes de trabalho
-    ldap_groups: Grupos LDAP
-    one_drive_sharepoint_file_storage: Armazenamento de Arquivos OneDrive/SharePoint
-    placeholder_users: Usuários Genéricos
-    project_list_sharing: Compartilhamento de Lista de Projetos
-    readonly_work_packages: Pacotes de Trabalho somente leitura
-    sso_auth_providers: Provedores de Autenticação SSO
-    team_planner_view: Planejador de Equipes
-    two_factor_authentication: Autenticação de dois fatores
-    virus_scanning: Verificação de Vírus em arquivos enviados
-    work_package_query_relation_columns: Colunas de relação de consulta do pacote de trabalho
-    work_package_sharing: Compartilhamento de Pacotes de Trabalho
-    work_package_subject_generation: Geração de assunto do pacote de trabalho

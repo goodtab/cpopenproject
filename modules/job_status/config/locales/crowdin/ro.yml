@@ -1,8 +1,8 @@
 ro:
   label_job_status_plural: "Job statuses"
   plugin_openproject_job_status:
-    name: "OpenProject Job status"
-    description: "Listing and status of background jobs."
+    name: "Stare lucrări OpenProject"
+    description: "Listare și stare lucrări de fundal."
   job_status_dialog:
     download_starts: 'Descărcarea ar trebui să înceapă automat.'
     link_to_download: 'Or, %{link} to download.'

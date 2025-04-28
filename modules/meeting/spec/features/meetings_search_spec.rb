@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -35,7 +36,7 @@ RSpec.describe "Meeting search", :js do
   let(:role) { create(:project_role, permissions: %i(view_meetings view_work_packages)) }
   let(:user) { create(:user, member_with_roles: { project => role }) }
 
-  let!(:meeting) { create(:structured_meeting, project:) }
+  let!(:meeting) { create(:meeting, project:) }
   let!(:agenda_item) { create(:meeting_agenda_item, meeting:) }
 
   before do

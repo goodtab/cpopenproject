@@ -48,10 +48,6 @@ module Admin::Settings
     before_action :find_unlink_project_custom_field_mapping, only: :unlink
     # rubocop:enable Rails/LexicallyScopedActionFilter
 
-    def show_local_breadcrumb
-      false
-    end
-
     def index
       respond_to :html
     end
@@ -145,7 +141,7 @@ module Admin::Settings
     def destroy
       @custom_field.destroy
 
-      update_section_via_turbo_stream(project_custom_field_section: @custom_field.project_custom_field_section)
+      update_section_via_turbo_stream(project_custom_field_section: @custom_field.project_custom_field_section.reload)
 
       respond_with_turbo_streams
     end
@@ -212,8 +208,6 @@ module Admin::Settings
 
     def find_custom_field
       @custom_field = ProjectCustomField.find(params[:id])
-    rescue ActiveRecord::RecordNotFound
-      render_404
     end
 
     def drop_success_streams(call)

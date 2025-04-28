@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -47,7 +49,7 @@ module RepositoriesHelper
 
   def render_properties(properties)
     unless properties.nil? || properties.empty?
-      content = ""
+      content = +""
       properties.keys.sort.each do |property|
         content << content_tag("li", raw("<b>#{h property}</b>: <span>#{h properties[property]}</span>"))
       end

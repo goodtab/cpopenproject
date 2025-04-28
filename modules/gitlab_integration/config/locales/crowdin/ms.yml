@@ -60,17 +60,22 @@ ms:
     merge_request_reopened_comment: >
       **PP Dibuka Semula:** Penggabungan permintaan %{mr_number} [%{mr_title}](%{mr_url}) untuk [%{repository}](%{repository_url}) telah dibuka semula oleh [%{gitlab_user}](%{gitlab_user_url}).
     note_commit_referenced_comment: >
-      **Dirujuk dalam Komit:** [%{gitlab_user}](%{gitlab_user_url}) telah merujuk WP ini dalam Nota Komit [%{commit_id}](%{commit_url}) di [%{repository}](%{repository_url}): %{commit_note}
+      **Dirujuk dalam Komit:** [%{gitlab_user}](%{gitlab_user_url}) telah merujuk WP ini dalam Nota Komit [%{commit_id}](%{commit_url}) di [%{repository}](%{repository_url}):
+      %{commit_note}
     note_mr_referenced_comment: >
-      **Dirujuk dalam PP:** [%{gitlab_user}](%{gitlab_user_url}) telah merujuk WP ini dalam Penggabungan Permintaan %{mr_number} [%{mr_title}](%{mr_url}) pada [%{repository}](%{repository_url}): %{mr_note}
+      **Dirujuk dalam PP:** [%{gitlab_user}](%{gitlab_user_url}) telah merujuk WP ini dalam Penggabungan Permintaan %{mr_number} [%{mr_title}](%{mr_url}) pada [%{repository}](%{repository_url}):
+      %{mr_note}
     note_mr_commented_comment: >
       **Memberi komen dalam PP:** [%{gitlab_user}](%{gitlab_user_url}) memberi komen WP ini dalam Penggabungan Permintaan %{mr_number} [%{mr_title}](%{mr_url}) di [%{repository}](%{repository_url}):%{mr_note}
     note_issue_referenced_comment: >
-      **Dirujuk dalam Isu:** [%{gitlab_user}](%{gitlab_user_url}) telah merujuk WP ini dalam Isu %{issue_number} [%{issue_title}](%{issue_url}) pada [%{repository}](%{repository_url}): %{issue_note}
+      **Dirujuk dalam Isu:** [%{gitlab_user}](%{gitlab_user_url}) telah merujuk WP ini dalam Isu %{issue_number} [%{issue_title}](%{issue_url}) pada [%{repository}](%{repository_url}):
+      %{issue_note}
     note_issue_commented_comment: >
-      **Memberi komen dalam Isu:** [%{gitlab_user}](%{gitlab_user_url}) memberi komen WP ini dalam Isu %{issue_number} [%{issue_title}](%{issue_url}) pada [%{repository}](%{repository_url}): %{issue_note}
+      **Memberi komen dalam Isu:** [%{gitlab_user}](%{gitlab_user_url}) memberi komen WP ini dalam Isu %{issue_number} [%{issue_title}](%{issue_url}) pada [%{repository}](%{repository_url}):
+      %{issue_note}
     note_snippet_referenced_comment: >
-      **Dirujuk dalam Snippet:** [%{gitlab_user}](%{gitlab_user_url}) telah merujuk WP ini dalam Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) pada [%{repository}](%{repository_url}): %{snippet_note}
+      **Dirujuk dalam Snippet:** [%{gitlab_user}](%{gitlab_user_url}) telah merujuk WP ini dalam Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) pada [%{repository}](%{repository_url}):
+      %{snippet_note}
     issue_opened_referenced_comment: >
       **Isu Dibuka:** Isu %{issue_number} [%{issue_title}](%{issue_url}) bagi [%{repository}](%{repository_url}) telah dibuka oleh [%{gitlab_user}](%{gitlab_user_url}).
     issue_closed_referenced_comment: >
@@ -80,6 +85,7 @@ ms:
     push_single_commit_comment: >
       **Ditolak masuk PP** [%{gitlab_user}] (%{gitlab_user_url}) ditolak [%{commit_number}] (%{commit_url}) ke [%{repository}] (%{repository_url}) pada %{commit_timestamp}: %{commit_note}
     push_single_commit_comment_with_ref: >
-      **Ditolak masuk %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) ditolak ke [%{commit_number}](%{commit_url}) ke [%{repository}](%{repository_url}) di %{commit_timestamp}: %{commit_note}
+      **Ditolak masuk %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) ditolak ke [%{commit_number}](%{commit_url}) ke [%{repository}](%{repository_url}) di %{commit_timestamp}:
+      %{commit_note}
     push_multiple_commits_comment: >
       **Ditolak masuk PG** [%{gitlab_user}] (%{gitlab_user_url}) beberapa komit telah ditolak [%{commit_number}] (%{commit_url}) ke [%{repository}] (%{repository_url}) pada %{commit_timestamp}: %{commit_note}

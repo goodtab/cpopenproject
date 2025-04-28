@@ -33,10 +33,11 @@
                 end
                 if adding_comment_allowed?
                   journals_wrapper_container.with_row(
+                    id: add_comment_wrapper_key,
                     classes: "work-packages-activities-tab-index-component--input-container work-packages-activities-tab-index-component--input-container_sort-#{journal_sorting}",
-                    px: 2,
-                    py: 3,
-                    bg: :subtle
+                    p: 3,
+                    bg: :subtle,
+                    data: add_comment_wrapper_data_attributes
                   ) do
                     render(
                       WorkPackages::ActivitiesTab::Journals::NewComponent.new(work_package:)

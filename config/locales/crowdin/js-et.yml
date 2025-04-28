@@ -72,7 +72,7 @@ et:
     button_confirm: "Confirm"
     button_continue: "Jätka"
     button_copy: "Kopeeri"
-    button_copy_to_clipboard: "Copy to clipboard"
+    button_copy_to_clipboard: "Kopeeri vahemällu"
     button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "Duplicate in another project"
     button_custom-fields: "Lisaväljad"
@@ -104,7 +104,7 @@ et:
     button_uncheck_all: "Tühjenda valik"
     button_update: "Uuenda"
     button_export-atom: "Download Atom"
-    button_generate_pdf: "Generate PDF"
+    button_generate_pdf: "Genereeri PDF"
     button_create: "Loo uus"
     card:
       add_new: "Add new card"
@@ -170,7 +170,7 @@ et:
         dropdown:
           macros: "Macros"
           chose_macro: "Choose macro"
-        toc: "Table of contents"
+        toc: "Sisukord"
         toolbar_help: "Click to select widget and show the toolbar. Double-click to edit widget"
         wiki_page_include:
           button: "Include content of another wiki page"
@@ -195,7 +195,7 @@ et:
     admin:
       type_form:
         custom_field: "Lisaväli"
-        inactive: "Inactive"
+        inactive: "Mitteaktiivne"
         drag_to_activate: "Drag fields from here to activate them"
         add_group: "Add attribute group"
         add_table: "Add table of related work packages"
@@ -239,7 +239,7 @@ et:
           status_waiting: "email sent - waiting for confirmation"
           test_ee: "Test the Enterprise edition 14 days for free"
           quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
-        upsale:
+        upsell:
           become_hero: "Become a hero!"
           enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
           upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
@@ -256,10 +256,10 @@ et:
           button_start_trial: "Start free trial"
           button_upgrade: "Upgrade now"
           button_contact_us: "Contact us for a demo"
-          button_book_now: "Book now"
+          button_book_now: "Broneeri kohe"
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
-          link_quote: "Get a quote"
+          link_quote: "Küsi pakkumist"
           more_info: "Lisainfo"
           text: >
             The OpenProject Enterprise edition builds on top of the Community edition. It includes Enterprise add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
@@ -323,7 +323,7 @@ et:
         farRight: "Far right"
         description: >
           Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: "Show Gantt chart"
+      button_activate: "Näita gantt diagrammi"
       button_deactivate: "Hide Gantt chart"
       filter:
         noneSelection: "(pole)"
@@ -358,10 +358,10 @@ et:
           learn_about: "Learn more about the new features"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "15_4":
+          "15_5":
             standard:
               new_features_html: >
-                The release brings various features and improvements for you, e.g. <br> <ul class="%{list_styling_class}"> <li>Enable automatic scheduling mode.</li> <li>Set agenda item outcomes for meetings.</li> <li>Generate PDF documents from a work package description.</li> <li>Better manage a large number of projects with an enhanced project lists view.</li> <li>Use @-mention of user when quote replying to a comment.</li> </ul>
+                The release brings various features and improvements for you, e.g. <br> <ul class="%{list_styling_class}"> <li>Filter for descendants (children and grandchildren) of work packages.</li> <li>Benefit from advanced accessibility in the date picker.</li> <li>See % Complete included in work package table sums.</li> <li>Include a column for children in work package tables.</li> <li>Better use the date picker in mobile screens.</li> <li>PDF exports matching configured form layout.</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -377,7 +377,7 @@ et:
     label_assignee: "Määratud tegija"
     label_add_column_after: "Add column after"
     label_add_column_before: "Add column before"
-    label_add_columns: "Add columns"
+    label_add_columns: "Lisa veergusid"
     label_add_comment: "Lisa kommentaar"
     label_add_comment_title: "Comment and type @ to notify other people"
     label_add_row_after: "Add row after"
@@ -401,7 +401,7 @@ et:
     label_change: "Muuda"
     label_create: "Loo uus"
     label_create_work_package: "Lisa uus tööpakett"
-    label_created_by: "Created by"
+    label_created_by: "Autor"
     label_current: "current"
     label_date: "Kuupäev"
     label_date_with_format: "Enter the %{date_attribute} using the following format: %{format}"
@@ -439,7 +439,7 @@ et:
     label_group: "Grupp"
     label_group_by: "Grupeeri"
     label_group_plural: "Rühmad"
-    label_hide_attributes: "Show less"
+    label_hide_attributes: "Näita vähem"
     label_hide_column: "Peida veerg"
     label_hide_project_menu: "Collapse project menu"
     label_in: "sisaldub hulgas"
@@ -448,7 +448,7 @@ et:
     label_incoming_emails: "Sissetulevad e-postisõnumid"
     label_information_plural: "Teave"
     label_invalid: "Invalid"
-    label_import: "Import"
+    label_import: "Impordi"
     label_latest_activity: "Latest activity"
     label_last_updated_on: "Viimati uuendatud"
     label_learn_more_link: "Loe rohkem"
@@ -463,8 +463,9 @@ et:
     label_menu_collapse: "sulge"
     label_menu_expand: "laienda"
     label_more_than_ago: "vanem kui"
+    label_moderate_comment: "Moderate comment"
     label_next: "Järgmine"
-    label_no_color: "No color"
+    label_no_color: "Värvi pole"
     label_no_data: "Pole"
     label_no_due_date: "no finish date"
     label_no_start_date: "alguse kuupäeva pole"
@@ -515,7 +516,7 @@ et:
     label_total_sum: "Total sum"
     label_subject: "Teema"
     label_this_week: "sel nädalal"
-    label_today: "Today"
+    label_today: "Täna"
     label_time_entry_plural: "Kulutatud aeg"
     label_up: "Üles"
     label_user_plural: "Kasutajad"
@@ -540,7 +541,7 @@ et:
     label_unwatch_work_package: "Unwatch work package"
     label_uploaded_by: "Uploaded by"
     label_default_queries: "Vaikimisi"
-    label_starred_queries: "Favorite"
+    label_starred_queries: "Lemmik"
     label_global_queries: "Avalik"
     label_custom_queries: "Private"
     label_columns: "Väljad"
@@ -609,7 +610,7 @@ et:
       title: "Notifications"
       no_unread: "No unread notifications"
       reasons:
-        mentioned: "Mentioned"
+        mentioned: "Mainitud"
         watched: "Jälgija"
         assigned: "Määratud tegija"
         #The enum value is named 'responsible' in the database and that is what is transported through the API
@@ -621,8 +622,8 @@ et:
         processed: "Processed"
         prioritized: "Prioritized"
         dateAlert: "Date alert"
-        shared: "Shared"
-        reminder: "Reminder"
+        shared: "Jagatud"
+        reminder: "Meeldetuletus"
       date_alerts:
         milestone_date: "Milestone date"
         overdue: "Overdue"
@@ -631,9 +632,6 @@ et:
         property_is: "is in %{difference_in_days}."
         property_was: "was %{difference_in_days} ago."
         property_is_deleted: "is deleted."
-        upsale:
-          title: "Date alerts"
-          description: "With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline."
       center:
         label_actor_and: "ja"
         and_more_users:
@@ -675,11 +673,11 @@ et:
               P7D: every week
         reasons:
           mentioned:
-            title: "Mentioned"
+            title: "Mainitud"
             description: "Receive a notification every time someone mentions me anywhere"
           assignee: "Määratud tegija"
           responsible: "Accountable"
-          shared: "Shared"
+          shared: "Jagatud"
           watched: "Jälgija"
           work_package_commented: "All new comments"
           work_package_created: "New work packages"
@@ -696,7 +694,6 @@ et:
           date_alerts:
             title: "Date alerts"
             description: "Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher)."
-            teaser_text: "With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline."
           overdue: When overdue
         project_specific:
           title: "Project-specific notification settings"
@@ -799,6 +796,7 @@ et:
       typeahead_placeholder: Search for possible watchers
     relation_labels:
       parent: "Pärineb teemast"
+      child: "Child"
       children: "Lapsed"
       relates: "Related To"
       duplicates: "Duplicates"
@@ -814,7 +812,7 @@ et:
       relation_type: "relation type"
     relations_hierarchy:
       parent_headline: "Pärineb teemast"
-      hierarchy_headline: "Hierarchy"
+      hierarchy_headline: "Hierarhia"
       children_headline: "Lapsed"
     relation_buttons:
       set_parent: "Set parent"
@@ -827,8 +825,8 @@ et:
       add_parent: "Add existing parent"
       add_new_child: "Create new child"
       create_new: "Create new"
-      add_existing: "Add existing"
-      add_existing_child: "Add existing child"
+      add_existing: "Lisa olemasolev"
+      add_existing_child: "Add child"
       remove_child: "Remove child"
       add_new_relation: "Create new relation"
       add_existing_relation: "Add existing relation"
@@ -836,7 +834,7 @@ et:
       toggle_description: "Toggle relation description"
       update_relation: "Click to change the relation type"
       add_follower: "Add follower"
-      show_relations: "Show relations"
+      show_relations: "Näita seoseid"
       add_predecessor: "Add predecessor"
       remove: "Remove relation"
       save: "Save relation"
@@ -867,7 +865,7 @@ et:
     tl_toolbar:
       zooms: "Suumi tase"
       outlines: "Hierarhia tase"
-    upsale:
+    upsell:
       ee_only: "Enterprise edition add-on"
     wiki_formatting:
       strong: "Strong"
@@ -966,7 +964,7 @@ et:
         createdAt: "Loodud"
         description: "Teave"
         date: "Kuupäev"
-        percentComplete: "% Complete"
+        percentComplete: "% valmis"
         percentCompleteAlternative: "Progress"
         dueDate: "Lõpetamise kuupäev"
         duration: "kestus"
@@ -987,7 +985,7 @@ et:
         updatedAt: "Uuendatud"
         versionName: "Versioon"
         version: "Versioon"
-        work: "Work"
+        work: "Töö"
         workAlternative: "Eeldatav ajakulu"
         remainingTime: "Remaining work"
       default_queries:
@@ -996,7 +994,7 @@ et:
         created_by_me: "Created by me"
         assigned_to_me: "Assigned to me"
         recently_created: "Recently created"
-        all_open: "All open"
+        all_open: "Kõik avatud"
         overdue: "Overdue"
         summary: "Kokkuvõte"
         shared_with_users: "Shared with users"
@@ -1035,19 +1033,17 @@ et:
           duplicate_query_title: "Name of this view already exists. Change anyway?"
         text_no_results: "No matching views were found."
       reminders:
-        button_label: "Set reminder"
+        button_label: "Määra meeldetuletus"
         title:
-          new: "Set reminder"
+          new: "Määra meeldetuletus"
           edit: "Edit reminder"
         subtitle: "You will receive a notification for this work package at the chosen time."
       scheduling:
         is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
         is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       sharing:
-        title: "Share work package"
+        title: "Jaga tööpaketti"
         show_all_users: "Show all users with whom the work package has been shared with"
-        upsale:
-          description: "Share work packages with users who are not members of the project."
       table:
         configure_button: "Configure work package table"
         summary: "Table with rows of work package and columns of work package attributes."
@@ -1062,7 +1058,7 @@ et:
         default: "vaikimisi"
         display_settings: "Display settings"
         default_mode: "Flat list"
-        hierarchy_mode: "Hierarchy"
+        hierarchy_mode: "Hierarhia"
         hierarchy_hint: "All filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed."
         display_sums_hint: "Display sums of all summable attributes in a row below the table results."
         show_timeline_hint: "Show an interactive gantt chart on the right side of the table. You can change its width by dragging the divider between table and gantt chart."
@@ -1078,14 +1074,10 @@ et:
           type: "Tüüp"
         sorting_mode:
           description: "Chose the mode to sort your Work packages:"
-          automatic: "Automatic"
+          automatic: "Automaatne"
           manually: "Manually"
           warning: "You will lose your previous sorting when activating the automatic sorting mode."
         columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
-        upsale:
-          attribute_highlighting: "Need certain work packages to stand out from the mass?"
-          relation_columns: "Need to see relations in the work package list?"
-          check_out_link: "Check out the Enterprise edition."
         relation_filters:
           filter_work_packages_by_relation_type: "Filter work packages by relation type"
       tabs:
@@ -1263,7 +1255,7 @@ et:
         description: "We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started."
         next_button: "Järgmine"
       summary:
-        next_button: "Send invitation"
+        next_button: "Saada kutse"
       success:
         title: "%{principal} was invited!"
         description:
@@ -1285,7 +1277,7 @@ et:
       clear_selection: "Clear selection"
       apply: "Rakenda"
       selected_filter:
-        all: "All projects"
+        all: "Kõik projektid"
         selected: "Only selected"
       search_placeholder: "Search project..."
       include_subprojects: "Include all sub-projects"
@@ -1299,9 +1291,7 @@ et:
       clear: "Tühjenda"
       apply: "Rakenda"
       header_description: "Highlight changes made to this list since any point in the past."
-      enterprise_header_description: "Highlight changes made to this list since any point in the past with Enterprise edition."
       show_changes_since: "Show changes since"
-      baseline_comparison: "Baseline comparison"
       help_description: "Reference time zone for the baseline."
       time_description: "In your local time: %{datetime}"
       time: "Aeg"

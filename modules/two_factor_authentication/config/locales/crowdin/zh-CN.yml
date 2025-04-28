@@ -82,8 +82,8 @@ zh-CN:
       text_2fa_enabled: "每次登录时，系统将要求此用户从默认的 2FA 设备输入 OTP 令牌。"
       text_2fa_disabled: "用户未通过“我的帐户页面”设置过 2FA 设备"
       only_sms_allowed: "只能为其他用户设置短信发送。"
-    upsale:
-      title: "双因子认证"
+    upsell:
+      title: "双重身份验证"
       description: "通过向所有项目成员提供（或强制执行）双因子认证来增强 OpenProject 实例的安全性。"
     backup_codes:
       none_found: 此帐户不存在备份代码。

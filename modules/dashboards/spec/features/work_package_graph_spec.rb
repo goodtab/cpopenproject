@@ -32,8 +32,7 @@ require_relative "../support/pages/dashboard"
 
 RSpec.describe "Arbitrary WorkPackage query graph widget dashboard",
                :js,
-               :selenium,
-               with_ee: %i[grid_widget_wp_graph] do
+               :selenium do
   let!(:type) { create(:type) }
   let!(:other_type) { create(:type) }
   let!(:priority) { create(:default_priority) }
@@ -165,16 +164,6 @@ RSpec.describe "Arbitrary WorkPackage query graph widget dashboard",
 
     it "cannot add the widget" do
       dashboard_page.expect_unable_to_add_widget(1, 1, :within, "Work packages graph")
-    end
-  end
-
-  context "without an enterprise edition", with_ee: false do
-    it "cannot add the widget and receives an enterprise edition notice" do
-      dashboard_page.expect_add_widget_enterprise_edition_notice(1, 2, :within)
-
-      # At this point the add widget modal is open
-      expect(page)
-        .to have_no_content("Work packages graph")
     end
   end
 end

@@ -82,7 +82,7 @@ it:
       text_2fa_enabled: "A ogni accesso, questo utente dovrà inserire un token OTP dal proprio dispositivo predefinito A2F."
       text_2fa_disabled: "L'utente non ha configurato un dispositivo A2F tramite la propria 'pagina Il Mio profilo'"
       only_sms_allowed: "Per altri utenti è possibile impostare solo l'invio di SMS."
-    upsale:
+    upsell:
       title: "Autenticazione a due fattori"
       description: "Rafforza la sicurezza della tua istanza OpenProject offrendo (o implementando) l'autenticazione a due fattori a tutti i membri del progetto."
     backup_codes:

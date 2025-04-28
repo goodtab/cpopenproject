@@ -11,7 +11,6 @@ RSpec.describe "Milestones full screen v iew", :js do
   end
 
   let(:wp_page) { Pages::FullWorkPackage.new(work_package, project) }
-  let(:button) { find(".add-work-package", wait: 5) }
 
   before do
     login_as(user)
@@ -28,9 +27,7 @@ RSpec.describe "Milestones full screen v iew", :js do
     end
 
     it "shows the button as enabled" do
-      expect(button).not_to be_disabled
-
-      button.click
+      click_button("Create", class: "add-work-package")
       expect(page).to have_css(".menu-item", text: type.name.upcase)
     end
   end
@@ -45,7 +42,7 @@ RSpec.describe "Milestones full screen v iew", :js do
     end
 
     it "shows the button as correctly disabled" do
-      expect(button["disabled"]).to be_truthy
+      expect(page).to have_button("Create", class: "add-work-package", disabled: true)
     end
   end
 end

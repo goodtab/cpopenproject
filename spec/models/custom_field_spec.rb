@@ -327,13 +327,27 @@ RSpec.describe CustomField do
       end
 
       context "with nothing provided" do
-        it "returns the systemwide versions" do
-          allow(Version)
-            .to receive(:systemwide)
-            .and_return(shared_versions_scope)
+        context "and no scope provided" do
+          it "returns the systemwide versions" do
+            allow(Version)
+              .to receive(:systemwide)
+              .and_return(shared_versions_scope)
 
-          expect(field.possible_values_options)
-            .to eql(versions.sort.map { |u| [u.name, u.id.to_s, project.name] })
+            expect(field.possible_values_options)
+              .to eql(versions.sort.map { |u| [u.name, u.id.to_s, project.name] })
+          end
+        end
+
+        context "and scope: :visible is provided" do
+          it "returns the visible and systemwide versions" do
+            allow(Version).to receive(:visible).and_return(shared_versions_scope)
+            allow(shared_versions_scope).to receive(:or)
+                                        .with(Version.systemwide)
+                                        .and_return(shared_versions_scope)
+
+            expect(field.possible_values_options(options: { scope: :visible }))
+              .to eql(versions.sort.map { |u| [u.name, u.id.to_s, project.name] })
+          end
         end
       end
     end

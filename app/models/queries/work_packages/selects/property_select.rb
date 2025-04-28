@@ -118,7 +118,18 @@ class Queries::WorkPackages::Selects::PropertySelect < Queries::WorkPackages::Se
     },
     done_ratio: {
       sortable: "#{WorkPackage.table_name}.done_ratio",
-      groupable: true
+      groupable: true,
+      summable: true,
+      summable_select: <<~SQL.squish
+        CASE
+          WHEN estimated_hours IS NULL OR remaining_hours IS NULL OR estimated_hours <= 0 THEN NULL
+          WHEN remaining_hours <= 0 THEN 100
+          WHEN remaining_hours <= estimated_hours * 0.01 THEN 99
+          WHEN remaining_hours >= estimated_hours THEN 0
+          WHEN remaining_hours >= estimated_hours * 0.99 THEN 1
+          ELSE ROUND( ((1 - (remaining_hours / estimated_hours)) * 100)::numeric )::integer
+        END as done_ratio
+      SQL
     },
     created_at: {
       sortable: "#{WorkPackage.table_name}.created_at",

@@ -32,32 +32,45 @@ require "rails_helper"
 
 RSpec.describe EnterpriseEdition::BannerComponent, type: :component do
   let(:title) { "Some title" }
+  let(:expected_title) { title }
   let(:description) { "Some description" }
+  let(:expected_description) { description }
   let(:href) { "https://www.example.org" }
-  let(:link_title) { "Get more information" }
-  let(:ee_show_banners) { true }
+  let(:component_test_selector) { "op-enterprise-banner" }
+  let(:features) { nil }
   let(:enforce_available_locales) { I18n.config.enforce_available_locales }
-  let(:i18n_upsale) do
+  let(:i18n_upsell) do
     {
-      title:,
-      link_title:,
       some_enterprise_feature: {
-        description:
-      }
+        title:,
+        description:,
+        features:
+      }.compact
     }
   end
   let(:static_links) do
     {
-      enterprise_docs: {
+      enterprise_features: {
         some_enterprise_feature: {
           href:
         }
       }
     }
   end
+  let(:translations) do
+    {
+      ee: {
+        features: {
+          some_enterprise_feature: "Enterprise feature translation"
+        },
+        upsell: i18n_upsell
+      }
+    }
+  end
+  let(:component_args) { {} }
 
   let(:render_component) do
-    render_inline(described_class.new(:some_enterprise_feature))
+    render_inline(described_class.new(:some_enterprise_feature, **component_args))
   end
 
   let(:render_component_in_mo) do
@@ -67,9 +80,6 @@ RSpec.describe EnterpriseEdition::BannerComponent, type: :component do
   end
 
   before do
-    allow(EnterpriseToken)
-      .to receive(:show_banners?)
-            .and_return(ee_show_banners)
     allow(OpenProject::Static::Links)
       .to receive(:links)
             .and_return(static_links)
@@ -78,11 +88,7 @@ RSpec.describe EnterpriseEdition::BannerComponent, type: :component do
 
     I18n.backend.store_translations(
       :mo,
-      {
-        ee: {
-          upsale: i18n_upsale
-        }
-      }
+      translations
     )
   end
 
@@ -95,34 +101,99 @@ RSpec.describe EnterpriseEdition::BannerComponent, type: :component do
     it "renders the component" do
       render_component_in_mo
 
-      expect(page).to have_test_selector("op-ee-banner-some-enterprise-feature")
-      expect(page).to have_css ".op-ee-banner--title-container", text: title
-      expect(page).to have_css ".op-ee-banner--description-container", text: description
-      expect(page).to have_link link_title, href:
+      component = find_test_selector(component_test_selector)
+
+      expect(component).to have_text(expected_title)
+      expect(component).to have_text(expected_description)
+      expect(component).to have_link("More information", href:)
+    end
+  end
+
+  shared_examples_for "does not render the component" do
+    it "does not render the component" do
+      render_component_in_mo
+
+      expect(page).not_to have_test_selector(component_test_selector)
+      expect(page).to have_no_text("Enterprise feature translation")
+      expect(page).to have_no_text(expected_title)
+      expect(page).to have_no_text(expected_description)
+      expect(page).to have_no_link(href:)
     end
   end
 
   it_behaves_like "renders the component"
 
-  context "with a description_html in the i18n file" do
-    let(:i18n_upsale) do
+  context "when feature is available", with_ee: %i[some_enterprise_feature] do
+    it_behaves_like "does not render the component"
+  end
+
+  context "when banners are hidden" do
+    before do
+      allow(EnterpriseToken).to receive(:hide_banners?).and_return(true)
+    end
+
+    it_behaves_like "does not render the component"
+  end
+
+  context "when banner is dismissed" do
+    let(:preference) { build_stubbed(:user_preference) }
+    let(:user) { build_stubbed(:user, preference:) }
+    let(:dismiss_key) { :some_enterprise_feature }
+    let(:component_args) { { dismissable: true } }
+
+    before do
+      login_as(user)
+      allow(preference)
+        .to receive(:dismissed_banner?)
+              .with(dismiss_key)
+              .and_return(true)
+    end
+
+    it_behaves_like "does not render the component"
+
+    context "when not dismissable" do
+      let(:component_args) { { dismissable: false } }
+
+      it_behaves_like "renders the component"
+    end
+
+    context "when using a custom dismiss_key" do
+      let(:dismiss_key) { :foo }
+      let(:component_args) { { dismiss_key:, dismissable: true } }
+
+      it_behaves_like "does not render the component"
+    end
+  end
+
+  context "without a title, but a description_html" do
+    let(:i18n_upsell) do
       {
-        title:,
-        link_title:,
         some_enterprise_feature: {
           description_html: description
         }
       }
     end
+    let(:expected_title) { "Enterprise feature translation" }
+
+    it_behaves_like "renders the component"
+  end
+
+  context "without a title, but a description" do
+    let(:i18n_upsell) do
+      {
+        some_enterprise_feature: {
+          description:
+        }
+      }
+    end
+    let(:expected_title) { "Enterprise feature translation" }
 
     it_behaves_like "renders the component"
   end
 
   context "with a more specific title in the i18n file" do
-    let(:i18n_upsale) do
+    let(:i18n_upsell) do
       {
-        title: "The general title",
-        link_title:,
         some_enterprise_feature: {
           title:,
           description:
@@ -133,26 +204,34 @@ RSpec.describe EnterpriseEdition::BannerComponent, type: :component do
     it_behaves_like "renders the component"
   end
 
-  context "with a more specific link title in the i18n file" do
-    let(:i18n_upsale) do
+  context "with a custom i18n_scope" do
+    let(:translations) do
       {
-        title:,
-        link_title: "The general link title",
-        some_enterprise_feature: {
-          link_title:,
-          description:
+        my: {
+          custom: {
+            upsell: {
+              title: "Foo",
+              description: "Bar"
+            }
+          }
+        },
+        ee: {
+          features: {
+            some_enterprise_feature: "Enterprise feature translation"
+          }
         }
       }
     end
+    let(:expected_title) { "Foo" }
+    let(:expected_description) { "Bar" }
+    let(:component_args) { { i18n_scope: "my.custom.upsell" } }
 
     it_behaves_like "renders the component"
   end
 
   context "without a description key in the i18n file" do
-    let(:i18n_upsale) do
+    let(:i18n_upsell) do
       {
-        title:,
-        link_title:,
         some_enterprise_feature: {}
       }
     end
@@ -165,34 +244,23 @@ RSpec.describe EnterpriseEdition::BannerComponent, type: :component do
   context "without a link key in the static_link file" do
     let(:static_links) do
       {
-        enterprise_docs: {
+        enterprise_features: {
+          default: {
+            href: "https://example.com"
+          },
           some_enterprise_feature: {}
         }
       }
     end
 
-    it "raises an error" do
-      expect { render_component_in_mo }.to raise_error(RuntimeError)
-    end
-  end
-
-  context "if banners are hidden" do
-    let(:ee_show_banners) { false }
-
-    it "hides the component" do
+    it "uses the default" do
       render_component_in_mo
 
-      expect(page).to have_no_css ".op-ee-banner"
-    end
-  end
+      component = find_test_selector(component_test_selector)
 
-  context "if banners are hidden but skip_render is overwritten" do
-    let(:ee_show_banners) { false }
-    let(:render_component) do
-      render_inline(described_class.new(:some_enterprise_feature,
-                                        skip_render: false))
+      expect(component).to have_text(expected_title)
+      expect(component).to have_text(expected_description)
+      expect(component).to have_link("More information", href: "https://example.com")
     end
-
-    it_behaves_like "renders the component"
   end
 end

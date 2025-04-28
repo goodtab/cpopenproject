@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.expand_path("../../../../spec_helper", __dir__)
+require_relative "../../../../spec_helper"
 
 RSpec.describe OpenProject::GithubIntegration::Services::UpsertGithubUser do
   subject(:upsert) { described_class.new.call(params) }

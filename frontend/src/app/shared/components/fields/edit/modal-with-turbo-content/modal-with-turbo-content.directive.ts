@@ -56,6 +56,7 @@ export class ModalWithTurboContentDirective implements AfterViewInit, OnDestroy 
   @Output() cancel= new EventEmitter();
 
   private contextBasedListenerBound = this.contextBasedListener.bind(this);
+  private preserveSegmentAttributesBound = this.preserveSegmentAttributes.bind(this);
   private cancelListenerBound = this.cancelListener.bind(this);
 
   constructor(
@@ -72,6 +73,8 @@ export class ModalWithTurboContentDirective implements AfterViewInit, OnDestroy 
   ngAfterViewInit() {
     (this.elementRef.nativeElement as HTMLElement)
       .addEventListener('turbo:submit-end', this.contextBasedListenerBound);
+    (this.elementRef.nativeElement as HTMLElement)
+      .addEventListener('turbo:before-frame-render', this.preserveSegmentAttributesBound);
 
     document
       .addEventListener('cancelModalWithTurboContent', this.cancelListenerBound);
@@ -80,6 +83,8 @@ export class ModalWithTurboContentDirective implements AfterViewInit, OnDestroy 
   ngOnDestroy() {
     (this.elementRef.nativeElement as HTMLElement)
       .removeEventListener('turbo:submit-end', this.contextBasedListenerBound);
+    (this.elementRef.nativeElement as HTMLElement)
+      .removeEventListener('turbo:before-frame-render', this.preserveSegmentAttributesBound);
 
     document
       .removeEventListener('cancelModalWithTurboContent', this.cancelListenerBound);
@@ -91,6 +96,30 @@ export class ModalWithTurboContentDirective implements AfterViewInit, OnDestroy 
       void this.propagateSuccessfulCreate(event);
     } else {
       this.propagateSuccessfulUpdate(event);
+    }
+  }
+
+  private preserveSegmentAttributes(event:CustomEvent) {
+    const turboEvent = event as CustomEvent<{ newFrame?:HTMLElement }>;
+
+    const element = turboEvent.detail?.newFrame?.querySelector('segmented-control');
+    if (!element) return;
+
+    const connectedCallback = Object.getOwnPropertyDescriptor(
+      Object.getPrototypeOf(element),
+      'connectedCallback',
+    )?.value as (() => void) | undefined;
+
+    if (connectedCallback) {
+      // Re-initialize the SegmentedControl components as they are being
+      // re-rendered from turbo. This is necessary, because segmented-controls have
+      // a custom catalyst controller attached that prevents flickering of the control
+      // elements. See more here:
+      // https://github.com/primer/view_components/blob/main/app/components/primer/alpha/segmented_control.ts#L27
+      // Ideally canceling the `turbo:before-morph-attribute` event on the "data-content" should
+      // suffice, but since the datepicker does not work well with morphing at the moment,
+      // this is the best possible solution.
+      connectedCallback.call(element);
     }
   }
 

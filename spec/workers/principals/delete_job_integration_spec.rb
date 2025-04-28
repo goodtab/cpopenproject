@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -512,6 +514,25 @@ RSpec.describe Principals::DeleteJob, type: :model do
           job
 
           expect(watched.watchers.reload).to be_empty
+        end
+      end
+    end
+
+    context "with a service account" do
+      describe "service account association" do
+        let(:principal) { create(:service_account, service:) }
+        let(:service) { create(:oauth_application) }
+
+        before do
+          principal.save!
+        end
+
+        it "deletes the service account association" do
+          expect { job }.to change(ServiceAccountAssociation, :count).from(1).to(0)
+        end
+
+        it "does not delete the service associated to the service account" do
+          expect { job }.not_to change(Doorkeeper::Application, :count)
         end
       end
     end

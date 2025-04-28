@@ -33,7 +33,6 @@ require "rack/test"
 
 RSpec.describe "API v3 Time Entries resource",
                content_type: :json,
-               with_flag: :track_start_and_end_times_for_time_entries,
                with_settings: { allow_tracking_start_and_end_times: true } do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper

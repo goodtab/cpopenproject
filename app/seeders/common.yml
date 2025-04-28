@@ -70,13 +70,10 @@ colors:
     t_name: Black
     hexcode: "#000000"
 
-life_cycle_colors:
+project_phase_colors:
   - reference: :default_color_pm2_orange
     t_name: PM2 Orange
     hexcode: "#F7983A"
-  - reference: :default_color_pm2_purple
-    t_name: PM2 Purple
-    hexcode: "#682D91"
   - reference: :default_color_pm2_red
     t_name: PM2 Red
     hexcode: "#F05823"
@@ -281,8 +278,8 @@ work_package_roles:
       - :view_work_packages
       - :edit_work_packages
       - :work_package_assigned
-      - :add_work_package_notes
-      - :edit_own_work_package_notes
+      - :add_work_package_comments
+      - :edit_own_work_package_comments
       - :manage_work_package_relations
       - :copy_work_packages
       - :export_work_packages
@@ -293,8 +290,8 @@ work_package_roles:
     permissions:
       - :view_work_packages
       - :work_package_assigned
-      - :add_work_package_notes
-      - :edit_own_work_package_notes
+      - :add_work_package_comments
+      - :edit_own_work_package_comments
       - :export_work_packages
       - :add_work_package_attachments
   - reference: :default_role_work_package_viewer
@@ -334,8 +331,8 @@ project_roles:
       - :edit_work_packages
       - :assign_versions
       - :work_package_assigned
-      - :add_work_package_notes
-      - :edit_own_work_package_notes
+      - :add_work_package_comments
+      - :edit_own_work_package_comments
       - :manage_work_package_relations
       - :manage_subtasks
       - :save_queries
@@ -378,13 +375,16 @@ project_roles:
       - :copy_work_packages
       - :add_work_package_attachments
       - :view_project_attributes
+      - :view_internal_comments
+      - :add_internal_comments
+      - :edit_own_internal_comments
   - reference: :default_role_reader
     t_name: Reader
     position: 4
     permissions:
       - :view_work_packages
-      - :add_work_package_notes
-      - :edit_own_work_package_notes
+      - :add_work_package_comments
+      - :edit_own_work_package_comments
       - :save_queries
       - :view_calendar
       - :comment_news

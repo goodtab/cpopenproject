@@ -54,7 +54,7 @@ module OpenProject::TextFormatting
         when User
           user_mention(mention_instance)
         when WorkPackage
-          work_package_mention(mention_instance)
+          work_package_mention(mention_instance, mention)
         else
           mention_instance
         end
@@ -72,14 +72,25 @@ module OpenProject::TextFormatting
                       class: "user-mention")
       end
 
-      def work_package_mention(work_package)
-        link_to("##{work_package.id}",
-                work_package_path_or_url(id: work_package.id, only_path: context[:only_path]),
-                class: "issue work_package",
-                data: {
-                  hover_card_trigger_target: "trigger",
-                  hover_card_url: hover_card_work_package_path(work_package.id)
-                })
+      def work_package_mention(work_package, mention)
+        case mention.text.count("#")
+        when 3
+          ApplicationController.helpers.content_tag "opce-macro-wp-quickinfo",
+                                                    "",
+                                                    data: { id: work_package.id, detailed: true }
+        when 2
+          ApplicationController.helpers.content_tag "opce-macro-wp-quickinfo",
+                                                    "",
+                                                    data: { id: work_package.id, detailed: false }
+        else
+          link_to("##{work_package.id}",
+                  work_package_path_or_url(id: work_package.id, only_path: context[:only_path]),
+                  class: "issue work_package",
+                  data: {
+                    hover_card_trigger_target: "trigger",
+                    hover_card_url: hover_card_work_package_path(work_package.id)
+                  })
+        end
       end
 
       def class_from_mention(mention)

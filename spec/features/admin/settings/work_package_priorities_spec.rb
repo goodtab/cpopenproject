@@ -47,7 +47,18 @@ RSpec.describe "Work package priorities" do
 
     # we are redirected back to the index page
     expect(page).to have_current_path(admin_settings_work_package_priorities_path)
-
     expect(page).to have_content("Immediate")
+
+    # It allows editing (Regression #62459)
+    click_link "Immediate"
+
+    fill_in "Name", with: "Urgent"
+    click_on("Save")
+
+    expect(page).to have_current_path(admin_settings_work_package_priorities_path)
+    expect(page).to have_content("Urgent")
+
+    expect(IssuePriority).to exist(name: "Urgent")
+    expect(IssuePriority).not_to exist(name: "Immediate")
   end
 end

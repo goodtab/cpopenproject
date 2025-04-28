@@ -12,7 +12,7 @@ OpenProject 5.0.17 contains several bug fixes:
 
   - The work package attribute “Estimated time” could not be set back to zero once set
     ([#22829](https://community.openproject.org/wp/22829)).
-  - The documents widget on MyPage could not be removed once added
+  - The documents widget on My page could not be removed once added
     ([#22814](https://community.openproject.org/wp/22814)).
   - On small screens the login button was not displayed
     ([#22945](https://community.openproject.org/wp/22945)).

@@ -28,41 +28,63 @@
  / ++
  /
 
-$op-ee-banner--shield-width: 32px
+$op-enterprise-banner-fixed-height: 220px
 
-// This is not named op-enterprise-banner because as of now, there is still a legacy angular component that uses that block name.
-.op-ee-banner
+.op-enterprise-banner
   display: grid
-  grid-template-columns: $op-ee-banner--shield-width auto auto
-  grid-template-areas: "icon-container title-container" "icon-container description-container" "icon-container link-container"
-  grid-column-gap: 0.5rem
-  justify-content: left
-  @media screen and (min-width: $breakpoint-md)
-    grid-template-areas: "icon-container title-container title-container" "icon-container description-container link-container"
+  grid-auto-flow: column
+  grid-template-areas: "visual content dismiss"
+  grid-template-columns: min-content 1fr min-content
+  grid-template-rows: min-content
+  border: var(--borderWidth-thin) solid var(--borderColor-severe-muted)
+  border-radius: var(--borderRadius-medium)
+  background: var(--body-background)
+  padding: var(--base-size-8)
 
-  &--icon-container
-    @extend .upsale-colored
+  &_medium
+    padding: 0
+    grid-template-areas: "content graphic"
+    grid-template-columns: 1fr 1fr
+    height: $op-enterprise-banner-fixed-height
+
+  &_medium &
+    padding: 0
+    grid-template-areas: "content graphic"
+    grid-template-columns: 1fr 1fr
+
+    &--content
+      align-self: center
+      padding: var(--base-size-16)
+
+  &--graphic
+    height: $op-enterprise-banner-fixed-height
+
+  &--image
+    width: 100%
+    height: 100%
+    object-fit: cover
+
+  &--visual
+    display: grid
     align-self: start
-    justify-self: center
-
-  &--shield
-    @extend .upsale-border-colored
-    width: $op-ee-banner--shield-width
-    height: 42px
-    border-width: 10px 5px 10px 5px
-    border-radius: 0 0 10px 10px
-    border-style: solid
-    display: flex
-    align-items: center
-    justify-content: center
+    padding: var(--base-size-6) var(--base-size-8)
 
   &--icon
-    width: $op-ee-banner--shield-width
-    height: $op-ee-banner--shield-width
+    color: var(--enterprise-upsell-color)
+    margin-block: var(--base-size-2)
 
-  &--title-container
-    @extend .upsale-colored
-    font-weight: bold
+  &--close-icon
+    .Button-visual
+      color: var(--enterprise-upsell-color)
 
-  &--link-container
-    align-self: end
+    &_hovering
+      position: absolute
+      top: var(--base-size-24)
+      right: var(--base-size-24)
+
+
+  &--content
+    padding: var(--base-size-6) var(--base-size-8)
+
+  &--dismiss
+    margin-left: var(--controlStack-medium-gap-condensed)

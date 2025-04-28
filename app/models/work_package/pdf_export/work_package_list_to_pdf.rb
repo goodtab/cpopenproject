@@ -45,15 +45,14 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
   include WorkPackage::PDFExport::Common::Common
   include WorkPackage::PDFExport::Common::Logo
   include WorkPackage::PDFExport::Common::Attachments
-  include WorkPackage::PDFExport::Export::ExportCommon
-  include WorkPackage::PDFExport::Export::WorkPackageDetail
   include WorkPackage::PDFExport::Export::Page
-  include WorkPackage::PDFExport::Export::Style
-  include WorkPackage::PDFExport::Export::OverviewTable
-  include WorkPackage::PDFExport::Export::SumsTable
-  include WorkPackage::PDFExport::Export::WorkPackageDetail
-  include WorkPackage::PDFExport::Export::TableOfContents
-  include WorkPackage::PDFExport::Export::Style
+  include WorkPackage::PDFExport::Export::MarkdownField
+  include WorkPackage::PDFExport::Export::Report::Detail
+  include WorkPackage::PDFExport::Export::Report::Styles
+  include WorkPackage::PDFExport::Export::Report::SumsTable
+  include WorkPackage::PDFExport::Export::Report::TableOfContents
+  include WorkPackage::PDFExport::Export::Report::Attributes
+  include WorkPackage::PDFExport::Export::WpTable
   include WorkPackage::PDFExport::Export::Cover
   include WorkPackage::PDFExport::Export::Gantt
 
@@ -74,9 +73,13 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
   end
 
   def get_columns
-    return [] if query.column_names.empty? && wants_report?
+    return [] if wants_report? && without_columns?
 
     super
+  end
+
+  def without_columns?
+    ActiveModel::Type::Boolean.new.cast(options[:no_columns])
   end
 
   def export!
@@ -109,8 +112,20 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
     file
   end
 
+  def with_sums_table?
+    query.display_sums?
+  end
+
   def wants_total_page_nrs?
     true
+  end
+
+  def wants_report?
+    options[:pdf_export_type] == "report"
+  end
+
+  def wants_gantt?
+    options[:pdf_export_type] == "gantt"
   end
 
   def with_cover?
@@ -138,16 +153,20 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
     if wants_gantt?
       write_work_packages_gantt! work_packages, @id_wp_meta_map
     else
-      write_title!
-      write_work_packages_toc! work_packages, @id_wp_meta_map if wants_report?
-      write_work_packages_overview! work_packages unless wants_report?
-      write_work_packages_sums! work_packages if with_sums_table? && wants_report?
+      write_report! work_packages
     end
     if should_be_batched?(work_packages)
       render_batched(work_packages, filename)
     else
       render_pdf(work_packages, filename)
     end
+  end
+
+  def write_report!(work_packages)
+    write_title!
+    write_work_packages_toc! work_packages, @id_wp_meta_map if wants_report?
+    write_work_packages_table!(work_packages, query) unless wants_report?
+    write_work_packages_sums! work_packages if with_sums_table? && wants_report?
   end
 
   def render_batched(work_packages, filename)
@@ -277,5 +296,17 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
 
   def with_images?
     @with_images ||= ActiveModel::Type::Boolean.new.cast(options[:show_images])
+  end
+
+  def get_total_sums
+    query.display_sums? ? (query.results.all_total_sums || {}) : {}
+  end
+
+  def get_column_value_cell(work_package, column_name)
+    value = get_column_value(work_package, column_name)
+    return get_id_column_cell(work_package, value) if column_name == :id
+    return get_subject_column_cell(work_package, value) if wants_report? && column_name == :subject
+
+    escape_tags(value)
   end
 end

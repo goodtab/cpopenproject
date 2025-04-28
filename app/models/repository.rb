@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -172,8 +174,8 @@ class Repository < ApplicationRecord
 
   def diff_format_revisions(cs, cs_to, sep = ":")
     text = ""
-    text << (cs_to.format_identifier + sep) if cs_to
-    text << cs.format_identifier if cs
+    text += (cs_to.format_identifier + sep) if cs_to
+    text += cs.format_identifier if cs
     text
   end
 

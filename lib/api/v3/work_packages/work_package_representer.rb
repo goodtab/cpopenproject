@@ -139,7 +139,7 @@ module API
 
           {
             href: generate_pdf_dialog_work_package_path(id: represented.id),
-            type: "text/html",
+            type: "text/vnd.turbo-stream.html",
             title: "Generate PDF"
           }
         end
@@ -289,7 +289,7 @@ module API
         end
 
         link :addComment,
-             cache_if: -> { current_user.allowed_in_work_package?(:add_work_package_notes, represented) } do
+             cache_if: -> { current_user.allowed_in_work_package?(:add_work_package_comments, represented) } do
           {
             href: api_v3_paths.work_package_activities(represented.id),
             method: :post,

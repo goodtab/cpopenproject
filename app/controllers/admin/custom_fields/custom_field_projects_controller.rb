@@ -89,12 +89,6 @@ class Admin::CustomFields::CustomFieldProjectsController < ApplicationController
     respond_to_with_turbo_streams(status: delete_service.success? ? :ok : :unprocessable_entity)
   end
 
-  def default_breadcrumb; end
-
-  def show_local_breadcrumb
-    false
-  end
-
   private
 
   def render_project_list(url_for_action: action_name)

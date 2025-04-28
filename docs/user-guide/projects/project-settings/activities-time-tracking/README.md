@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Time tracking activities
-  priority: 300
+  priority: 400
 description: Manage activities for time tracking.
 keywords: activities for time tracking, log time settings
 ---
@@ -13,8 +13,8 @@ You can [configure available activities](../../../../system-admin-guide/time-and
 **Time tracking** is defined as a module which allows users to log time on work packages. Once the time tracking module is activated, time can be logged via the action menu of a work package.
 </div>
 
-Navigate to *Project settings -> Time tracking activities*.
+To enable time tracking activities for a specific project, navigate to *Project settings -> Time tracking activities*.
 
 Select the activities which you want to activate for time tracking in your project. Press the **Save** button to apply your changes.
 
-![Activate time tracking activities under project settings in OpenProject](openproject_user_guide_project_settings_time_tracking_activities.png)
+![Activate time tracking activities under project settings in OpenProject](openproject_user_guide_project_settings_time_tracking_activities.png) 

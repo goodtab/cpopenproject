@@ -85,5 +85,9 @@ class Setting
     def self.automatic?
       key(value: Setting.self_registration) == :automatic_activation
     end
+
+    def self.unsupervised_registration?
+      by_email? || automatic?
+    end
   end
 end

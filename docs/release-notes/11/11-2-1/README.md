@@ -17,7 +17,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 ## Bug fixes and changes
 
 - Fixed: Inbound Emails - Email headers not handled correctly \[[#35834](https://community.openproject.org/wp/35834)\]
-- Fixed: Configuration and display of days in My spent time widget on my Page do not match \[[#35920](https://community.openproject.org/wp/35920)\]
+- Fixed: Configuration and display of days in My spent time widget on My page do not match \[[#35920](https://community.openproject.org/wp/35920)\]
 - Fixed: All data lost when switching from details view to fullscreen view while creating a work package \[[#35968](https://community.openproject.org/wp/35968)\]
 - Fixed: missing translation "ja.js.units.hour.one" \[[#36269](https://community.openproject.org/wp/36269)\]
 - Fixed: Internal Error when Wiki entry contains single "!" \[[#36345](https://community.openproject.org/wp/36345)\]

@@ -147,6 +147,14 @@ class UserPreference < ApplicationRecord
     super.presence || { enabled: false }.with_indifferent_access
   end
 
+  def dismissed_banner?(feature)
+    dismissed_enterprise_banners.key?(feature.to_s)
+  end
+
+  def dismiss_banner(feature)
+    dismissed_enterprise_banners[feature.to_s] = Time.zone.now.utc
+  end
+
   def supported_settings_method?(method_name)
     UserPreferences::Schema.properties.include?(method_name.to_s.gsub(/\?|=\z/, ""))
   end

@@ -8,7 +8,7 @@ description: |-
 
   Currently, the following pages employ grids:
 
-  + /my/page: The my page every user has. Only a user can access or modify their "my page".
+  + /my/page: The My page every user has. Only a user can access or modify their "My page".
 
   *The delete action is not yet supported*
 

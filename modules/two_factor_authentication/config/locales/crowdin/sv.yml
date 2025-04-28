@@ -81,7 +81,7 @@ sv:
       text_2fa_enabled: "Upon every login, this user will be requested to enter a OTP token from their default 2FA device."
       text_2fa_disabled: "The user did not set up a 2FA device through their 'My account page'"
       only_sms_allowed: "Only SMS delivery can be set up for other users."
-    upsale:
+    upsell:
       title: "Tvåfaktorsautentisering"
       description: "Strenghten säkerheten för din OpenProject instans genom att erbjuda (eller genomdriva) tvåfaktorsautentisering till alla projektmedlemmar."
     backup_codes:

@@ -42,7 +42,7 @@ class WorkPackagesController < ApplicationController
                 :check_allowed_export,
                 :protect_from_unauthorized_export, only: %i[index export_dialog]
 
-  before_action :authorize, only: :show_conflict_flash_message
+  before_action :authorize, only: %i[show_conflict_flash_message share_upsell]
   authorization_checked! :index, :show, :export_dialog, :generate_pdf_dialog, :generate_pdf
 
   before_action :load_and_validate_query, only: :index, unless: -> { request.format.html? }
@@ -128,6 +128,11 @@ class WorkPackagesController < ApplicationController
     respond_with_turbo_streams
   end
 
+  def share_upsell
+    render :share_upsell,
+           locals: { menu_name: project_or_global_menu }
+  end
+
   protected
 
   def load_and_validate_query_for_export
@@ -135,6 +140,8 @@ class WorkPackagesController < ApplicationController
   end
 
   def export_list(mime_type)
+    save_export_settings if params[:save_export_settings]&.to_bool
+
     job_id = WorkPackages::Exports::ScheduleService
                .new(user: current_user)
                .call(query: @query, mime_type:, params:)
@@ -169,6 +176,24 @@ class WorkPackagesController < ApplicationController
 
   private
 
+  def save_export_settings
+    # Saving export settings is only allowed for saved queries
+    return false if @query.new_record?
+
+    relevant_keys = %i[format columns show_relations show_descriptions long_text_fields
+                       show_images gantt_mode gantt_width paper_size]
+
+    user_settings = params.slice(*relevant_keys)
+
+    if user_settings[:format] == "pdf"
+      user_settings[:format] = "pdf_#{params[:pdf_export_type]}"
+    end
+
+    export_settings = @query.export_settings_for(user_settings[:format])
+    export_settings.settings = user_settings
+    export_settings.save
+  end
+
   def authorize_on_work_package
     deny_access(not_found: true) unless work_package
   end
@@ -201,6 +226,7 @@ class WorkPackagesController < ApplicationController
 
       work_package
         .journals
+        .internal_visible
         .changing
         .includes(:user)
         .order(order).to_a

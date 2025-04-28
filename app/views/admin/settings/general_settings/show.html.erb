@@ -60,6 +60,18 @@ See COPYRIGHT and LICENSE files for more details.
       </span>
     </div>
     <div class="form--field"><%= setting_check_box :cache_formatted_text %></div>
+    <div class="form--field">
+      <%= setting_text_area :allowed_link_protocols, rows: 5, container_class: "-wide" %>
+      <div class="form--field-instructions">
+        <%= t(:setting_allowed_link_protocols_text_html,
+              tel_code: content_tag(:code, "tel"),
+              element_code: content_tag(:code, "element"),
+              http_code: content_tag(:code, "http"),
+              https_code: content_tag(:code, "https"),
+              mailto_code: content_tag(:code, "mailto"),
+              ) %>
+      </div>
+    </div>
     <div class="form--field"><%= setting_check_box :feeds_enabled, size: 6 %></div>
     <div class="form--field"><%= setting_text_field :feeds_limit, size: 6, container_class: "-xslim" %></div>
     <div class="form--field"><%= setting_text_field :work_packages_projects_export_limit, size: 6, container_class: "-xslim" %></div>

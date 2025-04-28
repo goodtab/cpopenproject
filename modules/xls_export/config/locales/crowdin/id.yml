@@ -1,7 +1,7 @@
 id:
   plugin_openproject_xls_export:
-    name: "OpenProject XLS Export"
-    description: "Export issue lists as Excel spreadsheets (.xls)."
+    name: "Ekspor OpenProject XLS"
+    description: "Ekspor daftar masalah sebagai lembar kerja Excel (.xls)."
   export_to_excel: "Ekspor XLS"
   print_with_description: "Pratinjau cetak dengan deskripsi"
   sentence_separator_or: "atau"

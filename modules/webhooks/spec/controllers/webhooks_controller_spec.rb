@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.expand_path("../spec_helper", __dir__)
+require_relative "../spec_helper"
 
 RSpec.describe Webhooks::Incoming::HooksController do
   let(:hook) { double(OpenProject::Webhooks::Hook) }

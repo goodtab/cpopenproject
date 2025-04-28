@@ -4,7 +4,7 @@ We are pleased that you are thinking about contributing to OpenProject! This gui
 
 ## Get in touch
 
-Please get in touch with us using our [development forum](https://community.openproject.org/projects/openproject/boards/7) or send us an email to info@openproject.com.
+Please get in touch with us using our [development forum](https://community.openproject.org/projects/openproject/boards/7) or send us an email to [info@openproject.com](mailto:info@openproject.com).
 
 ## Issue tracking and coordination
 
@@ -31,31 +31,31 @@ For contributing source code, please follow the git workflow below:
 - **Fork** OpenProject on GitHub
 - Clone your fork to your development machine:
 
-```
+```bash
 git clone git@github.com/<username>/openproject
 ```
 
 - Optional: Add the original OpenProject repository as a remote, so you can fetch changes:
 
-```
+```bash
 git remote add upstream git@github.com:opf/openproject
 ```
 
 - Make sure you're on the right branch. The main development branch is `dev`:
 
-```
+```bash
 git checkout dev
 ```
 
 - Create a feature branch:
 
-```
+```bash
 git checkout -b feature/<short description of your feature>
 ```
 
 - Make your changes, then push the branch into your ***own*** repository:
 
-```
+```bash
 git push origin <your feature branch>
 ```
 
@@ -83,7 +83,7 @@ More on this topic can be found in our [blog post](https://www.openproject.org/h
 
 Please add tests to your code to verify functionality, especially if it is a new feature.
 
-Pull requests will be verified by GitHub Actions as well,
+Pull requests will be verified by GitHub Actions,
 but please run them locally as well and make sure they are green before creating your pull request.
 We have a lot of pull requests coming in and it takes some time to run the complete suite for each one.
 
@@ -134,9 +134,9 @@ Instances of abusive, harassing, or otherwise unacceptable behavior may be repor
 by opening an issue or contacting one or more of the project maintainers.
 
 This code of conduct is adapted from the
-[Contributor Covenant](http:contributor-covenant.org),
+[Contributor Covenant](https://www.contributor-covenant.org),
 version 1.0.0, available at
-[http://contributor-covenant.org/version/1/0/0/](http://contributor-covenant.org/version/1/0/0/)
+[http://contributor-covenant.org/version/1/0/0/](https://www.contributor-covenant.org/version/1/0/0/code-of-conduct/)
 
 ## Contributors license agreement
 

@@ -262,4 +262,17 @@ RSpec.describe "Work package navigation", :js, :selenium do
       expect(page).to have_css "li", text: "The requested resource could not be found"
     end
   end
+
+  # Introduced by regression #60629
+  it "can navigate correctly to non-angular pages (regression #61790)" do
+    global_work_packages = Pages::WorkPackagesTable.new
+    global_work_packages.visit!
+
+    # Navigate to the administration
+    page.find(".op-top-menu-user-avatar").click
+    page.find_test_selector("op-menu--item-action", text: "Administration").click
+
+    # Expect classes to be gone
+    expect(page).to have_no_css("body.router--work-packages-base")
+  end
 end

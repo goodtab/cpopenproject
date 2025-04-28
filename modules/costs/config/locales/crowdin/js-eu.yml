@@ -21,6 +21,9 @@
 #++
 eu:
   js:
+    text_are_you_sure: "Are you sure?"
+    myTimeTracking:
+      noSpecificTime: "No specific time"
     work_packages:
       property_groups:
         costs: "Costs"

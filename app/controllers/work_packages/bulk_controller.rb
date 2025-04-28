@@ -118,10 +118,6 @@ class WorkPackages::BulkController < ApplicationController
     current_user
   end
 
-  def default_breadcrumb
-    I18n.t(:label_work_package_plural)
-  end
-
   def transform_attributes(attributes)
     Hash(attributes)
       .compact_blank

@@ -1,24 +1,27 @@
-upsale:
+upsell:
   href: https://www.openproject.org/enterprise-edition
   label: homescreen.links.upgrade_enterprise_edition
-upsale_benefits_features:
+upsell_benefits_features:
   href: https://www.openproject.org/enterprise-edition/#premium-features
   label: noscript_learn_more
-upsale_benefits_installation:
+upsell_benefits_installation:
   href: https://www.openproject.org/enterprise-edition/#installation
   label: noscript_learn_more
-upsale_benefits_security:
+upsell_benefits_security:
   href: https://www.openproject.org/enterprise-edition/#security-features
   label: noscript_learn_more
-upsale_benefits_support:
+upsell_benefits_support:
   href: https://www.openproject.org/enterprise-edition/#professional-support
   label: noscript_learn_more
-upsale_get_quote:
+upsell_get_quote:
   href: https://www.openproject.org/request-quote/
   label: admin.enterprise.get_quote
 user_guides:
   href: https://www.openproject.org/docs/user-guide/
   label: homescreen.links.user_guides
+user_guides_work_package_activity:
+  href: https://www.openproject.org/docs/user-guide/activity/#work-package-activity
+  label: noscript_learn_more
 installation_guides:
   href: https://www.openproject.org/docs/installation-and-operations/installation/
   label: :label_installation_guides
@@ -127,8 +130,10 @@ pricing:
   href: https://www.openproject.org/pricing/
 progress_tracking_docs:
   href: https://www.openproject.org/docs/user-guide/time-and-costs/progress-tracking/
-enterprise_docs:
-  automatic_subject_generation:
+enterprise_features:
+  default:
+    href: https://www.openproject.org/enterprise-edition
+  work_package_subject_generation:
     href: https://www.openproject.org/docs/system-admin-guide/manage-work-packages/work-package-types/#work-package-subject-configuration-enterprise-add-on
   form_configuration:
     href: https://www.openproject.org/docs/system-admin-guide/manage-work-packages/work-package-types/#work-package-form-configuration-enterprise-add-on
@@ -140,10 +145,16 @@ enterprise_docs:
     href: https://www.openproject.org/docs/system-admin-guide/custom-fields/custom-fields-projects/
   custom_field_multiselect:
     href: https://www.openproject.org/docs/system-admin-guide/custom-fields/#create-a-multi-select-custom-field
-  status_read_only:
+  readonly_work_packages:
     href: https://www.openproject.org/docs/system-admin-guide/manage-work-packages/work-package-status/#create-a-new-work-package-status
-  customize_life_cycle:
-    href: https://www.openproject.org/enterprise-edition
+  conditional_highlighting:
+    href: https://www.openproject.org/enterprise-edition/?op_referrer=settings-wp-attribute-highlighting#attribute-highlighting
+  board_view:
+    href: https://www.openproject.org/docs/user-guide/agile-boards/#action-boards-enterprise-add-on
+  custom_field_hierarchies:
+    href: https://www.openproject.org/docs/system-admin-guide/custom-fields/#hierarchy-custom-field-enterprise-add-on
+  internal_comments:
+    href: https://www.openproject.org/docs/user-guide/activity/#work-package-activity
 sysadmin_docs:
   saml:
     href: https://www.openproject.org/docs/system-admin-guide/authentication/saml/

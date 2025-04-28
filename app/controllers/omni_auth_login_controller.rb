@@ -84,6 +84,4 @@ class OmniAuthLoginController < ApplicationController
   def omniauth_back_url
     request.env["omniauth.origin"].presence || params[:RelayState]
   end
-
-  def default_breadcrumb; end
 end

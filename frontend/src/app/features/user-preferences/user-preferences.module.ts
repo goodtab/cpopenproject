@@ -27,6 +27,7 @@ import {
 } from 'core-app/features/user-preferences/reminder-settings/email-alerts/email-alerts-settings.component';
 import { WorkdaysSettingsComponent } from './reminder-settings/workdays/workdays-settings.component';
 import { PauseRemindersComponent } from './reminder-settings/pause-reminders/pause-reminders.component';
+import { OpenprojectEnterpriseModule } from 'core-app/features/enterprise/openproject-enterprise.module';
 
 @NgModule({
   providers: [
@@ -47,6 +48,7 @@ import { PauseRemindersComponent } from './reminder-settings/pause-reminders/pau
     CommonModule,
     OpSharedModule,
     OpenprojectAutocompleterModule,
+    OpenprojectEnterpriseModule,
     FormsModule,
     ReactiveFormsModule,
   ],

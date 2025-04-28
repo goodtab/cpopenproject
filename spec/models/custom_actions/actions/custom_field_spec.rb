@@ -264,7 +264,7 @@ RSpec.describe CustomActions::Actions::CustomField do
 
       it "is :associated_property" do
         expect(instance.type)
-          .to be(:associated_property)
+          .to be(:user)
       end
 
       describe "current_user special value" do

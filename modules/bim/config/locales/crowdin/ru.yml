@@ -86,7 +86,7 @@ ru:
         attachments: "Файл IFC"
       bim/bcf/issue:
         bcf_comment: "Комментарий BCF"
-        bim_snippet: "BIM snippet"
+        bim_snippet: "Сниппет BIM"
         reference_links: "Референсные ссылки"
         stage: "Этап"
         viewpoint: "Точка просмотра"

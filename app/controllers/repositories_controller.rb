@@ -320,8 +320,6 @@ class RepositoriesController < ApplicationController
     end
   rescue OpenProject::SCM::Exceptions::SCMEmpty
     render "empty"
-  rescue ActiveRecord::RecordNotFound
-    render_404
   rescue InvalidRevisionParam
     show_error_not_found
   end

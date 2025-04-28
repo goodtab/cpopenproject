@@ -35,11 +35,20 @@ id:
         label_sort_desc: "Newest on top"
         label_type_to_comment: "Menambahkan komentar. Ketik @ untuk memberi tahu orang lain."
         label_submit_comment: "Submit comment"
+        label_who: Who?
         changed_on: "changed on"
         created_on: "created this on"
         changed: "changed"
         created: "created"
         commented: "commented"
+        internal_comment: Internal comment
+        internal_journal: Internal comments are visible to a limited group of members.
+        unsaved_changes_confirmation_message: You have unsaved changes. Are you sure you want to close the editor?
+        internal_comment_confirmation:
+          title: "Make this comment public?"
+          heading: "Make this comment public?"
+          description: "Your comment will be visible to anyone who can access this work package. Are you sure you want to do this?"
+          confirm_button_text: "Make public"
   admin:
     plugins:
       no_results_title_text: There are currently no plugins installed.
@@ -59,9 +68,6 @@ id:
         main-menu-bg-selected-background: "Menu utama ketika dipilih"
         main-menu-bg-hover-background: "Menu utama melayang"
       custom_colors: "Warna kostum"
-      customize: "Sesuaikan instalasi OpenProject Anda dengan logo dan warna Anda sendiri."
-      enterprise_notice: "Sebagai ucapan 'Terima kasih!' khusus untuk kontribusi finansial mereka dalam mengembangkan OpenProject, add-on kecil ini hanya tersedia untuk pelanggan dukungan edisi Enterprise."
-      enterprise_more_info: "Catatan: logo yang digunakan akan dapat diakses publik."
       manage_colors: "Edit warna pilih opsi"
       instructions:
         primary-button-color: "Strong accent color, used for the most important button on a screen."
@@ -207,9 +213,6 @@ id:
     new: "Tindakan kustom baru"
     edit: "Edit tindakan kustom %{name}"
     execute: "Jalankan %{name}"
-    upsale:
-      title: "Tindakan khusus"
-      description: "Tindakan kustom adalah pintasan sekali klik ke serangkaian tindakan yang ditentukan sebelumnya yang dapat Anda sediakan pada paket kerja tertentu berdasarkan status, peran, jenis, atau proyek."
   custom_fields:
     admin:
       custom_field_projects:
@@ -239,8 +242,6 @@ id:
           zero: no sub-items
           one: 1 sub-item
           other: "%{count} sub-items"
-    upsale:
-      custom_field_format_hierarchy: "Need a hierarchy in your custom fields for work packages?"
     text_add_new_custom_field: >
       Untuk menambahkan kolom kustom baru untuk sebuah proyek, pertama-tama Anda harus membuatnya, sebelum Anda dapat menambahkannya ke proyek ini.
     is_enabled_globally: "Diaktifkan secara global"
@@ -292,8 +293,9 @@ id:
   global_search:
     placeholder: "Search in %{app_title}"
     overwritten_tabs:
-      wiki_pages: "Wiki"
+      all: "Semua"
       messages: "Forum"
+      wiki_pages: "Wiki"
   groups:
     index:
       no_results_title_text: Tidak ada grup untuk saat ini.
@@ -345,6 +347,18 @@ id:
         heading: "Delete this project list?"
         text: "This action will not delete any project the list contains. Are you sure you want to delete this project list?"
     settings:
+      public_warning: >
+        This project is public. Anyone who has access to this instance will be able to view and interact with this project depending on their role and associated permissions. Sub-projects are not affected and have their own settings.
+      public_confirmation:
+        checkbox: "I understand that this will make the previously private content public"
+        title: "Make this project public?"
+        description: >
+          Anyone who has access to this instance will be able to view and interact with this project depending on their role and authentication settings. Sub-projects are not affected and have their own settings.
+      private_confirmation:
+        checkbox: "I understand that this will make the previously public content private."
+        title: "Make this project private?"
+        description: >
+          The project will only be visible to project members depending on their role and associated permissions. Sub-projects are not affected and have their own settings.
       change_identifier: Ubah pengenal
       actions:
         label_enable_all: "Enable all"
@@ -361,14 +375,14 @@ id:
         no_results_title_text: There are currently no custom fields available.
       life_cycle:
         header:
-          title: "Project lifecycle"
-          description_html: 'These project stages and gates in the project lifecycle will be displayed in your <a href=%{overview_url} target="_blank">project overview page</a> and are defined in the <a href=%{admin_settings_url} target="_blank">administration settings</a> by the administrator of the instance. You can enable or disable individual attributes.'
-        non_defined: "Neither stages nor gates are currently defined."
-        section_header: "Stages and gates"
+          title: "Project life cycle"
+          description_html: "The active project phases define this project's life cycle and are defined in the <a href=%{admin_settings_url} target=\"_blank\">administration settings</a>. Enabled phases will be displayed in your <a href=%{overview_url} target=\"_blank\">project overview</a>."
+        non_defined: "No phases are currently defined."
+        section_header: "Phases"
         step:
           use_in_project: "Use %{step} in this project"
         filter:
-          label: "Search project stage or gate"
+          label: "Search project phase"
       project_custom_fields:
         header:
           title: "Atribut proyek"
@@ -393,7 +407,7 @@ id:
         no_results_title_text: Tidak ada ruang disk terekam tambahan yang digunakan oleh proyek ini.
       work_package_priorities:
         new_label: "New priority"
-  project_stage:
+  project_phase:
     working_days_count:
       other: "Duration: %{count} working days"
   lists:
@@ -529,10 +543,6 @@ id:
         Semua kemunculan pengguna placeholder (mis., sebagai penerima tugas, penanggung jawab, atau nilai pengguna lainnya) akan dipindahkan ke akun yang disebut "Pengguna yang dihapus". Karena data setiap akun yang dihapus dipindahkan ke akun ini, data yang dibuat pengguna tidak dapat dibedakan dari data akun lain yang dihapus.
       irreversible: "Tindakan ini tidak dapat diubah"
       confirmation: "Masukkan nama pengguna placeholder %{name} untuk mengonfirmasi penghapusan."
-    upsale:
-      title: Pengguna placeholder
-      description: >
-        Pengguna placeholder adalah cara untuk memberikan paket kerja kepada pengguna yang bukan bagian dari proyek Anda. Mereka dapat berguna dalam berbagai skenario; misalnya, jika Anda perlu melacak tugas untuk sumber daya yang belum diberi nama atau tersedia, atau jika Anda tidak ingin memberi orang tersebut akses ke OpenProject tetapi masih ingin melacak tugas yang ditugaskan kepada mereka.
   prioritiies:
     edit:
       priority_color_text: |
@@ -588,8 +598,6 @@ id:
     edit:
       form_configuration:
         tab: "Form configuration"
-      more_info_text_html: >
-        Edisi Enterprise memungkinkan Anda untuk menyesuaikan konfigurasi formulir dengan pengaya tambahan ini: <br> <ul class="%{list_styling_class}"> <li><b>Menambahkan grup atribut baru</b></li> <li><b>Mengganti nama grup atribut</b></li> <li><b>Menambahkan tabel paket kerja terkait</b></li> </ul>
       projects:
         tab: "Project"
         enabled_projects: "Proyek-proyek yang diaktifkan"
@@ -606,8 +614,12 @@ id:
           caption: "Define a pattern using referenced attributes and text to automatically generate work package subjects. Users will not be able to manually edit subjects."
         pattern:
           label: "Subject pattern"
-          caption: "Search for an attribute or add text. To create a space between elements add it as a text."
-          insert_as_text: "Add as text: \"%{word}\""
+          caption: "Add text or type / to search for an attribute. You can add spaces to separate them."
+          headings:
+            work_package: "Paket-Penugasan"
+            parent: "Induk"
+            project: "Project"
+          insert_as_text: "No attributes found. Add as text: \"%{word}\""
       export_configuration:
         tab: "Generate PDF"
         intro: "Select which templates from those that are available you would like to enable for this type. The template determines the design and attributes visible in the exported PDF of a work package using this type. The first template on the list is selected by default."
@@ -739,9 +751,9 @@ id:
       follows_description: "The related work package necessarily needs to finish before this one can start"
       label_child_singular: "child"
       label_child_plural: "children"
-      new_child: "New child"
+      new_child: "Create new child"
       new_child_text: "Creates a related work package as a sub-item of the current (parent) work package"
-      existing_child: "Existing child"
+      child: "Child"
       child_description: "Makes the related work package a sub-item of the current (parent) work package"
       label_closest: "Closest"
       label_blocks_singular: "blok"
@@ -933,17 +945,23 @@ id:
       project_custom_field:
         is_required: "Required for all projects"
         custom_field_section: Bagian
-      project/life_cycle_step:
+      project/phase:
+        date_range: "Kisaran tanggal"
         definition: "Definition"
-      project/life_cycle_step_definition:
+      project/phase_definition:
         name: "Nama"
         color: "Warna"
+        start_gate: "Start phase gate"
+        start_gate_name: "Start phase gate name"
+        finish_gate: "Finish phase gate"
+        finish_gate_name: "Finish phase gate name"
       query:
         sums: "Sums"
         columns: "Kolom"
         column_names: "Kolom"
         relations_to_type_column: "Relasi untuk %{type}"
         relations_of_type_column: "Relasi %{type}"
+        child_work_packages: "Child work packages"
         group_by: "Group"
         sort_by: "Sort results by"
         filters: "Filter"
@@ -1022,6 +1040,7 @@ id:
         consented_at: "Setuju pada"
       user_preference:
         comments_sorting: "Tampilan komentar"
+        dismissed_enterprise_banners: "Hidden enterprise banners"
         impaired: "Mode aksesibel"
         auto_hide_popups: "Pemberitahuan Auto-hide sukses"
         warn_on_leaving_unsaved: "Ingatkan saya ketika meninggalkan sebuah paket kerja dengan perubahan yang belum disimpan"
@@ -1038,7 +1057,9 @@ id:
       wiki_page:
         parent_title: "Halaman induk"
         redirect_existing_links: "Redirect link"
+        text: "Page content"
       work_package:
+        ancestor: "Descendants of" #used for filtering of work packages that are descendants of a given work package
         begin_insertion: "Begin of the insertion"
         begin_deletion: "Begin of the deletion"
         children: "Subelemen"
@@ -1054,6 +1075,7 @@ id:
           title: "Hari kerja"
           false: "hari kerja saja"
           true: "termasuk hari tidak bekerja"
+        journal_internal: Internal Journal
         notify: "Notify" #used in custom actions
         parent: "Induk"
         parent_issue: "Induk"
@@ -1097,6 +1119,7 @@ id:
         empty: "harus di isi."
         even: "harus imbang."
         exclusion: "telah dipesan."
+        feature_disabled: is not available.
         file_too_large: "ukuran maksimum yang diperbolehkan %{count} Bytes."
         filter_does_not_exist: "filter tidak ada."
         format: "tidak cocok dengan format yang diharapkan '%{expected}'."
@@ -1233,42 +1256,12 @@ id:
           attributes:
             project_ids:
               blank: "Please select a project."
-        project/life_cycle_step_definition:
-          attributes:
-            type:
-              must_be_a_stage_or_gate: "must be either Project::StageDefinition or Project::GateDefinition"
-              type_and_class_name_mismatch: "must match the instantiated class name"
-        project/gate_definition:
-          attributes:
-            type:
-              type_and_class_name_mismatch: "must be a Project::GateDefinition"
-        project/stage_definition:
-          attributes:
-            type:
-              type_and_class_name_mismatch: "must be a Project::StageDefinition"
-        project/life_cycle_step:
-          attributes:
-            type:
-              must_be_a_stage_or_gate: "must be either Project::Stage or Project::Gate"
-              must_be_a_stage: "must be a Project::Stage"
-              must_be_a_gate: "must be a Project::Gate"
-              type_and_class_name_mismatch: "must match the instantiated class name"
-        project/gate:
-          attributes:
-            base:
-              end_date_not_allowed: "Cannot assign end date to a Project::Gate"
-            type:
-              type_and_class_name_mismatch: "must be a Project::Gate"
-            date:
-              non_continuous_dates: "can't be earlier than the previous %{step}'s end date."
-        project/stage:
+        project/phase:
           attributes:
             date_range:
-              start_date_must_be_before_end_date: "start date must be before the end date."
-              non_continuous_dates: "can't be earlier than the previous %{step}'s end date."
+              start_date_must_be_before_finish_date: "start date must be before the finish date."
+              non_continuous_dates: "can't be earlier than the previous phase's end date."
               incomplete: "is incomplete."
-            type:
-              type_and_class_name_mismatch: "must be a Project::Stage"
         query:
           attributes:
             project:
@@ -1303,6 +1296,10 @@ id:
             values:
               inclusion: "filter has invalid values."
               format: "%{message}"
+        queries/principals/filters/internal_mentionable_on_work_package_filter:
+          attributes:
+            values:
+              single_value_requirement: "must be a single work package"
         relation:
           typed_dag:
             circular_dependency: "Relasi menciptakan lingkaran relasi-relasi."
@@ -1495,8 +1492,6 @@ id:
         other: "Notifications"
       placeholder_user: "Pengguna placeholder"
       project: "Project"
-      project/gate_definition: "Gate"
-      project/stage_definition: "Stage"
       project_query:
         other: "Project lists"
       query: "Query kustom"
@@ -1548,11 +1543,19 @@ id:
       changeset: "Set perubahan"
       message: "Forum"
       news: "News"
-      project_attribute: "Atribut proyek"
+      project_details: "Rincian proyek"
       subproject: "Sertakan subproyek"
       time_entry: "Durasi"
       wiki_edit: "Wiki"
       work_package: "Paket-Penugasan"
+    project_phase:
+      activated: "diaktifkan"
+      deactivated: "dinonaktifkan"
+      added_date: "set to %{date}"
+      changed_date: "changed from %{from} to %{to}"
+      removed_date: "date deleted %{date}"
+      phase_and_one_gate: "%{phase_message}. %{gate_message}"
+      phase_and_both_gates: "%{phase_message}. %{start_gate_message}, and %{finish_gate_message}"
   #common attributes of all models
   attributes:
     active: "Aktif"
@@ -1794,7 +1797,8 @@ id:
     text:
       failed: 'Tidak dapat meng-copy Project "%{source_project_name}" ke Project "%{target_project_name}".'
       succeeded: 'Project "%{source_project_name}" ke "%{target_project_name}" telah di-copy.'
-  create_new_page: "Halaman Wiki"
+  create_wiki_page: "Create new wiki page"
+  create_wiki_page_button: "Halaman Wiki"
   date:
     abbr_day_names:
       - "Min"
@@ -1927,17 +1931,77 @@ id:
   #Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
   direction: ltr
   ee:
-    upsale:
+    features:
+      baseline_comparison: Baseline Comparisons
+      board_view: Advanced Boards
+      conditional_highlighting: Conditional Highlighting
+      internal_comments: Internal Comments
+      custom_actions: Custom Actions
+      custom_field_hierarchies: Custom fields of type hierarchy
+      customize_life_cycle: Customize Life Cycle
+      date_alerts: Date Alerts
+      define_custom_style: Custom theme and logo
+      edit_attribute_groups: Edit Attribute Groups
+      gantt_pdf_export: Gantt PDF Export
+      grid_widget_wp_graph: Grid Widget Work Package Graph
+      ldap_groups: LDAP users and group sync
+      one_drive_sharepoint_file_storage: OneDrive/SharePoint File Storage
+      placeholder_users: Placeholder Users
+      project_list_sharing: Project List Sharing
+      readonly_work_packages: Readonly Work Packages
+      sso_auth_providers: Single sign-on
+      team_planner_view: Team Planner View
+      two_factor_authentication: 2FA Authentication
+      virus_scanning: Antivirus Scanning
+      work_package_query_relation_columns: Work Package Query Relation Columns
+      work_package_sharing: Share work packages with external users
+      work_package_subject_generation: Work Package Subject Generation
+    upsell:
       title: "Enterprise add-on"
-      link_title: "Informasi lebih lanjut"
-      automatic_subject_generation:
+      plan_title: "Enterprise %{plan} add-on"
+      plan_name: "%{plan} enterprise plan"
+      plan_text_html: "Available starting with the %{plan_name}."
+      hide_banner: "Hide this banner"
+      baseline_comparison:
+        description: Highlight changes made to this list since any point in the past.
+      work_package_subject_generation:
         description: "Create automatically generated subjects using referenced attributes and text."
       customize_life_cycle:
-        description: "Create and organize different project stages and gates than the ones provided by PM2 project cycle planning."
-      form_configuration:
-        description: "Customize the form configuration with these additional add-ons:"
-        add_groups: "Menambahkan atribut kelompok-kelompok baru"
-        rename_groups: "Menamai ulang atribut kelompok-kelompok"
+        description: "Create and organize different project phases than the ones provided by PM2 project cycle planning."
+      conditional_highlighting:
+        description: "Need certain work packages to stand out from the mass? Use conditional highlighting in the work packages table."
+      work_package_query_relation_columns:
+        description: "Need to see relations or child elements in the work package list?"
+      edit_attribute_groups:
+        description: "Customize form configuration with these additional add-ons:"
+        features:
+          groups: "Menambahkan atribut kelompok-kelompok baru"
+          rename: "Rename attribute groups"
+          related: "Add a table of related work packages"
+      readonly_work_packages:
+        description: "Mark work packages as read-only for specific statuses."
+      custom_field_hierarchies:
+        description: "Hierarchy custom fields allow organizing hierarchical structures in work packages by making use of multi-level select lists."
+      date_alerts:
+        description: "With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline."
+      work_package_sharing:
+        description: "Share work packages with users who are not members of the project."
+      define_custom_style:
+        title: "Custom color theme and logo"
+        more_info: "Catatan: logo yang digunakan akan dapat diakses publik."
+        description: Sesuaikan instalasi OpenProject Anda dengan logo dan warna Anda sendiri.
+      custom_actions:
+        title: "Tindakan khusus"
+        description: "Tindakan kustom adalah pintasan sekali klik ke serangkaian tindakan yang ditentukan sebelumnya yang dapat Anda sediakan pada paket kerja tertentu berdasarkan status, peran, jenis, atau proyek."
+      virus_scanning:
+        description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
+      placeholder_users:
+        title: Pengguna placeholder
+        description: >
+          Pengguna placeholder adalah cara untuk memberikan paket kerja kepada pengguna yang bukan bagian dari proyek Anda. Mereka dapat berguna dalam berbagai skenario; misalnya, jika Anda perlu melacak tugas untuk sumber daya yang belum diberi nama atau tersedia, atau jika Anda tidak ingin memberi orang tersebut akses ke OpenProject tetapi masih ingin melacak tugas yang ditugaskan kepada mereka.
+      internal_comments:
+        title: "For your eyes only"
+        description: "Internal comments allow an internal team to communicate amongst themselves privately. These are only visible to certain project roles and will never be visible publicly."
   enumeration_activities: "Kegiatan pelacakan waktu"
   enumeration_work_package_priorities: "Paket-Penugasan prioritas"
   enumeration_reported_project_statuses: "Status Project yang di-Report"
@@ -2003,7 +2067,7 @@ id:
     changeset: "Set-Perubahan telah diedit"
     message: Pesan telah diedit
     news: News
-    project_attributes: "Atribut proyek diubah"
+    project_details: "Project details edited"
     project: "Project edited"
     projects: "Project edited"
     reply: Telah direspon
@@ -2019,6 +2083,8 @@ id:
     dialog:
       title: "Ekspor"
       submit: "Ekspor"
+      save_export_settings:
+        label: "Save settings"
       format:
         label: "File format"
         options:
@@ -2082,6 +2148,8 @@ id:
     your_work_packages_export: "Work packages are being exported"
     succeeded: "Export completed"
     failed: "An error has occurred while trying to export the work packages: %{message}"
+    errors:
+      embedded_table_with_too_many_columns: "This embedded work package table could not fit on the page, please reduce the number of columns."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -2126,6 +2194,12 @@ id:
         caption: Break line between words for better layout and justification.
       hyphenation_language:
         label: Language and hyphenation
+      page_orientation:
+        label: Page orientation
+        caption: Select the orientation of the pages in the PDF document.
+        options:
+          portrait: Portrait
+          landscape: Landscape
   extraction:
     available:
       pdftotext: "Pdf2teks tersedia (opsional)"
@@ -2154,9 +2228,8 @@ id:
       users: "Newest registered users in this instance."
     blocks:
       community: "OpenProject community"
-      upsale:
+      upsell:
         title: "Upgrade to Enterprise edition"
-        more_info: "Informasi lebih lanjut"
     links:
       upgrade_enterprise_edition: "Upgrade to Enterprise edition"
       postgres_migration: "Migrasi instalasi anda ke PostgreSQL"
@@ -2633,6 +2706,7 @@ id:
   label_modules: "Modul"
   label_months_from: "dari bulan"
   label_more: "Lanjut"
+  label_more_information: "Informasi lebih lanjut"
   label_more_than_ago: "lusa yang lalu"
   label_move_column_left: "Pindahkan kolom ke kiri"
   label_move_column_right: "Pindahkan kolom ke kanan"
@@ -2670,7 +2744,7 @@ id:
   label_none_parentheses: "(kosong)"
   label_not_contains: "tidak berisi"
   label_not_equals: "tidak"
-  label_life_cycle_step_plural: "Project lifecycle"
+  label_life_cycle_step_plural: "Project life cycle"
   label_on: "pada"
   label_operator_all: "tidak kosong"
   label_operator_none: "kosong"
@@ -2732,7 +2806,7 @@ id:
   label_project_new: "Project baru"
   label_project_plural: "Project"
   label_project_list_plural: "Project lists"
-  label_project_lifecycle: "Project lifecycle"
+  label_project_life_cycle: "Project life cycle"
   label_project_attributes_plural: "Atribut proyek"
   label_project_custom_field_plural: "Atribut proyek"
   label_project_settings: "Projek setting"
@@ -3191,6 +3265,7 @@ id:
   notice_successful_delete: "Berhasil dihapus."
   notice_successful_cancel: "Successful cancellation."
   notice_successful_update: "Berhasil diperbarui."
+  notice_unsuccessful_update: "Update failed."
   notice_successful_update_custom_fields_added_to_project: |
     Pembaruan berhasil. Bidang kustom dari jenis yang diaktifkan secara otomatis diaktifkan pada formulir paket pekerjaan. <a href="%{url}" target="_blank">Lihat selengkapnya</a>.
   notice_to_many_principals_to_display: "Ada terlalu banyak hasil. Persempit pencarian dengan mengetik nama member baru (atau grup)."
@@ -3227,12 +3302,13 @@ id:
     text_getting_started_description: "Dapatkan ikhtisar singkat manajemen proyek dan kolaborasi tim dengan OpenProject. Anda dapat memulai ulang video ini dari menu bantuan."
     welcome: "Selamat datang di %{app_title}"
     select_language: "Silakan pilih bahasa Anda"
-  permission_add_work_package_notes: "Add comments"
+  permission_add_work_package_comments: "Add comments"
   permission_add_work_packages: "Tambah Paket-Penugasan"
   permission_add_messages: "Kirim pesan"
   permission_add_project: "Create projects"
   permission_add_work_package_attachments: "Tambahkan lampiran"
   permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
+  permission_add_internal_comments: "Write internal comments"
   permission_archive_project: "Proyek arsip"
   permission_create_user: "Create users"
   permission_manage_user: "Edit users"
@@ -3257,16 +3333,19 @@ id:
   permission_delete_timelines: "Menghapus Timeline"
   permission_delete_wiki_pages: "Hapus halaman Wiki"
   permission_delete_wiki_pages_attachments: "Hapus lampiran"
-  permission_edit_work_package_notes: "Moderate comments"
-  permission_edit_work_package_notes_explanation: "Caution: Users with this permission are able to edit anyone's comment."
+  permission_edit_work_package_comments: "Moderate comments"
+  permission_edit_work_package_comments_explanation: "Caution: Users with this permission are able to edit anyone's comment."
   permission_edit_work_packages: "Edit Paket-Penugasan"
   permission_edit_messages: "Edit pesan"
-  permission_edit_own_work_package_notes: "Edit own comments"
+  permission_edit_own_internal_comments: "Edit own internal comments"
+  permission_edit_own_work_package_comments: "Edit own comments"
   permission_edit_own_messages: "Edit pesan"
   permission_edit_own_time_entries: "Edit Time log"
+  permission_edit_others_internal_comments: "Moderate internal comments"
+  permission_edit_others_internal_comments_explanation: "Caution: Users with this permission are able to edit other users' internal comments."
   permission_edit_project: "Edit Project"
   permission_edit_project_attributes: "Edit project attributes"
-  permission_edit_project_stages_and_gates: "Edit project stages and gates"
+  permission_edit_project_phases: "Edit project phases"
   permission_edit_reportings: "Edit pelaporan"
   permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "Edit Timeline"
@@ -3296,14 +3375,15 @@ id:
   permission_search_project: "Search project"
   permission_select_custom_fields: "Pilih bidang khusus"
   permission_select_project_custom_fields: "Select project attributes"
-  permission_select_project_life_cycle: "Select project stages and gates"
-  permission_select_project_life_cycle_explanation: "Activate/Deactivate the stages and gates in a project. Enables the user to select the lifecycle appropriate for the project as inactive stages and gates will not be visible in the project overview page nor the project list."
+  permission_select_project_phases: "Select project phases"
+  permission_select_project_phases_explanation: "Activate/Deactivate the phases in a project. Enables the user to select the life cycle appropriate for the project as inactive phases will not be visible in the project overview page nor the project list."
   permission_select_project_modules: "Pilih modul Project"
   permission_share_work_packages: "Share work packages"
   permission_manage_types: "Pilih Tipe"
   permission_manage_own_reminders: "Create own reminders"
   permission_view_project: "View projects"
   permission_view_changesets: "View repository revisions in OpenProject"
+  permission_view_internal_comments: "View internal comments"
   permission_view_commit_author_statistics: "Lihat commit statistik penulis"
   permission_view_dashboards: "View dashboards"
   permission_view_work_package_watchers: "Lihat daftar pemantau"
@@ -3322,7 +3402,7 @@ id:
   permission_work_package_assigned_explanation: "Paket kerja dapat ditetapkan untuk pengguna-pengguna tunggal dan kelompok-kelompok yang memiliki peran dalam proyek masing-masing"
   permission_view_project_activity: "View project activity"
   permission_view_project_attributes: "View project attributes"
-  permission_view_project_stages_and_gates: "View project stages and gates"
+  permission_view_project_phases: "View project phases"
   permission_save_bcf_queries: "Save BCF queries"
   permission_manage_public_bcf_queries: "Manage public BCF queries"
   permission_edit_attribute_help_texts: "Edit attribute help texts"
@@ -3348,9 +3428,9 @@ id:
       subprojects_confirmation: "Its subproject(s): %{value} will also be deleted."
       title: "Delete the project %{name}"
     filters:
-      life_cycle_any: "Lifecycle: Any stage or gate"
-      life_cycle_stage: "Lifecycle stage: %{stage}"
-      life_cycle_gate: "Lifecycle gate: %{gate}"
+      project_phase: "Project phase: %{phase}"
+      project_phase_any: "Project phase: Any"
+      project_phase_gate: "Project phase gate: %{gate}"
     identifier:
       warning_one: Members of the project will have to relocate the project's repositories.
       warning_two: Existing links to the project will no longer work.
@@ -3493,6 +3573,9 @@ id:
     manual: "set to Manual"
     automatic: "set to Automatic"
   search_input_placeholder: "Mencari ..."
+  setting_allowed_link_protocols: "Allowed link protocols"
+  setting_allowed_link_protocols_text_html: >-
+    Allow these protocols to be rendered as links in work package descriptions, long text fields and comments. For example, %{tel_code} or %{element_code}. Enter one protocol per line. <br/> Protocols %{http_code}, %{https_code}, and %{mailto_code} are always allowed.
   setting_after_first_login_redirect_url: "First login redirect"
   setting_after_first_login_redirect_url_text_html: >
     Set a path to redirect users after their first login. If empty, redirects to the home page for the onboarding tour. <br/> Example: <code>/my/page</code>
@@ -3629,6 +3712,8 @@ id:
   setting_repository_truncate_at: "Jumlah maksimum file yang ditampilkan dalam browser tempat penyimpanan"
   setting_rest_api_enabled: "Aktifkan REST web service"
   setting_self_registration: "Registrasi mandiri"
+  setting_self_registration_warning: >
+    The user will be able to activate their own accounts. Please note that this will give them access to all public projects and their content. Please make sure that no sensitive or private data is exposed in public projects.
   setting_session_ttl: "Sesi kadaluwarsa ketika tidak aktif"
   setting_session_ttl_hint: "Nilai di bawah 5 akan didisable"
   setting_session_ttl_enabled: "Sesi telah berakhir"
@@ -3673,8 +3758,6 @@ id:
         Remaining files have been scanned. There are %{file_count} in quarantine. You are being redirected to the quarantine page. Use this page to delete or override quarantined files.
       remaining_rescanned_files: >
         Virus scanning has been enabled successfully. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
-      upsale:
-        description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
       actions:
         delete: "Delete the file"
         quarantine: "Quarantine the file"
@@ -3725,27 +3808,27 @@ id:
       new:
         heading: "New attribute"
         description: "Changes to this project attribute will be reflected in all projects where it is enabled. Required attributes cannot be disabled on a per-project basis."
-    project_life_cycle_step_definitions:
-      heading: "Project lifecycle"
-      heading_description: "The project lifecycle consists of stages and gates that structure your projects. They will appear in the overview page of a project and be available in the projects list. Individual stages and gates can be selected to customize a project but reordering is not possible on a project level."
+    project_phase_definitions:
+      heading: "Project life cycle"
+      heading_description: "Project life cycle define the project phases that can be used for your project planning and will appear in the overview page of each project. These attributes can be enabled or disabled but not re-ordered at a project level."
       label_add: "Tambah"
-      label_add_description: "Add lifecycle definition"
-      label_add_stage: "Stage"
-      label_add_gate: "Gate"
+      label_add_description: "Add project phase definition"
       filter:
-        label: "Search project stage or gate"
-      section_header: "Stages and gates"
-      non_defined: "Neither stages nor gates are currently defined."
+        label: "Search project phase"
+      section_header: "Phases"
+      non_defined: "No phases are currently defined."
+      phase_gates: "Phase gates"
       new:
-        description: "Changes to this project step will be reflected in all projects where it is enabled."
-      new_stage:
-        heading: "New stage"
-      new_gate:
-        heading: "New gate"
-      edit_stage:
-        heading: "Edit stage"
-      edit_gate:
-        heading: "Edit gate"
+        description: "Changes to this project phase will be reflected in all projects where it is enabled."
+        heading: "New Phase"
+      edit:
+        heading: "Edit Phase"
+      both_gate: "Start and finish gate"
+      no_gate: "No gate"
+      start_gate: "Start gate"
+      start_gate_caption: "Add a gate with the start date of the phase"
+      finish_gate: "Finish gate"
+      finish_gate_caption: "Add a gate with the end date of the phase"
     projects:
       missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Settings for new projects"
@@ -3759,10 +3842,10 @@ id:
       section_work_week: "Work week"
       section_holidays_and_closures: "Holidays and closures"
     work_packages:
-      categories_tab: "Categories"
-      custom_fields_tab: "Custom Fields"
-      types_tab: "Types"
       not_allowed_text: "You do not have the necessary permissions to view this page."
+      activities:
+        enable_internal_comments: "Enable internal comments"
+        helper_text: "Internal comments allow an internal team to communicate amongst themselves privately. These are only visible to selected roles that have the necessary permissions and will not be visible publicly. %{link}"
   text_formatting:
     markdown: "Markdown"
     plain: "Plain text"
@@ -3784,7 +3867,7 @@ id:
   text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "Hapus Paket-Penugasan dan semua paket turunannya?"
   text_are_you_sure_with_project_custom_fields: "Deleting this attribute will also delete its values in all projects. Are you sure you want to do this?"
-  text_are_you_sure_with_project_life_cycle_step: "Deleting this step will also delete its usages in all projects. Are you sure you want to do this?"
+  text_are_you_sure_with_project_life_cycle_step: "Deleting this phase will also delete its usages in all projects. Are you sure you want to do this?"
   text_assign_to_project: "Tetapkan untuk Project"
   text_form_configuration: >
     Anda dapat mengkustom field-field mana yang akan ditampilkan dalam form paket kerja. Anda dapat dengan bebas mengelompokkan field-field untuk mencerminkan kebutuhan-kebutuhan untuk domain Anda.
@@ -3798,8 +3881,6 @@ id:
     Ketika menggunakan filed kustom: Perlu diingat bahwa field kustom perlu diaktifkan per proyek, juga.
   text_custom_field_hint_activate_per_project_and_type: >
     Field-field kustom perlu diaktifkan per jenis paket kerja dan per proyek.
-  text_wp_status_read_only_html: >
-    The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
   text_project_custom_field_html: >
     The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
@@ -4112,7 +4193,7 @@ id:
         view_description: "Can view this project list."
         edit: "Edit"
         edit_description: "Can view, share and edit this project list."
-      upsale:
+      upsell:
         message: "Sharing project lists with individual users is an enterprise add-on."
   working_days:
     info: >
@@ -4342,27 +4423,3 @@ id:
     description: "Adds the OmniAuth SAML provider to OpenProject"
   enterprise_plans:
     legacy_enterprise: "Enterprise Plan"
-  enterprise_features:
-    baseline_comparison: Baseline Comparison
-    board_view: Board View
-    conditional_highlighting: Conditional Highlighting
-    custom_actions: Custom Actions
-    custom_field_hierarchies: Custom Field Hierarchies
-    customize_life_cycle: Customize Life Cycle
-    date_alerts: Date Alerts
-    define_custom_style: Define Custom Style
-    edit_attribute_groups: Edit Attribute Groups
-    gantt_pdf_export: Gantt PDF Export
-    grid_widget_wp_graph: Grid Widget Work Package Graph
-    ldap_groups: LDAP Groups
-    one_drive_sharepoint_file_storage: OneDrive/SharePoint File Storage
-    placeholder_users: Placeholder Users
-    project_list_sharing: Project List Sharing
-    readonly_work_packages: Readonly Work Packages
-    sso_auth_providers: SSO Auth Providers
-    team_planner_view: Team Planner View
-    two_factor_authentication: Two-Factor Authentication
-    virus_scanning: Attachment Virus Scanning
-    work_package_query_relation_columns: Work Package Query Relation Columns
-    work_package_sharing: Work Package Sharing
-    work_package_subject_generation: Work Package Subject Generation

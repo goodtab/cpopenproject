@@ -30,6 +30,7 @@ See COPYRIGHT and LICENSE files for more details.
 <%=
   render(
     border_box_container(
+      id: container_id,
       classes: container_class,
       test_selector:
     )
@@ -55,10 +56,10 @@ See COPYRIGHT and LICENSE files for more details.
       if has_actions?
         concat render(
           Primer::BaseComponent.new(
-            classes: heading_class,
-            tag: :div
+            classes: header_classes(:actions),
+            tag: :span
           )
-        )
+        ) { action_row_header_content }
       end
     end
 

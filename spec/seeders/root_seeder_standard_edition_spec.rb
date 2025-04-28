@@ -38,6 +38,8 @@ RSpec.describe RootSeeder,
 
   before_all do
     week_with_saturday_and_sunday_as_weekend
+    clear_enqueued_jobs
+    clear_performed_jobs
   end
 
   shared_examples "creates standard demo data" do
@@ -67,8 +69,7 @@ RSpec.describe RootSeeder,
       expect(VersionSetting.count).to eq 4
       expect(Boards::Grid.count).to eq 5
       expect(Boards::Grid.count { |grid| grid.options.has_key?(:filters) }).to eq 1
-      expect(Project::StageDefinition.count).to eq 4
-      expect(Project::GateDefinition.count).to eq 3
+      expect(Project::PhaseDefinition.count).to eq 4
     end
 
     it "links work packages to their version" do
@@ -93,16 +94,18 @@ RSpec.describe RootSeeder,
       expect(RecurringMeeting.count).to eq 1
 
       # The template is created.
-      expect(StructuredMeeting.where(template: true).count).to eq 1
-      expect(StructuredMeeting.where(template: true).first.duration).to eq 1.0
-      expect(StructuredMeeting.where(template: true).first.agenda_items.count).to eq 9
-      expect(StructuredMeeting.where(template: true).first.agenda_items.sum(:duration_in_minutes)).to eq 60
+      expect(Meeting.templated.count).to eq 1
+      template = Meeting.templated.first
+      expect(template.duration).to eq 1.0
+      expect(template.agenda_items.count).to eq 9
+      expect(template.agenda_items.sum(:duration_in_minutes)).to eq 60
 
       # The first instance from that template is also created with the same data.
-      expect(StructuredMeeting.where(template: false).count).to eq 1
-      expect(StructuredMeeting.where(template: false).first.duration).to eq 1.0
-      expect(StructuredMeeting.where(template: false).first.agenda_items.count).to eq 9
-      expect(StructuredMeeting.where(template: false).first.agenda_items.sum(:duration_in_minutes)).to eq 60
+      expect(Meeting.where(template: false).count).to eq 1
+      instance = Meeting.not_templated.first
+      expect(instance.duration).to eq 1.0
+      expect(instance.agenda_items.count).to eq 9
+      expect(instance.agenda_items.sum(:duration_in_minutes)).to eq 60
     end
 
     it "creates different types of queries" do
@@ -139,7 +142,7 @@ RSpec.describe RootSeeder,
       )
     end
 
-    include_examples "it creates records", model: Color, expected_count: 149
+    include_examples "it creates records", model: Color, expected_count: 148
     include_examples "it creates records", model: DocumentCategory, expected_count: 3
     include_examples "it creates records", model: GlobalRole, expected_count: 2
     include_examples "it creates records", model: WorkPackageRole, expected_count: 3
@@ -191,8 +194,7 @@ RSpec.describe RootSeeder,
         expect(Version.count).to eq 4
         expect(VersionSetting.count).to eq 4
         expect(Boards::Grid.count).to eq 5
-        expect(Project::StageDefinition.count).to eq 4
-        expect(Project::GateDefinition.count).to eq 3
+        expect(Project::PhaseDefinition.count).to eq 4
       end
     end
   end

@@ -27,7 +27,7 @@
 #++
 
 require "spec_helper"
-require File.expand_path("../support/permission_specs", __dir__)
+require "support/permission_specs"
 
 RSpec.describe WorkPackagesController, "view_work_packages permission", type: :controller do # rubocop:disable RSpec/EmptyExampleGroup,RSpec/MultipleDescribes
   include PermissionSpecs

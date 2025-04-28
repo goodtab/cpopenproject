@@ -168,7 +168,9 @@ If you select **Generate PDF**, a modal will open, where you can adjust the foll
    - *Attributes and description* - this template lists all the work package attributes [configured in the work package form](../../../system-admin-guide/manage-work-packages/work-package-types/#work-package-form-configuration-enterprise-add-on), regardless whether they are filled out or not.
    - *Contract* - this template includes work package details formatted to the standard German contract form.
 
-    > [!TIP] You can define which templates are enabled for specific work package types in the [administration settings](../../../system-admin-guide/manage-work-packages/work-package-types).
+    
+> [!TIP] 
+> You can define which templates are enabled for specific work package types in the [administration settings](../../../system-admin-guide/manage-work-packages/work-package-types).
 
 - **Hyphenation** - if selected, a break line will be included into the export between word for improved layout.
 
@@ -179,11 +181,15 @@ If you select **Generate PDF**, a modal will open, where you can adjust the foll
   - If *Attributes and description* template is selected, the project name will be suggested for the footer. This text will be placed at the center of the footer. 
   - If *Contract* template is selected, the work package subject will be suggested as the footer text. This text will be placed at the right corner of the footer.
   
-  
+- **Page orientation**, which allows selecting *Portrait* or *Landscape* layout of the pages in the PDF.  
 
 ![PDF generation modal for export of single work packages in OpenProject](openproject_user_guide_work_package_export_pdf_modal.png)
 
 Click the **Download** button to generate the PDF export. 
+
+> [!NOTE]
+>
+> Layout of the PDF export follows the [work package configuration form](../../../system-admin-guide/manage-work-packages/work-package-types/#work-package-form-configuration-enterprise-add-on) defined for specific work package types. 
 
 ![Example of a single work package PDF export in OpenProject](openproject-user-guide-single-pdf-export.png)
 

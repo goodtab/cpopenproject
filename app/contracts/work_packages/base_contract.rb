@@ -162,12 +162,6 @@ module WorkPackages
 
     validate :validate_duration_and_dates_are_not_derivable
 
-    def initialize(work_package, user, options: {})
-      super
-
-      @can = WorkPackagePolicy.new(user)
-    end
-
     def assignable_statuses(include_default: false)
       # Do not allow skipping statuses without intermediately saving the work package.
       # We therefore take the original status of the work_package, while preserving all
@@ -222,9 +216,9 @@ module WorkPackages
     end
     alias_method :assignable_responsibles, :assignable_assignees
 
-    private
+    def valid?(context = :saving_custom_fields) = super
 
-    attr_reader :can
+    private
 
     def validate_after_soonest_start(date_attribute)
       return if model.schedule_manually?

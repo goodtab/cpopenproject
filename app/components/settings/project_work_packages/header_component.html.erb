@@ -33,18 +33,21 @@ See COPYRIGHT and LICENSE files for more details.
     header.with_tab_nav(label: nil) do |tab_nav|
       if show_types?
         tab_nav.with_tab(selected: selected?(:types), href: project_settings_work_packages_types_path) do |tab|
-          tab.with_text { t("settings.work_packages.types_tab") }
+          tab.with_text { t("label_type_plural") }
         end
       end
       if show_categories?
         tab_nav.with_tab(selected: selected?(:categories), href: project_settings_work_packages_categories_path) do |tab|
-          tab.with_text { t("settings.work_packages.categories_tab") }
+          tab.with_text { t("documents.label_categories") }
         end
       end
       if show_custom_fields?
         tab_nav.with_tab(selected: selected?(:custom_fields), href: project_settings_work_packages_custom_fields_path) do |tab|
-          tab.with_text { t("settings.work_packages.custom_fields_tab") }
+          tab.with_text { t("attributes.custom_values") }
         end
+      end
+      tab_nav.with_tab(selected: selected?(:activities), href: project_settings_work_packages_activities_path) do |tab|
+        tab.with_text { activity_title }
       end
     end
   end

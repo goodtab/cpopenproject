@@ -1,4 +1,6 @@
-require File.expand_path(File.dirname(__FILE__) + "/../../spec_helper")
+# frozen_string_literal: true
+
+require_relative "../../spec_helper"
 
 RSpec.describe Avatars::UpdateService do
   let(:user_without_avatar) { build_stubbed(:user) }

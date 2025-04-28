@@ -1,4 +1,4 @@
-<%= render(Primer::Alpha::Dialog.new(title: t("caption_log_time_dialog"), size: :medium_portrait, id: MODAL_ID, data: { "controller" => "time-entry", "application-target" => "dynamic", "time-entry-id" => time_entry.id, "ongoing" => time_entry.ongoing? })) do |d| %>
+<%= render(Primer::Alpha::Dialog.new(title: t("caption_log_time_dialog"), size: :medium_portrait, id: MODAL_ID, data: { "keep-open-on-submit": true, "controller" => "time-entry", "application-target" => "dynamic", "time-entry-id" => time_entry.id, "ongoing" => time_entry.ongoing? })) do |d| %>
   <% d.with_header(variant: :large) %>
   <% d.with_body do %>
     <%= render(
@@ -15,7 +15,7 @@
       <% if time_entry.persisted? %>
         <% flex.with_column do %>
           <%= render(
-                Primer::ButtonComponent.new(
+                Primer::Beta::Button.new(
                   scheme: :danger,
                   test_selector: "destroy-time-entry-button",
                   data: {
@@ -32,10 +32,10 @@
       <% flex.with_column(classes: "time-entry-button-push") %>
       <% flex.with_column do %>
         <%= render(
-              Primer::ButtonComponent.new(data: { "close-dialog-id": "time-entry-dialog" })
+              Primer::Beta::Button.new(data: { "close-dialog-id": "time-entry-dialog" })
             ) { I18n.t("button_cancel") } %>
         <%= render(
-              Primer::ButtonComponent.new(
+              Primer::Beta::Button.new(
                 scheme: :primary,
                 type: :submit,
                 test_selector: "create-time-entry-button",

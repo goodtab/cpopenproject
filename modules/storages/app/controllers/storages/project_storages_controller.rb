@@ -98,18 +98,34 @@ class Storages::ProjectStoragesController < ApplicationController
         format.html do
           case result.code
           when :unauthorized
-            redirect_to(
-              oauth_clients_ensure_connection_url(
-                oauth_client_id: @storage.oauth_client.client_id,
-                storage_id: @storage.id,
-                destination_url: request.url
-              )
-            )
+            redirect_to(storage_fallback_url, allow_other_host: true)
           when :forbidden
             redirect_to_project_overview_with_modal
           end
         end
       end
+    end
+  end
+
+  def storage_fallback_url
+    selector = Storages::Peripherals::StorageInteraction::AuthenticationMethodSelector.new(user: current_user, storage: @storage)
+    if selector.sso?
+      # Maybe the user just can't read folder because they are not provisioned in (Nextcloud) storage. We redirect them
+      # to the storage and leave error handling up to storage. Ideally they will login to the storage and thus prevent
+      # the same error in the future.
+      # This would not work for OneDrive, but for OneDrive we don't have SSO (yet).
+      res = Storages::Peripherals::Registry.resolve("#{@storage}.queries.open_file_link").call(
+        storage: @storage,
+        auth_strategy:,
+        file_id: @object.project_folder_id
+      )
+      res.result_or { |errors| raise "Could not redirect SSO user to storage: #{errors}" }
+    else
+      oauth_clients_ensure_connection_url(
+        oauth_client_id: @storage.oauth_client.client_id,
+        storage_id: @storage.id,
+        destination_url: request.url
+      )
     end
   end
 

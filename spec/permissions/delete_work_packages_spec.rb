@@ -27,7 +27,7 @@
 #++
 
 require "spec_helper"
-require_relative "../support/permission_specs"
+require "support/permission_specs"
 
 RSpec.describe WorkPackages::BulkController, "delete_work_packages permission", type: :controller do
   include PermissionSpecs

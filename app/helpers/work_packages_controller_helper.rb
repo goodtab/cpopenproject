@@ -61,8 +61,6 @@ module WorkPackagesControllerHelper
       request.format = "html"
       render_400(message: @query.errors.full_messages.join(". "))
     end
-  rescue ActiveRecord::RecordNotFound
-    render_404
   end
 
   def atom_list

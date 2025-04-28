@@ -64,7 +64,8 @@ ko:
         다음 필드는 OpenProject에 사용자 특성을 제공하는 데 사용되는 SAML ID 공급자 제공 특성을 제어합니다.
       metadata:
         dialog: "OpenProject SAML 메타데이터를 사용할 수 있는 URL입니다. 선택적으로 이 URL을 사용하여 ID 공급자를 구성합니다:"
-      upsale:
+      upsell:
+        title: "Single Sign-On (SSO) with SAML"
         description: SAML ID 공급자에 OpenProject 연결
       request_attributes:
         title: '요청된 특성'

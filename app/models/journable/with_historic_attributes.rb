@@ -236,9 +236,9 @@ class Journable::WithHistoricAttributes < SimpleDelegator
 
     return unless historic_journable
 
-    changes = ::Acts::Journalized::JournableDiffer.changes(__getobj__, historic_journable)
+    changes = ::Acts::Journalized::Differ::Model.changes(__getobj__, historic_journable)
 
-    # In the other occurrences of JournableDiffer.association_changes calls, we are using the plural
+    # In the other occurrences of Differ::Association calls, we are using the plural
     # of the association name (`custom_fields` in this instance), to map the association fields. That
     # will result in a changes hash containing { "custom_fields_1" => ... }. This makes sense in the case
     # of journal changes, because the formatted fields have the convention for plural lookup for journals
@@ -248,13 +248,15 @@ class Journable::WithHistoricAttributes < SimpleDelegator
     # As a food for thought, I think it would be more handy to use the singular naming everywhere.
 
     changes.merge!(
-      ::Acts::Journalized::JournableDiffer.association_changes(
+      ::Acts::Journalized::Differ::Association.new(
         historic_journable,
         __getobj__,
-        "custom_values",
-        "custom_field",
-        :custom_field_id,
-        :value
+        association: :custom_values,
+        id_attribute: :custom_field_id,
+        multiple_values: :joined
+      ).single_attribute_changes(
+        :value,
+        key_prefix: "custom_field"
       )
     )
 

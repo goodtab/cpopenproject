@@ -50,13 +50,25 @@ sk:
         project: Projekt
         user: Užívateľ(ka)
         work_package: Pracovný balíček
+        subject: Predmet
         hours: Hodín
         comments: Komentár
         activity: Činnosť
         spent_on: Dátum
         start_time: Start time
         end_time: Finish time
+        time: Čas
     models:
+      time_entry:
+        one: "Time entry"
+        few: "Time entries"
+        many: "Time entries"
+        other: "Time entries"
+      cost_entry:
+        one: "Nákladová položka"
+        few: "Cost entries"
+        many: "Cost entries"
+        other: "Cost entries"
       cost_type:
         one: "Typ nákladu"
         few: "Typy nákladov"
@@ -148,12 +160,28 @@ sk:
   label_cost: "Cost"
   label_costs: "Náklady"
   label_mandatory_fields: "Mandatory fields"
+  label_my_time_tracking: "My time tracking"
+  label_no_time: "No time tracked"
+  label_next_day: "Next day"
+  label_next_week: "Budúci týždeň"
+  label_next_month: "Next month"
+  label_previous_day: "Previous day"
+  label_previous_week: "Predchádzajúci týždeň"
+  label_previous_month: "Previous month"
+  label_specific_day: "Day %{day}"
+  label_specific_week: "Calendar week %{week}"
+  label_specific_month: "Month %{month}"
+  label_list: "Zoznam"
+  label_month: "Mesiac"
+  label_day: "Deň"
+  label_today_capitalized: "Dnes"
   placeholder_activity_select_work_package_first: Work package selection is required first
   notice_something_wrong: "Niečo sa pokazilo. Prosím skúste to znova."
   notice_successful_restore: "Úspešné obnovenie."
   notice_successful_lock: "Úspešne blokované."
   notice_cost_logged_successfully: "Jednotkové náklady boli úspešne zaznamenané."
   notice_different_time_zones: "This user has a different time zone (%{tz}). Time will be logged using their time zone."
+  notice_time_entry_update_failed: "Failed to update time entry. Errors: %{errors}"
   permission_edit_cost_entries: "Upraviť zaúčtované jednotkové náklady"
   permission_edit_own_cost_entries: "Upraviť vlastné zaúčtované jednotkové náklady"
   permission_edit_hourly_rates: "Upraviť hodinové sadzby"
@@ -179,9 +207,17 @@ sk:
   text_reassign_time_and_cost_entries: "Priradiť výkaz hodín a náklady k projektu:"
   text_warning_hidden_elements: "Neboli zohľadnené všetky záznamy."
   week: "týždeň"
-  js:
-    text_are_you_sure: "Ste si istí?"
+  total_times:
+    week: "Week Total: %{hours}"
+    month: "Month Total: %{hours}"
+    day: "Day Total: %{hours}"
   api_v3:
     errors:
       validation:
         start_time_different_date: "Date part of startTime (%{start_time}) must be the same as the spentOn (%{spent_on}) date."
+  ee:
+    features:
+      time_entry_time_restrictions: Require exact time tracking
+    upsell:
+      time_entry_time_restrictions:
+        description: "Improve your time tracking by requiring exact start and finish times when logging time."

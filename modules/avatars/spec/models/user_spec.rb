@@ -1,5 +1,7 @@
-require File.expand_path("#{File.dirname(__FILE__)}/../spec_helper")
-require File.expand_path("#{File.dirname(__FILE__)}/../shared_examples")
+# frozen_string_literal: true
+
+require_relative "../spec_helper"
+require_relative "../shared_examples"
 
 RSpec.describe User do
   let(:user) { build(:user) }

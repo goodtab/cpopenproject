@@ -205,7 +205,7 @@ ms:
                   name: Pencapaian
           work_packages:
             item_0:
-              subject: Permulaan projek dengan projek pembinaan
+              subject: Permulaan projek dengan projek pembinaan 
               description: |-
                 Permulaan projek menandakan permulaan projek di dalam syarikat anda. Setiap orang yang menjadi sebahagian daripada projek ini perlu dijemput untuk menyertai taklimat pertama projek.
 
@@ -232,7 +232,7 @@ ms:
                   description: |-
                     ## Matlamat
 
-                    *   Cipta rumusan hasil yang bermanfaat
+                    *   Cipta rumusan hasil yang bermanfaat  
                     *   Semak apa yang telah dilakukan dan ringkaskan hasil
                     *   Menyampaikan hasil berkaitan kepada pelanggan
                     *   Mengenal pasti asas kondisi garis sempadan projek ini
@@ -254,7 +254,7 @@ ms:
                   description: |-
                     ## Matlamat
 
-                    *   Cipta rumusan hasil yang bermanfaat
+                    *   Cipta rumusan hasil yang bermanfaat  
                     *   Semak apa yang telah dilakukan dan ringkaskan hasil
                     *   Menyampaikan hasil berkaitan kepada pelanggan
                     *   Mengenal pasti asas kondisi garis sempadan projek ini
@@ -269,7 +269,7 @@ ms:
                   description: |-
                     ## Matlamat
 
-                    *   Cipta rumusan hasil yang bermanfaat
+                    *   Cipta rumusan hasil yang bermanfaat  
                     *   Semak apa yang telah dilakukan dan ringkaskan hasil
                     *   Menyampaikan hasil berkaitan kepada pelanggan
                     *   Mengenal pasti asas kondisi garis sempadan projek ini
@@ -307,7 +307,7 @@ ms:
               subject: Fasa pembinaan
               children:
                 item_0:
-                  subject: Mulakan pembinaan
+                  subject: Mulakan pembinaan 
                   description: |-
                     ## Matlamat
 
@@ -577,7 +577,7 @@ ms:
                     *   Model berikut akan diperiksa, mengikut standard yang ditakrifkan (konvensyen, LOD, ...) dan disemak.
                     *   ...
                 item_3:
-                  subject: Menghantar model BIM
+                  subject: Menghantar model BIM 
                   description: Jenis ini adalah induk secara hierarki bagi jenis &quot;Konflik&quot; dan &quot;Permintaan&quot;, oleh itu mewakili catatan umum.
             item_5:
               subject: Koordinasi, kitaran pertama

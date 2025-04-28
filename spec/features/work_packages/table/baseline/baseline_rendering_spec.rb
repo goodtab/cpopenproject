@@ -426,7 +426,7 @@ RSpec.describe "baseline rendering",
       baseline_modal.expect_closed
       baseline_modal.toggle_drop_modal
       baseline_modal.expect_open
-      expect(page).to have_css(".op-baseline--enterprise-title")
+      expect(page).to have_enterprise_banner
       # only yesterday is selectable
       page.select("a specific date", from: "op-baseline-filter")
       expect(page).to have_no_select("op-baseline-filter", selected: "a specific date")

@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
+# rubocop:disable Rails
 require "rubygems"
 require "bundler"
 Bundler.setup(:default, :development)
@@ -14,8 +16,8 @@ require "time"
 require "yaml"
 require "httpx"
 
-GITHUB_API_OPENPROJECT_PREFIX = "https://api.github.com/repos/opf/openproject".freeze
-GITHUB_HTML_OPENPROJECT_PREFIX = "https://github.com/opf/openproject".freeze
+GITHUB_API_OPENPROJECT_PREFIX = "https://api.github.com/repos/opf/openproject"
+GITHUB_HTML_OPENPROJECT_PREFIX = "https://github.com/opf/openproject"
 RAILS_ROOT = Pathname.new(__dir__).dirname
 EXCLUDED_JOB_NAMES = %w[eslint rubocop].freeze
 
@@ -31,19 +33,21 @@ class Options
     display_rerun_info: false,
     display_images: false,
     failed_jobs_logs: [],
+    full_backtrace: false,
     no_cache: false,
     run_id: nil,
+    job_id: nil,
     verbose: false
   }.freeze
 
   BANNER = <<~BANNER.freeze
     Usage: #{$0} [options] [url]
 
-    Fetches rspec failures from last completed GitHub actions on current
-    branch, and outputs them on standard output, one by line.
+    Fetches rspec failures from last completed GitHub actions on current branch,
+    and outputs them on standard output, one by line.
 
-    If given an url, it will fetch the failures from the given url instead of
-    the tip of the current branch.
+    If given an url, it will fetch the failures from the given url using the workflow
+    id and the job id if present instead of the tip of the current branch.
 
     Information is printed on standard error to preserve standard output.
 
@@ -81,10 +85,14 @@ class Options
       options.merge!(parse_url(ARGV.first)) if ARGV.any?
     end
 
-    def parse_args
+    def parse_args # rubocop:disable Metrics/AbcSize
       options = {}
       opt_parser = OptionParser.new do |parser|
         parser.banner = BANNER
+
+        parser.on("-b", "--full-backtrace", "Output full backtrace of test failures") do
+          options[:full_backtrace] = true
+        end
 
         parser.on("-c", "--compact", "Output all failing rspec files on one line") do
           options[:compact] = true
@@ -129,10 +137,11 @@ class Options
 
     def parse_url(url)
       case url
-      when %r{^https://github.com/opf/openproject/actions/runs/(\d+)(?:/job/\d+(?:\?.*)?)?$}
+      when %r{^https://github.com/opf/openproject/actions/runs/(\d+)(?:/job/(\d+)(?:\?.*)?)?$}
         run_id = $1.to_i
-        say_verbose("Extracted run id #{run_id} from #{url}")
-        { run_id: }
+        job_id = $2&.to_i
+        say_verbose("Extracted run id #{run_id}#{" and job id #{job_id}" if job_id} from #{url}")
+        { run_id:, job_id: }
       else
         warn "Unrecognized url #{url}"
         exit 1
@@ -192,7 +201,7 @@ def error_details(error)
   parts << "Failed to perform API request GET #{response.uri}: #{error}"
   parts << "  #{response_body['message']}"
   parts << "  See #{response_body['documentation_url']}"
-  parts += error.backtrace.map { "    #{_1}" }
+  parts += error.backtrace.map { "    #{it}" }
   parts.join("\n")
 end
 
@@ -269,14 +278,56 @@ def get_workflow_run(run_id)
   end
 end
 
-class Report
-  attr_accessor :errors,
-                :failures_explanation,
-                :head_branch,
-                :head_sha,
-                :commit_message,
-                :run_started_at,
-                :merge_branch_sha
+class WorkflowRunDecorator
+  attr_reader :workflow_run
+
+  def initialize(workflow_run)
+    @workflow_run = workflow_run
+  end
+
+  def head_branch = workflow_run["head_branch"]
+  def head_sha = workflow_run["head_sha"]
+  def run_started_at = Time.parse(workflow_run["run_started_at"]).utc
+
+  def commit_message
+    workflow_run["head_commit"]
+      .then { |commit| commit["message"] }
+      .then { |message| message.split("\n", 2).first }
+  end
+end
+
+Report = Data.define(
+  :errors,
+  :failures_explanation,
+  :head_branch,
+  :head_sha,
+  :commit_message,
+  :run_started_at,
+  :run_status,
+  :failed_job_logs,
+  :merge_branch_sha
+) do
+  def initialize(errors: [],
+                 failures_explanation: nil,
+                 head_branch: nil,
+                 head_sha: nil,
+                 commit_message: nil,
+                 run_started_at: nil,
+                 run_status: nil,
+                 failed_job_logs: nil,
+                 merge_branch_sha: nil)
+    super
+  end
+
+  def with_workflow_run_info(workflow_run)
+    workflow_run = WorkflowRunDecorator.new(workflow_run)
+    with(
+      head_branch: workflow_run.head_branch,
+      head_sha: workflow_run.head_sha,
+      commit_message: workflow_run.commit_message,
+      run_started_at: workflow_run.run_started_at
+    )
+  end
 end
 
 class Error
@@ -319,10 +370,11 @@ class JobErrorsFinder
     logs.each do |log|
       finder.scan_log(log)
     end
-    report.errors = finder.errors
-    report.failures_explanation = finder.failures_explanation
-    report.merge_branch_sha = finder.merge_branch_sha
-    report
+    report.with(
+      errors: finder.errors,
+      failures_explanation: finder.failures_explanation,
+      merge_branch_sha: finder.merge_branch_sha
+    )
   end
 
   def scan_log(log)
@@ -375,7 +427,7 @@ class JobErrorsFinder
         explanations << line
       end
     end
-    explanations.map! { _1[29..] } # Remove leading timestamp (like "2024-02-05T08:37:54.5175930Z")
+    explanations.map! { it[29..] } # Remove leading timestamp (like "2024-02-05T08:37:54.5175930Z")
     explanations.reject! do |line|
       line == "Failures:" ||
         line == "Failed examples:" ||
@@ -398,7 +450,7 @@ class JobErrorsFinder
 
   def find_screenshots(log)
     log.scan(SCREENSHOT_PATTERN)
-      .map { JSON.parse _1 }
+      .map { JSON.parse it }
       .each do |screenshot_info|
         id = screenshot_info["test_id"]
         location = screenshot_info["test_location"]
@@ -413,10 +465,10 @@ class JobErrorsFinder
     tests_groups = log
       .scan(TESTS_GROUP_PATTERN)
       .flatten
-      .map { build_tests_group_from_command(_1) }
+      .map { build_tests_group_from_command(it) }
 
     errors.each do |error|
-      error.tests_group = tests_groups.find { _1.include_error?(error) }
+      error.tests_group = tests_groups.find { it.include_error?(error) }
     end
   end
 
@@ -451,19 +503,15 @@ class Formatter
     @compact
   end
 
-  def display_workflow_run_info(report, workflow_run)
-    report.head_branch = workflow_run["head_branch"]
-    report.head_sha = workflow_run["head_sha"]
-    report.commit_message = commit_message(workflow_run)
-    report.run_started_at = Time.parse(workflow_run["run_started_at"]).utc
+  def display_workflow_run_info(report)
     warn "  Branch: #{report.head_branch.bold}"
     warn "  Commit SHA: #{report.head_sha.bold}"
     warn "  Commit message: #{report.commit_message.bold}"
-    warn "  Run started at: #{report.run_started_at.localtime.to_s.bold}"
-    display_pull_request_info(workflow_run)
+    warn "  Last attempted run started at: #{report.run_started_at.localtime.to_s.bold}"
   end
 
   def display_workflow_status(workflow_run)
+    warn "  Run attempt: #{workflow_run['run_attempt']}"
     warn "  #{status_line(workflow_run)}"
   end
 
@@ -471,17 +519,17 @@ class Formatter
     warn "    #{status_line(job)}"
   end
 
-  def display_report(report)
+  def display_errors_from_report(report)
     display_failures_explanation(report.failures_explanation)
-    display_checkout_test_commit_information(report) if Options.display_rerun_info
     display_errors(report.errors)
+    display_checkout_test_commit_information(report) if Options.display_rerun_info
   end
 
   def display_failures_explanation(failures_explanation)
     return if failures_explanation.nil? || failures_explanation.empty?
 
     warn "Failures explanation:".bold
-    warn failures_explanation
+    warn clean_failures_explanation(failures_explanation)
     warn ""
   end
 
@@ -495,10 +543,38 @@ class Formatter
     end
   end
 
+  def display_pull_request_info(workflow_run)
+    return unless workflow_run["event"] == "pull_request"
+
+    if pr = workflow_run["pull_requests"].first
+      pr_number = "##{pr['number']}"
+      pr_html_url = "#{GITHUB_HTML_OPENPROJECT_PREFIX}/pull/#{pr['number']}"
+      pr_display_title = "#{workflow_run['display_title']} #{pr_number.white.dark} #{pr_html_url.white.dark}"
+      warn "  Pull Request: #{pr_display_title} "
+    else
+      warn "  Pull Request: not found; perhaps it is already merged or closed?"
+    end
+  end
+
   private
 
+  # Remove test failure backtrace lines that are not useful.
+  # - rspec_retry and retriable lines
+  # - top level lines which are mostyl around blocks executing on each spec
+  # - make the spec file name bold
+  def clean_failures_explanation(failures_explanation)
+    return failures_explanation if Options.full_backtrace
+
+    failures_explanation
+      .split("\n")
+      .reject { |line| line.include?("spec/support/rspec_retry") || line.include?("/usr/local/bundle/gems/retriable") }
+      .reject { |line| line.include?("<top (required)>") && !line.include?("_spec.rb") }
+      .join("\n")
+      .gsub(/[.a-z_\/]+_spec.rb/, &:bold)
+  end
+
   def display_errors_compact(errors)
-    puts errors.map { escaped_location(_1) }.join(" ")
+    puts errors.map { escaped_location(it) }.join(" ")
   end
 
   def display_errors_detailed(errors)
@@ -508,13 +584,13 @@ class Formatter
         .group_by(&:tests_group)
         .each do |tests_group, tests_group_errors|
           display_tests_group_info(tests_group)
-          tests_group_errors.each { display_error(_1) }
+          tests_group_errors.each { display_error(it) }
           display_tests_group_rerun_commands(tests_group)
         end
     else
       errors
         .sort_by(&:location)
-        .each { display_error(_1) }
+        .each { display_error(it) }
     end
   end
 
@@ -565,6 +641,7 @@ class Formatter
     if report.merge_branch_sha
       warn <<~INSTRUCTIONS.white.dark
         GitHub Action run merged #{report.merge_branch_sha} into #{report.head_sha} before running.
+
         To be with the exact same source files as CI, use these commands (warning: stash your modifications first):
           git checkout -B repro_ci_failures #{report.head_sha}
           git merge --no-edit --no-verify #{report.merge_branch_sha}
@@ -575,7 +652,9 @@ class Formatter
           git checkout #{report.head_sha}
       INSTRUCTIONS
     end
-    warn # empty line
+    warn <<~INSTRUCTIONS.white.dark
+      Then run a test group with the rspec command above.
+    INSTRUCTIONS
   end
 
   def display_tests_group_info(tests_group)
@@ -590,25 +669,6 @@ class Formatter
     warn "To run the tests group in the same order as CI, use this command:".white.dark
     warn "CI=true bundle exec rspec --seed #{tests_group.seed} #{tests_group.files.join(' ')}".white.dark
     warn ""
-  end
-
-  def display_pull_request_info(workflow_run)
-    return unless workflow_run["event"] == "pull_request"
-
-    if pr = workflow_run["pull_requests"].first
-      pr_number = "##{pr['number']}"
-      pr_html_url = "#{GITHUB_HTML_OPENPROJECT_PREFIX}/pull/#{pr['number']}"
-      pr_display_title = "#{workflow_run['display_title']} #{pr_number.white.dark} #{pr_html_url.white.dark}"
-      warn "  Pull Request: #{pr_display_title} "
-    else
-      warn "  Pull Request: not found; perhaps it is already merged or closed?"
-    end
-  end
-
-  def commit_message(workflow_run)
-    workflow_run["head_commit"]
-      .then { |commit| commit["message"] }
-      .then { |message| message.split("\n", 2).first }
   end
 
   def status_icon(job)
@@ -645,21 +705,46 @@ class Formatter
   end
 end
 
+def get_jobs_from_job_id(job_id)
+  warn "  Looking for the job with id #{job_id.to_s.bold}"
+
+  # no need to fetch anything as we only use the job id to get the logs
+  # mock the same structure as the jobs response
+  [{ "id" => job_id }]
+end
+
+def get_failing_jobs_from_workflow_last_attempt(workflow_run, formatter)
+  get_jobs(workflow_run)
+    .then { |jobs_response| jobs_response["jobs"] }
+    .sort_by { it["name"] }
+    .each { |job| formatter.display_job_status(job) }
+    .select { it["conclusion"] == "failure" }
+    .reject { EXCLUDED_JOB_NAMES.include?(it["name"]) }
+end
+
+def get_relevant_jobs(job_id, workflow_run, formatter)
+  if job_id
+    get_jobs_from_job_id(job_id)
+  else
+    formatter.display_workflow_status(workflow_run)
+    get_failing_jobs_from_workflow_last_attempt(workflow_run, formatter)
+  end
+end
+
 def get_failed_jobs_logs_from_github(report, formatter)
   workflow_run = get_workflow_run(Options.run_id)
+  report = report.with_workflow_run_info(workflow_run)
 
-  formatter.display_workflow_run_info(report, workflow_run)
+  formatter.display_workflow_run_info(report)
+  formatter.display_pull_request_info(workflow_run)
 
-  formatter.display_workflow_status(workflow_run)
-  job_logs = get_jobs(workflow_run)
-    .then { |jobs_response| jobs_response["jobs"] }
-    .sort_by { _1["name"] }
-    .each { |job| formatter.display_job_status(job) }
-    .select { _1["conclusion"] == "failure" }
-    .reject { EXCLUDED_JOB_NAMES.include?(_1["name"]) }
+  failed_job_logs = get_relevant_jobs(Options.job_id, workflow_run, formatter)
     .map { |job| get_log(job) }
 
-  [job_logs, job_logs.any? ? "error" : workflow_run["status"]]
+  report.with(
+    failed_job_logs:,
+    run_status: failed_job_logs.any? ? "error" : workflow_run["status"]
+  )
 end
 
 def get_failed_jobs_logs_from_args
@@ -668,7 +753,11 @@ end
 
 def get_failed_jobs_logs(report, formatter)
   if Options.failed_jobs_logs.any?
-    [get_failed_jobs_logs_from_args, failed_jobs_logs.none? ? "completed" : "error"]
+    failed_job_logs = get_failed_jobs_logs_from_args
+    report.with(
+      failed_job_logs:,
+      run_status: failed_job_logs.none? ? "completed" : "error"
+    )
   else
     get_failed_jobs_logs_from_github(report, formatter)
   end
@@ -680,15 +769,17 @@ end
 report = Report.new
 formatter = Formatter.new(compact: Options.compact)
 
-failed_jobs_logs, status = get_failed_jobs_logs(report, formatter)
+report = get_failed_jobs_logs(report, formatter)
 
-JobErrorsFinder.scan_logs(report, failed_jobs_logs)
+report = JobErrorsFinder.scan_logs(report, report.failed_job_logs)
 
-case status
+case report.run_status
 when "completed"
   warn "All jobs successful 🎉"
 when "in_progress"
   # NOOP
 when "error"
-  formatter.display_report(report)
+  formatter.display_errors_from_report(report)
 end
+
+# rubocop:enable Rails

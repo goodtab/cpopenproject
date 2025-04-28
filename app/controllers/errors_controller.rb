@@ -10,9 +10,10 @@ class ErrorsController < ApplicationController
     render_404
   end
 
+  # this may be called on CSRF validation failure
   def unacceptable
     render file: "#{Rails.public_path.join('422.html')}",
-           status: :unacceptable,
+           status: :unprocessable_entity,
            layout: false
   end
 

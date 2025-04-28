@@ -29,19 +29,8 @@
 
 class Activities::MeetingActivityProvider < Activities::BaseActivityProvider
   activity_provider_for type: "meetings",
-                        activities: %i[meeting meeting_content],
+                        activities: %i[meeting],
                         permission: :view_meetings
-
-  def extend_event_query(query)
-    case activity
-    when :meeting_content
-      query.join(meetings_table).on(activity_journals_table[:meeting_id].eq(meetings_table[:id]))
-      join_cond = journals_table[:journable_type].eq("MeetingContent")
-      query.join(meeting_contents_table).on(journals_table[:journable_id].eq(meeting_contents_table[:id]).and(join_cond))
-    else
-      super
-    end
-  end
 
   def event_query_projection
     case activity
@@ -54,7 +43,6 @@ class Activities::MeetingActivityProvider < Activities::BaseActivityProvider
       ]
     else
       [
-        projection_statement(meeting_contents_table, :type, "meeting_content_type"),
         projection_statement(meetings_table, :id, "meeting_id"),
         projection_statement(meetings_table, :title, "meeting_title"),
         projection_statement(meetings_table, :project_id, "project_id")
@@ -63,7 +51,7 @@ class Activities::MeetingActivityProvider < Activities::BaseActivityProvider
   end
 
   def activitied_type
-    activity == :meeting ? Meeting : MeetingContent
+    Meeting
   end
 
   def projects_reference_table
@@ -76,56 +64,30 @@ class Activities::MeetingActivityProvider < Activities::BaseActivityProvider
   end
 
   def activity_journals_table
-    @activity_journals_table ||= case activity
-                                 when :meeting
-                                   Meeting.journal_class.arel_table
-                                 else
-                                   MeetingContent.journal_class.arel_table
-                                 end
+    @activity_journals_table ||= Meeting.journal_class.arel_table
   end
 
   protected
 
-  def event_name(event)
-    case event["event_description"]
-    when "Agenda closed"
-      I18n.t("meeting_agenda_closed", scope: "events")
-    when "Agenda opened"
-      I18n.t("meeting_agenda_opened", scope: "events")
-    when "Minutes created"
-      I18n.t("meeting_minutes_created", scope: "events")
-    else
-      super
-    end
-  end
-
   def event_title(event)
-    case activity
-    when :meeting
-      start_time = if event["meeting_start_time"].is_a?(String)
-                     DateTime.parse(event["meeting_start_time"])
-                   else
-                     event["meeting_start_time"]
-                   end
-      end_time = start_time + event["meeting_duration"].to_f.hours
+    start_time =
+      if event["meeting_start_time"].is_a?(String)
+        DateTime.parse(event["meeting_start_time"])
+      else
+        event["meeting_start_time"]
+      end
 
-      fstart_with = format_date start_time
-      fstart_without = format_time start_time, include_date: false
-      fend_without = format_time end_time, include_date: false
+    end_time = start_time + event["meeting_duration"].to_f.hours
 
-      "#{I18n.t(:label_meeting)}: #{event['meeting_title']} (#{fstart_with} #{fstart_without}-#{fend_without})"
-    else
-      "#{event['meeting_content_type'].constantize.model_name.human}: #{event['meeting_title']}"
-    end
+    fstart_with = format_date start_time
+    fstart_without = format_time start_time, include_date: false
+    fend_without = format_time end_time, include_date: false
+
+    "#{I18n.t(:label_meeting)}: #{event['meeting_title']} (#{fstart_with} #{fstart_without}-#{fend_without})"
   end
 
   def event_type(event)
-    case activity
-    when :meeting
-      "meeting"
-    else
-      event["meeting_content_type"].include?("Agenda") ? "meeting-agenda" : "meeting-minutes"
-    end
+    "meeting"
   end
 
   def event_path(event)
@@ -158,10 +120,6 @@ class Activities::MeetingActivityProvider < Activities::BaseActivityProvider
 
   def meetings_table
     @meetings_table ||= Meeting.arel_table
-  end
-
-  def meeting_contents_table
-    @meeting_contents_table ||= MeetingContent.arel_table
   end
 
   def activity_id(event)

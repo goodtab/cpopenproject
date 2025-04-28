@@ -32,7 +32,8 @@ require "spec_helper"
 
 RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
   shared_let(:type) { create(:type_standard) }
-  shared_let(:project_types) { [type] }
+  shared_let(:milestone_type) { create(:type_milestone) }
+  shared_let(:project_types) { [type, milestone_type] }
   shared_let(:project) do
     create(:project, types: project_types)
   end
@@ -1055,6 +1056,102 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
       end
     end
 
+    context "when the work package has its own predecessor which ends later than its future " \
+            "parent predecessor (Bug #63296)" do
+      let_work_packages(<<~TABLE)
+        subject                | MTWTFSSmtwtf   | scheduling mode | predecessors
+        new_parent_predecessor | XXX            | manual          |
+        new_parent             |    XX          | automatic       | new_parent_predecessor
+        predecessor            |        XXX     | manual          |
+        work_package           |           XX   | automatic       | predecessor
+      TABLE
+      let(:attributes) { { parent: new_parent } }
+
+      it "sets its dates according to its own soonest start and its new parent soonest start" \
+         "then it sets parent's dates to be the same as the work package" do
+        expect(subject).to be_success
+        expect(work_package.reload.parent).to eq new_parent
+        expect(subject.all_results.map(&:subject)).to contain_exactly("work_package", "new_parent")
+
+        expect_work_packages(subject.all_results + [new_parent_predecessor, predecessor], <<~TABLE)
+          subject                | MTWTFSSmtwtf   |
+          new_parent_predecessor | XXX            |
+          new_parent             |           XX   |
+          predecessor            |        XXX     |
+          work_package           |           XX   |
+        TABLE
+      end
+    end
+
+    context "when the work package changes its parent" do
+      let_work_packages(<<~TABLE)
+        subject                | MTWTFSSmtwtf   | scheduling mode | predecessors
+        new_parent_predecessor | XXX            | manual          |
+        new_parent             |    XX          | automatic       | new_parent_predecessor
+        old_parent_predecessor |        XXX     | manual          |
+        old_parent             |           XX   | automatic       | old_parent_predecessor
+          work_package         |           XX   | automatic       |
+      TABLE
+      let(:attributes) { { parent: new_parent } }
+
+      it "sets its dates according to its own soonest start and its new parent " \
+         "soonest start, not its old parent" do
+        expect(subject).to be_success
+        expect(work_package.reload.parent).to eq new_parent
+        expect(subject.all_results.map(&:subject)).to contain_exactly("work_package")
+
+        expect_work_packages(WorkPackage.all, <<~TABLE)
+          subject                | MTWTFSSmtwtf   | scheduling mode
+          new_parent_predecessor | XXX            | manual
+          new_parent             |    XX          | automatic
+            work_package         |    XX          | automatic
+          old_parent_predecessor |        XXX     | manual
+          old_parent             |           XX   | automatic
+        TABLE
+      end
+    end
+
+    context "when the work package and the parent being set have different ignore_working_days values" do
+      before do
+        set_non_working_week_days("saturday", "sunday")
+      end
+
+      let_work_packages(<<~TABLE)
+        hierarchy          | MTWTFSSmt | scheduling mode | days counting     | predecessors
+        parent_predecessor |   XXX     | manual          | working days only |
+        parent             |        XX | automatic       | working days only | parent_predecessor
+          wp all days      |        XX | automatic       | working days only |
+        # predecessor is here so that work_package can be in automatic scheduling mode
+        predecessor        | XX        | manual          | working days only |
+        work_package       |   XX      | automatic       | all days          | predecessor
+      TABLE
+      let(:attributes) { { parent: } }
+
+      it "calculates correctly the soonest working day for the child using the child's ignore_working_days value" do
+        # actually it does not calculate dates correctly in SetAttributesService,
+        # but the rescheduling happening later in the UpdateService moves it
+        # correctly and updates the parent accordingly
+        expect(subject).to be_success
+        expect(work_package.reload.parent).to eq parent
+
+        # TODO: "parent" is there twice because it is updated once in the
+        # SetScheduleService which sets the parent dates to the children's
+        # dates, and once in the UpdateAncestorsService which sets the
+        # ignore_non_working_days value. This problem is registered in bug
+        # #61758.
+        expect(subject.all_results.map(&:subject)).to contain_exactly("work_package", "parent", "parent")
+
+        expect_work_packages(WorkPackage.all, <<~TABLE)
+          subject            | MTWTFSSmt | scheduling mode | days counting
+          parent_predecessor |   XXX     | manual          | working days only
+          parent             |      XXXX | automatic       | all days
+            wp all days      |        XX | automatic       | working days only
+          predecessor        | XX        | manual          | working days only
+          work_package       |      XX   | automatic       | all days
+        TABLE
+      end
+    end
+
     context "when the work package is automatically scheduled, has a child and no dates" do
       let_work_packages(<<~TABLE)
         hierarchy              | MTWTFSS        | scheduling mode | predecessors
@@ -1300,6 +1397,126 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     end
   end
 
+  describe "due_date and ignore_non_working_days combinations" do
+    before do
+      set_non_working_week_days("saturday", "sunday")
+    end
+
+    context "on an automatically scheduled successor whose start date is after a non-working day" do
+      shared_let_work_packages(<<~TABLE)
+        | subject      | MTWTFSSmtwtfss | scheduling mode | days counting     | successors
+        | predecessor  |   XX           | manual          | working days only | work_package with lag 1
+        | work_package |        XXX     | automatic       | working days only |
+      TABLE
+
+      context "when setting ignore_non_working_days to true" do
+        let(:attributes) { { ignore_non_working_days: true } }
+
+        it "moves the start date earlier to start on a non-working day " \
+           "and keeps the current due date and updates the duration accordingly" do
+          expect(subject).to be_success
+
+          expect_work_packages_after_reload([work_package, predecessor], <<~TABLE)
+            | subject      | MTWTFSSmtwtfss | scheduling mode | days counting
+            | predecessor  |   XX           | manual          | working days only
+            | work_package |      XXXXX     | automatic       | all days
+          TABLE
+        end
+      end
+
+      context "when setting ignore_non_working_days to true and setting a due date" do
+        let(:attributes) { { ignore_non_working_days: true, due_date: _table.next_friday } }
+
+        it "moves the start date earlier to start on a non-working day and uses the given due date" do
+          expect(subject).to be_success
+
+          expect_work_packages_after_reload([work_package, predecessor], <<~TABLE)
+            | subject      | MTWTFSSmtwtfss | scheduling mode | days counting
+            | predecessor  |   XX           | manual          | working days only
+            | work_package |      XXXXXXX   | automatic       | all days
+          TABLE
+        end
+      end
+
+      context "when setting ignore_non_working_days to true and unsetting the due date" do
+        let(:attributes) { { ignore_non_working_days: true, due_date: nil } }
+
+        it "moves the start date earlier to start on a non-working day and removes the due date and duration" do
+          expect(subject).to be_success
+
+          expect_work_packages_after_reload([work_package, predecessor], <<~TABLE)
+            | subject      | MTWTFSSmtwtfss | duration | scheduling mode | days counting
+            | predecessor  |   XX           |        2 | manual          | working days only
+            | work_package |      [         |          | automatic       | all days
+          TABLE
+        end
+      end
+    end
+
+    context "on an automatically scheduled successor whose start and due dates are on non-working days " \
+            "when setting only ignore_non_working_days to false" do
+      let_work_packages(<<~TABLE)
+        | subject      | MTWTFSSmtwtfss | duration | scheduling mode | days counting     | successors
+        | predecessor  |   XX           |        2 | manual          | working days only | work_package with lag 1
+        | work_package |      XXXXXXXX  |        8 | automatic       | all days          |
+      TABLE
+
+      let(:attributes) { { ignore_non_working_days: false } }
+
+      it "moves the dates to the next working day and adjusts the duration accordingly" do
+        expect(subject).to be_success
+
+        expect_work_packages_after_reload([work_package, predecessor], <<~TABLE)
+          | subject      | MTWTFSSmtwtfss  | duration | scheduling mode | days counting
+          | predecessor  |   XX            |        2 | manual          | working days only
+          | work_package |        XXXXX..X |        6 | automatic       | working days only
+        TABLE
+      end
+    end
+
+    context "on an automatically scheduled work package with a wrong automatically scheduled start date " \
+            "even without setting any attributes" do
+      # There was a bug in previous versions where the lag was all-days when
+      # successor's ignore_non_working_days was true, leading to a start being
+      # too early. The correct behavior for lag is to be working days only, even
+      # if the successor ignores non-working days.
+      #
+      # The update service must be able to fix these wrong dates.
+      let_work_packages(<<~TABLE)
+        | subject      | MTWTFSSmtwt | scheduling mode | days counting     | successors
+        | predecessor  |   XX        | manual          | working days only | work_package with lag 3
+        | work_package |        XX   | automatic       | all days          |
+      TABLE
+      let(:attributes) { {} }
+
+      it "moves the start date to the correct date " \
+         "and moves the due date too to keep same duration" do
+        expect(subject).to be_success
+
+        expect_work_packages_after_reload([work_package, predecessor], <<~TABLE)
+          | subject      | MTWTFSSmtwt | scheduling mode | days counting
+          | predecessor  |   XX        | manual          | working days only
+          | work_package |          XX | automatic       | all days
+        TABLE
+      end
+    end
+  end
+
+  context "when changing the type of a work package with children into a milestone" do
+    let_work_packages(<<~TABLE)
+      | hierarchy    | MTWTFSS | scheduling mode
+      | work_package | XXX     | automatic
+      |   child      | XXX     | manual
+    TABLE
+    let(:attributes) { { type: milestone_type } }
+
+    it "returns only one error: work package has children and cannot be changed into a milestone (Bug #62190)" do
+      expect(subject).to be_failure
+      expect(subject.errors.attribute_names).to contain_exactly(:type)
+      expect(subject.errors.details).to include(type: [{ error: :cannot_be_milestone_due_to_children }])
+    end
+  end
+
   describe "removing the parent on a work package which precedes its sibling" do
     let_work_packages(<<~TABLE)
       hierarchy              | MTWTFSS     | scheduling mode | predecessors
@@ -1539,13 +1756,39 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     end
 
     it "removes the parent successfully and reschedules the parent" do
-      expect(parent.valid?).to be(false)
+      # Unload the `ancestor_hierarchies` association so that we don't validate the associatied
+      # records. `closure_tree`'s behaviour is to reload the associations after save, even if they
+      # weren't loaded, see: https://github.com/ClosureTree/closure_tree/blob/
+      # 509f6dfa58da18bb4bff6ded0469263216579a90/lib/closure_tree/hierarchy_maintenance.rb#L44-L45
+      #
+      # However, having the associations loaded will cause an unexpected association validation
+      # in rails, when using custom validation contexts.
+      # The `associated_records_to_validate_or_save` method from AR will return different objects
+      # when a custom context is provided, vs when a default context is present, leading to a
+      # different set of associated objects being validated. As a result, calling `wp.valid?` will
+      # pass, while calling `wp.valid?(:custom_context)` will fail with an error on the
+      # `closure_tree`'s `self_and_ancestors` association.
+      # https://github.com/rails/rails/blob/9f39c019243138d73bb265ec32da9aee26b2c18f/
+      # activerecord/lib/active_record/autosave_association.rb#L298-L306
+      #
+      # The inconsistency is on rails' side, but in this testcase it can be avoided by
+      # unloading the `self_and_ancestors` relation on the work package.
+      # The likelihood of this issue to happen in the application is rather small because,
+      # the `self_and_ancestors` association is loaded in an `after_save` hook. In order to happen,
+      # we must validate or save a record again after it was already saved in the current request.
+      # Once the issue is fixed, it is safe to remove the association reset.
+      # https://github.com/rails/rails/issues/54807
+
+      work_package.association(:self_and_ancestors).reset
+
+      expect(parent.valid?(:saving_custom_fields)).to be(false)
+
       expect(subject).to be_success
 
       expect(work_package.reload.parent).to be_nil
 
       parent.reload
-      expect(parent.valid?).to be(false)
+      expect(parent).not_to be_valid(:saving_custom_fields)
       expect(parent.start_date)
         .to eql(sibling.start_date)
       expect(parent.due_date)

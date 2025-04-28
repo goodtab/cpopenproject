@@ -41,16 +41,19 @@
 # rubocop:disable Rails/SquishedSQLHeredocs
 module Journals
   class CreateService
-    attr_accessor :journable, :user
+    include Helpers
+
+    attr_reader :journable, :user, :associations
 
     def initialize(journable, user)
-      self.user = user
-      self.journable = journable
+      @user = user
+      @journable = journable
+      @associations = Association.for(journable)
     end
 
-    def call(notes: "", cause: CauseOfChange::NoCause.new)
+    def call(notes: "", internal: false, cause: CauseOfChange::NoCause.new)
       Journal.transaction do
-        journal = create_journal(notes, cause)
+        journal = create_journal(notes, internal, cause)
 
         if journal
           reload_journals
@@ -62,24 +65,28 @@ module Journals
 
     private
 
-    # If the journalizing happens within the configured aggregation time, is carried out by the same user, has an
-    # identical cause and only the predecessor or the journal to be created has notes, the changes are aggregated.
+    # Aggregatable journals must meet the following criteria:
+    #
+    # * The journalizing happens within the configured aggregation time
+    # * The journalizing is carried out by the same user
+    # * The cause is identical
+    # * ONLY one note exists between the predecessor and the journal to be created
+    # * The predecessor and the journal to be created have the same restriction
+    #
     # Instead of removing the predecessor, return it here so that it can be stripped in the journal creating
     # SQL to than be refilled. That way, references to the journal, including ones users have, are kept intact.
-    def aggregatable_predecessor(notes, cause)
+    def aggregatable_predecessor(notes, internal, cause)
       predecessor = journable.last_journal
 
-      if aggregatable?(predecessor, notes, cause)
-        predecessor
-      end
+      predecessor if aggregatable?(predecessor, notes, internal, cause)
     end
 
-    def create_journal(notes, cause)
-      predecessor = aggregatable_predecessor(notes, cause)
+    def create_journal(notes, internal, cause)
+      predecessor = aggregatable_predecessor(notes, internal, cause)
 
       log_journal_creation(predecessor)
 
-      create_sql = create_journal_sql(predecessor, notes, cause)
+      create_sql = create_journal_sql(predecessor, notes, internal, cause)
 
       # We need to ensure that the result is genuine. Otherwise,
       # calling the service repeatedly for the same journable
@@ -187,8 +194,8 @@ module Journals
     # (`insert_attachable`, `insert_customizable` and `insert_storable`) should actually insert data. It is additionally
     # used as the values returned by the overall SQL statement so that an AR instance can be instantiated with it.
     #
-    def create_journal_sql(predecessor, notes, cause)
-      journal_modifications = journal_modification_sql(predecessor, notes, cause)
+    def create_journal_sql(predecessor, notes, internal, cause)
+      journal_modifications = journal_modification_sql(predecessor, notes, internal, cause)
       relation_modifications = relation_modifications_sql(predecessor)
 
       journal_cte_clauses = [journal_modifications]
@@ -200,7 +207,7 @@ module Journals
       SQL
     end
 
-    def journal_modification_sql(predecessor, notes, cause)
+    def journal_modification_sql(predecessor, notes, internal, cause)
       <<~SQL
         cleanup_predecessor_data AS (
           #{cleanup_predecessor_data(predecessor)}
@@ -217,101 +224,39 @@ module Journals
         ), update_predecessor AS (
           #{update_predecessor_sql(predecessor, notes, cause)}
         ), inserted_journal AS (
-          #{update_or_insert_journal_sql(predecessor, notes, cause)}
+          #{update_or_insert_journal_sql(predecessor, notes, internal, cause)}
         )
       SQL
     end
 
     def relation_modifications_sql(predecessor)
-      relations = []
-
-      for_supported_associations do |association|
-        relations << association_modifications_sql(association, predecessor)
-      end
-
-      relations
-    end
-
-    def for_supported_associations
-      associations = {
-        attachable?: :attachable,
-        customizable?: :customizable,
-        file_links: :storable,
-        agenda_items: :agenda_itemable
-      }
-
-      associations.each do |is_associated, association|
-        if journable.respond_to?(is_associated)
-          yield association
-        end
+      associations.map do |association|
+        association_modifications_sql(association, predecessor)
       end
     end
 
     def association_modifications_sql(association, predecessor)
       <<~SQL
-        cleanup_predecessor_#{association} AS (
-          #{send(:"cleanup_predecessor_#{association}", predecessor)}
-        ), insert_#{association} AS (
-          #{send(:"insert_#{association}_sql")}
+        cleanup_predecessor_#{association.name} AS (
+          #{association.cleanup_predecessor(predecessor)}
+        ), insert_#{association.name} AS (
+          #{association.insert_sql}
         )
       SQL
     end
 
     def cleanup_predecessor_data(predecessor)
-      cleanup_predecessor(predecessor,
-                          data_table_name,
-                          :id,
-                          :data_id)
+      cleanup_predecessor_for(predecessor,
+                              data_table_name,
+                              :id,
+                              :data_id)
     end
 
-    def cleanup_predecessor_attachable(predecessor)
-      cleanup_predecessor(predecessor,
-                          "attachable_journals",
-                          :journal_id,
-                          :id)
-    end
-
-    def cleanup_predecessor_customizable(predecessor)
-      cleanup_predecessor(predecessor,
-                          "customizable_journals",
-                          :journal_id,
-                          :id)
-    end
-
-    def cleanup_predecessor_storable(predecessor)
-      cleanup_predecessor(predecessor,
-                          "storages_file_links_journals",
-                          :journal_id,
-                          :id)
-    end
-
-    def cleanup_predecessor_agenda_itemable(predecessor)
-      cleanup_predecessor(predecessor,
-                          "meeting_agenda_item_journals",
-                          :journal_id,
-                          :id)
-    end
-
-    def cleanup_predecessor(predecessor, table_name, column, referenced_id)
-      return "SELECT 1" unless predecessor
-
-      sql = <<~SQL
-        DELETE
-        FROM
-         #{table_name}
-        WHERE
-         #{column} = :#{column}
-      SQL
-
-      sanitize sql,
-               column => predecessor.send(referenced_id)
-    end
-
-    def update_or_insert_journal_sql(predecessor, notes, cause)
+    def update_or_insert_journal_sql(predecessor, notes, internal, cause)
       if predecessor
         update_journal_sql(predecessor, notes, cause)
       else
-        insert_journal_sql(notes, cause)
+        insert_journal_sql(notes, internal, cause)
       end
     end
 
@@ -323,7 +268,7 @@ module Journals
       #
       # A lot of the data does not need to be set anew, since we only aggregate if that data stays the same
       # (e.g. the user_id).
-      journal_sql = <<~SQL
+      sql = <<~SQL
         UPDATE
           journals
         SET
@@ -337,14 +282,14 @@ module Journals
           journals.*
       SQL
 
-      sanitize(journal_sql,
+      sanitize(sql,
                notes: notes.presence || predecessor.notes,
                predecessor_id: predecessor.id,
                cause: cause_sql(cause))
     end
 
-    def insert_journal_sql(notes, cause)
-      journal_sql = <<~SQL
+    def insert_journal_sql(notes, internal, cause)
+      sql = <<~SQL
         INSERT INTO
           journals (
             journable_id,
@@ -352,6 +297,7 @@ module Journals
             version,
             user_id,
             notes,
+            restricted,
             created_at,
             updated_at,
             data_id,
@@ -365,6 +311,7 @@ module Journals
           COALESCE(max_journals.version, 0) + 1,
           :user_id,
           :notes,
+          :restricted,
           (SELECT updated_at FROM fetch_time),
           (SELECT updated_at FROM fetch_time),
           insert_data.id,
@@ -375,17 +322,18 @@ module Journals
         RETURNING *
       SQL
 
-      sanitize(journal_sql,
+      sanitize(sql,
                notes:,
+               restricted: internal,
                cause: cause_sql(cause),
-               journable_id: journable.id,
+               journable_id:,
                journable_type:,
                user_id: user.id,
                data_type: journable.class.journal_class.name)
     end
 
     def insert_data_sql(predecessor, notes, cause)
-      data_sql = <<~SQL
+      sanitize(<<~SQL, journable_id:)
         INSERT INTO
           #{data_table_name} (
             #{data_sink_columns}
@@ -399,127 +347,6 @@ module Journals
           #{only_on_changed_or_forced_condition_sql(predecessor, notes, cause)}
         RETURNING *
       SQL
-
-      sanitize(data_sql,
-               journable_id: journable.id)
-    end
-
-    def journable_class_name
-      journable.class.base_class.name
-    end
-
-    def insert_attachable_sql
-      attachable_sql = <<~SQL
-        INSERT INTO
-          attachable_journals (
-            journal_id,
-            attachment_id,
-            filename
-          )
-        SELECT
-          #{id_from_inserted_journal_sql},
-          attachments.id,
-          attachments.file
-        FROM attachments
-        WHERE
-          #{only_if_created_sql}
-          AND attachments.container_id = :journable_id
-          AND attachments.container_type = :journable_class_name
-      SQL
-
-      sanitize(attachable_sql,
-               journable_id: journable.id,
-               journable_class_name:)
-    end
-
-    def insert_customizable_sql
-      customizable_sql = <<~SQL
-        INSERT INTO
-          customizable_journals (
-            journal_id,
-            custom_field_id,
-            value
-          )
-        SELECT
-          #{id_from_inserted_journal_sql},
-          custom_values.custom_field_id,
-          #{normalize_newlines_sql('custom_values.value')}
-        FROM custom_values
-        WHERE
-          #{only_if_created_sql}
-          AND custom_values.customized_id = :journable_id
-          AND custom_values.customized_type = :journable_class_name
-          AND custom_values.value IS NOT NULL
-          AND custom_values.value != ''
-      SQL
-
-      sanitize(customizable_sql,
-               journable_id: journable.id,
-               journable_class_name:)
-    end
-
-    def insert_storable_sql
-      storable_sql = <<~SQL
-        INSERT INTO
-          storages_file_links_journals (
-            journal_id,
-            file_link_id,
-            link_name,
-            storage_name
-          )
-        SELECT
-          #{id_from_inserted_journal_sql},
-          file_links.id,
-          file_links.origin_name,
-          storages.name
-        FROM file_links left join storages ON file_links.storage_id = storages.id
-        WHERE
-          #{only_if_created_sql}
-          AND file_links.container_id = :journable_id
-          AND file_links.container_type = :journable_class_name
-      SQL
-
-      sanitize(storable_sql,
-               journable_id: journable.id,
-               journable_class_name:)
-    end
-
-    def insert_agenda_itemable_sql
-      agenda_itemable_sql = <<~SQL
-        INSERT INTO
-          meeting_agenda_item_journals (
-            journal_id,
-            agenda_item_id,
-            author_id,
-            title,
-            notes,
-            position,
-            duration_in_minutes,
-            start_time,
-            end_time,
-            work_package_id,
-            item_type
-          )
-        SELECT
-          #{id_from_inserted_journal_sql},
-          agenda_items.id,
-          agenda_items.author_id,
-          agenda_items.title,
-          agenda_items.notes,
-          agenda_items.position,
-          agenda_items.duration_in_minutes,
-          agenda_items.start_time,
-          agenda_items.end_time,
-          agenda_items.work_package_id,
-          agenda_items.item_type
-        FROM meeting_agenda_items agenda_items
-        WHERE
-          #{only_if_created_sql}
-          AND agenda_items.meeting_id = :journable_id
-      SQL
-
-      sanitize(agenda_itemable_sql,
-               journable_id: journable.id)
     end
 
     # Updates the updated_at timestamp of the journable.
@@ -534,7 +361,7 @@ module Journals
     # otherwise not have receive an updated timestamp.
     def touch_journable_sql(predecessor, notes, cause)
       if journable.class.aaj_options[:timestamp].to_sym == :updated_at
-        update_sql = <<~SQL
+        sql = <<~SQL
           UPDATE
             #{journable_table_name}
           SET
@@ -546,7 +373,7 @@ module Journals
           RETURNING updated_at
         SQL
 
-        sanitize(update_sql,
+        sanitize(sql,
                  update_timestamp: journable.updated_at_previously_changed? ? journable.updated_at : nil,
                  predecessor_timestamp: predecessor&.updated_at,
                  id: journable.id)
@@ -562,12 +389,9 @@ module Journals
     # * setting the updated_at timestamp on an updated (aggregated with) journal
     # * setting the validity_period (upper bound) of the preceding journal.
     def fetch_time_sql
-      update_sql = <<~SQL
+      sanitize(<<~SQL, journable_timestamp:)
         SELECT COALESCE((SELECT updated_at FROM touch_journable), :journable_timestamp) AS updated_at
       SQL
-
-      sanitize(update_sql,
-               journable_timestamp:)
     end
 
     # Sets the validity_period's upper boundary of the preceding journal to the created_at timestamp of the inserted journal.
@@ -590,7 +414,7 @@ module Journals
     end
 
     def select_max_journal_sql(predecessor)
-      sql = <<~SQL
+      sanitize(<<~SQL, journable_id:, journable_type:)
         SELECT
           :journable_id journable_id,
           :journable_type journable_type,
@@ -607,10 +431,6 @@ module Journals
           AND journals.journable_type = :journable_type
           AND journals.version IN (#{max_journal_sql(predecessor)})
       SQL
-
-      sanitize(sql,
-               journable_id: journable.id,
-               journable_type:)
     end
 
     def select_changed_sql
@@ -618,136 +438,23 @@ module Journals
         SELECT
            *
         FROM
-          (#{data_changes_sql}) data_changes
+          (#{changes_data_sql}) data_changes
       SQL
 
-      for_supported_associations do |association|
+      associations.each do |association|
         sql += <<~SQL
           FULL JOIN
-            (#{send(:"#{association}_changes_sql")}) #{association}_changes
+            (#{association.changes_sql}) #{association.name}_changes
           ON
-            #{association}_changes.journable_id = data_changes.journable_id
+            #{association.name}_changes.journable_id = data_changes.journable_id
         SQL
       end
 
       sql
     end
 
-    def attachable_changes_sql
-      attachable_changes_sql = <<~SQL
-        SELECT
-          max_journals.journable_id
-        FROM
-          max_journals
-        LEFT OUTER JOIN
-          attachable_journals
-        ON
-          attachable_journals.journal_id = max_journals.id
-        FULL JOIN
-          (SELECT *
-           FROM attachments
-           WHERE attachments.container_id = :journable_id AND attachments.container_type = :container_type) attachments
-        ON
-          attachments.id = attachable_journals.attachment_id
-        WHERE
-          (attachments.id IS NULL AND attachable_journals.attachment_id IS NOT NULL)
-          OR (attachable_journals.attachment_id IS NULL AND attachments.id IS NOT NULL)
-      SQL
-
-      sanitize(attachable_changes_sql,
-               journable_id: journable.id,
-               container_type: journable_class_name)
-    end
-
-    def customizable_changes_sql
-      customizable_changes_sql = <<~SQL
-        SELECT
-          max_journals.journable_id
-        FROM
-          max_journals
-        LEFT OUTER JOIN
-          customizable_journals
-        ON
-          customizable_journals.journal_id = max_journals.id
-        FULL JOIN
-          (SELECT *
-           FROM custom_values
-           WHERE custom_values.customized_id = :journable_id AND custom_values.customized_type = :customized_type) custom_values
-        ON
-          custom_values.custom_field_id = customizable_journals.custom_field_id
-        WHERE
-          (custom_values.value IS NULL AND customizable_journals.value IS NOT NULL)
-          OR (customizable_journals.value IS NULL AND custom_values.value IS NOT NULL AND custom_values.value != '')
-          OR (#{normalize_newlines_sql('customizable_journals.value')} !=
-              #{normalize_newlines_sql('custom_values.value')})
-      SQL
-
-      sanitize(customizable_changes_sql,
-               customized_type: journable_class_name,
-               journable_id: journable.id)
-    end
-
-    def storable_changes_sql
-      storables_changes_sql = <<~SQL
-        SELECT
-          max_journals.journable_id
-        FROM
-          max_journals
-        LEFT OUTER JOIN
-          storages_file_links_journals
-        ON
-          storages_file_links_journals.journal_id = max_journals.id
-        FULL JOIN
-          (SELECT *
-           FROM file_links
-           WHERE file_links.container_id = :journable_id AND file_links.container_type = :container_type) file_links
-        ON
-          file_links.id = storages_file_links_journals.file_link_id
-        WHERE
-          (file_links.id IS NULL AND storages_file_links_journals.file_link_id IS NOT NULL)
-          OR (storages_file_links_journals.file_link_id IS NULL AND file_links.id IS NOT NULL)
-      SQL
-
-      sanitize(storables_changes_sql,
-               journable_id: journable.id,
-               container_type: journable_class_name)
-    end
-
-    def agenda_itemable_changes_sql
-      agenda_itemable_changes_sql = <<~SQL
-        SELECT
-          max_journals.journable_id
-        FROM
-          max_journals
-        LEFT OUTER JOIN
-          meeting_agenda_item_journals
-        ON
-          meeting_agenda_item_journals.journal_id = max_journals.id
-        FULL JOIN
-          (SELECT *
-           FROM meeting_agenda_items
-           WHERE meeting_agenda_items.meeting_id = :journable_id) agenda_items
-        ON
-          agenda_items.id = meeting_agenda_item_journals.agenda_item_id
-        WHERE
-          (agenda_items.id IS DISTINCT FROM meeting_agenda_item_journals.agenda_item_id)
-          OR (agenda_items.title IS DISTINCT FROM meeting_agenda_item_journals.title)
-          OR (#{normalize_newlines_sql('agenda_items.notes')} IS DISTINCT FROM
-              #{normalize_newlines_sql('meeting_agenda_item_journals.notes')})
-          OR (agenda_items.position IS DISTINCT FROM meeting_agenda_item_journals.position)
-          OR (agenda_items.duration_in_minutes IS DISTINCT FROM meeting_agenda_item_journals.duration_in_minutes)
-          OR (agenda_items.start_time IS DISTINCT FROM meeting_agenda_item_journals.start_time)
-          OR (agenda_items.end_time IS DISTINCT FROM meeting_agenda_item_journals.end_time)
-          OR (agenda_items.work_package_id IS DISTINCT FROM meeting_agenda_item_journals.work_package_id)
-          OR (agenda_items.item_type IS DISTINCT FROM meeting_agenda_item_journals.item_type)
-      SQL
-
-      sanitize(agenda_itemable_changes_sql,
-               journable_id: journable.id)
-    end
-
-    def data_changes_sql
-      data_changes_sql = <<~SQL
+    def changes_data_sql
+      sanitize(<<~SQL, journable_id:)
         SELECT
           #{journable_table_name}.id journable_id
         FROM
@@ -763,9 +470,6 @@ module Journals
         WHERE
           #{journable_table_name}.id = :journable_id AND (#{data_changes_condition_sql})
       SQL
-
-      sanitize(data_changes_sql,
-               journable_id: journable.id)
     end
 
     def max_journal_sql(predecessor)
@@ -778,22 +482,14 @@ module Journals
 
       if predecessor
         sanitize "#{sql} AND version < :predecessor_version",
-                 journable_id: journable.id,
+                 journable_id:,
                  journable_type:,
                  predecessor_version: predecessor.version
       else
         sanitize sql,
-                 journable_id: journable.id,
+                 journable_id:,
                  journable_type:
       end
-    end
-
-    def only_if_created_sql
-      "EXISTS (SELECT * from inserted_journal)"
-    end
-
-    def id_from_inserted_journal_sql
-      "(SELECT id FROM inserted_journal)"
     end
 
     def data_changes_condition_sql
@@ -864,10 +560,6 @@ module Journals
       journable.class.journal_class.table_name
     end
 
-    def normalize_newlines_sql(column)
-      "REGEXP_REPLACE(COALESCE(#{column},''), '\\r\\n', '\n', 'g')"
-    end
-
     def cause_sql(cause)
       # Using the same encoder mechanism that ActiveRecord uses for json/jsonb columns
       ActiveSupport::JSON.encode(cause || {})
@@ -880,13 +572,14 @@ module Journals
       journable.journals.reload if journable.journals.loaded?
     end
 
-    def aggregatable?(predecessor, notes, cause)
+    def aggregatable?(predecessor, notes, internal, cause)
       predecessor.present? &&
         aggregation_active? &&
         within_aggregation_time?(predecessor) &&
         same_user?(predecessor) &&
         same_cause?(predecessor, cause) &&
-        only_one_note(predecessor, notes)
+        only_one_note(predecessor, notes) &&
+        same_restriction(predecessor, internal)
     end
 
     def aggregation_active?
@@ -901,6 +594,10 @@ module Journals
       predecessor.notes.empty? || notes.empty?
     end
 
+    def same_restriction(predecessor, internal)
+      predecessor.internal == internal
+    end
+
     def same_user?(predecessor)
       predecessor.user_id == user.id
     end
@@ -911,14 +608,11 @@ module Journals
 
     def log_journal_creation(predecessor)
       if predecessor
-        Rails.logger.debug { "Aggregating journal #{predecessor.id} for #{journable_type} ##{journable.id}" }
+        Rails.logger.debug { "[#{self.class.name}] Aggregating journal #{predecessor.id} for #{journable_type} ##{journable.id}" }
       else
-        Rails.logger.debug { "Inserting new journal for #{journable_type} ##{journable.id}" }
+        Rails.logger.debug { "[#{self.class.name}] Inserting new journal for #{journable_type} ##{journable.id}" }
       end
     end
-
-    delegate :sanitize,
-             to: ::OpenProject::SqlSanitization
   end
 end
 # rubocop:enable Rails/SquishedSQLHeredocs

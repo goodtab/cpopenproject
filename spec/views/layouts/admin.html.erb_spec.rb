@@ -36,7 +36,6 @@ RSpec.describe "layouts/admin" do
 
   before do
     without_partial_double_verification do
-      allow(view).to receive(:default_breadcrumb)
 
       parent_menu_item = Object.new
       allow(parent_menu_item).to receive(:name).and_return :root

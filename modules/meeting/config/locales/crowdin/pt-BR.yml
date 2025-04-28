@@ -70,11 +70,9 @@ pt-BR:
         invalid_time_format: "não é um horário válido. Formato exigido: HH:MM"
     models:
       recurring_meeting: "Reunião recorrente"
-      structured_meeting: "Reunião única"
-      meeting: "Reunião"
+      meeting: "Reunião única"
       meeting_agenda_item: "Item da agenda"
       meeting_agenda: "Agenda"
-      meeting_minutes: "Atas"
       meeting_section: "Seção"
   activity:
     filter:
@@ -133,11 +131,13 @@ pt-BR:
   label_recurring_meeting_restore: "Restaurar esta ocorrência"
   label_recurring_meeting_schedule: "Programar"
   label_recurring_meeting_next_occurrence: "Próxima ocorrência"
-  label_recurring_meeting_more: "Há mais %{count} reuniões programadas (%{schedule})."
   label_recurring_meeting_no_end_date: "Há mais reuniões programadas (%{schedule})."
-  label_recurring_meeting_more_singular: "Há mais %{count} reunião programada (%{schedule})."
-  label_recurring_meeting_more_past: "Há mais %{count} reuniões anteriores."
-  label_recurring_meeting_more_past_singular: "Há mais %{count} reunião anterior."
+  label_recurring_meeting_more:
+    one: "Há mais uma reunião programada (%{schedule})."
+    other: "Há mais %{count} reuniões programadas (%{schedule})."
+  label_recurring_meeting_more_past:
+    one: "Há mais uma reunião passada."
+    other: "Há mais %{count} reuniões anteriores."
   label_recurring_meeting_show_more: "Exibir mais"
   label_recurring_meeting_series_create: "Criar série de reuniões"
   label_recurring_meeting_series_edit: "Editar série de reuniões"
@@ -215,9 +215,6 @@ pt-BR:
         new_date_time: "Nova data/hora"
     label_mail_all_participants: "Enviar e-mail para todos os participantes"
     types:
-      classic: "Clássico"
-      classic_text: "Organize sua reunião como uma única agenda e protocolo de texto formatáveis."
-      structured: "Estruturada"
       one_time: "Única"
       recurring: "Recorrente"
       recurring_text: "Criar série de reuniões com modelo dinâmico para cada evento."
@@ -391,9 +388,7 @@ pt-BR:
   label_meeting_details_edit: "Editar detalhes da reunião"
   label_meeting_state: "Estado da reunião"
   label_meeting_state_open: "Aberta"
-  label_meeting_state_open_html: "<I>Aberta</i>"
   label_meeting_state_closed: "Fechada"
-  label_meeting_state_closed_html: "<I>Fechada</i>"
   label_meeting_state_agenda_created: "Agenda criada"
   label_meeting_state_planned: "Planejado"
   label_meeting_state_cancelled: "Cancelada"
@@ -401,7 +396,7 @@ pt-BR:
   label_meeting_state_in_progress: "Em andamento"
   label_meeting_reopen_action: "Reabrir reunião"
   label_meeting_close_action: "Fechar reunião"
-  label_meeting_in_progress_action: "Marcar como \"Em andamento\""
+  label_meeting_in_progress_action: "Iniciar reunião"
   text_meeting_open_description: "Esta reunião está aberta. Você pode adicionar, remover e editar itens da agenda como quiser. Assim que a agenda estiver pronta, marque-a como \"Em andamento\" para registrar os resultados."
   text_meeting_closed_description: "Esta reunião está fechada. Você não pode mais adicionar/remover itens da agenda."
   text_meeting_in_progress_description: "A reunião está em andamento. Você pode registrar os resultados de cada item da agenda, reorganizá-los e adicionar novos. Quando a reunião for concluída, marque-a como encerrada para bloqueá-la."
@@ -424,6 +419,6 @@ pt-BR:
   text_agenda_item_move_next_meeting: "Tem certeza de que deseja mover isso para a próxima reunião em %{date} às %{time}?"
   text_agenda_item_moved_to_next_meeting: "Item da agenda movido para a próxima reunião em %{date}"
   text_work_package_has_no_upcoming_meeting_agenda_items: "Este pacote de trabalho ainda não está programado na agenda de uma reunião futura."
-  text_agenda_item_move_next_meeting_cancelled: "Unable to move to the next meeting since it has been cancelled."
+  text_agenda_item_move_next_meeting_cancelled: "Não é possível mover para a próxima reunião porque ela foi cancelada."
   text_work_package_add_to_meeting_hint: 'Use o botão "Adicionar à reunião" para adicionar este pacote de trabalho a uma próxima reunião.'
   text_work_package_has_no_past_meeting_agenda_items: "Este pacote de trabalho não foi mencionado em uma reunião anterior."

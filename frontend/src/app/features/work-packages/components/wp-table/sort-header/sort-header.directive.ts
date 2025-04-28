@@ -27,7 +27,7 @@
 //++
 
 import {
-  AfterViewInit,
+  AfterViewInit, ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
@@ -35,14 +35,14 @@ import {
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
-  QueryColumn,
+  QueryColumn, queryColumnTypes,
   RelationQueryColumn,
   TypeRelationQueryColumn,
 } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
 import {
   QUERY_SORT_BY_ASC,
-  QUERY_SORT_BY_DESC,
+  QUERY_SORT_BY_DESC, QuerySortByDirection,
 } from 'core-app/features/hal/resources/query-sort-by-resource';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
 import { WorkPackageViewSortByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service';
@@ -53,9 +53,12 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'sortHeader',
   templateUrl: './sort-header.directive.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
+// eslint-disable-next-line @angular-eslint/component-class-suffix
 export class SortHeaderDirective extends UntilDestroyedMixin implements AfterViewInit {
   @Input() headerColumn:QueryColumn;
 
@@ -85,7 +88,7 @@ export class SortHeaderDirective extends UntilDestroyedMixin implements AfterVie
 
   baselineIncompatible = false;
 
-  private currentSortDirection:any;
+  private currentSortDirection:QuerySortByDirection|null;
 
   constructor(
     private wpTableHierarchies:WorkPackageViewHierarchiesService,
@@ -143,6 +146,9 @@ export class SortHeaderDirective extends UntilDestroyedMixin implements AfterVie
     } else if (this.wpTableRelationColumns.relationColumnType(this.headerColumn) === 'ofType') {
       this.columnType = 'relation';
       this.columnName = I18n.t(`js.relation_labels.${(this.headerColumn as RelationQueryColumn).relationType}`);
+    } else if (this.headerColumn._type === queryColumnTypes.RELATION_CHILD) {
+      this.columnType = 'relation';
+      this.columnName = this.headerColumn.name;
     }
 
     if (this.isHierarchyColumn) {

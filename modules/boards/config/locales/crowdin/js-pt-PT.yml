@@ -1,14 +1,15 @@
 #English strings go here
 pt-PT:
+  ee:
+    upsell:
+      board_view:
+        description: 'Gostaria de automatizar os seus fluxos de trabalho com Quadros? Os quadros avançados são um complemento Enterprise. Faça upgrade para um plano pago.'
   js:
     boards:
       create_new: 'Criar novo quadro'
       label_unnamed_board: 'Quadro sem nome'
       label_unnamed_list: 'Lista sem nome'
       label_board_type: 'Tipo de quadro'
-      upsale:
-        teaser_text: 'Gostaria de automatizar seus fluxos de trabalho com Quadros? Quadros avançados são um complemento de Enterprise. Faça upgrade para um plano pago.'
-        upgrade: 'Atualizar agora'
       lists:
         delete: 'Apagar lista'
       version:
@@ -23,7 +24,7 @@ pt-PT:
         locked: 'Bloqueado'
         closed: 'Fechado'
       new_board: 'Novo quadro'
-      add_list: 'Adicionar lista ao qaudro'
+      add_list: 'Adicionar lista ao quadro'
       add_card: 'Adicionar cartão'
       error_attribute_not_writable: "Não é possível mover o pacote de trabalho, %{attribute} não é gravável."
       error_loading_the_list: "Erro ao carregar a lista: %{error_message}"
@@ -34,7 +35,7 @@ pt-PT:
       board_type:
         text: 'Tipo de quadro'
         free: 'básico'
-        select_board_type: 'Por favor, escolha o tipo de quadro que precisa.'
+        select_board_type: 'Escolha o tipo de quadro necessário.'
         free_text: >
           Comece do zero com um quadro em branco. Adicione manualmente cartões e colunas a este quadro.
         action: 'Quadro de ação'
@@ -42,11 +43,11 @@ pt-PT:
         action_text: >
           Um quadro com listas filtradas no atributo %{attribute} . Mover pacotes de trabalho para outras listas irá atualizar o seu atributo.
         action_text_subprojects: >
-          Quadro com colunas automatizadas para sub-projetos. Arrastar pacotes de trabalho para outras listas atualiza o (sub-)projeto de acordo.
+          Quadro com colunas automáticas para sub-projetos. Arrastar pacotes de trabalho para outras listas atualiza o (sub)projeto em conformidade.
         action_text_subtasks: >
-          Board com colunas automatizadas para sub-elementos. Arrastar pacotes de trabalho para outras listas atualiza o pai de acordo.
+          Quadro com colunas automáticas para sub-elementos. Arrastar pacotes de trabalho para outras listas atualiza a lista principal em conformidade.
         action_text_status: >
-          Quadro de estilo kanban básico com colunas para status como Por Fazer, Em Progresso, Concluído.
+          Quadro de estilo kanban básico, com colunas para estado como Por fazer, Em curso, Concluído.
         action_text_assignee: >
           Quadro com colunas automatizadas baseadas em utilizadores atribuídos. Ideal para despacho de pacotes de trabalho.
         action_text_version: >

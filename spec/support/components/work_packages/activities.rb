@@ -91,6 +91,28 @@ module Components
         page.within_test_selector("op-wp-journal-entry-#{journal.id}", &)
       end
 
+      def expect_internal_comment_confirmation_dialog
+        page.within_test_selector("op-work-package-internal-comment-confirmation-dialog") do
+          expect(page).to have_text("Make this comment public?")
+          expect(page).to have_text("Your comment will be visible to anyone who can access this work package. " \
+                                    "Are you sure you want to do this?")
+
+          yield if block_given?
+        end
+      end
+
+      def expect_internal_comment_checked
+        page.within_test_selector("op-work-package-journal-form-element") do
+          expect(page).to have_checked_field("Internal comment")
+        end
+      end
+
+      def expect_internal_comment_unchecked
+        page.within_test_selector("op-work-package-journal-form-element") do
+          expect(page).to have_no_checked_field("Internal comment")
+        end
+      end
+
       def expect_journal_changed_attribute(text:)
         expect(page).to have_test_selector("op-journal-detail-description", text:, wait: 10)
       end
@@ -183,9 +205,14 @@ module Components
         page.find_test_selector("op-open-work-package-journal-form-trigger").click
       end
 
+      def refocus_editor
+        ckeditor.refocus
+        expect_focus_on_editor
+      end
+
       def expect_focus_on_editor
         page.within_test_selector("op-work-package-journal-form-element") do
-          expect(page).to have_css(".ck-content:focus")
+          expect(page).to have_css(".ck-content:focus", wait: 10)
         end
       end
 
@@ -201,7 +228,11 @@ module Components
       end
 
       def type_comment(text)
-        open_new_comment_editor if page.find_test_selector("op-open-work-package-journal-form-trigger")
+        begin
+          open_new_comment_editor if page.find_test_selector("op-open-work-package-journal-form-trigger")
+        rescue Capybara::ElementNotFound
+          # If the editor is already open, we don't need to open it again
+        end
 
         # Wait for the editor form to be present and ready
         wait_for { page }.to have_test_selector("op-work-package-journal-form-element")
@@ -232,7 +263,7 @@ module Components
         page.find_test_selector("op-submit-work-package-journal-form").click
       end
 
-      def add_comment(text: nil, save: true)
+      def add_comment(text: nil, save: true, internal: false)
         if page.find_test_selector("op-open-work-package-journal-form-trigger")
           open_new_comment_editor
         else
@@ -241,6 +272,9 @@ module Components
 
         page.within_test_selector("op-work-package-journal-form-element") do
           get_editor_form_field_element.set_value(text)
+
+          check_internal_comment_checkbox if internal
+
           page.find_test_selector("op-submit-work-package-journal-form").click if save
         end
 
@@ -292,6 +326,31 @@ module Components
         end
 
         expect(page).to have_test_selector("op-work-package-journal-form-element")
+      end
+
+      def check_internal_comment_checkbox
+        expect(page).to have_test_selector("op-work-package-journal-internal-comment-checkbox")
+        page.check("Internal comment")
+      end
+
+      def uncheck_internal_comment_checkbox
+        expect(page).to have_test_selector("op-work-package-journal-internal-comment-checkbox")
+        page.uncheck("Internal comment")
+      end
+
+      def uncheck_internal_comment_checkbox
+        expect(page).to have_test_selector("op-work-package-journal-internal-comment-checkbox")
+        page.uncheck("Internal comment")
+      end
+
+      def dismiss_comment_editor_with_esc
+        page.find_test_selector("op-work-package-journal-form-element").send_keys(:escape)
+      end
+
+      def dismiss_comment_editor_with_cancel_button
+        page.within_test_selector("op-work-package-journal-form") do
+          click_on "Cancel"
+        end
       end
 
       def get_all_comments_as_array

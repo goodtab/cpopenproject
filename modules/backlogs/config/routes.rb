@@ -61,8 +61,6 @@ Rails.application.routes.draw do
     end
   end
 
-  get "projects/:project_id/versions/:id/edit" => "version_settings#edit"
-
   scope "admin" do
     resource :backlogs,
              only: %i[show update],

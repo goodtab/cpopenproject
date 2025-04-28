@@ -42,7 +42,6 @@ RSpec.describe "layouts/base" do
 
   before do
     without_partial_double_verification do
-      allow(view).to receive(:default_breadcrumb)
       allow(controller).to receive(:default_search_scope)
       allow(view).to receive(:render_to_string)
       allow(view).to receive_messages(current_menu_item: "overview", current_user:)

@@ -30,7 +30,7 @@ require_relative "../shared_expectations"
 
 RSpec.describe CustomActions::Actions::AssignedTo do
   let(:key) { :assigned_to }
-  let(:type) { :associated_property }
+  let(:type) { :user }
   let(:allowed_values) do
     users = [build_stubbed(:user),
              build_stubbed(:group)]

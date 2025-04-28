@@ -57,8 +57,9 @@ RSpec.describe SharesController do
           mock_permissions_for(user, &:forbid_everything)
         end
 
-        it "raises a RecordNotFound error" do
-          expect { make_request }.to raise_error(ActiveRecord::RecordNotFound)
+        it "returns a 404 status" do
+          make_request
+          expect(response).to have_http_status(:not_found)
         end
       end
 
@@ -87,8 +88,9 @@ RSpec.describe SharesController do
           mock_permissions_for(user, &:forbid_everything)
         end
 
-        it "raises a RecordNotFound error" do
-          expect { make_request }.to raise_error(ActiveRecord::RecordNotFound)
+        it "returns a 404 status" do
+          make_request
+          expect(response).to have_http_status(:not_found)
         end
       end
 
@@ -194,13 +196,13 @@ RSpec.describe SharesController do
     context "when the strategy allows viewing but enterprise check fails" do
       before do
         allow_any_instance_of(SharingStrategies::ProjectQueryStrategy).to receive_messages(viewable?: true, manageable?: false)
-        allow(Shares::ProjectQueries::UpsaleComponent).to receive(:new).and_call_original
+        allow(Shares::ProjectQueries::UpsellComponent).to receive(:new).and_call_original
       end
 
-      it "renders the upsale component" do
+      it "renders the upsell component" do
         make_request
         expect(response).to have_http_status(:ok)
-        expect(Shares::ProjectQueries::UpsaleComponent).to have_received(:new)
+        expect(Shares::ProjectQueries::UpsellComponent).to have_received(:new)
       end
     end
 
@@ -228,13 +230,13 @@ RSpec.describe SharesController do
         allow_any_instance_of(SharingStrategies::ProjectQueryStrategy).to receive_messages(
           viewable?: false, manageable?: true
         )
-        allow(Shares::ProjectQueries::UpsaleComponent).to receive(:new).and_call_original
+        allow(Shares::ProjectQueries::UpsellComponent).to receive(:new).and_call_original
       end
 
-      it "renders the upsale component" do
+      it "renders the upsell component" do
         make_request
         expect(response).to have_http_status(:ok)
-        expect(Shares::ProjectQueries::UpsaleComponent).to have_received(:new)
+        expect(Shares::ProjectQueries::UpsellComponent).to have_received(:new)
       end
     end
 

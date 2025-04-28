@@ -60,17 +60,23 @@
     merge_request_reopened_comment: >
       **MR gjenåpnet:** Sammenføyningsforespørsel %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) har blitt gjenåpnet av [%{gitlab_user}](%{gitlab_user_url}).
     note_commit_referenced_comment: >
-      **Referert i Commit:** [%{gitlab_user}](%{gitlab_user_url}) refererte til denne WP i et besøksnotat [%{commit_id}](%{commit_url}) på [%{repository}](%{repository_url}): %{commit_note}
+      **Referert i Commit:** [%{gitlab_user}](%{gitlab_user_url}) refererte til denne WP i et besøksnotat [%{commit_id}](%{commit_url}) på [%{repository}](%{repository_url}):
+      %{commit_note}
     note_mr_referenced_comment: >
-      **Referert i MR:** [%{gitlab_user}](%{gitlab_user_url}) refererte til denne WP i Merge Request  %{mr_number} [%{mr_title}]%{mr_url} på [%{repository}](%{repository_url}): %{mr_note}
+      **Referert i MR:** [%{gitlab_user}](%{gitlab_user_url}) refererte til denne WP i Merge Request  %{mr_number} [%{mr_title}]%{mr_url} på [%{repository}](%{repository_url}):
+      %{mr_note}
     note_mr_commented_comment: >
-      **Referert i MR:** [%{gitlab_user}](%{gitlab_user_url}) refererte til denne WP i Merge Request %{mr_number} [%{mr_title}](%{mr_url}) på [%{repository}](%{repository_url}): %{mr_note}
+      **Referert i MR:** [%{gitlab_user}](%{gitlab_user_url}) refererte til denne WP i Merge Request %{mr_number} [%{mr_title}](%{mr_url}) på [%{repository}](%{repository_url}):
+      %{mr_note}
     note_issue_referenced_comment: >
-      **Referert i Problem:** [%{gitlab_user}](%{gitlab_user_url}) refererte til denne WP i Problem %{issue_number} [%{issue_title}](%{issue_url}) på [%{repository}](%{repository_url}): %{issue_note}
+      **Referert i Problem:** [%{gitlab_user}](%{gitlab_user_url}) refererte til denne WP i Problem %{issue_number} [%{issue_title}](%{issue_url}) på [%{repository}](%{repository_url}):
+      %{issue_note}
     note_issue_commented_comment: >
-      **Referert i Problem:** [%{gitlab_user}](%{gitlab_user_url}) refererte til denne WP i Problem %{issue_number} [%{issue_title}](%{issue_url}) på [%{repository}](%{repository_url}): %{issue_note}
+      **Referert i Problem:** [%{gitlab_user}](%{gitlab_user_url}) refererte til denne WP i Problem %{issue_number} [%{issue_title}](%{issue_url}) på [%{repository}](%{repository_url}):
+      %{issue_note}
     note_snippet_referenced_comment: >
-      **Referert i Snippet:** [%{gitlab_user}](%{gitlab_user_url}) refererer til denne WP i Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) på [%{repository}](%{repository_url}): %{snippet_note}
+      **Referert i Snippet:** [%{gitlab_user}](%{gitlab_user_url}) refererer til denne WP i Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) på [%{repository}](%{repository_url}):
+      %{snippet_note}
     issue_opened_referenced_comment: >
       **Problem åpnet:** Problem %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) har blitt åpnet av [%{gitlab_user}](%{gitlab_user_url}).
     issue_closed_referenced_comment: >
@@ -78,8 +84,11 @@
     issue_reopened_referenced_comment: >
       **Problem gjenåpnet:** Problem %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) har blitt gjenåpnet av [%{gitlab_user}](%{gitlab_user_url}).
     push_single_commit_comment: >
-      **Forespurt i MR:** [%{gitlab_user}](%{gitlab_user_url}) forespurt [%{commit_number}](%{commit_url}) til [%{repository}](%{repository_url}) ved %{commit_timestamp}: %{commit_note}
+      **Forespurt i MR:** [%{gitlab_user}](%{gitlab_user_url}) forespurt [%{commit_number}](%{commit_url}) til [%{repository}](%{repository_url}) ved %{commit_timestamp}:
+      %{commit_note}
     push_single_commit_comment_with_ref: >
-      **Pushed in %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) pushed [%{commit_number}](%{commit_url}) to [%{repository}](%{repository_url}) at %{commit_timestamp}: %{commit_note}
+      **Pushed in %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) pushed [%{commit_number}](%{commit_url}) to [%{repository}](%{repository_url}) at %{commit_timestamp}:
+      %{commit_note}
     push_multiple_commits_comment: >
-      **Forsepurt i MR:** [%{gitlab_user}](%{gitlab_user_url}) forespurt flere handlinger [%{commit_number}](%{commit_url}) til [%{repository}](%{repository_url}) i %{commit_timestamp}: %{commit_note}
+      **Forsepurt i MR:** [%{gitlab_user}](%{gitlab_user_url}) forespurt flere handlinger [%{commit_number}](%{commit_url}) til [%{repository}](%{repository_url}) i %{commit_timestamp}:
+      %{commit_note}

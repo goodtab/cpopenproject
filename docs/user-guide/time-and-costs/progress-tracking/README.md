@@ -161,7 +161,13 @@ OpenProject offers two modes for calculating *% Complete* in hierarchy totals:
 > [!NOTE]
 > The administrator of your instance will have selected a mode for the entire instance. If you are an administrator, you can modify this by following our [admin guide on work package settings](../../../system-admin-guide/manage-work-packages/work-package-progress-tracking).
 
+Total sums of **Work**, **Remaining work** and **% Complete** will also be shown at the bottom of work package table [if displaying sums is activated](../../work-packages/work-package-table-configuration/#display-sums-in-work-package-table). 
 
+> [!TIP]
+>
+> In this case the sum for % Complete is derived from values of total Work and Remaining work, and not simply as a sum of values for % Complete. 
+
+![Example of total sums displayed for Work, Remaining work and % Complete in OpenProject work package table](openproject_user_guide_progress_reporting_total_sums_displayed.png)
 
 ### Excluding certain work packages from totals
 

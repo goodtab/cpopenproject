@@ -30,7 +30,7 @@ require_relative "../shared_expectations"
 
 RSpec.describe CustomActions::Actions::Responsible do
   let(:key) { :responsible }
-  let(:type) { :associated_property }
+  let(:type) { :user }
   let(:allowed_values) do
     principals = [build_stubbed(:user),
                   build_stubbed(:group)]

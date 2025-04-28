@@ -626,7 +626,7 @@ RSpec.describe "Projects lists table display and actions", :js, with_settings: {
         end
 
         expect(page).to have_current_path(project_activity_index_path(project_with_activity_enabled), ignore_query: true)
-        expect(page).to have_checked_field(id: "event_types_project_attributes")
+        expect(page).to have_checked_field(id: "event_types_project_details")
         expect(page).to have_unchecked_field(id: "event_types_work_packages")
       end
     end

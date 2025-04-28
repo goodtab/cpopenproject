@@ -27,54 +27,11 @@
 #++
 
 module BreadcrumbHelper
-  def full_breadcrumbs
-    render(Primer::Beta::Breadcrumbs.new(test_selector: "op-breadcrumb")) do |breadcrumbs|
-      breadcrumb_paths.each_with_index do |item, index|
-        item = anchor_string_to_object(item) if item.is_a?(String) && item.start_with?("\u003c")
-
-        if item.is_a?(Hash)
-          breadcrumbs.with_item(href: item[:href], classes: index == 0 ? "first-breadcrumb-element" : nil) { item[:text] }
-        else
-          breadcrumbs.with_item(href: "#", classes: index == 0 ? "first-breadcrumb-element" : nil) { item }
-        end
-      end
-    end
-  end
-
   def nested_breadcrumb_element(section_header, title)
     output = "".html_safe
     output << "#{section_header}: "
     output << content_tag(:strong, title)
 
     output
-  end
-
-  def breadcrumb_paths(*args)
-    if args.empty?
-      @breadcrumb_paths ||= [default_breadcrumb]
-    else
-      @breadcrumb_paths ||= []
-      @breadcrumb_paths += args.flatten.compact
-    end
-  end
-
-  def show_breadcrumb
-    if !!(defined? show_local_breadcrumb)
-      show_local_breadcrumb
-    else
-      false
-    end
-  end
-
-  private
-
-  # transform anchor tag strings to {href, text} objects
-  # e.g "\u003ca href=\"/admin\"\u003eAdministration\u003c/a\u003e"
-  def anchor_string_to_object(html_string)
-    # Parse the HTML
-    doc = Nokogiri::HTML.fragment(html_string)
-    # Extract href and text
-    anchor = doc.at("a")
-    { href: anchor["href"], text: anchor.text }
   end
 end

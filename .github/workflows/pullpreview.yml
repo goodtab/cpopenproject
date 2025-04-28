@@ -34,6 +34,8 @@ jobs:
         echo "OPENPROJECT_LOOKBOOK__ENABLED=true" >> .env.pullpreview
         echo "OPENPROJECT_HSTS=false" >> .env.pullpreview
         echo "OPENPROJECT_NOTIFICATIONS_POLLING_INTERVAL=10000" >> .env.pullpreview
+        echo "OPENPROJECT_FEATURE_WORK_PACKAGE_COMMENT_ID_URL_ACTIVE=true" >> .env.pullpreview
+        echo "OPENPROJECT_FEATURE_COMMENTS_WITH_RESTRICTED_VISIBILITY_ACTIVE=true" >> .env.pullpreview
     - name: Boot as BIM edition
       if: contains(github.ref, 'bim/') || contains(github.head_ref, 'bim/')
       run: |

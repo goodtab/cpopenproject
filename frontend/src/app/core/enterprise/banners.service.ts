@@ -29,17 +29,21 @@
 import { Inject, Injectable } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { enterpriseEditionUrl } from 'core-app/core/setup/globals/constants.const';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 @Injectable({ providedIn: 'root' })
 export class BannersService {
-  private readonly _banners:boolean = true;
+  private readonly _bannersHidden:boolean = true;
 
-  constructor(@Inject(DOCUMENT) protected documentElement:Document) {
-    this._banners = documentElement.body.classList.contains('ee-banners-visible');
+  constructor(
+    @Inject(DOCUMENT) protected documentElement:Document,
+    protected configuration:ConfigurationService,
+  ) {
+    this._bannersHidden = documentElement.body.classList.contains('ee-banners-hidden');
   }
 
-  public get eeShowBanners():boolean {
-    return this._banners;
+  public showBannerFor(feature:string):boolean {
+    return !(this._bannersHidden || this.configuration.availableFeatures.includes(feature));
   }
 
   public getEnterPriseEditionUrl({ referrer, hash }:{ referrer?:string, hash?:string } = {}) {
@@ -55,11 +59,17 @@ export class BannersService {
     return url.toString();
   }
 
-  public conditional(bannersVisible?:() => void, bannersNotVisible?:() => void) {
-    this._banners ? this.callMaybe(bannersVisible) : this.callMaybe(bannersNotVisible);
+  public async conditional(feature:string, bannersVisible?:() => void, bannersNotVisible?:() => void) {
+    await this.configuration.initialize();
+
+    if (this.showBannerFor(feature)) {
+      this.callMaybe(bannersVisible);
+    } else {
+      this.callMaybe(bannersNotVisible);
+    }
   }
 
-  private callMaybe(func?:Function) {
+  private callMaybe(func?:() => unknown) {
     func && func();
   }
 }

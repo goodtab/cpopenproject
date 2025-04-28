@@ -43,6 +43,7 @@ module Components
     def clear!
       set_field(container.find_field("work_package[start_date]"), "", wait_for_changes_to_be_applied: false)
       set_field(container.find_field("work_package[due_date]"), "", wait_for_changes_to_be_applied: false)
+      wait_for_changes_to_be_applied_after_setting_field
     end
 
     def expect_visible
@@ -123,8 +124,16 @@ module Components
       container.click_button cancel_button_label
     end
 
+    def expect_save_button_enabled
+      expect(container).to have_button(save_button_label, disabled: false)
+    end
+
     def expect_save_button_disabled
       expect(container).to have_button(save_button_label, disabled: true)
+    end
+
+    def expect_cancel_button_enabled
+      expect(container).to have_button(cancel_button_label, disabled: false)
     end
 
     ##
@@ -186,14 +195,15 @@ module Components
     # Expect the given date to be visible and disabled
     def expect_disabled(date)
       label = date.strftime("%B %-d, %Y")
-      expect(page).to have_css(".flatpickr-day.flatpickr-disabled[aria-label='#{label}']")
+      expect(page).to have_css(".flatpickr-day.flatpickr-disabled[aria-label='#{label}']," \
+                               ".flatpickr-day.flatpickr-non-working-day[aria-label='#{label}']")
     end
 
     ##
     # Expect the given date to be visible and enabled
     def expect_not_disabled(date)
       label = date.strftime("%B %-d, %Y")
-      expect(page).to have_css(".flatpickr-day:not(.flatpickr-disabled)[aria-label='#{label}']")
+      expect(page).to have_css(".flatpickr-day:not(.flatpickr-disabled):not(.flatpickr-non-working-day)[aria-label='#{label}']")
     end
 
     protected
@@ -220,9 +230,13 @@ module Components
       end
 
       if wait_for_changes_to_be_applied
-        sleep 0.75 # input debounce
-        wait_for_network_idle
+        wait_for_changes_to_be_applied_after_setting_field
       end
+    end
+
+    def wait_for_changes_to_be_applied_after_setting_field
+      sleep 0.75 # input debounce
+      wait_for_network_idle
     end
   end
 end

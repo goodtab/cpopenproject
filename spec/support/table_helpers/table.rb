@@ -72,6 +72,13 @@ module TableHelpers
     def friday = monday + 4.days
     def saturday = monday + 5.days
     def sunday = monday + 6.days
+    def next_monday = monday + 7.days
+    def next_tuesday = monday + 8.days
+    def next_wednesday = monday + 9.days
+    def next_thursday = monday + 10.days
+    def next_friday = monday + 11.days
+    def next_saturday = monday + 12.days
+    def next_sunday = monday + 13.days
 
     private
 

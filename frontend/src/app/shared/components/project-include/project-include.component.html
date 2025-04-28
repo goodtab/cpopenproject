@@ -14,7 +14,7 @@
     {{ text.toggle_title }}
     <span
       *ngIf="(numberOfProjectsInFilter$ | async) as count"
-      class="badge -secondary"
+      class="badge"
       [textContent]="count"
     >
     </span>

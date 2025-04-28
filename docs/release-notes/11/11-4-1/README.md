@@ -16,7 +16,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 <!--more-->
 ## Bug fixes and changes
 
-- Fixed: Today's Date line does not show up on My Page work package tables \[[#35748](https://community.openproject.org/wp/35748)\]
+- Fixed: Today's Date line does not show up on My page work package tables \[[#35748](https://community.openproject.org/wp/35748)\]
 - Fixed: openproject configure tries to install postgresql 10 on upgrade, while 13 is already deployed \[[#39086](https://community.openproject.org/wp/39086)\]
 - Fixed: Cannot add or remove users from group \[[#39090](https://community.openproject.org/wp/39090)\]
 - Fixed: LDAP groups filter does not save synchronized group \[[#39120](https://community.openproject.org/wp/39120)\]

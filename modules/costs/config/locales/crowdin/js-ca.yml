@@ -21,6 +21,9 @@
 #++
 ca:
   js:
+    text_are_you_sure: "N'esteu segur?"
+    myTimeTracking:
+      noSpecificTime: "No specific time"
     work_packages:
       property_groups:
         costs: "Costs"

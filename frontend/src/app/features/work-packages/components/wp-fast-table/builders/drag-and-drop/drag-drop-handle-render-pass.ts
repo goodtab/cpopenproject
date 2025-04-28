@@ -15,9 +15,11 @@ export class DragDropHandleRenderPass {
   // Drag & Drop handle builder
   protected dragDropHandleBuilder = new DragDropHandleBuilder(this.injector);
 
-  constructor(public readonly injector:Injector,
+  constructor(
+public readonly injector:Injector,
     private table:WorkPackageTable,
-    private tablePass:PrimaryRenderPass) {
+    private tablePass:PrimaryRenderPass,
+) {
   }
 
   public render() {
@@ -25,8 +27,8 @@ export class DragDropHandleRenderPass {
       return;
     }
 
-    this.wpTableOrder.withLoadedPositions().then((positions:QueryOrder) => {
-      this.tablePass.renderedOrder.forEach((row:RowRenderInfo, position:number) => {
+    void this.wpTableOrder.withLoadedPositions().then((positions:QueryOrder) => {
+      this.tablePass.renderedOrder.forEach((row:RowRenderInfo) => {
         // We only care for rows that are natural work packages and are not relation sub-rows
         if (!row.workPackage || row.renderType === 'relations') {
           return;
@@ -34,7 +36,7 @@ export class DragDropHandleRenderPass {
 
         const handle = this.dragDropHandleBuilder.build(row.workPackage, positions[row.workPackage.id!]);
 
-        if (handle) {
+        if (handle && row.element) {
           row.element.replaceChild(handle, row.element.firstElementChild!);
         }
       });

@@ -35,7 +35,7 @@ RSpec.describe MeetingOutcomes::CreateContract do
   include_context "ModelContract shared context"
 
   shared_let(:project) { create(:project) }
-  let(:meeting) { create(:structured_meeting, project:) }
+  let(:meeting) { create(:meeting, project:) }
   let(:meeting_agenda_item) { create(:meeting_agenda_item, meeting:) }
   let(:outcome) { build(:meeting_outcome, meeting_agenda_item:) }
   let(:contract) { described_class.new(outcome, user) }

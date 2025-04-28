@@ -31,6 +31,7 @@
 module Types
   class PatternResolver
     TOKEN_REGEX = /{{[0-9A-Za-z_]+}}/
+    ATTRIBUTE_PLACEHOLDER = "N/A"
 
     def initialize(pattern)
       @mapper = Patterns::TokenPropertyMapper.new
@@ -56,8 +57,10 @@ module Types
       case value
       when Date, Time, DateTime
         value.strftime("%Y-%m-%d")
+      when Array
+        value.join(", ")
       when NilClass
-        "NA"
+        ATTRIBUTE_PLACEHOLDER
       else
         value.to_s
       end

@@ -81,18 +81,6 @@ module Admin
       redirect_to action: :show_plugin, id: @plugin.id
     end
 
-    def show_local_breadcrumb
-      false
-    end
-
-    def default_breadcrumb
-      if @plugin
-        @plugin.name
-      else
-        I18n.t(:label_setting_plural)
-      end
-    end
-
     protected
 
     def find_plugin

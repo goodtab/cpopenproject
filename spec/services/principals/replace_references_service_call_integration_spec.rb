@@ -195,28 +195,6 @@ RSpec.describe Principals::ReplaceReferencesService, "#call", type: :model do
       end
     end
 
-    context "with MeetingContent" do
-      it_behaves_like "rewritten record",
-                      :meeting_agenda,
-                      :author_id do
-        let(:attributes) do
-          { type: "'MeetingAgenda'" }
-        end
-      end
-
-      it_behaves_like "rewritten record",
-                      :meeting_minutes,
-                      :author_id do
-        let(:attributes) do
-          { type: "'MeetingMinutes'" }
-        end
-      end
-
-      it_behaves_like "rewritten record",
-                      :journal_meeting_content_journal,
-                      :author_id
-    end
-
     context "with MeetingParticipant" do
       it_behaves_like "rewritten record",
                       :meeting_participant,

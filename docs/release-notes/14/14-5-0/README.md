@@ -156,7 +156,7 @@ In this release, the dynamic bootstrapping of Angular components has been remove
 - Bugfix: DB Migration 9.x to 14.3.0 Fails on Migrating to MyProjectPageToGrid \[[#57036](https://community.openproject.org/wp/57036)\]
 - Bugfix: Switching tab in the notification center loses the current filters  \[[#57067](https://community.openproject.org/wp/57067)\]
 - Bugfix: Nextcloud &quot;recheck connection&quot; checks for GroupFolderApp though AMPF is deactivated \[[#57068](https://community.openproject.org/wp/57068)\]
-- Bugfix: In the calendar widget on the My Page page, meetings are displayed with the wrong time \[[#57078](https://community.openproject.org/wp/57078)\]
+- Bugfix: In the calendar widget on the My page page, meetings are displayed with the wrong time \[[#57078](https://community.openproject.org/wp/57078)\]
 - Bugfix: Default user avatar is too big for work package table rendering (safari) \[[#57093](https://community.openproject.org/wp/57093)\]
 - Bugfix: OpenProject Dark Mode: CKEditor using too light colors e.g. for pressed buttons \[[#57103](https://community.openproject.org/wp/57103)\]
 - Bugfix: Cannot download 2FA backup codes \[[#57146](https://community.openproject.org/wp/57146)\]

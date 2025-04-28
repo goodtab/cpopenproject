@@ -6,21 +6,21 @@ it:
         identifier: Identificatore
         secret: Segreto
         scope: Ambito
-        assertion_consumer_service_url: URL ACS (Assertion consumer service)
+        assertion_consumer_service_url: URL ACS (Asserzione servizio del consumatore)
         limit_self_registration: Limita registrazione autonoma
         sp_entity_id: ID dell'entità di servizio
-        metadata_url: URL dei metadati del fornitore di identità
+        metadata_url: URL dei meta dati del fornitore d' identità
         name_identifier_format: Formato dell'identificatore del nome
-        idp_sso_service_url: Endpoint di login del fornitore di identità
-        idp_slo_service_url: Endpoint di logout del fornitore di identità
-        idp_cert: Certificato pubblico del fornitore di identità
+        idp_sso_service_url: Fine del login del fornitore d' identità
+        idp_slo_service_url: Fine del logout del fornitore d' identità
+        idp_cert: Certificato pubblico del fornitore d' identità
         authn_requests_signed: Firma le richieste SAML Authn
         want_assertions_signed: Richiedi risposte firmate
         want_assertions_encrypted: Richiedi risposte crittografate
         certificate: Certificato utilizzato da OpenProject per richieste SAML
         private_key: Chiave privata corrispondente per le richieste di OpenProject SAML
         signature_method: Algoritmo di firma
-        digest_method: Algoritmo di digest
+        digest_method: Algoritmo di Digest
         format: "Formato"
         icon: "Icona personalizzata"
     errors:
@@ -64,7 +64,8 @@ it:
         I seguenti campi controllano quali attributi forniti dal fornitore di identità SAML vengono utilizzati per fornire attributi utente in OpenProject
       metadata:
         dialog: "Questo è l'URL dove sono disponibili i metadati di OpenProject SAML. Usalo opzionalmente per configurare il tuo fornitore di identità:"
-      upsale:
+      upsell:
+        title: "Single Sign-On (SSO) with SAML"
         description: Connetti OpenProject a un fornitore di identità SAML
       request_attributes:
         title: 'Attributi richiesti'

@@ -38,6 +38,7 @@ RSpec.describe Notifications::CreateFromModelService,
   include_context "with CreateFromJournalJob context"
 
   let(:permissions) { [:view_work_packages] }
+  let(:admin) { create(:admin) }
   let(:author) { user_property == :author ? recipient : other_user }
   let(:user_property) { nil }
   let(:work_package) do
@@ -51,7 +52,7 @@ RSpec.describe Notifications::CreateFromModelService,
 
     if %i[responsible assigned_to].include?(user_property)
       create(:work_package,
-             **wp_attributes.merge(user_property => recipient))
+             **wp_attributes, user_property => recipient)
     elsif user_property == :watcher
       create(:work_package,
              **wp_attributes) do |wp|
@@ -100,6 +101,11 @@ RSpec.describe Notifications::CreateFromModelService,
     work_package.save(validate: false)
     work_package.journals.last
   end
+  let(:journal_2_with_internal_comment) do
+    work_package.add_journal(user: admin, notes: "need to know basis", internal: true)
+    work_package.save(validate: false)
+    work_package.journals.last
+  end
 
   before do
     # make sure no other calls are made due to WP creation/update
@@ -112,7 +118,7 @@ RSpec.describe Notifications::CreateFromModelService,
     let(:user_property) { :assigned_to }
     let(:recipient_notification_settings) do
       [
-        build(:notification_setting, **notification_settings_all_false.merge(assignee: true))
+        build(:notification_setting, **notification_settings_all_false, assignee: true)
       ]
     end
 
@@ -159,7 +165,7 @@ RSpec.describe Notifications::CreateFromModelService,
     context "when assignee has all in app notifications enabled but only assignee for mail" do
       let(:recipient_notification_settings) do
         [
-          build(:notification_setting, **notification_settings_all_false.merge(assignee: true))
+          build(:notification_setting, **notification_settings_all_false, assignee: true)
         ]
       end
 
@@ -197,13 +203,37 @@ RSpec.describe Notifications::CreateFromModelService,
 
       it_behaves_like "creates no notification"
     end
+
+    context "when assignee does not have access to internal journal" do
+      let(:author) { admin }
+      let(:journal) { journal_2_with_internal_comment }
+
+      it_behaves_like "creates no notification"
+    end
+
+    context "when assignee has access to internal journal" do
+      let(:author) { admin }
+      let(:permissions) { %i[view_work_packages view_internal_comments] }
+      let(:journal) { journal_2_with_internal_comment }
+
+      it_behaves_like "creates notification" do
+        let(:notification_channel_reasons) do
+          {
+            read_ian: false,
+            reason: :assigned,
+            mail_alert_sent: nil,
+            mail_reminder_sent: false
+          }
+        end
+      end
+    end
   end
 
   context "when user is responsible" do
     let(:user_property) { :responsible }
     let(:recipient_notification_settings) do
       [
-        build(:notification_setting, **notification_settings_all_false.merge(responsible: true))
+        build(:notification_setting, **notification_settings_all_false, responsible: true)
       ]
     end
 
@@ -250,6 +280,30 @@ RSpec.describe Notifications::CreateFromModelService,
 
       it_behaves_like "creates no notification"
     end
+
+    context "when responsible does not have access to internal journal" do
+      let(:author) { admin }
+      let(:journal) { journal_2_with_internal_comment }
+
+      it_behaves_like "creates no notification"
+    end
+
+    context "when responsible has access to internal journal" do
+      let(:author) { admin }
+      let(:permissions) { %i[view_work_packages view_internal_comments] }
+      let(:journal) { journal_2_with_internal_comment }
+
+      it_behaves_like "creates notification" do
+        let(:notification_channel_reasons) do
+          {
+            read_ian: false,
+            reason: :responsible,
+            mail_alert_sent: nil,
+            mail_reminder_sent: false
+          }
+        end
+      end
+    end
   end
 
   context "when user is watcher" do
@@ -274,7 +328,7 @@ RSpec.describe Notifications::CreateFromModelService,
     context "when watcher has in app notifications disabled" do
       let(:recipient_notification_settings) do
         [
-          build(:notification_setting, **notification_settings_all_false.merge(watched: true))
+          build(:notification_setting, **notification_settings_all_false, watched: true)
         ]
       end
 
@@ -315,6 +369,30 @@ RSpec.describe Notifications::CreateFromModelService,
       let(:author) { recipient }
 
       it_behaves_like "creates no notification"
+    end
+
+    context "when watcher does not have access to internal journal" do
+      let(:author) { admin }
+      let(:journal) { journal_2_with_internal_comment }
+
+      it_behaves_like "creates no notification"
+    end
+
+    context "when watcher has access to internal journal" do
+      let(:author) { admin }
+      let(:permissions) { %i[view_work_packages view_internal_comments] }
+      let(:journal) { journal_2_with_internal_comment }
+
+      it_behaves_like "creates notification" do
+        let(:notification_channel_reasons) do
+          {
+            read_ian: false,
+            reason: :watched,
+            mail_alert_sent: nil,
+            mail_reminder_sent: false
+          }
+        end
+      end
     end
   end
 
@@ -414,13 +492,37 @@ RSpec.describe Notifications::CreateFromModelService,
 
       it_behaves_like "creates no notification"
     end
+
+    context "when recipient does not have access to internal journal" do
+      let(:author) { admin }
+      let(:journal) { journal_2_with_internal_comment }
+
+      it_behaves_like "creates no notification"
+    end
+
+    context "when recipient has access to internal journal" do
+      let(:author) { admin }
+      let(:permissions) { %i[view_work_packages view_internal_comments] }
+      let(:journal) { journal_2_with_internal_comment }
+
+      it_behaves_like "creates notification" do
+        let(:notification_channel_reasons) do
+          {
+            read_ian: false,
+            reason: :commented,
+            mail_alert_sent: nil,
+            mail_reminder_sent: false
+          }
+        end
+      end
+    end
   end
 
   context "when the work package is shared with the user" do
     let(:user_property) { :shared }
     let(:recipient_notification_settings) do
       [
-        build(:notification_setting, **notification_settings_all_false.merge(shared: true))
+        build(:notification_setting, **notification_settings_all_false, shared: true)
       ]
     end
 
@@ -461,14 +563,37 @@ RSpec.describe Notifications::CreateFromModelService,
 
       it_behaves_like "creates no notification"
     end
+
+    context "when the shared user does not have access to internal journal" do
+      let(:author) { admin }
+      let(:journal) { journal_2_with_internal_comment }
+
+      it_behaves_like "creates no notification"
+    end
+
+    context "when the shared user has access to internal journal" do
+      let(:author) { admin }
+      let(:permissions) { %i[view_work_packages view_internal_comments] }
+      let(:journal) { journal_2_with_internal_comment }
+
+      it_behaves_like "creates notification" do
+        let(:notification_channel_reasons) do
+          {
+            read_ian: false,
+            reason: :shared,
+            mail_alert_sent: nil,
+            mail_reminder_sent: false
+          }
+        end
+      end
+    end
   end
 
   context "when a work package is created" do
     context "when the user configured to be notified on work package creation" do
       let(:recipient_notification_settings) do
         [
-          build(:notification_setting, **notification_settings_all_false
-                                                           .merge(work_package_created: true))
+          build(:notification_setting, **notification_settings_all_false, work_package_created: true)
         ]
       end
 
@@ -487,8 +612,7 @@ RSpec.describe Notifications::CreateFromModelService,
     context "when the user configured to be notified on work package status changes" do
       let(:recipient_notification_settings) do
         [
-          build(:notification_setting, **notification_settings_all_false
-                                                           .merge(work_package_processed: true))
+          build(:notification_setting, **notification_settings_all_false, work_package_processed: true)
         ]
       end
 
@@ -498,8 +622,7 @@ RSpec.describe Notifications::CreateFromModelService,
     context "when the user configured to be notified on work package priority changes" do
       let(:recipient_notification_settings) do
         [
-          build(:notification_setting, **notification_settings_all_false
-                                                           .merge(work_package_prioritized: true))
+          build(:notification_setting, **notification_settings_all_false, work_package_prioritized: true)
         ]
       end
 
@@ -523,8 +646,7 @@ RSpec.describe Notifications::CreateFromModelService,
     context "when the user has commented notifications activated" do
       let(:recipient_notification_settings) do
         [
-          build(:notification_setting, **notification_settings_all_false
-                                                           .merge(work_package_commented: true))
+          build(:notification_setting, **notification_settings_all_false, work_package_commented: true)
         ]
       end
 
@@ -549,6 +671,30 @@ RSpec.describe Notifications::CreateFromModelService,
 
       it_behaves_like "creates no notification"
     end
+
+    context "when the user does not have access to internal journal" do
+      let(:author) { admin }
+      let(:journal) { journal_2_with_internal_comment }
+
+      it_behaves_like "creates no notification"
+    end
+
+    context "when the user has access to internal journal" do
+      let(:author) { admin }
+      let(:permissions) { %i[view_work_packages view_internal_comments] }
+      let(:journal) { journal_2_with_internal_comment }
+
+      it_behaves_like "creates notification" do
+        let(:notification_channel_reasons) do
+          {
+            read_ian: false,
+            reason: :commented,
+            mail_alert_sent: nil,
+            mail_reminder_sent: false
+          }
+        end
+      end
+    end
   end
 
   context "when the journal has no note" do
@@ -557,8 +703,7 @@ RSpec.describe Notifications::CreateFromModelService,
     context "with the user having commented notifications activated" do
       let(:recipient_notification_settings) do
         [
-          build(:notification_setting, **notification_settings_all_false
-                                                           .merge(work_package_commented: true))
+          build(:notification_setting, **notification_settings_all_false, work_package_commented: true)
         ]
       end
 
@@ -572,8 +717,7 @@ RSpec.describe Notifications::CreateFromModelService,
     context "when the user has processed notifications activated" do
       let(:recipient_notification_settings) do
         [
-          build(:notification_setting, **notification_settings_all_false
-                                                           .merge(work_package_processed: true))
+          build(:notification_setting, **notification_settings_all_false, work_package_processed: true)
         ]
       end
 
@@ -606,8 +750,7 @@ RSpec.describe Notifications::CreateFromModelService,
     context "with the user having processed notifications activated" do
       let(:recipient_notification_settings) do
         [
-          build(:notification_setting, **notification_settings_all_false
-                                                           .merge(work_package_processed: true))
+          build(:notification_setting, **notification_settings_all_false, work_package_processed: true)
         ]
       end
 
@@ -621,8 +764,7 @@ RSpec.describe Notifications::CreateFromModelService,
     context "when the user has prioritized notifications activated" do
       let(:recipient_notification_settings) do
         [
-          build(:notification_setting, **notification_settings_all_false
-                                                           .merge(work_package_prioritized: true))
+          build(:notification_setting, **notification_settings_all_false, work_package_prioritized: true)
         ]
       end
 
@@ -655,8 +797,7 @@ RSpec.describe Notifications::CreateFromModelService,
     context "with the user having prioritized notifications activated" do
       let(:recipient_notification_settings) do
         [
-          build(:notification_setting, **notification_settings_all_false
-                                                           .merge(work_package_prioritized: true))
+          build(:notification_setting, **notification_settings_all_false, work_package_prioritized: true)
         ]
       end
 
@@ -670,8 +811,7 @@ RSpec.describe Notifications::CreateFromModelService,
     context "when the user has scheduled notifications activated" do
       let(:recipient_notification_settings) do
         [
-          build(:notification_setting, **notification_settings_all_false
-                                                           .merge(work_package_scheduled: true))
+          build(:notification_setting, **notification_settings_all_false, work_package_scheduled: true)
         ]
       end
 
@@ -704,8 +844,7 @@ RSpec.describe Notifications::CreateFromModelService,
     context "with the user having scheduled notifications activated" do
       let(:recipient_notification_settings) do
         [
-          build(:notification_setting, **notification_settings_all_false
-                                                           .merge(work_package_scheduled: true))
+          build(:notification_setting, **notification_settings_all_false, work_package_scheduled: true)
         ]
       end
 
@@ -719,8 +858,7 @@ RSpec.describe Notifications::CreateFromModelService,
     context "when the user has scheduled notifications activated" do
       let(:recipient_notification_settings) do
         [
-          build(:notification_setting, **notification_settings_all_false
-                                                           .merge(work_package_scheduled: true))
+          build(:notification_setting, **notification_settings_all_false, work_package_scheduled: true)
         ]
       end
 
@@ -772,7 +910,7 @@ RSpec.describe Notifications::CreateFromModelService,
   context "when user is mentioned" do
     let(:recipient_notification_settings) do
       [
-        build(:notification_setting, **notification_settings_all_false.merge(mentioned: true))
+        build(:notification_setting, **notification_settings_all_false, mentioned: true)
       ]
     end
 
@@ -794,7 +932,7 @@ RSpec.describe Notifications::CreateFromModelService,
         context "when the user disabled mention notifications" do
           let(:recipient_notification_settings) do
             [
-              build(:notification_setting, **notification_settings_all_false.merge(mentioned: false))
+              build(:notification_setting, **notification_settings_all_false, mentioned: false)
             ]
           end
 
@@ -965,7 +1103,7 @@ RSpec.describe Notifications::CreateFromModelService,
         context "when the recipient turned off mention notifications" do
           let(:recipient_notification_settings) do
             [
-              build(:notification_setting, **notification_settings_all_false.merge(mentioned: false))
+              build(:notification_setting, **notification_settings_all_false, mentioned: false)
             ]
           end
 

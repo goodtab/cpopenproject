@@ -27,7 +27,7 @@
 #++
 
 require "spec_helper"
-require File.join(File.dirname(__FILE__), "..", "..", "support", "configuration_helper")
+require_relative "../../support/configuration_helper"
 
 RSpec.describe CostQuery::Cache do
   include OpenProject::Reporting::SpecHelper::ConfigurationHelper

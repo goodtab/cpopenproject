@@ -45,7 +45,18 @@ RSpec.describe "Document categories" do
 
     # we are redirected back to the index page
     expect(page).to have_current_path(admin_settings_document_categories_path)
-
     expect(page).to have_content("Documentation")
+
+    # It allows editing (Regression #62459)
+    click_link "Documentation"
+
+    fill_in "Name", with: "Specification"
+    click_on("Save")
+
+    expect(page).to have_current_path(admin_settings_document_categories_path)
+    expect(page).to have_content("Specification")
+
+    expect(DocumentCategory).to exist(name: "Specification")
+    expect(DocumentCategory).not_to exist(name: "Documentation")
   end
 end

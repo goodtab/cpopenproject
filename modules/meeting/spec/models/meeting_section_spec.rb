@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -31,7 +32,7 @@ require_relative "../spec_helper"
 
 RSpec.describe MeetingSection do
   let(:meeting_attributes) { {} }
-  let(:meeting) { build_stubbed(:structured_meeting, **meeting_attributes) }
+  let(:meeting) { build_stubbed(:meeting, **meeting_attributes) }
   let(:attributes) { {} }
   let(:meeting_section) { described_class.new(meeting:, **attributes) }
 
@@ -73,7 +74,7 @@ RSpec.describe MeetingSection do
   describe "#agenda_items_sum_duration_in_minutes" do
     subject { meeting_section.agenda_items_sum_duration_in_minutes }
 
-    let(:meeting) { create(:structured_meeting, **meeting_attributes) }
+    let(:meeting) { create(:meeting, **meeting_attributes) }
     let(:meeting_section) { create(:meeting_section, meeting:) }
 
     context "when there are no agenda items" do

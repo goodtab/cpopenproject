@@ -95,7 +95,7 @@ RSpec.describe "form query configuration", :js do
     it "can save an empty query group" do
       form.add_query_group("Empty test", :children)
       form.save_changes
-      expect_flash(message: "Successful update.")
+      expect_and_dismiss_flash(message: "Successful update.")
       type_bug.reload
 
       query_group = type_bug.attribute_groups.detect { |x| x.is_a?(Type::QueryGroup) }
@@ -107,7 +107,7 @@ RSpec.describe "form query configuration", :js do
       form.add_query_group("Subtasks", :children)
       # Save changed query
       form.save_changes
-      expect_flash(message: "Successful update.")
+      expect_and_dismiss_flash(message: "Successful update.")
 
       # Visit wp_table
       wp_table.visit!
@@ -133,7 +133,7 @@ RSpec.describe "form query configuration", :js do
         form.add_query_group("Subtasks", :children)
         # Save changed query
         form.save_changes
-        expect_flash(message: "Successful update.")
+        expect_and_dismiss_flash(message: "Successful update.")
 
         # Visit new wp page
         visit new_project_work_packages_path(project)
@@ -147,18 +147,16 @@ RSpec.describe "form query configuration", :js do
       let!(:archived) { create(:project, name: "To be archived") }
 
       it "uses the valid subset of the query (Regression #40324)" do
-        form.add_query_group("Archived project", :children)
-        form.edit_query_group("Archived project")
-
-        # Select the soon archived project
-        modal.switch_to "Filters"
-        filters.expect_filter_count 1
-        filters.add_filter_by("Project", "is (OR)", archived.name)
-        filters.expect_filter_count 2
-        filters.save
+        form.add_query_group("Archived project", :children) do |modal|
+          # Select the soon archived project
+          modal.switch_to "Filters"
+          filters.expect_filter_count 1
+          filters.add_filter_by("Project", "is (OR)", archived.name)
+          filters.expect_filter_count 2
+        end
 
         form.save_changes
-        expect_flash message: "Successful update."
+        expect_and_dismiss_flash(message: "Successful update.")
 
         archived.update_attribute(:active, false)
 
@@ -172,21 +170,19 @@ RSpec.describe "form query configuration", :js do
     end
 
     it "can modify and keep changed columns (Regression #27604)" do
-      form.add_query_group("Columns Test", :children)
-      form.edit_query_group("Columns Test")
+      form.add_query_group("Columns Test", :children) do |modal|
+        # Restrict filters to type_task
+        modal.switch_to "Columns"
 
-      # Restrict filters to type_task
-      modal.switch_to "Columns"
-
-      columns.assume_opened
-      columns.uncheck_all save_changes: false
-      columns.add "ID", save_changes: false
-      columns.add "Subject", save_changes: false
-      columns.apply
+        columns.assume_opened
+        columns.uncheck_all save_changes: false
+        columns.add "ID", save_changes: false
+        columns.add "Subject", save_changes: false
+      end
 
       # Save changed query
       form.save_changes
-      expect_flash(message: "Successful update.")
+      expect_and_dismiss_flash(message: "Successful update.")
 
       type_bug.reload
       query = type_bug.attribute_groups.detect { |x| x.key == "Columns Test" }
@@ -195,20 +191,18 @@ RSpec.describe "form query configuration", :js do
       column_names = query.attributes.columns.map(&:name).sort
       expect(column_names).to eq %i[id subject]
 
-      form.add_query_group("Second query", :children)
-      form.edit_query_group("Second query")
+      form.add_query_group("Second query", :children) do |modal|
+        # Restrict filters to type_task
+        modal.switch_to "Columns"
 
-      # Restrict filters to type_task
-      modal.switch_to "Columns"
-
-      columns.assume_opened
-      columns.uncheck_all save_changes: false
-      columns.add "ID", save_changes: false
-      columns.apply
+        columns.assume_opened
+        columns.uncheck_all save_changes: false
+        columns.add "ID", save_changes: false
+      end
 
       # Save changed query
       form.save_changes
-      expect_flash(message: "Successful update.")
+      expect_and_dismiss_flash(message: "Successful update.")
 
       type_bug.reload
       query = type_bug.attribute_groups.detect { |x| x.key == "Columns Test" }
@@ -226,6 +220,7 @@ RSpec.describe "form query configuration", :js do
       expect(column_names).to eq %i[id]
 
       form.edit_query_group("Second query")
+
       modal.switch_to "Columns"
       columns.expect_checked "ID"
       columns.apply
@@ -239,23 +234,21 @@ RSpec.describe "form query configuration", :js do
 
     shared_examples_for "query group" do
       it do
-        form.add_query_group("Subtasks", frontend_relation_type)
-        form.edit_query_group("Subtasks")
+        form.add_query_group("Subtasks", frontend_relation_type) do |modal|
+          # Expect disabled tabs for timelines and display mode
+          modal.expect_disabled_tab "Gantt chart"
+          modal.expect_disabled_tab "Display settings"
 
-        # Expect disabled tabs for timelines and display mode
-        modal.expect_disabled_tab "Gantt chart"
-        modal.expect_disabled_tab "Display settings"
-
-        # Restrict filters to type_task
-        modal.expect_open
-        modal.switch_to "Filters"
-        # the templated filter should be hidden in the Filters tab
-        filters.expect_filter_count 1
-        filters.add_filter_by("Type", "is (OR)", type_task.name)
-        filters.save
+          # Restrict filters to type_task
+          modal.expect_open
+          modal.switch_to "Filters"
+          # the templated filter should be hidden in the Filters tab
+          filters.expect_filter_count 1
+          filters.add_filter_by("Type", "is (OR)", type_task.name)
+        end
 
         form.save_changes
-        expect_flash(message: "Successful update.")
+        expect_and_dismiss_flash(message: "Successful update.")
 
         # Visit work package with that type
         wp_page.visit!

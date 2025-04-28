@@ -27,7 +27,7 @@ Unfortunately this is not possible at the moment. There's already a feature requ
 
 ## Is there an overview over how much time I logged in one week?
 
-Yes, you can use the "My spent time" widget on My Page and use the filters there.
+Yes, you can use the "My spent time" widget on My page and use the filters there.
 
 ## Can I log time in a different unit than hours, e.g. in days?
 

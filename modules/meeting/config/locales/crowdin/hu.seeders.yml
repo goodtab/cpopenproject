@@ -9,21 +9,21 @@ hu:
         demo-project:
           meeting_series:
             item_0:
-              title: Weekly
+              title: Heti
           meeting_agenda_items:
             item_0:
-              title: Good news
+              title: Jó hírek
             item_1:
-              title: Updates from development team
+              title: Frissítések a fejlesztőcsapattól
             item_2:
-              title: Updates from product team
+              title: Frissítések a termékcsapattól
             item_3:
-              title: Updates from marketing team
+              title: Frissítések a marketing csapattól
             item_5:
-              title: Updates from sales team
+              title: Frissítések az értékesítési csapattól
             item_6:
-              title: Review of quarterly goals
+              title: Negyedéves célok felülvizsgálata
             item_7:
-              title: Core values feedback
+              title: Alapértékek visszajelzése
             item_8:
-              title: General topics
+              title: Általános témák

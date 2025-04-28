@@ -16,7 +16,7 @@ Here you can test all OpenProject functionalities thoroughly. After 14 days the 
 
 To create a new OpenProject trial, either go to the [OpenProject website](https://www.openproject.org/) or open the [start trial page](https://start.openproject.com).
 
-**Enter your organization domain**. This name will become part of the URL of your OpenProject installation, for example *myneworganization.openproject.com*.
+**Enter your organization domain**. This name will become part of the URL of your OpenProject installation, for example `myneworganization.openproject.com`.
 
 You can include a hyphen "-" in the organization name, e.g. *my-new-organization.openproject.com*. 
 

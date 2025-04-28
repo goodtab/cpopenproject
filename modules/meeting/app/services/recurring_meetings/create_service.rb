@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -44,7 +45,6 @@ module RecurringMeetings
 
     def create_meeting_template(recurring_meeting)
       params = @template_params.merge(
-        type: "StructuredMeeting",
         template: true,
         recurring_meeting:,
         project: recurring_meeting.project

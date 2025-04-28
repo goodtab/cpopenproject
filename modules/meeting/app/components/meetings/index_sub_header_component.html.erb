@@ -13,7 +13,7 @@
 
       if render_create_button?
         subheader.with_action_component do
-          render Primer::Alpha::ActionMenu.new(anchor_align: :end) do |menu|
+          render Primer::Alpha::ActionMenu.new(anchor_align: :end, size: :small) do |menu|
             menu.with_show_button(
               scheme: :primary,
               test_selector: "add-meeting-button",
@@ -31,7 +31,7 @@
             menu.with_item(
               label: I18n.t("meeting.types.one_time"),
               tag: :a,
-              href: polymorphic_path([:new_dialog, @project, :meetings], type: :structured),
+              href: polymorphic_path([:new_dialog, @project, :meetings]),
               content_arguments: { data: { controller: "async-dialog" } }
             ) do |item|
               item.with_description.with_content(t("meeting.types.structured_text"))
@@ -44,14 +44,6 @@
               content_arguments: { data: { controller: "async-dialog" } }
             ) do |item|
               item.with_description.with_content(t("meeting.types.recurring_text"))
-            end
-
-            menu.with_item(
-              label: I18n.t("meeting.types.classic"),
-              tag: :a,
-              href: dynamic_path
-            ) do |item|
-              item.with_description.with_content(t("meeting.types.classic_text"))
             end
           end
         end

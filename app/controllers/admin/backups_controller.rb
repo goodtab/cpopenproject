@@ -76,12 +76,6 @@ class Admin::BackupsController < ApplicationController
     redirect_to action: "show"
   end
 
-  def default_breadcrumb; end
-
-  def show_local_breadcrumb
-    false
-  end
-
   def check_enabled
     render_404 unless OpenProject::Configuration.backup_enabled?
   end

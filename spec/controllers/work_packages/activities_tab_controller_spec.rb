@@ -45,7 +45,7 @@ RSpec.describe WorkPackages::ActivitiesTabController do
   end
   let(:commenter_role) do
     create(:project_role,
-           permissions: %i[view_work_packages add_work_package_notes edit_own_work_package_notes])
+           permissions: %i[view_work_packages add_work_package_comments edit_own_work_package_comments])
   end
   let(:commenter) do
     create(:user,
@@ -57,8 +57,8 @@ RSpec.describe WorkPackages::ActivitiesTabController do
   end
   let(:full_privileges_role) do
     create(:project_role,
-           permissions: %i[view_work_packages edit_work_packages add_work_package_notes edit_own_work_package_notes
-                           edit_work_package_notes])
+           permissions: %i[view_work_packages edit_work_packages add_work_package_comments edit_own_work_package_comments
+                           edit_work_package_comments])
   end
   let(:user_with_full_privileges) do
     create(:user,

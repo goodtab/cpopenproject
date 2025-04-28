@@ -34,16 +34,14 @@ sr:
           name: Grey (dark)
         item_13:
           name: Black
-      life_cycle_colors:
+      project_phase_colors:
         item_0:
           name: PM2 Orange
         item_1:
-          name: PM2 Purple
-        item_2:
           name: PM2 Red
-        item_3:
+        item_2:
           name: PM2 Magenta
-        item_4:
+        item_3:
           name: PM2 Green Yellow
       document_categories:
         item_0:
@@ -81,21 +79,18 @@ sr:
         item_1:
           name: Standard global role
     standard:
-      life_cycles:
+      project_phases:
         item_0:
           name: Initiating
         item_1:
-          name: Ready for Planning
-        item_2:
           name: Planning
-        item_3:
-          name: Ready for Executing
-        item_4:
+          start_gate: Ready for Planning
+        item_2:
           name: Executing
-        item_5:
-          name: Ready for Closing
-        item_6:
+          start_gate: Ready for Executing
+        item_3:
           name: Closing
+          start_gate: Ready for Closing
       priorities:
         item_0:
           name: Low
@@ -490,7 +485,7 @@ sr:
         item_1:
           name: Milestone
         item_2:
-          name: Phase
+          name: Summary task
         item_3:
           name: Feature
         item_4:

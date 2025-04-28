@@ -93,10 +93,12 @@ et:
       button: "Export PDF timesheet"
       timesheet: "Timesheet"
       time: "Aeg"
-      sum_hours: Summa
+      sums_hours: Summad
+      overview_per_user_total: "Overview: Total hours per user"
+      overview_per_user_day: "Overview: Hours per user per day"
     cost_reports:
       title: "Your Cost Reports XLS export"
-      start_time: "Start time"
+      start_time: "Algusaeg"
       end_time: "End time"
   reporting:
     group_by:

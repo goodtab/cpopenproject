@@ -182,7 +182,7 @@ RSpec.describe "Admin lists project mappings for a storage",
       page.find_test_selector("storage-delete-button").click
 
       expect(page).to have_text("DELETE FILE STORAGE")
-      expect(page).to have_current_path("#{confirm_destroy_admin_settings_storage_path(storage)}?utf8=%E2%9C%93")
+      expect(page).to have_current_path(confirm_destroy_admin_settings_storage_path(storage))
     end
 
     describe "Linking a project to a storage with a manually managed folder" do

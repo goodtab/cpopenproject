@@ -23,12 +23,6 @@ module ::Boards
       render layout: "angular/angular"
     end
 
-    def default_breadcrumb; end
-
-    def show_local_breadcrumb
-      false
-    end
-
     def new; end
 
     def create

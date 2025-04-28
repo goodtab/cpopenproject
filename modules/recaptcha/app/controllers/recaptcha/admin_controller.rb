@@ -34,11 +34,5 @@ module ::Recaptcha
     def permitted_params
       params.permit(:recaptcha_type, :website_key, :secret_key, :response_limit)
     end
-
-    def default_breadcrumb; end
-
-    def show_local_breadcrumb
-      false
-    end
   end
 end

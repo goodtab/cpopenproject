@@ -31,12 +31,12 @@ See COPYRIGHT and LICENSE files for more details.
                                     "data-cb-site": OpenProject::Configuration.enterprise_chargebee_site %>
 <% end %>
 
-<div class="upsale--information-container">
-  <div class='upsale-information'>
+<div class="upsell--information-container">
+  <div class='upsell-information'>
     <opce-enterprise-base></opce-enterprise-base>
   </div>
 
-  <div class='upsale-actions'>
+  <div class='upsell-actions'>
     <a href="#"
        class="button -highlight-inverted"
        data-cb-type="checkout"
@@ -44,7 +44,7 @@ See COPYRIGHT and LICENSE files for more details.
       <%= t("admin.enterprise.book_now") %>
     </a>
 
-    <% quote_link = OpenProject::Static::Links.links.fetch :upsale_get_quote %>
+    <% quote_link = OpenProject::Static::Links.links.fetch :upsell_get_quote %>
     <%= link_to t(quote_link[:label]),
                 quote_link[:href],
                 target: "_blank",
@@ -54,21 +54,21 @@ See COPYRIGHT and LICENSE files for more details.
   <%= static_link_to :contact %>
 </div>
 
-<div class="info-boxes upsale-benefits">
-  <h3 class="info-boxes--title -no-border"><%= t("js.admin.enterprise.upsale.benefits.description") %></h3>
+<div class="info-boxes upsell-benefits">
+  <h3 class="info-boxes--title -no-border"><%= t("js.admin.enterprise.upsell.benefits.description") %></h3>
 
   <div class="info-boxes--container">
     <div class="info-boxes--item">
       <%= image_tag "installation_alerts.svg",
                     class: "info-boxes--teaser-image",
-                    title: t("js.admin.enterprise.upsale.benefits.installation"),
-                    alt: t("js.admin.enterprise.upsale.benefits.installation") %>
-      <h4 class="info-boxes--item-title"><%= t("js.admin.enterprise.upsale.benefits.installation") %></h4>
+                    title: t("js.admin.enterprise.upsell.benefits.installation"),
+                    alt: t("js.admin.enterprise.upsell.benefits.installation") %>
+      <h4 class="info-boxes--item-title"><%= t("js.admin.enterprise.upsell.benefits.installation") %></h4>
       <div class="info-boxes--item-content">
-        <p><%= t("js.admin.enterprise.upsale.benefits.installation_text") %></p>
+        <p><%= t("js.admin.enterprise.upsell.benefits.installation_text") %></p>
         <ul class="widget-box--arrow-links">
           <li>
-            <%= static_link_to :upsale_benefits_installation %>
+            <%= static_link_to :upsell_benefits_installation %>
           </li>
         </ul>
       </div>
@@ -76,14 +76,14 @@ See COPYRIGHT and LICENSE files for more details.
     <div class="info-boxes--item">
       <%= image_tag "professional_support.svg",
                     class: "info-boxes--teaser-image",
-                    title: t("js.admin.enterprise.upsale.benefits.professional_support"),
-                    alt: t("js.admin.enterprise.upsale.benefits.professional_support") %>
-      <h4 class="info-boxes--item-title"><%= t("js.admin.enterprise.upsale.benefits.professional_support") %></h4>
+                    title: t("js.admin.enterprise.upsell.benefits.professional_support"),
+                    alt: t("js.admin.enterprise.upsell.benefits.professional_support") %>
+      <h4 class="info-boxes--item-title"><%= t("js.admin.enterprise.upsell.benefits.professional_support") %></h4>
       <div class="info-boxes--item-content">
-        <p><%= t("js.admin.enterprise.upsale.benefits.professional_support_text") %></p>
+        <p><%= t("js.admin.enterprise.upsell.benefits.professional_support_text") %></p>
         <ul class="widget-box--arrow-links">
           <li>
-            <%= static_link_to :upsale_benefits_support %>
+            <%= static_link_to :upsell_benefits_support %>
           </li>
         </ul>
       </div>
@@ -91,14 +91,14 @@ See COPYRIGHT and LICENSE files for more details.
     <div class="info-boxes--item">
       <%= image_tag "enterprise-add-on.svg",
                     class: "info-boxes--teaser-image",
-                    title: t("js.admin.enterprise.upsale.benefits.premium_features"),
-                    alt: t("js.admin.enterprise.upsale.benefits.premium_features") %>
-      <h4 class="info-boxes--item-title"><%= t("js.admin.enterprise.upsale.benefits.premium_features") %></h4>
+                    title: t("js.admin.enterprise.upsell.benefits.premium_features"),
+                    alt: t("js.admin.enterprise.upsell.benefits.premium_features") %>
+      <h4 class="info-boxes--item-title"><%= t("js.admin.enterprise.upsell.benefits.premium_features") %></h4>
       <div class="info-boxes--item-content">
-        <p><%= t("js.admin.enterprise.upsale.benefits.premium_features_text") %></p>
+        <p><%= t("js.admin.enterprise.upsell.benefits.premium_features_text") %></p>
         <ul class="widget-box--arrow-links">
           <li>
-            <%= static_link_to :upsale_benefits_features %>
+            <%= static_link_to :upsell_benefits_features %>
           </li>
         </ul>
       </div>
@@ -106,14 +106,14 @@ See COPYRIGHT and LICENSE files for more details.
     <div class="info-boxes--item">
       <%= image_tag "security_alerts.svg",
                     class: "info-boxes--teaser-image",
-                    title: t("js.admin.enterprise.upsale.benefits.high_security"),
-                    alt: t("js.admin.enterprise.upsale.benefits.high_security") %>
-      <h4 class="info-boxes--item-title"><%= t("js.admin.enterprise.upsale.benefits.high_security") %></h4>
+                    title: t("js.admin.enterprise.upsell.benefits.high_security"),
+                    alt: t("js.admin.enterprise.upsell.benefits.high_security") %>
+      <h4 class="info-boxes--item-title"><%= t("js.admin.enterprise.upsell.benefits.high_security") %></h4>
       <div class="info-boxes--item-content">
-        <p><%= t("js.admin.enterprise.upsale.benefits.high_security_text") %></p>
+        <p><%= t("js.admin.enterprise.upsell.benefits.high_security_text") %></p>
         <ul class="widget-box--arrow-links">
           <li>
-            <%= static_link_to :upsale_benefits_security %>
+            <%= static_link_to :upsell_benefits_security %>
           </li>
         </ul>
       </div>

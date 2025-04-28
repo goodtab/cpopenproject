@@ -11,8 +11,11 @@ import { TimelineRenderPass } from './timeline/timeline-render-pass';
 import { SingleRowBuilder } from './rows/single-row-builder';
 import { RelationRenderInfo, RelationsRenderPass } from './relations/relations-render-pass';
 import { WorkPackageTable } from '../wp-fast-table';
+import {
+  ChildRelationsRenderPass,
+} from 'core-app/features/work-packages/components/wp-fast-table/builders/relations/child-relations-render-pass';
 
-export type RenderedRowType = 'primary'|'relations';
+export type RenderedRowType = 'primary'|'relations'|'child_relations';
 
 export interface RowRenderInfo {
   // The rendered row
@@ -31,6 +34,7 @@ export interface RowRenderInfo {
   // Marks if the row is currently hidden to the user
   hidden:boolean;
   // Additional data by the render passes
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   data?:any;
 }
 
@@ -53,15 +57,20 @@ export abstract class PrimaryRenderPass {
   /** Additional render pass that handles table relation rendering */
   public relations:RelationsRenderPass;
 
+  /** Additional render pass that handles table child relation rendering */
+  public childRelations:ChildRelationsRenderPass;
+
   /** Additional render pass that handles drag'n'drop handle rendering */
   public dragDropHandle:DragDropHandleRenderPass;
 
   /** Additional render pass that handles highlighting of rows */
   public highlighting:HighlightingRenderPass;
 
-  constructor(public readonly injector:Injector,
+  constructor(
+public readonly injector:Injector,
     public workPackageTable:WorkPackageTable,
-    public rowBuilder:SingleRowBuilder) {
+    public rowBuilder:SingleRowBuilder,
+) {
   }
 
   /**
@@ -87,6 +96,7 @@ export abstract class PrimaryRenderPass {
 
     timeOutput('Relations render pass', () => {
       this.relations.render();
+      this.childRelations.render();
     });
 
     timeOutput('Drag handle render pass', () => {
@@ -110,11 +120,15 @@ export abstract class PrimaryRenderPass {
     let replacement:JQuery|null = null;
 
     switch (row.renderType) {
-      case 'primary':
-        replacement = this.rowBuilder.refreshRow(workPackage, oldRow);
-        break;
       case 'relations':
         replacement = this.relations.refreshRelationRow(row as RelationRenderInfo, workPackage, oldRow);
+        break;
+      case 'child_relations':
+        replacement = this.childRelations.refreshRelationRow(row as RelationRenderInfo, workPackage, oldRow);
+        break;
+      default:
+        replacement = this.rowBuilder.refreshRow(workPackage, oldRow);
+        break;
     }
 
     if (replacement !== null && oldRow.length) {
@@ -153,6 +167,7 @@ export abstract class PrimaryRenderPass {
   protected prepare() {
     this.timeline = new TimelineRenderPass(this.injector, this.workPackageTable, this);
     this.relations = new RelationsRenderPass(this.injector, this.workPackageTable, this);
+    this.childRelations = new ChildRelationsRenderPass(this.injector, this.workPackageTable, this);
     this.dragDropHandle = new DragDropHandleRenderPass(this.injector, this.workPackageTable, this);
     this.highlighting = new HighlightingRenderPass(this.injector, this.workPackageTable, this);
     this.tableBody = document.createDocumentFragment();
@@ -180,10 +195,12 @@ export abstract class PrimaryRenderPass {
    * @param rowClasses Additional classes to apply to the timeline row for mirroring purposes
    * @param hidden whether the row was rendered hidden
    */
-  protected appendRow(workPackage:WorkPackageResource,
+  protected appendRow(
+workPackage:WorkPackageResource,
     row:HTMLTableRowElement,
     additionalClasses:string[] = [],
-    hidden = false) {
+    hidden = false,
+) {
     this.tableBody.appendChild(row);
 
     this.renderedOrder.push({
@@ -202,10 +219,12 @@ export abstract class PrimaryRenderPass {
    * @param classIdentifer a unique identifier for the two rows (one each in table/timeline).
    * @param hidden whether the row was rendered hidden
    */
-  protected appendNonWorkPackageRow(row:HTMLTableRowElement,
+  protected appendNonWorkPackageRow(
+row:HTMLTableRowElement,
     classIdentifer:string,
     additionalClasses:string[] = [],
-    hidden = false) {
+    hidden = false,
+) {
     row.classList.add(classIdentifer);
     this.tableBody.appendChild(row);
 

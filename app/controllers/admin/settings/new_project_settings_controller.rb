@@ -32,10 +32,6 @@ module Admin::Settings
 
     before_action :validate_enabled_modules, only: :update # rubocop:disable Rails/LexicallyScopedActionFilter
 
-    def default_breadcrumb
-      t(:label_project_new)
-    end
-
     private
 
     # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity

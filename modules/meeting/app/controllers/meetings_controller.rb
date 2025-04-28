@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -32,8 +33,8 @@ class MeetingsController < ApplicationController
 
   before_action :determine_date_range, only: %i[history]
   before_action :determine_author, only: %i[history]
-  before_action :build_meeting, only: %i[new new_dialog]
-  before_action :find_meeting, except: %i[index new create new_dialog]
+  before_action :build_meeting, only: %i[new new_dialog fetch_timezone]
+  before_action :find_meeting, except: %i[index new create new_dialog fetch_timezone]
   before_action :redirect_to_project, only: %i[show]
   before_action :set_activity, only: %i[history]
   before_action :find_copy_from_meeting, only: %i[create]
@@ -41,7 +42,6 @@ class MeetingsController < ApplicationController
   before_action :prevent_template_destruction, only: :destroy
 
   helper :watchers
-  helper :meeting_contents
   include MeetingsHelper
   include Layout
   include WatchersHelper
@@ -67,18 +67,14 @@ class MeetingsController < ApplicationController
     :meetings
   end
 
-  def show # rubocop:disable Metrics/AbcSize
+  def show
     respond_to do |format|
       format.html do
         html_title "#{t(:label_meeting)}: #{@meeting.title}"
-        if @meeting.is_a?(StructuredMeeting)
-          if @meeting.state == "cancelled"
-            render_404
-          else
-            render(Meetings::ShowComponent.new(meeting: @meeting), layout: true)
-          end
-        elsif @meeting.agenda.present? && @meeting.agenda.locked?
-          params[:tab] ||= "minutes"
+        if @meeting.state == "cancelled"
+          render_404
+        else
+          render(Meetings::ShowComponent.new(meeting: @meeting), layout: true)
         end
       end
     end
@@ -256,7 +252,7 @@ class MeetingsController < ApplicationController
   end
 
   def update_title
-    @meeting.update(title: structured_meeting_params[:title])
+    @meeting.update(title: meeting_params[:title])
 
     if @meeting.errors.any?
       update_header_component_via_turbo_stream(state: :edit)
@@ -270,7 +266,7 @@ class MeetingsController < ApplicationController
   def update_details
     call = ::Meetings::UpdateService
       .new(user: current_user, model: @meeting)
-      .call(structured_meeting_params)
+      .call(meeting_params)
 
     if call.success?
       update_header_component_via_turbo_stream
@@ -327,6 +323,21 @@ class MeetingsController < ApplicationController
     end
 
     redirect_to action: :show, id: @meeting
+  end
+
+  def fetch_timezone
+    return unless timezone_params.keys.count == 2
+
+    User.execute_as(User.current) do
+      meeting = Meeting.new(timezone_params)
+      @text = friendly_timezone_name(User.current.time_zone, period: meeting.start_time)
+    end
+
+    add_caption_to_input_element_via_turbo_stream("input[name='meeting[start_time_hour]']",
+                                                  caption: @text,
+                                                  clean_other_captions: true)
+
+    respond_with_turbo_streams
   end
 
   private
@@ -403,7 +414,12 @@ class MeetingsController < ApplicationController
   end
 
   def build_meeting
-    meeting = meeting_class.new
+    meeting =
+      if params[:type] == "recurring"
+        RecurringMeeting.new
+      else
+        Meeting.new
+      end
 
     service = meeting.is_a?(RecurringMeeting) ? ::RecurringMeetings::SetAttributesService : ::Meetings::SetAttributesService
     call = service
@@ -411,17 +427,6 @@ class MeetingsController < ApplicationController
       .call(project: @project)
 
     @meeting = call.result
-  end
-
-  def meeting_class
-    case params[:type]
-    when "recurring"
-      RecurringMeeting
-    when "structured"
-      StructuredMeeting
-    else
-      Meeting
-    end
   end
 
   def global_upcoming_meetings
@@ -432,10 +437,8 @@ class MeetingsController < ApplicationController
 
   def find_meeting
     @meeting = Meeting
-      .includes([:project, :author, { participants: :user }, :agenda, :minutes])
+      .includes([:project, :author, { participants: :user }, :sections, { agenda_items: :outcomes }])
       .find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    render_404
   end
 
   def convert_params # rubocop:disable Metrics/AbcSize
@@ -449,7 +452,7 @@ class MeetingsController < ApplicationController
 
     # Handle participants separately for each meeting type
     @converted_params[:participants_attributes] ||= {}
-    if copy_structured_meeting_participants?
+    if copy_meeting_participants?
       create_participants
     else
       force_defaults
@@ -464,16 +467,8 @@ class MeetingsController < ApplicationController
       params
         .require(:meeting)
         .permit(:title, :location, :start_time, :project_id,
-                :duration, :start_date, :start_time_hour, :type,
+                :duration, :start_date, :start_time_hour,
                 participants_attributes: %i[email name invited attended user user_id meeting id])
-    end
-  end
-
-  def structured_meeting_params
-    if params[:structured_meeting].present?
-      params
-        .require(:structured_meeting)
-        .permit(:title, :location, :start_time_hour, :duration, :start_date, :state, :lock_version)
     end
   end
 
@@ -519,8 +514,6 @@ class MeetingsController < ApplicationController
     return unless copied_from_meeting_id
 
     @copy_from = Meeting.visible.find(copied_from_meeting_id)
-  rescue ActiveRecord::RecordNotFound
-    render_404
   end
 
   def copy_attributes
@@ -539,5 +532,9 @@ class MeetingsController < ApplicationController
     return if @project
 
     redirect_to project_meeting_path(@meeting.project, @meeting, tab: params[:tab]), status: :see_other
+  end
+
+  def timezone_params
+    @timezone_params ||= params.require(:meeting).permit(:start_date, :start_time_hour).compact_blank
   end
 end

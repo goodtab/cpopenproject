@@ -27,7 +27,7 @@
 #++
 
 require "spec_helper"
-require File.expand_path("../support/permission_specs", __dir__)
+require "support/permission_specs"
 
 RSpec.describe ForumsController, "manage_forums permission", type: :controller do
   include PermissionSpecs

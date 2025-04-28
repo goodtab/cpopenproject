@@ -149,10 +149,6 @@ class RolesController < ApplicationController
     Role.visible.ordered_by_builtin_and_position
   end
 
-  def show_local_breadcrumb
-    false
-  end
-
   def new_params
     permitted_params.role? || {}
   end

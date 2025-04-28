@@ -119,7 +119,7 @@ export class ProjectSelectionComponent implements OnInit {
   }
 
   private setPlaceholderOption():void {
-    if (this.bannersService.eeShowBanners) {
+    if (this.bannersService.showBannerFor('placeholder_users')) {
       this.typeOptions.push({
         value: PrincipalType.Placeholder,
         title: this.I18n.t('js.invite_user_modal.type.placeholder.title_no_ee'),

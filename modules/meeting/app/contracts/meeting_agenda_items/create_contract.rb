@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -34,7 +35,7 @@ module MeetingAgendaItems
     validate :user_allowed_to_add, :validate_meeting_existence
 
     def self.assignable_meetings(user)
-      StructuredMeeting
+      Meeting
         .open
         .not_templated
         .not_cancelled

@@ -110,8 +110,6 @@ class CostlogController < ApplicationController
       render_404
       false
     end
-  rescue ActiveRecord::RecordNotFound
-    render_404
   end
 
   def find_associated_objects

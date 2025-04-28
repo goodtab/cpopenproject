@@ -83,11 +83,8 @@ RSpec.describe API::V3::Queries::Schemas::VersionFilterDependencyRepresenter do
 
         context "global" do
           let(:project) { nil }
-          let(:filter_params) do
-            [{ sharing: { operator: "=", values: ["system"] } }]
-          end
           let(:href) do
-            "#{api_v3_paths.versions}?filters=#{CGI.escape(JSON.dump(filter_params))}&#{order}"
+            "#{api_v3_paths.versions}?#{order}"
           end
 
           context "for operator 'Queries::Operators::Equals'" do

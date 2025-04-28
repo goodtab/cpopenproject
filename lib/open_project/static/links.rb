@@ -46,8 +46,8 @@ module OpenProject
           @links ||= static_links.merge(dynamic_links)
         end
 
-        def url_for(item)
-          links.dig(item, :href)
+        def url_for(*items)
+          links.dig(*items, :href)
         end
 
         def has?(name)

@@ -50,13 +50,21 @@ pt-PT:
         project: Projeto
         user: Utilizador
         work_package: Pacote de trabalho
+        subject: Assunto
         hours: Horas
         comments: Comentário
         activity: Atividade
         spent_on: Data
         start_time: Hora de início
         end_time: Hora de fim
+        time: Hora
     models:
+      time_entry:
+        one: "Entrada de hora"
+        other: "Entradas de hora"
+      cost_entry:
+        one: "Entrada de custo"
+        other: "Entradas de custo"
       cost_type:
         one: "Tipo de custo"
         other: "Tipos de custos"
@@ -144,12 +152,28 @@ pt-PT:
   label_cost: "Custo"
   label_costs: "Custos"
   label_mandatory_fields: "Campos obrigatórios"
+  label_my_time_tracking: "My time tracking"
+  label_no_time: "No time tracked"
+  label_next_day: "Next day"
+  label_next_week: "Próxima semana"
+  label_next_month: "Next month"
+  label_previous_day: "Previous day"
+  label_previous_week: "Semana passada"
+  label_previous_month: "Previous month"
+  label_specific_day: "Day %{day}"
+  label_specific_week: "Calendar week %{week}"
+  label_specific_month: "Month %{month}"
+  label_list: "Lista"
+  label_month: "Mês"
+  label_day: "Dia"
+  label_today_capitalized: "Hoje"
   placeholder_activity_select_work_package_first: A seleção do pacote de trabalho é necessária em primeiro lugar
   notice_something_wrong: "Ocorreu um erro. Por favor, tente novamente."
   notice_successful_restore: "Restauração bem-sucedida."
   notice_successful_lock: "Bloqueado com êxito."
   notice_cost_logged_successfully: "Custo unitário registado com êxito."
   notice_different_time_zones: "Este utilizador tem um fuso horário diferente (%{tz}). A hora será registada utilizando o fuso horário do mesmo."
+  notice_time_entry_update_failed: "Failed to update time entry. Errors: %{errors}"
   permission_edit_cost_entries: "Editar custos unitários marcados"
   permission_edit_own_cost_entries: "Editar custos unitários próprios marcados"
   permission_edit_hourly_rates: "Editar taxas horárias"
@@ -175,9 +199,17 @@ pt-PT:
   text_reassign_time_and_cost_entries: "Reatribuir horas e custos reportados para este pacote de trabalho:"
   text_warning_hidden_elements: "Algumas entradas podem ter sido excluídas da agregação."
   week: "semana"
-  js:
-    text_are_you_sure: "Tem a certeza?"
+  total_times:
+    week: "Week Total: %{hours}"
+    month: "Month Total: %{hours}"
+    day: "Day Total: %{hours}"
   api_v3:
     errors:
       validation:
         start_time_different_date: "A parte da data de startTime (%{start_time}) tem de ser a mesma que a data de spentOn (%{spent_on})."
+  ee:
+    features:
+      time_entry_time_restrictions: Require exact time tracking
+    upsell:
+      time_entry_time_restrictions:
+        description: "Improve your time tracking by requiring exact start and finish times when logging time."

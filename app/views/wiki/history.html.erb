@@ -26,10 +26,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<%= toolbar title: @page.title %>
 <% html_title t("activerecord.models.wiki"), t(:label_history) %>
-<% breadcrumb_paths(*(@page.ancestors.reverse.collect { |parent| link_to h(parent.breadcrumb_title), { id: parent, project_id: parent.project } } + [h(@page.breadcrumb_title)])) %>
-<h3><%= t(:label_history) %></h3>
+<%=
+  render Primer::OpenProject::PageHeader.new do |header|
+    header.with_title { t(:label_history) }
+    header.with_breadcrumbs(
+      breadcrumb_for_page(@project, @page, t(:label_history))
+    )
+  end
+%>
+
 <%= form_tag({ action: "diff" }, method: :get) do %>
   <div class="generic-table--container"
        data-application-target="dynamic"

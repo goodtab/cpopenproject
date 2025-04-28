@@ -21,12 +21,15 @@
 #++
 ro:
   js:
+    text_are_you_sure: "Sunteți sigur?"
+    myTimeTracking:
+      noSpecificTime: "No specific time"
     work_packages:
       property_groups:
         costs: "Costuri"
       properties:
         overallCosts: "Costuri totale"
-        spentUnits: "Unități consumate"
+        spentUnits: "Unități cheltuite"
     button_log_costs: "Înregistrare costuri unitare"
     label_hour: "oră"
     label_hours: "ore"

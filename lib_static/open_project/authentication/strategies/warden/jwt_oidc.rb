@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module OpenProject
   module Authentication
     module Strategies
@@ -23,11 +25,41 @@ module OpenProject
             ::OpenIDConnect::JwtParser.new(required_claims: ["sub"]).parse(@access_token).either(
               ->(payload_and_provider) do
                 payload, provider = payload_and_provider
+                unless valid_scope?(payload)
+                  return fail_with_header! error: "insufficient_scope",
+                                           error_description: "Requires scope #{scope} to access this resource."
+                end
+
                 user = User.find_by(identity_url: "#{provider.slug}:#{payload['sub']}")
-                success!(user) if user
+                authentication_result(user)
               end,
               ->(error) { fail_with_header!(error: "invalid_token", error_description: error) }
             )
+          end
+
+          private
+
+          def authentication_result(user)
+            if user.nil?
+              return fail_with_header!(
+                error: "invalid_token",
+                error_description: "The user identified by the token is not known"
+              )
+            end
+
+            if user.active?
+              success!(user)
+            else
+              fail_with_header!(
+                error: "invalid_token",
+                error_description: "The user account is locked"
+              )
+            end
+          end
+
+          def valid_scope?(payload)
+            scopes = (payload["scope"] || "").split
+            scopes.include?(scope.to_s)
           end
         end
       end

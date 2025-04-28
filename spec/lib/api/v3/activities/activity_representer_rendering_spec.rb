@@ -43,7 +43,7 @@ RSpec.describe API::V3::Activities::ActivityRepresenter, "rendering" do
     end
   end
   let(:changes) { { subject: ["first subject", "second subject"] } }
-  let(:permissions) { %i(edit_work_package_notes) }
+  let(:permissions) { %i(edit_work_package_comments) }
   let(:representer) { described_class.new(journal, current_user:) }
 
   before do
@@ -173,12 +173,12 @@ RSpec.describe API::V3::Activities::ActivityRepresenter, "rendering" do
 
       it_behaves_like "has an untitled link"
 
-      context "with a non own journal having edit_work_package_notes permission" do
+      context "with a non own journal having edit_work_package_comments permission" do
         it_behaves_like "has an untitled link"
       end
 
       context "with a non own journal having only edit_own work_package_notes permission" do
-        let(:permissions) { %i(edit_own_work_package_notes) }
+        let(:permissions) { %i(edit_own_work_package_comments) }
 
         it_behaves_like "has no link"
       end

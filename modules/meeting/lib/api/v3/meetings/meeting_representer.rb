@@ -48,10 +48,6 @@ module API
                    lock_version.to_i
                  }
 
-        property :type,
-                 as: :meeting_type,
-                 getter: ->(*) { type }
-
         date_time_property :start_time
         date_time_property :end_time
 

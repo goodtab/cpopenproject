@@ -81,6 +81,11 @@ jobs:
       - name: "Fix root key in Portuguese crowdin translation files"
         run: |
           script/i18n/fix_crowdin_pt_language_root_key
+      - name: "Fix storages.health.checks.failures.zero key in Arabic and Latvian crowdin translation files"
+        # Only run if the file exists
+        if: ${{ hashFiles('script/i18n/fix_crowdin_storages_health_checks_failures_zero_key') != '' }}
+        run: |
+          script/i18n/fix_crowdin_storages_health_checks_failures_zero_key
       - name: "Commit translations"
         env:
           BRANCH: ${{ matrix.branch }}

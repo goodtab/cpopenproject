@@ -238,7 +238,7 @@ ro:
           status_waiting: "e-mail trimis - aștept confirmarea"
           test_ee: "Testați gratuit ediția Enterprise timp de 14 zile"
           quick_overview: "Obțineți o imagine de ansamblu rapidă a gestionării proiectelor și a colaborării în echipă cu OpenProject Enterprise edition."
-        upsale:
+        upsell:
           become_hero: "Devino un erou!"
           enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
           upgrade_info: "Te rog să treci la un plan plătit pentru a-l activa și a începe să îl utilizezi în echipa ta."
@@ -357,10 +357,10 @@ ro:
           learn_about: "Aflați mai multe despre noile caracteristici"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "15_4":
+          "15_5":
             standard:
               new_features_html: >
-                The release brings various features and improvements for you, e.g. <br> <ul class="%{list_styling_class}"> <li>Enable automatic scheduling mode.</li> <li>Set agenda item outcomes for meetings.</li> <li>Generate PDF documents from a work package description.</li> <li>Better manage a large number of projects with an enhanced project lists view.</li> <li>Use @-mention of user when quote replying to a comment.</li> </ul>
+                The release brings various features and improvements for you, e.g. <br> <ul class="%{list_styling_class}"> <li>Filter for descendants (children and grandchildren) of work packages.</li> <li>Benefit from advanced accessibility in the date picker.</li> <li>See % Complete included in work package table sums.</li> <li>Include a column for children in work package tables.</li> <li>Better use the date picker in mobile screens.</li> <li>PDF exports matching configured form layout.</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -462,6 +462,7 @@ ro:
     label_menu_collapse: "restrângere"
     label_menu_expand: "extindere"
     label_more_than_ago: "acum mai mult de zile"
+    label_moderate_comment: "Moderate comment"
     label_next: "Înainte"
     label_no_color: "Nicio culoare"
     label_no_data: "Nu există date de afișat"
@@ -625,14 +626,11 @@ ro:
       date_alerts:
         milestone_date: "Dată etapă"
         overdue: "Restanțe"
-        overdue_since: "since %{difference_in_days}."
-        property_today: "is today."
-        property_is: "is in %{difference_in_days}."
-        property_was: "was %{difference_in_days} ago."
-        property_is_deleted: "is deleted."
-        upsale:
-          title: "Alerte date"
-          description: "Cu alertele de date, veți fi notificat cu privire la următoarele date de început sau de sfârșit, astfel încât să nu ratați sau să uitați niciodată un termen limită important."
+        overdue_since: "de %{difference_in_days}"
+        property_today: "este azi."
+        property_is: "este în %{difference_in_days}"
+        property_was: "a fost acum %{difference_in_days}"
+        property_is_deleted: "este ștearsă."
       center:
         label_actor_and: "și"
         and_more_users:
@@ -696,7 +694,6 @@ ro:
           date_alerts:
             title: "Alerte dăți"
             description: "Notificări automate atunci când se apropie dăți importante pentru pachetele de lucru deschise în care ești implicat (desemnat, responsabil sau observator)."
-            teaser_text: "Cu alertele de date, veți fi notificat cu privire la următoarele date de început sau de sfârșit, astfel încât să nu ratați sau să uitați niciodată un termen limită important."
           overdue: În caz de întârziere
         project_specific:
           title: "Setări notificare specifice proiectului"
@@ -799,6 +796,7 @@ ro:
       typeahead_placeholder: Căutarea de posibili observatori
     relation_labels:
       parent: "Părinte"
+      child: "Child"
       children: "Copii"
       relates: "În relație cu"
       duplicates: "Dublează"
@@ -828,7 +826,7 @@ ro:
       add_new_child: "Creează copil nou"
       create_new: "Creează nou"
       add_existing: "Adaugă existent"
-      add_existing_child: "Adaugă copil existent"
+      add_existing_child: "Adăugare fiu"
       remove_child: "Elimină copil"
       add_new_relation: "Crează o nouă relație"
       add_existing_relation: "Adaugă relație existentă"
@@ -867,7 +865,7 @@ ro:
     tl_toolbar:
       zooms: "Orizont de timp"
       outlines: "Nivel ierarhic"
-    upsale:
+    upsell:
       ee_only: "Add-on pentru ediția Enterprise"
     wiki_formatting:
       strong: "Aldin"
@@ -1045,9 +1043,7 @@ ro:
         is_switched_from_manual_to_automatic: "Este posibil ca datele acestui pachet de lucru să trebuiască să fie recalculate după trecerea de la programarea manuală la cea automată din cauza relațiilor cu alte pachete de lucru."
       sharing:
         title: "Share work package"
-        show_all_users: "Show all users with whom the work package has been shared with"
-        upsale:
-          description: "Share work packages with users who are not members of the project."
+        show_all_users: "Arată toți utilizatorilor cu care pachetul de lucru a fost partajat"
       table:
         configure_button: "Configurarea tabelului pachetului de lucru"
         summary: "Tabel cu pachete de lucru pe rânduri şi câmpurile pachetelor pe coloane."
@@ -1082,10 +1078,6 @@ ro:
           manually: "Manual"
           warning: "La activarea modului de sortare automată, veți pierde sortarea anterioară."
         columns_help_text: "Utilizează datele de mai sus pentru a adăuga sau elimina coloane în vizualizarea tabelului. Poți glisa și plasa coloanele pentru a le reordona."
-        upsale:
-          attribute_highlighting: "Aveți nevoie ca anumite pachete de lucru să iasă în evidență?"
-          relation_columns: "Aveți nevoie să vedeți relațiile din lista pachetelor de lucru?"
-          check_out_link: "Consultați ediția Enterprise."
         relation_filters:
           filter_work_packages_by_relation_type: "Filtrează pachetele de lucru după tipul relației"
       tabs:
@@ -1302,9 +1294,7 @@ ro:
       clear: "Șterge"
       apply: "Aplică"
       header_description: "Evidențiază modificările făcute la această listă de la orice punct din trecut."
-      enterprise_header_description: "Highlight changes made to this list since any point in the past with Enterprise edition."
       show_changes_since: "Arată modificările"
-      baseline_comparison: "Comparație referință"
       help_description: "Zona orară de referință"
       time_description: "În timpul tău local: %{datetime}"
       time: "Timp"
@@ -1342,7 +1332,7 @@ ro:
         close: "Close modal"
     open_project_storage_modal:
       waiting_title:
-        timeout: "Timeout"
+        timeout: "Expirat"
       waiting_subtitle:
         network_off: "There is a network problem."
         network_on: "Network is back. We are trying."

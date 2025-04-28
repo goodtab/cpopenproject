@@ -10,7 +10,7 @@ keywords: file storages, document category, document categories
 
 To create or edit document categories in OpenProject, navigate to *Administration → Files → Categories*. Here, you will see all existing values. You can adjust the items within the list by using the options behind the **More (three dots)** menu on the right side. You can also rearrange the order by using the drag-and-drop handle on the left. 
 
-![Documenta categories overview in OpenProject administration](openproject_system_guide_files_categories_overview.png)
+![Document categories overview in OpenProject administration](openproject_system_guide_files_categories_overview.png)
 
 ## Create new document category
 

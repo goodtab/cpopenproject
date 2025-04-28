@@ -33,6 +33,8 @@ module My
     before_action :require_login
     before_action :find_active_timer, only: %i[show]
 
+    no_authorization_required! :show
+
     def show
       render layout: nil
     end

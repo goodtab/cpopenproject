@@ -15,29 +15,6 @@ A user is any individual who can log into your OpenProject instance.
 
 Permissions control what users can see and do within OpenProject. Permission are granted to users by assigning one or more roles to the users.
 
-### File storages permissions
-
-Permissions related to the external file storages are part of the *Projects* and *Work packages and Gantt charts*:
-
-![Files storages permissions in OpenProject](openproject_user_guide_file_storages_permissions.png)
-
-Following are the permissions for file storages within OpenProject:
-
-- **View file links**: Allows a user to see file links to external storages in the Files tab of work packages
-- **Manage file links**: Allows a user to create and edit file links to work packages
-- **Manage files in project**: Allows a user to add or edit file storages for a project
-
-Following user permissions are set on files and folder in **External Storages**:
-
-- **Automatically managed folders: Read files (Nextcloud, OneDrive/SharePoint)**
-- **Automatically managed folders:  Write files (Nextcloud, OneDrive/SharePoint)**
-- **Automatically managed folders: Create files (Nextcloud)**
-- **Automatically managed folders: Delete files (Nextcloud)**
-- **Automatically managed folders: Share files (Nextcloud)**
-
-> [!NOTE]
-> Please note that not all file permissions are applicable to all storage providers.
-
 ## Roles
 
 A role bundles a collection of permissions. It is an convenient way of granting permissions to multiple users in your organization that need the same permissions or restrictions.
@@ -189,3 +166,33 @@ Global permissions are system wide. They are attached to **global roles** and co
 ### Can I convert a project role to a global role?
 
 No this is not possible. You need to create a new role instead.
+
+### What permissions exist for file storages?
+
+Permissions related to the external file storages are part of the *Projects* and *Work packages and Gantt charts*:
+
+![Files storages permissions in OpenProject](openproject_user_guide_file_storages_permissions.png)
+
+Following are the permissions for file storages within OpenProject:
+
+- **View file links**: Allows a user to see file links to external storages in the Files tab of work packages
+- **Manage file links**: Allows a user to create and edit file links to work packages
+- **Manage files in project**: Allows a user to add or edit file storages for a project
+
+Following user permissions are set on files and folder in **External Storages**:
+
+- **Automatically managed folders: Read files (Nextcloud, OneDrive/SharePoint)**
+
+- **Automatically managed folders:  Write files (Nextcloud, OneDrive/SharePoint)**
+
+- **Automatically managed folders: Create files (Nextcloud)**
+
+- **Automatically managed folders: Delete files (Nextcloud)**
+
+- **Automatically managed folders: Share files (Nextcloud)**
+
+  
+
+> [!NOTE]
+>
+> Please note that not all file permissions are applicable to all storage providers.

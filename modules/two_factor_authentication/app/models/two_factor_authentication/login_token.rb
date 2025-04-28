@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module TwoFactorAuthentication
   class LoginToken < ::Token::HashedToken
     include ::Token::ExpirableToken
@@ -8,9 +10,7 @@ module TwoFactorAuthentication
 
     def self.generate_token_value
       chars = ("0".."9").to_a
-      password = ""
-      6.times { |_i| password << chars[rand(chars.size - 1)] }
-      password
+      Array.new(6) { chars[SecureRandom.rand(chars.size)] }.join
     end
   end
 end

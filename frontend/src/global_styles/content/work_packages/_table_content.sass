@@ -37,6 +37,10 @@
 
 .wp-table--row
   cursor: pointer
+  // Some padding for the inner cells of the display fields
+  .inline-edit--display-field:not(.op-table-baseline--field)
+    padding: 2px
+
 
 .wp-table--row,
 #empty-row-notification
@@ -151,10 +155,6 @@ html:not(.-browser-mobile)
 
     &.bcfThumbnail
       outline: none
-
-// Some padding for the inner cells of the display fields
-.inline-edit--display-field:not(.op-table-baseline--field)
-  padding: 2px
 
 .inplace-editing--container
   @include unset-button-styles

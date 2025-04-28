@@ -38,15 +38,25 @@ module Storages
         end
 
         def self.failure(key, message)
-          new(key:, state: :failure, message: message, timestamp: Time.zone.now)
+          new(key:, state: :failure, message:, timestamp: Time.zone.now)
         end
 
         def self.success(key)
           new(key:, state: :success, message: nil, timestamp: Time.zone.now)
         end
 
+        def self.warning(key, message)
+          new(key:, state: :warning, message:, timestamp: Time.zone.now)
+        end
+
         def success? = state == :success
         def failure? = state == :failure
+        def warning? = state == :warning
+        def skipped? = state == :skipped
+
+        def to_h
+          { state: state.to_s, message:, timestamp: timestamp&.iso8601 }
+        end
       end
     end
   end

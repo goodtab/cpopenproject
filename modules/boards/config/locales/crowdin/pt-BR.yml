@@ -6,6 +6,10 @@ pt-BR:
   permission_show_board_views: "Visualizar quadros"
   permission_manage_board_views: "Gerenciar quadros"
   project_module_board_view: "Quadros"
+  ee:
+    upsell:
+      board_view:
+        description: 'Gostaria de automatizar seu fluxo de trabalho com Quadros? Quadros avançados são um complemento do Enterprise. Atualize para um plano pago.'
   boards:
     label_board: "Quadro"
     label_boards: "Quadros"
@@ -31,9 +35,6 @@ pt-BR:
       version: >
         Quadro com colunas automatizadas baseado no atributo da versão. Ideal para planejar desenvolvimento de produto.
       subproject: >
-        Quadro com colunas automatizadas para subprojetos. Arrastar pacotes de trabalho para outras listas atualiza os (sub)projetos de acordo.
+        Quadro com colunas automatizadas para subprojetos. Arrastar pacotes de trabalho para outras listas atualiza os (sub)projetos de acordo. 
       subtasks: >
         Quadro com colunas automatizadas para subelementos. Arrastar pacotes de trabalho para outras listas atualiza os pais de acordo.
-    upsale:
-      teaser_text: 'Gostaria de automatizar seu fluxo de trabalho com Quadros? Quadros avançados são um complemento do Enterprise. Atualize para um plano pago.'
-      upgrade: 'Faça o upgrade agora'

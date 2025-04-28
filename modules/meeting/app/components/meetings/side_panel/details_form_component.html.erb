@@ -3,7 +3,10 @@
     primer_form_with(
       model: @meeting,
       method: :put,
-      data: { turbo: true, turbo_stream: true },
+      data: { turbo: true,
+              turbo_stream: true,
+              controller: "meetings--form",
+              "application-target": "dynamic" },
       url: update_details_project_meeting_path(@project, @meeting)
     ) do |f|
       component_collection do |collection|
@@ -29,11 +32,11 @@
 
         collection.with_component(Primer::Alpha::Dialog::Footer.new) do
           component_collection do |modal_footer|
-            modal_footer.with_component(Primer::ButtonComponent.new(data: { "close-dialog-id": "edit-meeting-details-dialog" })) do
+            modal_footer.with_component(Primer::Beta::Button.new(data: { "close-dialog-id": "edit-meeting-details-dialog" })) do
               t("button_cancel")
             end
 
-            modal_footer.with_component(Primer::ButtonComponent.new(scheme: :primary, type: :submit)) do
+            modal_footer.with_component(Primer::Beta::Button.new(scheme: :primary, type: :submit)) do
               t("button_save")
             end
           end

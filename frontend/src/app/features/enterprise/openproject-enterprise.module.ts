@@ -37,6 +37,7 @@ import { EETrialWaitingComponent } from 'core-app/features/enterprise/enterprise
 import { EEActiveTrialComponent } from 'core-app/features/enterprise/enterprise-active-trial/ee-active-trial.component';
 import { EEActiveSavedTrialComponent } from 'core-app/features/enterprise/enterprise-active-trial/ee-active-saved-trial.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { EnterpriseBannerFrameComponent } from 'core-app/features/enterprise/enterprise-banner-frame.component';
 
 @NgModule({
   imports: [
@@ -49,6 +50,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     EnterpriseTrialService,
   ],
   exports: [
+    EnterpriseBannerFrameComponent,
   ],
   declarations: [
     EnterpriseBaseComponent,
@@ -57,6 +59,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     EETrialWaitingComponent,
     EEActiveTrialComponent,
     EEActiveSavedTrialComponent,
+    EnterpriseBannerFrameComponent,
   ],
 })
 export class OpenprojectEnterpriseModule {

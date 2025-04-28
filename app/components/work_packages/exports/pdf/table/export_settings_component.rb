@@ -33,6 +33,9 @@ module WorkPackages
     module PDF
       module Table
         class ExportSettingsComponent < BaseExportSettingsComponent
+          def format
+            "pdf_table"
+          end
         end
       end
     end

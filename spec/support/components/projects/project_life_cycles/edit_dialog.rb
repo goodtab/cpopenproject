@@ -49,20 +49,21 @@ module Components
           close if close_after_yield
         end
 
-        def set_date_for(step, value:)
-          dialog_selector = "##{::ProjectLifeCycles::Sections::EditDialogComponent::DIALOG_ID}"
+        def clear_date
+          find("input[id^='project_phase_date_range']").set ""
+          find_by_id("edit-project-life-cycles-dialog-title").click
+        end
 
-          datepicker = if value.is_a?(Array)
-                         Components::RangeDatepicker.new(dialog_selector)
-                       else
-                         Components::BasicDatepicker.new(dialog_selector)
-                       end
+        def set_date_for(values:)
+          dialog_selector = "##{Overviews::ProjectPhases::EditDialogComponent::DIALOG_ID}"
+
+          datepicker = Components::RangeDatepicker.new(dialog_selector)
 
           datepicker.open(
-            "input[id^='project_available_life_cycle_steps_attributes_#{step.position - 1}']"
+            "input[id^='project_phase_date_range']"
           )
 
-          Array(value).each do |date|
+          values.each do |date|
             datepicker.set_date(date.strftime("%Y-%m-%d"))
           end
         end
@@ -98,53 +99,45 @@ module Components
           expect(page).to have_css(async_content_container_css_selector)
         end
 
-        def expect_input(label, value:, type:, position:)
-          field = type == :stage ? :date_range : :date
+        def expect_input(label, value:)
           within_async_content do
             expect(page).to have_field(
               label,
               with: value,
-              name: "project[available_life_cycle_steps_attributes][#{position - 1}][#{field}]"
+              name: "project_phase[date_range]"
             )
           end
         end
 
         def expect_input_for(step)
-          options = if step.is_a?(Project::Stage)
-                      value = "#{step.start_date.strftime('%Y-%m-%d')} - #{step.end_date.strftime('%Y-%m-%d')}"
-                      { type: :stage, value: }
-                    else
-                      value = step.date.strftime("%Y-%m-%d")
-                      { type: :gate, value: }
-                    end
+          value = "#{step.start_date.strftime('%Y-%m-%d')} - #{step.finish_date.strftime('%Y-%m-%d')}"
 
-          expect_input(step.name, position: step.position, **options)
+          expect_input(step.name, value:)
         end
 
-        def expect_caption(step, text: nil, present: true)
+        def expect_caption(text: nil, present: true)
           selector = 'span[id^="caption"]'
-          expect_selector_for(step, selector:, text:, present:)
+          expect_selector_for(selector:, text:, present:)
         end
 
-        def expect_no_caption(step)
-          expect_caption(step, present: false)
+        def expect_no_caption
+          expect_caption(present: false)
         end
 
-        def expect_validation_message(step, text: nil, present: true)
+        def expect_validation_message(text: nil, present: true)
           selector = 'div[id^="validation"]'
-          expect_selector_for(step, selector:, text:, present:)
+          expect_selector_for(selector:, text:, present:)
         end
 
-        def expect_no_validation_message(step)
-          expect_validation_message(step, present: false)
+        def expect_no_validation_message
+          expect_validation_message(present: false)
         end
 
         private
 
-        def expect_selector_for(step, selector:, text: nil, present: true)
+        def expect_selector_for(selector:, text: nil, present: true)
           within_async_content do
-            field = step.is_a?(Project::Stage) ? :date_range : :date
-            input_id = "#project_available_life_cycle_steps_attributes_#{step.position - 1}_#{field}"
+            input_id = "#project_phase_date_range"
             parent = find(input_id).ancestor("primer-datepicker-field")
 
             if present

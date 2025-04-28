@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.expand_path("../../../../spec_helper", __dir__)
+require_relative "../../../../spec_helper"
 
 RSpec.describe OpenProject::GithubIntegration::Services::UpsertPartialPullRequest do
   subject(:upsert) do

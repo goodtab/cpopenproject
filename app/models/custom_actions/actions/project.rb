@@ -35,6 +35,10 @@ class CustomActions::Actions::Project < CustomActions::Actions::Base
     :project
   end
 
+  def type
+    :project
+  end
+
   def required?
     true
   end

@@ -82,7 +82,7 @@ ro:
       text_2fa_enabled: "Upon every login, this user will be requested to enter a OTP token from their default 2FA device."
       text_2fa_disabled: "The user did not set up a 2FA device through their 'My account page'"
       only_sms_allowed: "Only SMS delivery can be set up for other users."
-    upsale:
+    upsell:
       title: "Autentificare doi factori"
       description: "Consolidarea securității instanței OpenProject prin oferirea (sau impunerea) autentificării cu doi factori pentru toți membrii proiectului."
     backup_codes:
@@ -113,8 +113,8 @@ ro:
       registration_failed_update: "Înregistrarea dispozitivului 2FA a eșuat, token-ul era valid, dar dispozitivul nu a putut fi actualizat."
       confirm_send_failed: "Confirmarea dispozitivului tău 2FA a eșuat."
       button_complete_registration: "Completați înregistrarea 2FA"
-      text_confirm_to_complete_html: "Vă rugăm să completați înregistrarea dispozitivului dvs <strong>%{identifier}</strong> prin introducerea unei parole unice de la dispozitivul dvs. implicit."
-      text_confirm_to_change_default_html: "Vă rugăm să confirmați schimbarea dispozitivului implicit în <strong>%{new_identifier}</strong> introducând o parolă unică de pe dispozitivul dvs. implicit actual."
+      text_confirm_to_complete_html: "Te rog să completezi înregistrarea dispozitivului <strong>%{identifier}</strong> prin introducerea unei parole unice de la dispozitivul tău implicit."
+      text_confirm_to_change_default_html: "Te rog să confirmi schimbarea dispozitivului implicit în <strong>%{new_identifier}</strong> introducând o parolă unică de pe dispozitivul implicit actual."
       text_identifier: "Puteți atribui dispozitivului un identificator personalizat folosind acest câmp."
       failed_to_delete: "Nu s-a reușit ștergerea dispozitivului 2FA."
       is_default_cannot_delete: "Dispozitivul este marcat ca fiind implicit și nu poate fi șters din cauza unei politici de securitate active. Marcați un alt dispozitiv ca implicit înainte de a-l șterge."

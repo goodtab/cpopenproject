@@ -28,7 +28,7 @@
 
     header.with_action_menu(
       menu_arguments: { anchor_align: :end },
-      button_arguments: { icon: "op-kebab-vertical", "aria-label": t(:label_menu) }
+      button_arguments: { icon: "kebab-horizontal", "aria-label": t(:label_menu) }
     ) do |menu|
       if User.current.allowed_in_project?(:select_project_custom_fields, @project)
         menu.with_item(

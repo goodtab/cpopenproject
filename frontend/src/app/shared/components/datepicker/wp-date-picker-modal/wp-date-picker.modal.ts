@@ -47,6 +47,8 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 export class OpWpDatePickerModalComponent extends OpModalComponent implements OnInit {
   turboFrameSrc:string;
 
+  showCloseButton = false;
+
   constructor(
     readonly elementRef:ElementRef,
     @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,

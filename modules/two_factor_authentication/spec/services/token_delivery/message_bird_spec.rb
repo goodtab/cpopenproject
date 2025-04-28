@@ -1,4 +1,6 @@
-require File.expand_path(File.dirname(__FILE__) + "/../../spec_helper")
+# frozen_string_literal: true
+
+require_relative "../../spec_helper"
 require "messagebird"
 
 RSpec.describe OpenProject::TwoFactorAuthentication::TokenStrategy::MessageBird do

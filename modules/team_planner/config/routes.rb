@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     collection do
       get "/", to: "team_planner/team_planner#overview"
       get "/new", to: "team_planner/team_planner#new"
-      get "/upsale", to: "team_planner/team_planner#upsale", as: :upsale
+      get "/upsell", to: "team_planner/team_planner#upsell", as: :upsell
     end
   end
 
@@ -16,7 +16,7 @@ Rails.application.routes.draw do
               as: :team_planners do
       collection do
         get "menu" => "team_planner/menus#show"
-        get "/upsale", to: "team_planner/team_planner#upsale", as: :upsale
+        get "/upsell", to: "team_planner/team_planner#upsell", as: :upsell
         get "/new", to: "team_planner/team_planner#show", as: :new
       end
 

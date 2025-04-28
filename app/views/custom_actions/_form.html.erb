@@ -1,7 +1,4 @@
-<% initialize_hide_sections_with(
-     @custom_action.all_actions.map { |a| { key: a.key, label: a.human_name } },
-     @custom_action.actions.map { |a| { key: a.key, label: a.human_name } }
-   ) %>
+<% active_section_keys = @custom_action.actions.map(&:key) %>
 
 <div class="form--field -required">
   <%= f.text_field :name, required: true, container_class: "-middle" %>
@@ -42,7 +39,6 @@
                                         model: condition.value_objects.map { |v| { id: v[:value], name: v[:label] } },
                                         inputName: input_name,
                                         bindLabel: "name",
-                                        bindValue: "id",
                                         labelForId: "custom_action_conditions_#{condition.key}",
                                         appendTo: "body"
                                       } %>
@@ -61,15 +57,20 @@
 
   <div id="custom-actions-form--active-actions">
     <% @custom_action.all_actions.each do |action| %>
-      <section class="hide-section" hidden data-section-name="<%= action.key %>">
+      <section class="hide-section"
+               data-hide-sections-target="section"
+               data-name="<%= action.key %>"
+               <%= tag.attributes(data: { section_name: action.key }, hidden: active_section_keys.include?(action.key) ? nil : true) %>
+      >
         <div class="form--field">
           <%= styled_label_tag("custom_action_actions_#{action.key}", action.human_name, class: "-top") %>
 
           <% input_name = "custom_action[actions][#{action.key}]" %>
-          <% if %i(associated_property boolean).include?(action.type) %>
+          <% if %i(associated_property boolean user project).include?(action.type) %>
             <div class="form--field-container">
               <div class="form--select-container -middle">
-                <% if action.key == :project %>
+                <% case action.type %>
+                <% when :project %>
                   <%= angular_component_tag "opce-project-autocompleter",
                                             inputs: {
                                               multiple: false,
@@ -80,16 +81,39 @@
                                               labelForId: "custom_action_actions_#{action.key}",
                                               inputValue: action.values.first
                                             } %>
+                <% when :user %>
+                  <% selected = action.value_objects.map { |v| { id: v[:value], name: v[:label] } } %>
+                  <%= angular_component_tag "opce-user-autocompleter",
+                                            inputs: {
+                                              hideSelected: true,
+                                              defaultData: false,
+                                              placeholder: I18n.t(:label_user_search),
+                                              resource: "principals",
+                                              url: ::API::V3::Utilities::PathHelper::ApiV3Path.principals,
+                                              model: action.multi_value? ? selected : selected.first,
+                                              inputName: input_name,
+                                              filters: [
+                                                { name: "status", operator: "!", values: [Principal.statuses["locked"].to_s] },
+                                              ],
+                                              appendTo: "body",
+                                              additionalOptions: [
+                                                { id: nil, name: I18n.t("placeholders.default") },
+                                                { id: action.current_user_value_key, name: action.current_user_name }
+                                              ],
+                                              searchKey: "any_name_attribute",
+                                              labelForId: "custom_action_actions_#{action.key}",
+                                              focusDirectly: false
+                                            } %>
                 <% else %>
+                  <% selected = action.value_objects.map { |v| { id: v[:value], name: v[:label] } } %>
                   <%= angular_component_tag "opce-autocompleter",
                                             inputs: {
                                               multiple: action.multi_value?,
                                               defaultData: false,
                                               items: action.allowed_values.map { |v| { id: v[:value], name: v[:label] } },
-                                              model: action.value_objects.map { |v| { id: v[:value], name: v[:label] } },
+                                              model: action.multi_value? ? selected : selected.first,
                                               inputName: input_name,
                                               bindLabel: "name",
-                                              bindValue: "id",
                                               labelForId: "custom_action_actions_#{action.key}",
                                               appendTo: "body"
                                             } %>
@@ -135,7 +159,12 @@
                                           step: 1 %>
             </div>
           <% end %>
-          <opce-hide-section-link data-section-name="<%= action.key %>"></opce-hide-section-link>
+          <button type="button"
+                  class="spot-link"
+                  title="<%= t(:button_close) %>"
+                  data-action="click->hide-sections#hide">
+            <%= op_icon("icon-close icon-small") %>
+          </button>
         </div>
       </section>
     <% end %>
@@ -144,14 +173,24 @@
   <div class="form--space"></div>
 
   <div class="form--field">
-    <label class="form--label" for="custom-actions-form--add-action">
+    <label class="form--label" for="add-custom-action-select">
       <%= op_icon("icon-add icon4") %>
       <%= I18n.t(:"custom_actions.actions.add") %>
     </label>
     <span class="form--field-container">
-      <span class="form--text-field-container -middle">
-        <opce-add-section-dropdown data-html-id="custom-actions-form--add-action">
-        </opce-add-section-dropdown>
+      <span class="form--select-container -middle">
+        <%= select_tag "add_action",
+                       options_for_select(
+                         @custom_action.all_actions.map { |a| [a.human_name, a.key] },
+                         disabled: active_section_keys
+                       ),
+                       id: "add-custom-action-select",
+                       prompt: t(:"custom_actions.actions.add"),
+                       data: {
+                         "hide-sections-target": "select",
+                         action: "change->hide-sections#add"
+                       },
+                       class: "form--select" %>
       </span>
     </span>
   </div>

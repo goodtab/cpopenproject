@@ -60,11 +60,12 @@ class WorkPackages::CreateService < BaseServices::BaseCallable
       end
 
     if result.success?
-      result.merge!(reschedule_related(work_package))
-
+      # update ancestors before rescheduling, as the parent might switch to automatic mode
       update_ancestors_all_attributes(result.all_results).each do |ancestor_result|
         result.merge!(ancestor_result)
       end
+
+      result.merge!(reschedule_related(work_package))
 
       set_user_as_watcher(work_package)
     end

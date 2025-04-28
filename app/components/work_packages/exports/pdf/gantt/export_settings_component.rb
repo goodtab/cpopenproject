@@ -33,6 +33,10 @@ module WorkPackages
     module PDF
       module Gantt
         class ExportSettingsComponent < BaseExportSettingsComponent
+          def format
+            "pdf_gantt"
+          end
+
           def gantt_selects
             [
               {
@@ -53,6 +57,26 @@ module WorkPackages
                 options: pdf_paper_sizes
               }
             ]
+          end
+
+          # Reads the saved value from the export settings and returns the selected option.
+          # When there is no saved value, returns the default option.
+          # @param [Hash] entry one entry from `gantt_selects`
+          def find_selected_option(entry)
+            select_name = entry[:name].to_sym
+            if export_settings.settings.key?(select_name)
+              saved_value = export_settings.settings[select_name]
+
+              entry[:options].find { |option| option[:value] == saved_value } || find_default_option(entry)
+            else
+              find_default_option(entry)
+            end
+          end
+
+          # Returns the default option for a gantt_select entry.
+          # @param [Hash] entry one entry from `gantt_selects`
+          def find_default_option(entry)
+            entry[:options].find { |option| option[:default] }
           end
 
           def gantt_zoom_levels

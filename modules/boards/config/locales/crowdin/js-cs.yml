@@ -1,14 +1,15 @@
 #English strings go here
 cs:
+  ee:
+    upsell:
+      board_view:
+        description: 'Chcete automatizovat své workflows s Tabulemi? Pokročilé Tabule jsou doplňkem Enterprise. Proveďte upgrade na placený plán.'
   js:
     boards:
       create_new: 'Vytvořit tabuli'
       label_unnamed_board: 'Nepojmenovaná tabule'
       label_unnamed_list: 'Nepojmenovaný seznam'
       label_board_type: 'Typ tabule'
-      upsale:
-        teaser_text: 'Chcete automatizovat své workflows s Tabulemi? Pokročilé Tabule jsou doplňkem Enterprise. Proveďte upgrade na placený plán.'
-        upgrade: 'Upgradovat nyní'
       lists:
         delete: 'Odstranit seznam'
       version:
@@ -44,7 +45,7 @@ cs:
         action_text_subprojects: >
           Boj s automatickými sloupce pro podprojekty. Přesunutí pracovních balíčků do jiných seznamů odpovídajícím způsobem aktualizuje podprojekt.
         action_text_subtasks: >
-          Tabule s automatickými sloupce pro podprojekty. Přesunutí pracovních balíčků do jiných seznamů odpovídajícím způsobem
+          Tabule s automatickými sloupce pro podprojekty. Přesunutí pracovních balíčků do jiných seznamů odpovídajícím způsobem 
         action_text_status: >
           Základní tabule ve stylu kanbanu se sloupci pro status jako je do Do, Probíhá, Done.
         action_text_assignee: >

@@ -49,15 +49,15 @@ RSpec.describe "work package hierarchies for milestones", :js do
     loading_indicator_saveguard
   end
 
-  it "does not provide links to add children or existing children (Regression #28745 and #60512)" do
+  it "does not provide links to create new child or add existing work package as child (Regression #28745 and #60512)" do
     # A work package has a menu entry to link or create a child
     visit_relations_tab_for(task_work_package)
-    relations.expect_new_relation_type("New child")
-    relations.expect_new_relation_type("Existing child")
+    relations.expect_new_relation_type("Create new child")
+    relations.expect_new_relation_type("Child")
 
     # A milestone work package does NOT have a menu entry to link or create a child
     visit_relations_tab_for(milestone_work_package)
-    relations.expect_no_new_relation_type("New child")
-    relations.expect_no_new_relation_type("Existing child")
+    relations.expect_no_new_relation_type("Create new child")
+    relations.expect_no_new_relation_type("Child")
   end
 end

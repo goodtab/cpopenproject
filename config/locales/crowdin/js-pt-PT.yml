@@ -239,28 +239,28 @@ pt-PT:
           status_waiting: "email enviado - a aguardar confirmação"
           test_ee: "Teste a edição Enterprise gratuitamente durante 14 dias"
           quick_overview: "Obter uma visão geral da gestão do projeto e colaboração em equipa com a edição OpenProject Enterprise."
-        upsale:
+        upsell:
           become_hero: "Torne-se um herói!"
           enterprise_info_html: "%{feature_title} é um complemento de Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span>."
           upgrade_info: "Faça o upgrade para um plano pago para ativar e começar a usar na sua equipa."
           benefits:
             description: "Quais são os benefícios da edição Empresarial on-premises?"
-            high_security: "Recursos de segurança"
+            high_security: "Funcionalidades de segurança"
             high_security_text: "Início de sessão único (SAML, OpenID Connect, CAS), grupos LDAP."
-            installation: "Suporte à instalação"
+            installation: "Apoio à instalação"
             installation_text: "Engenheiros de software experientes darão orientações durante toda a instalação e processo de configuração na sua própria infraestrutura."
-            premium_features: "Complementos de Enterprise"
+            premium_features: "Complementos Enterprise"
             premium_features_text: "Agile boards, gráficos de temas e logótipos personalizados, fluxos de trabalho inteligentes com ações personalizadas, pesquisa de texto completo para anexos em pacotes de trabalho, e campos personalizados de multi-seleção."
             professional_support: "Suporte profissional"
             professional_support_text: "Receba apoio fiável e de alto nível de engenheiros séniores de suporte, com conhecimento especializado sobre a gestão do OpenProject em ambientes de negócios críticos."
-          button_start_trial: "Iniciar avaliação gratuita"
+          button_start_trial: "Iniciar o teste gratuito"
           button_upgrade: "Fazer o upgrade agora"
           button_contact_us: "Contacte-nos para obter uma demonstração"
-          button_book_now: "Reserve agora"
+          button_book_now: "Reservar agora"
           confidence: >
             Fornecemos toda a segurança de um software de gestão de projetos de classe empresarial, testado e com suporte - com Open Source e mente aberta.
           link_quote: "Fazer uma simulação"
-          more_info: "Mais informações"
+          more_info: "Mais informação"
           text: >
             O OpenProject Enterprise Edition é construído a partir da edição Community. Inclui complementos Enterprise e suporte profissional, dirigido sobretudo a organizações com mais de 10 utilizadores que gerem projetos de negócios críticos com o OpenProject.
           unlimited: "Ilimitado"
@@ -358,21 +358,21 @@ pt-PT:
           learn_about: "Saiba mais sobre os novos recursos"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "15_4":
+          "15_5":
             standard:
               new_features_html: >
-                A versão traz várias funcionalidades e melhorias para si, por exemplo <br> <ul class="%{list_styling_class}"> <li>Ativar o modo de programação automática.</li> <li>Definir os resultados dos pontos da ordem de trabalhos das reuniões.</li> <li>Gerar documentos PDF a partir da descrição de um pacote de trabalho.</li> <li>Gerir melhor um grande número de projetos com uma vista de listas de projetos melhorada.</li> <li>Utilizar a função de @-menção do utilizador quando responder a um comentário.</li> </ul>
+                A versão inclui diversas funcionalidades e melhorias para si, como o <br> <ul class="%{list_styling_class}"> <li>Filtro para descendentes (filhos e netos) de pacotes de trabalho.</li> <li>Tire partido de uma acessibilidade avançada no seletor de datas.</li> <li>Veja a % de conclusão incluída nas somas da tabela do pacote de trabalho.</li> <li>Inclua uma coluna para filhos nas tabelas de pacotes de trabalho.</li> <li>Melhor utilização do seletor de datas em ecrãs de dispositivos móveis.</li> <li>Exportações de PDF que correspondem à disposição do formulário configurada.</li> </ul>
     ical_sharing_modal:
       title: "Subscrever o calendário"
       inital_setup_error_message: "Ocorreu um erro ao recuperar os dados."
-      description: "Pode utilizar o URL (iCalendar) para subscrever este calendário num cliente externo e visualizar informações atualizadas sobre o pacote de trabalho a partir daí."
+      description: "Pode utilizar o URL (iCalendar) para subscrever este calendário num cliente externo e ver informações atualizadas sobre o pacote de trabalho a partir daí."
       warning: "Não partilhe este URL com outros utilizadores. Qualquer pessoa com este link poderá ver os detalhes do pacote de trabalho sem uma conta ou palavra-passe."
       token_name_label: "Onde irá utilizar isto?"
       token_name_placeholder: 'Escreva um nome, por exemplo, "Telefone"'
       token_name_description_text: 'Se subscrever este calendário a partir de vários dispositivos, este nome irá ajudá-lo a distinguir entre eles na sua lista de <a href="my/access_token", target="_blank">tokens de acesso</a>.'
       copy_url_label: "Copiar URL"
       ical_generation_error_text: "Ocorreu um erro ao gerar o URL do calendário."
-      success_message: 'O URL "%{name}" foi copiado com sucesso para a área de transferência. Cole-o no seu cliente de calendário para concluir a subscrição.'
+      success_message: 'O URL "%{name}" foi copiado com sucesso para a área de transferência. Cole-o no seu cliente de Calendários para concluir a subscrição.'
     label_activate: "Ativar"
     label_assignee: "Responsável"
     label_add_column_after: "Adicionar coluna após"
@@ -463,6 +463,7 @@ pt-PT:
     label_menu_collapse: "ocultar"
     label_menu_expand: "expandir"
     label_more_than_ago: "mais do que dias atrás"
+    label_moderate_comment: "Moderate comment"
     label_next: "Próxima"
     label_no_color: "Sem cor"
     label_no_data: "Sem dados para apresentar"
@@ -601,7 +602,7 @@ pt-PT:
           timeline: "Aqui pode <b>editar o seu plano de projeto</b>, criar novos pacotes de trabalho, tais como tarefas, marcos, fases e muito mais, bem como <b>adicionar dependências</b>. Todos os membros da equipa podem ver e atualizar o plano mais recente a qualquer momento."
         team_planner:
           overview: "O planeador de equipa permite atribuir tarefas visualmente aos membros da equipa e obter uma visão geral de quem está a trabalhar e no quê (onde)."
-          calendar: "O quadro de planeamento semanal ou quinzenal exibe todos os pacotes de trabalho atribuídos aos membros de sua equipa."
+          calendar: "O quadro de planeamento semanal ou quinzenal apresenta todos os pacotes de trabalho atribuídos aos membros da sua equipa."
           add_assignee: "Para começar, adicione responsáveis ao planeador da equipa."
           add_existing: "Pesquise pacotes de trabalho existentes e arraste-os para o planeador de equipa para atribuí-los instantaneamente a um membro da equipa e definir as datas de início e término."
           card: "Arraste os pacotes de trabalho horizontalmente para os mover para trás ou para frente no tempo, arraste as bordas para alterar as datas de início e término, e arraste verticalmente para uma linha diferente para atribuir a outro membro."
@@ -631,9 +632,6 @@ pt-PT:
         property_is: "é em %{difference_in_days}."
         property_was: "foi há %{difference_in_days}."
         property_is_deleted: "foi eliminado."
-        upsale:
-          title: "Alertas de data"
-          description: "Com os alertas de data, receberá uma notificação sobre as próximas datas de início e conclusão, para que não nunca perca ou esqueça prazos importantes. "
       center:
         label_actor_and: "e"
         and_more_users:
@@ -696,7 +694,6 @@ pt-PT:
           date_alerts:
             title: "Alertas de data"
             description: "Notificações automáticas ao aproximarem-se datas importantes para pacotes de trabalho abertos em que esteja envolvido (responsável ou observador)."
-            teaser_text: "Com os alertas de data, receberá uma notificação sobre as próximas datas de início e conclusão, para que não nunca perca ou esqueça prazos importantes. "
           overdue: Quando vencido
         project_specific:
           title: "Configurações de notificação específicas do projeto"
@@ -799,6 +796,7 @@ pt-PT:
       typeahead_placeholder: Procurar possíveis observadores
     relation_labels:
       parent: "Mãe"
+      child: "Secundário"
       children: "Filhos"
       relates: "Relacionado com"
       duplicates: "Repetidos"
@@ -828,7 +826,7 @@ pt-PT:
       add_new_child: "Criar novo filho"
       create_new: "Criar novo"
       add_existing: "Adicionar existente"
-      add_existing_child: "Adicionar filho existente"
+      add_existing_child: "Adicionar secundário"
       remove_child: "Remover filho"
       add_new_relation: "Criar nova relação"
       add_existing_relation: "Adicionar relação existente"
@@ -867,7 +865,7 @@ pt-PT:
     tl_toolbar:
       zooms: "Nível de zoom"
       outlines: "Nível da hierarquia"
-    upsale:
+    upsell:
       ee_only: "Complemento de edição empresarial"
     wiki_formatting:
       strong: "Negrito"
@@ -1046,8 +1044,6 @@ pt-PT:
       sharing:
         title: "Partilhar pacote de trabalho"
         show_all_users: "Mostrar todos os utilizadores com quem o pacote de trabalho foi partilhado"
-        upsale:
-          description: "Partilhe pacotes de trabalho com utilizadores que não são membros do projeto."
       table:
         configure_button: "Configurar esta tabela de pacote de trabalho"
         summary: "Tabela com linhas do pacote de trabalho e colunas dos atributos do pacote de trabalho."
@@ -1082,10 +1078,6 @@ pt-PT:
           manually: "Manualmente"
           warning: "Perderá a sua ordenação anterior quando ativar o modo de ordenação automática."
         columns_help_text: "Utilize o campo acima para adicionar colunas ao seu modo de vista de tabela. Pode arrastar e soltar as colunas para as reordenar."
-        upsale:
-          attribute_highlighting: "Precisa de certos pacotes de trabalho para se destacar do resto?"
-          relation_columns: "Precisa de ver as relações na lista do pacote de trabalho?"
-          check_out_link: "Experimente a edição Enterprise."
         relation_filters:
           filter_work_packages_by_relation_type: "Filtrar pacotes de trabalho por tipo de relação"
       tabs:
@@ -1299,9 +1291,7 @@ pt-PT:
       clear: "Limpar"
       apply: "Aplicar"
       header_description: "Destacar as alterações introduzidas nesta lista desde qualquer ponto no passado."
-      enterprise_header_description: "Destacar as alterações introduzidas nesta lista desde qualquer ponto no passado com a edição Enterprise."
       show_changes_since: "Mostrar alterações desde"
-      baseline_comparison: "Comparação de linha de base"
       help_description: "Fuso horário de referência para a linha de base."
       time_description: "No seu horário local: %{datetime}"
       time: "Tempo"

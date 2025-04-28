@@ -147,6 +147,10 @@ class TimeEntry < ApplicationRecord
       (user_id == usr.id && usr.allowed_in_project?(:view_own_hourly_rate, project))
   end
 
+  def has_start_and_end_time?
+    start_time.present?
+  end
+
   def start_timestamp # rubocop:disable Metrics/AbcSize
     return nil if start_time.blank?
     return nil if time_zone.blank?
@@ -168,15 +172,14 @@ class TimeEntry < ApplicationRecord
   end
 
   class << self
-    def can_track_start_and_end_time?(_project: nil)
-      OpenProject::FeatureDecisions.track_start_and_end_times_for_time_entries_active? &&
-        Setting.allow_tracking_start_and_end_times?
-      # TODO: Add project check when we have decided if we also want a project specific flag
+    def can_track_start_and_end_time?
+      Setting.allow_tracking_start_and_end_times?
     end
 
-    def must_track_start_and_end_time?(_project: nil)
-      can_track_start_and_end_time? && Setting.enforce_tracking_start_and_end_times?
-      # TODO: Add project check when we have decided if we also want a project specific flag
+    def must_track_start_and_end_time?
+      EnterpriseToken.allows_to?(:time_entry_time_restrictions) &&
+        can_track_start_and_end_time? &&
+        Setting.enforce_tracking_start_and_end_times?
     end
   end
 

@@ -5,7 +5,7 @@ ro:
     description: "This module provides recaptcha checks during login."
   recaptcha:
     label_recaptcha: "reCAPTCHA"
-    button_please_wait: 'Vă rugăm să asteptați...'
+    button_please_wait: 'Te rog să aștepți...'
     verify_account: "Verificati-va contul"
     error_captcha: "Contul dvs. nu a putut fi verificat. Vă rugăm să contactați un administrator."
     settings:

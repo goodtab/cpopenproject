@@ -37,4 +37,6 @@ class OAuthClientToken < ApplicationRecord
 
   validates :access_token, presence: true
   validates :refresh_token, presence: true
+
+  scope :for_user_and_client, ->(user, client) { where(user:, oauth_client: client) }
 end

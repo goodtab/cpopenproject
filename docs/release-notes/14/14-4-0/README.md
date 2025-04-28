@@ -124,7 +124,7 @@ In the activity tab, updates to long text custom fields will be displayed as in 
 
 ![Example screenshot showing how changes on a custom field will now look like in the work package activity tab](Custom_field__long_text__changed.png)
 
-Clicking on the "Details" link will take the user to the diff view, which is also used for work package descriptions and project status explanations. See our [user guide on custom fields](../../../user-guide/projects/project-settings/custom-fields/) for more information.
+Clicking on the "Details" link will take the user to the diff view, which is also used for work package descriptions and project status explanations. See our [user guide on custom fields](../../../user-guide/projects/project-settings/work-packages/#work-package-custom-fields) for more information.
 
 <!--more-->
 

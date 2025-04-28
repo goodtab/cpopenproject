@@ -8,7 +8,7 @@ release_date: 2019-06-06
 
 # OpenProject 9.0
 
-OpenProject 9.0 introduces a board view to support agile project management with Kanban. In addition, you can define work package templates to rapidly create new work packages with a pre-defined structure. Each user can now add their own custom work package views to their my page.
+OpenProject 9.0 introduces a board view to support agile project management with Kanban. In addition, you can define work package templates to rapidly create new work packages with a pre-defined structure. Each user can now add their own custom work package views to their My page.
 
 Read below to get a detailed overview of what is new in OpenProject 9.
 
@@ -32,9 +32,9 @@ Templates can be configured in the work package type configuration.
 
 ![Work package templates](template.png)
 
-## Work package widget on My Page
+## Work package widget on My page
 
-On the My Page, each user can add work package widgets and customize which work packages to display.
+On the My page, each user can add work package widgets and customize which work packages to display.
 
 You can filter and group by work package attributes and also display Gantt charts in the widgets.
 

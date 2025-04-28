@@ -14,6 +14,9 @@ updates:
       fullcalendar:
         patterns:
           - '@fullcalendar*'
+    ignore:
+      - dependency-name: "@angular*"
+        update-types: ["version-update:semver-major"]
   - package-ecosystem: "bundler"
     directory: "/"
     schedule:

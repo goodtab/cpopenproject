@@ -67,10 +67,12 @@ export class GroupEditInPlaceComponent implements OnInit {
   }
 
   startEditing():void {
-    this.bannerService.conditional(
+    void this.bannerService.conditional(
+      'edit_attribute_groups',
       () => this.bannerService.showEEOnlyHint(),
       () => {
         this.editing = true;
+        this.cdRef.detectChanges();
       },
     );
   }

@@ -29,6 +29,10 @@
 class CustomActions::Actions::Responsible < CustomActions::Actions::Base
   include CustomActions::Actions::Strategies::MeAssociated
 
+  def type
+    :user
+  end
+
   def available_principles
     User
       .not_locked

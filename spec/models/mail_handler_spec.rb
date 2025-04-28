@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -146,7 +148,7 @@ RSpec.describe MailHandler do
   end
 
   shared_context "with a reply to a wp mention" do
-    let(:permissions) { %i[add_work_package_notes view_work_packages] }
+    let(:permissions) { %i[add_work_package_comments view_work_packages] }
     let!(:user) do
       create(:user,
              mail: "j.doe@openproject.org",
@@ -168,7 +170,7 @@ RSpec.describe MailHandler do
   end
 
   shared_context "with a reply to a wp mention with attributes" do
-    let(:permissions) { %i[add_work_package_notes view_work_packages edit_work_packages work_package_assigned] }
+    let(:permissions) { %i[add_work_package_comments view_work_packages edit_work_packages work_package_assigned] }
     let(:role) do
       create(:project_role, permissions:)
     end
@@ -726,8 +728,8 @@ RSpec.describe MailHandler do
             expect do
               expect(subject.author).to be_active
               expect(subject.author.mail).to eq("foo@example.org")
-              expect(subject.author.firstname).to eq("\xc3\x84\xc3\xa4".force_encoding("UTF-8"))
-              expect(subject.author.lastname).to eq("\xc3\x96\xc3\xb6".force_encoding("UTF-8"))
+              expect(subject.author.firstname).to eq((+"\xc3\x84\xc3\xa4").force_encoding("UTF-8"))
+              expect(subject.author.lastname).to eq((+"\xc3\x96\xc3\xb6").force_encoding("UTF-8"))
             end.to change(User, :count).by(1)
           end
         end

@@ -50,13 +50,19 @@ zh-CN:
         project: 项目
         user: 用户
         work_package: 工作包
+        subject: 主题
         hours: 小时
         comments: 评论
         activity: 活动
         spent_on: 日期
         start_time: 开始时间
         end_time: 结束时间
+        time: 时间
     models:
+      time_entry:
+        other: "时间记录"
+      cost_entry:
+        other: "成本条目"
       cost_type:
         other: "成本类型"
       time_entry_activity:
@@ -142,12 +148,28 @@ zh-CN:
   label_cost: "成本"
   label_costs: "成本"
   label_mandatory_fields: "必填字段"
+  label_my_time_tracking: "我的工时记录"
+  label_no_time: "无时间追踪"
+  label_next_day: "后一天"
+  label_next_week: "下周"
+  label_next_month: "下个月"
+  label_previous_day: "前一天"
+  label_previous_week: "前一周"
+  label_previous_month: "上个月"
+  label_specific_day: "第 %{day} 天"
+  label_specific_week: "日历周 %{week}"
+  label_specific_month: "%{month} 月"
+  label_list: "列表"
+  label_month: "月"
+  label_day: "天"
+  label_today_capitalized: "今天"
   placeholder_activity_select_work_package_first: 首先需要选择工作包
   notice_something_wrong: "出错了。请重试。"
   notice_successful_restore: "成功恢复。"
   notice_successful_lock: "锁定成功。"
   notice_cost_logged_successfully: "单位成本记录成功。"
   notice_different_time_zones: "该用户使用不同的时区 (%{tz})。将使用其时区记录时间。"
+  notice_time_entry_update_failed: "无法更新时间条目。错误：%{errors}"
   permission_edit_cost_entries: "编辑记录的单位成本"
   permission_edit_own_cost_entries: "编辑自己记录的单位成本"
   permission_edit_hourly_rates: "编辑小时费率"
@@ -173,9 +195,17 @@ zh-CN:
   text_reassign_time_and_cost_entries: "将已上报的工时和成本重新提交到工作包中："
   text_warning_hidden_elements: "某些条目可能已被排除在聚合之外。"
   week: "周"
-  js:
-    text_are_you_sure: "是否确定？"
+  total_times:
+    week: "周总计：%{hours}小时"
+    month: "月总计：%{hours}小时"
+    day: "日总计：%{hours}小时"
   api_v3:
     errors:
       validation:
         start_time_different_date: "开始时间 (%{start_time}) 的日期部分必须与 支出日期(%{spent_on})相同。"
+  ee:
+    features:
+      time_entry_time_restrictions: 需要准确的时间跟踪
+    upsell:
+      time_entry_time_restrictions:
+        description: "通过要求在记录时间时提供确切的开始和结束时间来改进你的时间跟踪。"

@@ -37,7 +37,7 @@ class MeetingAgendaItem < ApplicationRecord
 
   enum :item_type, ITEM_TYPES
 
-  belongs_to :meeting, class_name: "StructuredMeeting"
+  belongs_to :meeting
   belongs_to :meeting_section, optional: false
   belongs_to :work_package, class_name: "::WorkPackage"
   has_one :project, through: :meeting

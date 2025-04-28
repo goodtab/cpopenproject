@@ -93,7 +93,9 @@ ko:
       button: "PDF 타임시트 내보내기"
       timesheet: "타임시트"
       time: "시간"
-      sum_hours: 합계
+      sums_hours: 합계
+      overview_per_user_total: "Overview: Total hours per user"
+      overview_per_user_day: "Overview: Hours per user per day"
     cost_reports:
       title: "비용 리포트 XML로 내보내기"
       start_time: "시작 시간"

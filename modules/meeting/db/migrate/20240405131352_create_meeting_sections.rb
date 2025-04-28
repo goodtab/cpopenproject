@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class CreateMeetingSections < ActiveRecord::Migration[7.1]
   def up
     create_table :meeting_sections do |t|
@@ -24,7 +25,7 @@ class CreateMeetingSections < ActiveRecord::Migration[7.1]
   private
 
   def create_and_assign_default_section
-    StructuredMeeting.includes(:agenda_items).find_each do |meeting|
+    Meeting.includes(:agenda_items).find_each do |meeting|
       section = MeetingSection.create!(
         meeting:,
         title: "Untitled"

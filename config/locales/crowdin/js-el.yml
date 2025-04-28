@@ -238,7 +238,7 @@ el:
           status_waiting: "το email απεστάλη - αναμονή για επιβεβαίωση"
           test_ee: "Test the Enterprise edition 14 days for free"
           quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
-        upsale:
+        upsell:
           become_hero: "Γίνετε ήρωας!"
           enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
           upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
@@ -253,7 +253,7 @@ el:
             professional_support: "Επαγγελματική υποστήριξη"
             professional_support_text: "Αποκτήστε αξιόπιστη, high-touch υποστήριξη από ανώτερους μηχανικούς υποστήριξης με εξειδικευμένες γνώσεις σχετικά με τη λειτουργία του OpenProject σε κρίσιμα επιχειρηματικά περιβάλλοντα."
           button_start_trial: "Έναρξη δωρεάν δοκιμαστικής περιόδου"
-          button_upgrade: "Αναβαθμίστε τώρα"
+          button_upgrade: "Αναβάθμιση τώρα"
           button_contact_us: "Επικοινωνήστε μαζί μας για μια επίδειξη"
           button_book_now: "Κάντε κράτηση τώρα"
           confidence: >
@@ -357,10 +357,10 @@ el:
           learn_about: "Μάθετε περισσότερα για τις νέες λειτουργίες"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "15_4":
+          "15_5":
             standard:
               new_features_html: >
-                The release brings various features and improvements for you, e.g. <br> <ul class="%{list_styling_class}"> <li>Enable automatic scheduling mode.</li> <li>Set agenda item outcomes for meetings.</li> <li>Generate PDF documents from a work package description.</li> <li>Better manage a large number of projects with an enhanced project lists view.</li> <li>Use @-mention of user when quote replying to a comment.</li> </ul>
+                The release brings various features and improvements for you, e.g. <br> <ul class="%{list_styling_class}"> <li>Filter for descendants (children and grandchildren) of work packages.</li> <li>Benefit from advanced accessibility in the date picker.</li> <li>See % Complete included in work package table sums.</li> <li>Include a column for children in work package tables.</li> <li>Better use the date picker in mobile screens.</li> <li>PDF exports matching configured form layout.</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -462,6 +462,7 @@ el:
     label_menu_collapse: "σύμπτυξη"
     label_menu_expand: "επέκταση"
     label_more_than_ago: "σε περισσότερο από ημέρες πριν"
+    label_moderate_comment: "Moderate comment"
     label_next: "Επόμενο"
     label_no_color: "Χωρίς χρώμα"
     label_no_data: "Δεν υπάρχουν δεδομένα για εμφάνιση"
@@ -630,9 +631,6 @@ el:
         property_is: "is in %{difference_in_days}."
         property_was: "was %{difference_in_days} ago."
         property_is_deleted: "is deleted."
-        upsale:
-          title: "Date alerts"
-          description: "With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline."
       center:
         label_actor_and: "και"
         and_more_users:
@@ -695,7 +693,6 @@ el:
           date_alerts:
             title: "Date alerts"
             description: "Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher)."
-            teaser_text: "With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline."
           overdue: When overdue
         project_specific:
           title: "Project-specific notification settings"
@@ -798,6 +795,7 @@ el:
       typeahead_placeholder: Αναζήτηση πιθανών παρατηρητών
     relation_labels:
       parent: "Γονέας"
+      child: "Child"
       children: "Παιδιά"
       relates: "Σχετίζεται με"
       duplicates: "Αντίγραφα"
@@ -827,7 +825,7 @@ el:
       add_new_child: "Δημιουργήστε καινούργιο παιδί"
       create_new: "Δημιουργία νέου"
       add_existing: "Προσθήκη υπάρχοντος"
-      add_existing_child: "Προσθήκη υπάρχοντος παιδιού"
+      add_existing_child: "Add child"
       remove_child: "Αφαίρεση παιδιού"
       add_new_relation: "Δημιουργία νέας συσχέτισης"
       add_existing_relation: "Προσθέστε υπάρχουσα συσχέτιση"
@@ -866,7 +864,7 @@ el:
     tl_toolbar:
       zooms: "Επίπεδο μεγέθυνσης"
       outlines: "Επίπεδο Ιεραρχίας"
-    upsale:
+    upsell:
       ee_only: "Enterprise edition add-on"
     wiki_formatting:
       strong: "Δυνατό"
@@ -1045,8 +1043,6 @@ el:
       sharing:
         title: "Share work package"
         show_all_users: "Show all users with whom the work package has been shared with"
-        upsale:
-          description: "Share work packages with users who are not members of the project."
       table:
         configure_button: "Διαμόρφωση του πίνακα πακέτων εργασίας"
         summary: "Πίνακας με γραμμές από πακέτα εργασίας και στήλες από χαρακτηριστικά πακέτων εργασίας."
@@ -1081,10 +1077,6 @@ el:
           manually: "Χειροκίνητα"
           warning: "Θα χάσετε την προηγούμενη ταξινόμηση όταν ενεργοποιήσετε την λειτουργία αυτόματης ταξινόμησης."
         columns_help_text: "Χρησιμοποιήστε το παραπάνω πεδίο εισόδου για να προσθέσετε στήλες στην προβολή πίνακα σας. Μπορείτε να σύρετε και να αποθέσετε τις στήλες για να τις αναδιατάξετε."
-        upsale:
-          attribute_highlighting: "Χρειάζεστε συγκεκριμένα πακέτα εργασίας για να ξεχωρίσετε από την μάζα;"
-          relation_columns: "Χρειάζεστε να βλέπετε συσχετίσεις στη λίστα πακέτων εργασίας;"
-          check_out_link: "Check out the Enterprise edition."
         relation_filters:
           filter_work_packages_by_relation_type: "Φιλτράρετε τα πακέτα εργασίας κατά τύπο συσχέτισης"
       tabs:
@@ -1298,9 +1290,7 @@ el:
       clear: "Εκκαθάριση"
       apply: "Εφαρμογή"
       header_description: "Highlight changes made to this list since any point in the past."
-      enterprise_header_description: "Highlight changes made to this list since any point in the past with Enterprise edition."
       show_changes_since: "Show changes since"
-      baseline_comparison: "Baseline comparison"
       help_description: "Reference time zone for the baseline."
       time_description: "In your local time: %{datetime}"
       time: "Ώρα"

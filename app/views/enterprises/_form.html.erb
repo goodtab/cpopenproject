@@ -4,9 +4,7 @@
   <%= labelled_tabular_form_for @token,
                url: { action: :create },
                html: { class: 'token-form form -vertical' },
-               method: :post do |f|%>
-
-    <div class="form--space"></div>
+               method: :post do |f| %>
 
     <%= f.text_area :encoded_token,
                     value: nil,

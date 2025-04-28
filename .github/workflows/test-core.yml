@@ -28,7 +28,8 @@ jobs:
       labels:
         - runs-on
         - runner=32cpu-linux-x64
-        - family=m7
+        - family=m7+c7+r7+i7
+        - ram=128
         - run-id=${{ github.run_id }}
     timeout-minutes: 40
     env:

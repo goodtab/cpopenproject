@@ -29,9 +29,11 @@
 module CustomActions::Actions::Strategies::MeAssociated
   include ::CustomActions::Actions::Strategies::Associated
 
-  def associated
-    me_value = [current_user_value_key, I18n.t("custom_actions.actions.assigned_to.executing_user_value")]
+  def me_value
+    [current_user_value_key, current_user_name]
+  end
 
+  def associated
     [me_value] + available_principles
   end
 
@@ -59,6 +61,10 @@ module CustomActions::Actions::Strategies::MeAssociated
 
   def current_user_value_key
     "current_user".freeze
+  end
+
+  def current_user_name
+    I18n.t("custom_actions.actions.assigned_to.executing_user_value")
   end
 
   def has_me_value?

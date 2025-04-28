@@ -96,13 +96,13 @@ RSpec.describe Relations::DeleteService do
         it "still updates correctly" do
           # ensure the work package is invalid as intended
           expect(work_package.schedule_manually).to be false
-          expect(work_package).not_to be_valid
+          expect(work_package).not_to be_valid(:saving_custom_fields)
 
           expect(delete_service_result).to be_success
 
           # work package has been changed to manual scheduling though still invalid
           expect(work_package.schedule_manually).to be true
-          expect(work_package).not_to be_valid
+          expect(work_package).not_to be_valid(:saving_custom_fields)
         end
       end
     end
@@ -139,13 +139,13 @@ RSpec.describe Relations::DeleteService do
         it "still updates correctly" do
           # ensure the work package is invalid as intended
           expect(work_package.start_date).to eq(_table.friday)
-          expect(work_package).not_to be_valid
+          expect(work_package).not_to be_valid(:saving_custom_fields)
 
           expect(delete_service_result).to be_success
 
           # work package has been rescheduled though still invalid
           expect(work_package.start_date).to eq(_table.wednesday)
-          expect(work_package).not_to be_valid
+          expect(work_package).not_to be_valid(:saving_custom_fields)
         end
       end
     end

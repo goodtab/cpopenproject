@@ -26,7 +26,7 @@ If you want to see the billing history or download older invoices of your Enterp
 
 Click the **Manage subscription** button.
 
-![Manage cloud subscription in OpenProject adminsitration](openproject_enterprise_guide_manage_subscription.png)
+![Manage cloud subscription in OpenProject administration](openproject_enterprise_guide_manage_subscription.png)
 
 In the overlay window, click on the link **Billing History**.
 

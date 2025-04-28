@@ -68,7 +68,7 @@ To add a comment to a work package, open the [details view](../../work-packages/
 
 > [!TIP] 
 >
-> For narrower screens such as mobiles and tablets, the comment field may be displayed on the top, depending on your [Account settings](../../../user-guide/account-settings/)).
+> For narrower screens such as mobiles and tablets, the comment field may be displayed on the top, depending on your [Account settings](../../../user-guide/account-settings/).
 
 ![Comment on work packages in OpenProject](openproject_user_guide_wp_activity_tab_comment.png)
 

@@ -93,10 +93,6 @@ class WorkflowsController < ApplicationController
     end
   end
 
-  def show_local_breadcrumb
-    false
-  end
-
   private
 
   def statuses_for_form
@@ -150,8 +146,10 @@ class WorkflowsController < ApplicationController
   end
 
   def permitted_status_params
+    return {} if params["status"].blank?
+
     params["status"]
       .to_unsafe_h
-      .select { |key, value| /\A\d+\z/.match?(key) && /\A\d+\z/.match?(value) }
+      .select { |key, value| /\A\d+\z/.match?(key) && value.keys.all? { /\A\d+\z/.match?(it) } }
   end
 end

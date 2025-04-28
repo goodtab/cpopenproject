@@ -50,13 +50,21 @@ nl:
         project: Project
         user: Gebruiker
         work_package: Werkpakket
+        subject: Onderwerp
         hours: Uren
         comments: Commentaar
         activity: Activiteit
         spent_on: Datum
         start_time: Starttijd
         end_time: Eindtijd
+        time: Tijd
     models:
+      time_entry:
+        one: "Tijd invoer"
+        other: "Time entries"
+      cost_entry:
+        one: "Kosteninvoer"
+        other: "Cost entries"
       cost_type:
         one: "Soort kosten"
         other: "Soort kosten"
@@ -144,12 +152,28 @@ nl:
   label_cost: "Cost"
   label_costs: "Kosten"
   label_mandatory_fields: "Mandatory fields"
+  label_my_time_tracking: "My time tracking"
+  label_no_time: "No time tracked"
+  label_next_day: "Next day"
+  label_next_week: "Volgende week"
+  label_next_month: "Next month"
+  label_previous_day: "Previous day"
+  label_previous_week: "Vorige week"
+  label_previous_month: "Previous month"
+  label_specific_day: "Day %{day}"
+  label_specific_week: "Calendar week %{week}"
+  label_specific_month: "Month %{month}"
+  label_list: "Lijst"
+  label_month: "Maand"
+  label_day: "Dag"
+  label_today_capitalized: "Vandaag"
   placeholder_activity_select_work_package_first: Eerst moet u een werkpakket selecteren
   notice_something_wrong: "Er is iets fout gegaan. Probeer het opnieuw."
   notice_successful_restore: "Herstel geslaagd."
   notice_successful_lock: "Vergrendeld met succes."
   notice_cost_logged_successfully: "Kosten eenheid succesvol geregistreerd."
   notice_different_time_zones: "Deze gebruiker heeft een andere tijdzone (%{tz}). De tijd wordt geregistreerd met hun tijdzone."
+  notice_time_entry_update_failed: "Failed to update time entry. Errors: %{errors}"
   permission_edit_cost_entries: "Geboekte kosten per eenheid bewerken"
   permission_edit_own_cost_entries: "Eigen geboekte kosten per eenheid bewerken"
   permission_edit_hourly_rates: "Bewerk uurtarieven"
@@ -175,9 +199,17 @@ nl:
   text_reassign_time_and_cost_entries: "Gerapporteerde uren en kosten voor dit werkpakket opnieuw toewijzen:"
   text_warning_hidden_elements: "Sommige items zijn mogelijk uitgesloten van de aggregatie."
   week: "week"
-  js:
-    text_are_you_sure: "Weet u het zeker?"
+  total_times:
+    week: "Week Total: %{hours}"
+    month: "Month Total: %{hours}"
+    day: "Day Total: %{hours}"
   api_v3:
     errors:
       validation:
         start_time_different_date: "Het datumgedeelte van start tijd (%{start_time}) moet hetzelfde zijn als de uitgegeven op (%{spent_on}) datum."
+  ee:
+    features:
+      time_entry_time_restrictions: Require exact time tracking
+    upsell:
+      time_entry_time_restrictions:
+        description: "Improve your time tracking by requiring exact start and finish times when logging time."

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -47,8 +47,8 @@ module WorkPackages::ActivitiesTab::Journals
     def resource
       return unless object
 
-      API::V3::WorkPackages::WorkPackageRepresenter
-        .create(object.journable, current_user: User.current, embed_links: false)
+      API::V3::Activities::ActivityRepresenter
+        .create(object, current_user: User.current, embed_links: true)
     end
   end
 end

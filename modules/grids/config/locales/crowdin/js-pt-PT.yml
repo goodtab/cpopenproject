@@ -1,12 +1,13 @@
 pt-PT:
+  ee:
+    upsell:
+      grid_widget_wp_graph:
+        description: "Alguns widgets, como o widget gráfico do pacote de trabalho, estão disponíveis apenas na edição Enterprise."
   js:
     grid:
       add_widget: 'Adicionar widget'
       remove: 'Remover o widget'
       configure: 'Configurar widget'
-      upsale:
-        text: "Alguns widgets, como o widget gráfico do pacote de trabalho, estão disponíveis apenas na edição Enterprise."
-        link: 'Edição Enterprise.'
       widgets:
         missing_permission: "Não tem as permissões necessárias para visualizar este widget."
         custom_text:

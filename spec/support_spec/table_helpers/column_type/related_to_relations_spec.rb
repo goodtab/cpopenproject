@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -64,7 +64,9 @@ module TableHelpers::ColumnType
         TABLE
         expect(work_package_data)
           .to eq([
-                   [{ raw: "main", type: :relates, with: "main" }]
+                   {
+                     "main" => { raw: "main", type: :relates, with: "main" }
+                   }
                  ])
       end
 
@@ -75,11 +77,11 @@ module TableHelpers::ColumnType
         TABLE
         expect(work_package_data)
           .to eq([
-                   [
-                     { raw: "wp1", type: :relates, with: "wp1" },
-                     { raw: "wp2", type: :relates, with: "wp2" },
-                     { raw: "wp3", type: :relates, with: "wp3" }
-                   ]
+                   {
+                     "wp1" => { raw: "wp1", type: :relates, with: "wp1" },
+                     "wp2" => { raw: "wp2", type: :relates, with: "wp2" },
+                     "wp3" => { raw: "wp3", type: :relates, with: "wp3" }
+                   }
                  ])
       end
     end

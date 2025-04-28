@@ -40,7 +40,7 @@ module Projects
         private
 
         def life_cycle_definitions_and_step_active
-          active_ids = project.life_cycle_steps.where(active: true).pluck(:definition_id).to_set
+          active_ids = project.phases.where(active: true).pluck(:definition_id).to_set
 
           life_cycle_definitions.all.map do |definition|
             [definition, definition.id.in?(active_ids)]

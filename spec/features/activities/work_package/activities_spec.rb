@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,11 +34,12 @@ require "support/flash/expectations"
 RSpec.describe "Work package activity", :js, :with_cuprite do
   include Flash::Expectations
 
-  let(:project) { create(:project) }
+  let(:project) { create(:project, enabled_internal_comments: true) }
   let(:admin) { create(:admin) }
   let(:member_role) do
     create(:project_role,
-           permissions: %i[view_work_packages edit_work_packages add_work_packages work_package_assigned add_work_package_notes])
+           permissions: %i[view_work_packages edit_work_packages add_work_packages work_package_assigned
+                           add_work_package_comments])
   end
   let(:member) do
     create(:user,
@@ -64,7 +65,7 @@ RSpec.describe "Work package activity", :js, :with_cuprite do
 
     let(:viewer_role_with_commenting_permission) do
       create(:project_role,
-             permissions: %i[view_work_packages add_work_package_notes edit_own_work_package_notes])
+             permissions: %i[view_work_packages add_work_package_comments edit_own_work_package_comments])
     end
     let(:viewer_with_commenting_permission) do
       create(:user,
@@ -75,7 +76,7 @@ RSpec.describe "Work package activity", :js, :with_cuprite do
 
     let(:user_role_with_editing_permission) do
       create(:project_role,
-             permissions: %i[view_work_packages add_work_package_notes edit_work_package_notes])
+             permissions: %i[view_work_packages add_work_package_comments edit_work_package_comments])
     end
     let(:user_with_editing_permission) do
       create(:user,
@@ -156,7 +157,7 @@ RSpec.describe "Work package activity", :js, :with_cuprite do
       end
     end
 
-    context "when a user has add_work_package_notes and edit_own_work_package_notes permission" do
+    context "when a user has add_work_package_comments and edit_own_work_package_comments permission" do
       current_user { viewer_with_commenting_permission }
 
       before do
@@ -195,7 +196,7 @@ RSpec.describe "Work package activity", :js, :with_cuprite do
       end
     end
 
-    context "when a user has add_work_package_notes and general edit_work_package_notes permission" do
+    context "when a user has add_work_package_comments and general edit_work_package_comments permission" do
       current_user { user_with_editing_permission }
 
       before do
@@ -232,6 +233,48 @@ RSpec.describe "Work package activity", :js, :with_cuprite do
 
         activity_tab.add_comment(text: "First comment by user with commenting permission via a work package share")
         activity_tab.expect_journal_notes(text: "First comment by user with commenting permission via a work package share")
+      end
+    end
+
+    context "when a user cannot see internal comments",
+            with_flag: { internal_comments: true } do
+      current_user { member }
+
+      before do
+        create(:work_package_journal,
+               user: admin,
+               notes: "First comment by admin",
+               journable: work_package,
+               internal: true,
+               version: 2)
+      end
+
+      it "does not show the comment" do
+        wp_page.visit!
+        wp_page.wait_for_activity_tab
+
+        activity_tab.expect_no_journal_notes(text: "First comment by admin")
+      end
+    end
+
+    context "when a user can see internal comments",
+            with_flag: { internal_comments: true } do
+      current_user { admin }
+
+      before do
+        create(:work_package_journal,
+               user: admin,
+               notes: "First comment by admin",
+               journable: work_package,
+               internal: true,
+               version: 2)
+      end
+
+      it "shows the comment" do
+        wp_page.visit!
+        wp_page.wait_for_activity_tab
+
+        activity_tab.expect_journal_notes(text: "First comment by admin")
       end
     end
   end
@@ -377,57 +420,117 @@ RSpec.describe "Work package activity", :js, :with_cuprite do
   end
 
   context "when multiple users are commenting on a workpackage" do
-    current_user { admin }
-    let(:work_package) { create(:work_package, project:, author: admin) }
+    context "when the user has permissions to see internal comments" do
+      current_user { admin }
+      let(:work_package) { create(:work_package, project:, author: admin) }
 
-    before do
-      # set WORK_PACKAGES_ACTIVITIES_TAB_POLLING_INTERVAL_IN_MS to 1000
-      # to speed up the polling interval for test duration
-      ENV["WORK_PACKAGES_ACTIVITIES_TAB_POLLING_INTERVAL_IN_MS"] = "1000"
+      before do
+        # set WORK_PACKAGES_ACTIVITIES_TAB_POLLING_INTERVAL_IN_MS to 1000
+        # to speed up the polling interval for test duration
+        ENV["WORK_PACKAGES_ACTIVITIES_TAB_POLLING_INTERVAL_IN_MS"] = "1000"
 
-      # for some reason the journal is set to the "Anonymous"
-      # although the work_package is created by the admin
-      # so we need to update the journal to the admin manually to simulate the real world case
-      work_package.journals.first.update!(user: admin)
+        # for some reason the journal is set to the "Anonymous"
+        # although the work_package is created by the admin
+        # so we need to update the journal to the admin manually to simulate the real world case
+        work_package.journals.first.update!(user: admin)
 
-      wp_page.visit!
-      wp_page.wait_for_activity_tab
+        wp_page.visit!
+        wp_page.wait_for_activity_tab
+      end
+
+      after do
+        ENV.delete("WORK_PACKAGES_ACTIVITIES_TAB_POLLING_INTERVAL_IN_MS")
+      end
+
+      it "shows the comment of another user without browser reload" do
+        # simulate member creating a comment
+        first_journal = create(:work_package_journal,
+                               user: member,
+                               notes: "First comment by member",
+                               journable: work_package,
+                               version: 2)
+
+        # the comment is shown without browser reload
+        activity_tab.expect_journal_notes(text: "First comment by member")
+
+        # simulate comments made within the polling interval
+        create(:work_package_journal, user: member, notes: "Second comment by member", journable: work_package, version: 3)
+        create(:work_package_journal, user: member, notes: "Third comment by member", journable: work_package, version: 4)
+
+        activity_tab.add_comment(text: "First comment by admin")
+
+        activity_tab.expect_comments_order(
+          [
+            "First comment by member",
+            "Second comment by member",
+            "Third comment by member",
+            "First comment by admin"
+          ]
+        )
+
+        first_journal.update!(notes: "First comment by member updated")
+
+        # properly updates the comment when the comment is updated
+        activity_tab.expect_journal_notes(text: "First comment by member updated")
+      end
     end
 
-    after do
-      ENV.delete("WORK_PACKAGES_ACTIVITIES_TAB_POLLING_INTERVAL_IN_MS")
-    end
+    context "when the user does not have permissions to see internal comments" do
+      current_user { member }
+      let(:work_package) { create(:work_package, project:, author: admin) }
 
-    it "shows the comment of another user without browser reload" do
-      # simulate member creating a comment
-      first_journal = create(:work_package_journal,
-                             user: member,
-                             notes: "First comment by member",
-                             journable: work_package,
-                             version: 2)
+      before do
+        # set WORK_PACKAGES_ACTIVITIES_TAB_POLLING_INTERVAL_IN_MS to 1000
+        # to speed up the polling interval for test duration
+        ENV["WORK_PACKAGES_ACTIVITIES_TAB_POLLING_INTERVAL_IN_MS"] = "1000"
 
-      # the comment is shown without browser reload
-      activity_tab.expect_journal_notes(text: "First comment by member")
+        # for some reason the journal is set to the "Anonymous"
+        # although the work_package is created by the admin
+        # so we need to update the journal to the admin manually to simulate the real world case
+        work_package.journals.first.update!(user: admin)
 
-      # simulate comments made within the polling interval
-      create(:work_package_journal, user: member, notes: "Second comment by member", journable: work_package, version: 3)
-      create(:work_package_journal, user: member, notes: "Third comment by member", journable: work_package, version: 4)
+        wp_page.visit!
+        wp_page.wait_for_activity_tab
+      end
 
-      activity_tab.add_comment(text: "First comment by admin")
+      after do
+        ENV.delete("WORK_PACKAGES_ACTIVITIES_TAB_POLLING_INTERVAL_IN_MS")
+      end
 
-      activity_tab.expect_comments_order(
-        [
-          "First comment by member",
-          "Second comment by member",
-          "Third comment by member",
-          "First comment by admin"
-        ]
-      )
+      it "does not show the comment of another user if they don't have permissions to see it" do
+        # simulate member creating a comment
+        create(:work_package_journal,
+               user: admin,
+               notes: "First comment by admin",
+               journable: work_package,
+               version: 2)
 
-      first_journal.update!(notes: "First comment by member updated")
+        # the comment is shown without browser reload
+        activity_tab.expect_journal_notes(text: "First comment by admin")
 
-      # properly updates the comment when the comment is updated
-      activity_tab.expect_journal_notes(text: "First comment by member updated")
+        # simulate comments made within the polling interval
+        create(:work_package_journal,
+               user: admin,
+               notes: "Second comment by admin",
+               internal: true,
+               journable: work_package,
+               version: 3)
+        create(:work_package_journal,
+               user: admin,
+               notes: "Third comment by admin",
+               internal: true,
+               journable: work_package,
+               version: 4)
+
+        activity_tab.add_comment(text: "First comment by member")
+
+        activity_tab.expect_comments_order(
+          [
+            "First comment by admin",
+            "First comment by member"
+          ]
+        )
+      end
     end
   end
 
@@ -502,7 +605,7 @@ RSpec.describe "Work package activity", :js, :with_cuprite do
         # expect all journal entries
         activity_tab.expect_journal_notes(text: "First comment by admin")
         activity_tab.expect_journal_notes(text: "Second comment by admin")
-        activity_tab.expect_journal_changed_attribute(text: "Subject")
+        activity_tab.expect_journal_changed_attribute(text: "A new subject")
 
         activity_tab.filter_journals(:only_comments)
 
@@ -1103,33 +1206,6 @@ RSpec.describe "Work package activity", :js, :with_cuprite do
     end
   end
 
-  describe "images in the comment",
-           :js,
-           :selenium,
-           with_settings: { journal_aggregation_time_minutes: 0, show_work_package_attachments: false } do
-    let(:work_package) { create(:work_package, project:, author: admin) }
-    let(:image_fixture) { UploadedFile.load_from("spec/fixtures/files/image.png") }
-    let(:editor) { Components::WysiwygEditor.new }
-
-    context "if work package attachments are deactivated in project" do
-      it "shows the inline image and have it uploaded to the work package" do
-        login_as admin
-
-        wp_page.visit!
-        wp_page.wait_for_activity_tab
-
-        page.find_test_selector("op-open-work-package-journal-form-trigger").click
-        editor.drag_attachment(image_fixture.path, "", scroll: false)
-        editor.wait_until_upload_progress_toaster_cleared
-
-        page.find_test_selector("op-submit-work-package-journal-form").click
-
-        expect(find_test_selector("op-journal-notes-body")).to have_css("img")
-        expect(page).to have_test_selector("op-journal-detail-description", text: "File image.png added as attachment")
-      end
-    end
-  end
-
   describe "retracted journal entries" do
     let(:work_package) { create(:work_package, project:, author: admin) }
     let!(:first_comment_by_admin) do
@@ -1470,6 +1546,28 @@ RSpec.describe "Work package activity", :js, :with_cuprite do
           within_test_selector("op-work-package-journal-form-element") do
             editor = FormFields::Primerized::EditorFormField.new("notes", selector: "#work-package-journal-form-element")
             editor.expect_value("First comment by admin")
+          end
+        end
+      end
+
+      context "when the work package is invalid due to a required custom field" do
+        let!(:custom_field) do
+          create(:integer_wp_custom_field, is_required: true, is_for_all: true, default_value: nil) do |cf|
+            project.types.first.custom_fields << cf
+            project.work_package_custom_fields << cf
+          end
+        end
+
+        it "the creation call still succeeds" do
+          activity_tab.add_comment(text: "First comment by admin")
+
+          comment = work_package.journals.reload.last
+
+          activity_tab.within_journal_entry(comment) do
+            page.find_test_selector("op-wp-journal-#{comment.id}-action-menu").click
+
+            expect(page).to have_test_selector("op-wp-journal-#{comment.id}-edit")
+            expect(page).to have_test_selector("op-wp-journal-#{comment.id}-quote")
           end
         end
       end

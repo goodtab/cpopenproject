@@ -1,14 +1,15 @@
 #English strings go here
 "no":
+  ee:
+    upsell:
+      board_view:
+        description: 'Ønsker du å automatisere dine arbeidsflyter med Tavler? Avanserte tavler er et Enterprise add-on. Vennligst oppgrader til et betalt abonnement.'
   js:
     boards:
       create_new: 'Opprett ny tavle'
       label_unnamed_board: 'Navnløs tavle'
       label_unnamed_list: 'Navnløs liste'
       label_board_type: 'Tavle type'
-      upsale:
-        teaser_text: 'Ønsker du å automatisere dine arbeidsflyter med Tavler? Avanserte tavler er et Enterprise add-on. Vennligst oppgrader til et betalt abonnement.'
-        upgrade: 'Oppgrader nå'
       lists:
         delete: 'Slett liste'
       version:

@@ -30,8 +30,7 @@
 
 require "spec_helper"
 
-require_relative "../../support/pages/meetings/new"
-require_relative "../../support/pages/structured_meeting/show"
+require_relative "../../support/pages/meetings/show"
 require_relative "../../support/pages/recurring_meeting/show"
 require_relative "../../support/pages/meetings/index"
 
@@ -60,8 +59,8 @@ RSpec.describe "Recurring meetings move to next meeting", :js do
            end_after: "never",
            author: user_with_manage_permissions
   end
-  shared_let(:structured_meeting) do
-    create :structured_meeting,
+  shared_let(:meeting) do
+    create :meeting,
            project:,
            start_time: DateTime.parse("2025-01-28T10:30:00Z"),
            duration: 1,
@@ -75,10 +74,8 @@ RSpec.describe "Recurring meetings move to next meeting", :js do
     series.meetings.not_templated.first
   end
 
-  let!(:agenda_item) { create(:meeting_agenda_item, meeting: structured_meeting, title: "Test notes") }
-  let!(:series_agenda_item) { create(:meeting_agenda_item, meeting: recurring_meeting, title: "Test notes") }
-
-  let(:meeting_page) { Pages::StructuredMeeting::Show.new(meeting) }
+  let!(:agenda_item) { create(:meeting_agenda_item, meeting:, title: "Test notes") }
+  let(:meeting_page) { Pages::Meetings::Show.new(meeting) }
 
   before do
     login_as current_user
@@ -94,11 +91,12 @@ RSpec.describe "Recurring meetings move to next meeting", :js do
 
       it "shows the move to next meeting option" do
         meeting_page.expect_agenda_item(title: "Test notes")
-        meeting_page.expect_agenda_action_menu(series_agenda_item)
 
         accept_confirm do
-          meeting_page.select_action(series_agenda_item, "Move to next meeting")
+          meeting_page.select_action(agenda_item, "Move to next meeting")
         end
+
+        expect_and_dismiss_flash(message: "Agenda item moved to the next meeting")
 
         meeting_page.expect_no_agenda_item(title: "Test notes")
       end
@@ -115,10 +113,9 @@ RSpec.describe "Recurring meetings move to next meeting", :js do
 
       it "shows the move to next meeting option" do
         meeting_page.expect_agenda_item(title: "Test notes")
-        meeting_page.expect_agenda_action_menu(series_agenda_item)
 
         accept_confirm do
-          meeting_page.select_action(series_agenda_item, "Move to next meeting")
+          meeting_page.select_action(agenda_item, "Move to next meeting")
         end
 
         expect(page).to have_text "Unable to move to the next meeting since it has been cancelled."
@@ -136,8 +133,7 @@ RSpec.describe "Recurring meetings move to next meeting", :js do
     end
   end
 
-  context "when viewing a structured meeting" do
-    let(:meeting) { structured_meeting }
+  context "when viewing a one-time meeting" do
     let(:current_user) { user_with_manage_permissions }
 
     it "does not show the move to next meeting option" do

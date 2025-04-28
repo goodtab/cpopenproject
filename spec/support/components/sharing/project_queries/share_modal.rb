@@ -60,8 +60,8 @@ module Components
           end
         end
 
-        def expect_upsale_banner
-          expect(page).to have_css("[data-test-selector='op-share-dialog-upsale-block']")
+        def expect_upsell_banner
+          expect(page).to have_css("[data-test-selector='op-share-dialog-upsell-block']")
         end
       end
     end

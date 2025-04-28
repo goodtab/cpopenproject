@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -53,7 +53,10 @@ module TableHelpers
                            .split(",")
                            .map(&:strip)
                            .compact_blank
-                           .map { |name| make_related_to_relation(name) }
+                           .to_h do |name|
+                             relation = make_related_to_relation(name)
+                             [relation[:with], relation]
+                           end
         { relations: }.compact_blank
       end
 

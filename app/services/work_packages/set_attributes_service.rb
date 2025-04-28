@@ -70,8 +70,8 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
       update_dates
     end
     shift_dates_to_soonest_working_days
-    update_duration
-    update_derivable
+    update_duration_to_one_day_for_milestones
+    update_derivable_date_attribute
     update_progress_attributes
     update_project_dependent_attributes
     reassign_invalid_status_if_type_changed
@@ -79,8 +79,8 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     set_cause_for_readonly_attributes
   end
 
-  def derivable_attribute
-    derivable_attribute_by_others_presence || derivable_attribute_by_others_absence
+  def derivable_date_attribute
+    derivable_date_attribute_by_others_presence || derivable_date_attribute_by_others_absence
   end
 
   # Returns a field derivable by the presence of the two others, or +nil+ if
@@ -91,13 +91,8 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
   #
   # If +ignore_non_working_days+ has been changed, try deriving +due_date+ and
   # +start_date+ before +duration+.
-  def derivable_attribute_by_others_presence
-    fields =
-      if work_package.ignore_non_working_days_changed?
-        %i[due_date start_date duration]
-      else
-        %i[duration due_date start_date]
-      end
+  def derivable_date_attribute_by_others_presence
+    fields = %i[duration due_date start_date]
     fields.find { |field| derivable_by_others_presence?(field) }
   end
 
@@ -116,7 +111,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
   #
   # Matching is done in the order :duration, :due_date, :start_date. The first
   # one to match is returned.
-  def derivable_attribute_by_others_absence
+  def derivable_date_attribute_by_others_absence
     %i[duration due_date start_date].find { |field| derivable_by_others_absence?(field) }
   end
 
@@ -145,8 +140,8 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
   end
 
   # rubocop:disable Metrics/AbcSize
-  def update_derivable
-    case derivable_attribute
+  def update_derivable_date_attribute
+    case derivable_date_attribute
     when :duration
       work_package.duration =
         if work_package.milestone?
@@ -286,12 +281,19 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
   def update_dates_from_rescheduled_children
     return if work_package.schedule_manually?
 
+    # A milestone can't have children. An error will be reported for it.
+    # Updating dates from children's dates would add more errors like "due date
+    # is different from start date" and confuse the user.
+    # Better return and keep dates unified to have only one meaningful error.
+    return if work_package_now_milestone?
+
     # do a reschedule call to get the work package dates from the rescheduled children
     service = WorkPackages::SetScheduleService.new(user: User.current, work_package:, switching_to_automatic_mode: [work_package])
     service.call(work_package.changes.keys.map(&:to_sym)).result
   end
 
   def update_dates_from_self
+    # this method is only called by #update_dates when there are no children
     min_start = new_start_date
 
     return unless min_start
@@ -314,7 +316,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     work_package.due_date = days.soonest_working_day(work_package.due_date)
   end
 
-  def update_duration
+  def update_duration_to_one_day_for_milestones
     work_package.duration = 1 if work_package.milestone?
   end
 
@@ -359,7 +361,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     available_types = work_package.project.types.order(:position)
 
     work_package.type = available_types.first
-    update_duration
+    update_duration_to_one_day_for_milestones
     unify_milestone_dates
 
     reassign_status assignable_statuses
@@ -387,6 +389,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
   end
 
   def new_start_date
+    # this method is only called by #update_dates_from_self when there are no children
     if work_package.schedule_manually?
       # Weird rule from SetScheduleService: if the work package does not have a
       # start date, it inherits it from the parent soonest start, regardless of
@@ -395,37 +398,38 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
 
       days.soonest_working_day(new_start_date_from_parent)
     else
-      min_start = new_start_date_from_parent || new_start_date_from_self
+      min_start = [new_start_date_from_parent, work_package.soonest_start].compact.max
       days.soonest_working_day(min_start)
     end
   end
 
+  # Returns the soonest start date from the parent if the parent has changed.
+  # If the parent has changed, #soonest_start would be inaccurate.
   def new_start_date_from_parent
     return unless work_package.parent_id_changed? &&
                   work_package.parent
 
-    work_package.parent.soonest_start
-  end
-
-  def new_start_date_from_self
-    return unless work_package.schedule_manually_changed?
-
-    [min_child_date, work_package.soonest_start].compact.max
+    work_package.parent.soonest_start(working_days_from: work_package)
   end
 
   def new_due_date(min_start)
-    duration = children_duration || work_package.duration
-    return unless work_package.due_date || duration
+    # this method is only called by #update_dates_from_self when there are no children
+    if work_package.due_date_came_from_user?
+      work_package.due_date
+    elsif reuse_current_due_date?
+      # if due date is before start date, then start is used as due date.
+      [min_start, work_package.due_date].max
+    elsif work_package.duration
+      days.due_date(min_start, work_package.duration)
+    end
+  end
 
-    due_date =
-      if duration
-        days.due_date(min_start, duration)
-      else
-        work_package.due_date
-      end
+  def reuse_current_due_date?
+    return false if work_package.due_date.nil?
+    return true if work_package.ignore_non_working_days_came_from_user?
 
-    # if due date is before start date, then start is used as due date.
-    [min_start, due_date].max
+    # use due date only if duration cannot be used
+    work_package.duration.nil?
   end
 
   def work_package
@@ -464,14 +468,14 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     start = work_package.parent&.start_date
     due = work_package.due_date || work_package.parent&.due_date
 
-    (start && !due) || ((due && start) && (start < due))
+    (start && !due) || (due && start && (start < due))
   end
 
   def parent_due_later_than_start?
     due = work_package.parent&.due_date
     start = work_package.start_date || work_package.parent&.start_date
 
-    (due && !start) || ((due && start) && (due > start))
+    (due && !start) || (due && start && (due > start))
   end
 
   def set_cause_for_readonly_attributes

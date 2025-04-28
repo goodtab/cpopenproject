@@ -91,7 +91,8 @@ nl:
         name: Microsoft Entra
       custom:
         name: Aangepast
-      upsale:
+      upsell:
+        title: "Single Sign-On (SSO) with OpenID connect"
         description: OpenProject verbinden met een OpenID connect identity provider
       label_add_new: Voeg een nieuwe OpenID provider toe
       label_edit: OpenID provider %{name} bewerken

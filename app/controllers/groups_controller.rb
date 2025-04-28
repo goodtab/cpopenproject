@@ -160,10 +160,6 @@ class GroupsController < ApplicationController
       Group.in_project(Project.allowed_to(current_user, :view_members)).exists?
   end
 
-  def show_local_breadcrumb
-    false
-  end
-
   def respond_membership_altered(service_call)
     if service_call.success?
       flash[:notice] = I18n.t :notice_successful_update

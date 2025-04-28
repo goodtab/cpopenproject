@@ -46,14 +46,14 @@ module EnterpriseHelper
 
   def enterprise_token_plan_name(enterprise_token)
     <<~LABEL.squish
-      #{I18n.t(enterprise_token.plan, scope: [:enterprise_plans])}
+      #{I18n.t(enterprise_token.plan, scope: [:enterprise_plans], default: enterprise_token.plan.to_s.capitalize)}
       (#{I18n.t(:label_token_version)} #{enterprise_token.version})
     LABEL
   end
 
   def enterprise_plan_additional_features(enterprise_token)
     (enterprise_token.try(:features) || [])
-      .filter_map { |feature| I18n.t(feature, scope: [:enterprise_features], default: nil) }
+      .filter_map { |feature| I18n.t(feature, scope: :"ee.features", default: nil) }
       .sort
       .join(", ")
   end

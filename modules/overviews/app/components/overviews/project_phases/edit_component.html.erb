@@ -1,0 +1,20 @@
+<%= helpers.angular_component_tag "opce-custom-modal-overlay" %>
+<%=
+  component_wrapper do
+    primer_form_with(
+      id: "project-life-cycles-edit-form",
+      model:,
+      method: :put,
+      data: {
+        controller: "overview--project-life-cycles-form",
+        "overview--project-life-cycles-form-url-value": preview_project_phase_path(model),
+        "application-target": "dynamic",
+        turbo: true,
+        turbo_stream: true,
+        "test-selector": "async-dialog-content"
+      }
+    ) do |f|
+      render(Projects::LifeCycles::Form.new(f))
+    end
+  end
+%>

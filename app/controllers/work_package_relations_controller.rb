@@ -33,7 +33,7 @@ class WorkPackageRelationsController < ApplicationController
   include OpTurbo::DialogStreamHelper
 
   before_action :set_work_package
-  before_action :set_relation, except: %i[new create]
+  before_action :set_relation, only: %i[edit update]
   before_action :authorize
 
   def new
@@ -90,7 +90,13 @@ class WorkPackageRelationsController < ApplicationController
   end
 
   def destroy
-    service_result = Relations::DeleteService.new(user: current_user, model: @relation).call
+    @relation = @work_package.relations.find_by(id: params[:id])
+    service_result =
+      if @relation
+        Relations::DeleteService.new(user: current_user, model: @relation).call
+      else
+        ServiceResult.success
+      end
 
     respond_with_relations_tab_update(service_result)
   end

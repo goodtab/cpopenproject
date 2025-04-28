@@ -34,16 +34,14 @@ pt-BR:
           name: Cinza (escuro)
         item_13:
           name: Preto
-      life_cycle_colors:
+      project_phase_colors:
         item_0:
           name: PM2 Laranja
         item_1:
-          name: PM2 Roxo
-        item_2:
           name: PM2 Vermelho
-        item_3:
+        item_2:
           name: PM2 Magenta
-        item_4:
+        item_3:
           name: PM2 Verde amarelo
       document_categories:
         item_0:
@@ -81,21 +79,18 @@ pt-BR:
         item_1:
           name: Função global padrão
     standard:
-      life_cycles:
+      project_phases:
         item_0:
           name: Iniciando
         item_1:
-          name: Pronto para o planejamento
+          name: Planejando
+          start_gate: Pronto para o planejamento
         item_2:
-          name: Planejamento
-        item_3:
-          name: Pronto para a execução
-        item_4:
           name: Execução
-        item_5:
-          name: Pronto para o fechamento
-        item_6:
-          name: Fechamento
+          start_gate: Pronto para a execução
+        item_3:
+          name: Fechando
+          start_gate: Pronto para o fechamento
       priorities:
         item_0:
           name: Baixa
@@ -489,7 +484,7 @@ pt-BR:
         item_1:
           name: Marco
         item_2:
-          name: Fase
+          name: Tarefa resumida
         item_3:
           name: Recurso
         item_4:

@@ -51,12 +51,6 @@ module Admin
         redirect_to action: :index
       end
 
-      def default_breadcrumb; end
-
-      def show_local_breadcrumb
-        false
-      end
-
       private
 
       def create_journal(container, user, notes)
@@ -73,8 +67,6 @@ module Admin
 
       def find_attachment
         @attachment = @attachments.find(params[:id])
-      rescue ActiveRecord::RecordNotFound
-        render_404
       end
     end
   end

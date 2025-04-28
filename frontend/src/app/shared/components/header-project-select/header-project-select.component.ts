@@ -28,7 +28,7 @@
 
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { ChangeDetectionStrategy, Component, HostBinding, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, OnInit, ViewEncapsulation } from '@angular/core';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { combineLatest, Observable, ReplaySubject } from 'rxjs';
 import { debounceTime, defaultIfEmpty, filter, map, mergeMap, shareReplay, take } from 'rxjs/operators';
@@ -57,7 +57,7 @@ import { ConfigurationService } from 'core-app/core/config/configuration.service
     SearchableProjectListService,
   ],
 })
-export class OpHeaderProjectSelectComponent extends UntilDestroyedMixin {
+export class OpHeaderProjectSelectComponent extends UntilDestroyedMixin implements OnInit {
   @HostBinding('class.op-header-project-select') className = true;
 
   public dropModalOpen = false;
@@ -136,7 +136,7 @@ export class OpHeaderProjectSelectComponent extends UntilDestroyedMixin {
     no_results: this.I18n.t('js.include_projects.no_results'),
   };
 
-  public displayMode:'all'|'favored' = 'all';
+  public displayMode:'all'|'favored';
 
   public displayModeOptions = [
     { value: 'all', title: this.text.all },
@@ -165,6 +165,8 @@ export class OpHeaderProjectSelectComponent extends UntilDestroyedMixin {
 
   private subscriptionComplete$ = new ReplaySubject<void>(1);
 
+  private displayModeLocalStorageKey = 'openProject-project-select-display-mode';
+
   constructor(
     readonly pathHelper:PathHelperService,
     readonly configuration:ConfigurationService,
@@ -190,6 +192,11 @@ export class OpHeaderProjectSelectComponent extends UntilDestroyedMixin {
       });
   }
 
+  ngOnInit():void {
+    const stored = window.OpenProject.guardedLocalStorage(this.displayModeLocalStorageKey) as 'all'|'favored'|undefined;
+    this.displayMode = stored || 'all';
+  }
+
   toggleDropModal():void {
     this.subscriptionComplete$.pipe(take(1)).subscribe(() => {
       this.dropModalOpen = !this.dropModalOpen;
@@ -202,6 +209,7 @@ export class OpHeaderProjectSelectComponent extends UntilDestroyedMixin {
 
   displayModeChange(mode:'all'|'favored'):void {
     this.displayMode = mode;
+    window.OpenProject.guardedLocalStorage(this.displayModeLocalStorageKey, mode);
 
     if (this.currentProject?.id) {
       this.searchableProjectListService.selectedItemID$.next(parseInt(this.currentProject.id, 10));

@@ -50,13 +50,21 @@ fr:
         project: Projet
         user: Utilisateur
         work_package: Lot de Travaux
+        subject: Sujet
         hours: Heures
         comments: Commentaire
         activity: Activité
         spent_on: date
         start_time: Heure de début
         end_time: Heure de fin
+        time: Heure 
     models:
+      time_entry:
+        one: "Saisie du temps"
+        other: "Saisies du temps"
+      cost_entry:
+        one: "Saisie du coût"
+        other: "Saisies de coûts"
       cost_type:
         one: "Types de coût"
         other: "Types de coûts"
@@ -144,12 +152,28 @@ fr:
   label_cost: "Coût"
   label_costs: "Coûts"
   label_mandatory_fields: "Champs obligatoires"
+  label_my_time_tracking: "My time tracking"
+  label_no_time: "No time tracked"
+  label_next_day: "Next day"
+  label_next_week: "Semaine suivante"
+  label_next_month: "Next month"
+  label_previous_day: "Previous day"
+  label_previous_week: "Semaine précédente"
+  label_previous_month: "Previous month"
+  label_specific_day: "Day %{day}"
+  label_specific_week: "Calendar week %{week}"
+  label_specific_month: "Month %{month}"
+  label_list: "Liste"
+  label_month: "Mois"
+  label_day: "Jour"
+  label_today_capitalized: "Aujourd'hui"
   placeholder_activity_select_work_package_first: La sélection d'un paquet de travail est requise en premier
   notice_something_wrong: "Quelque chose s'est mal passé. Veuillez réessayer."
   notice_successful_restore: "Restauration réussie."
   notice_successful_lock: "Bloqué avec succès."
   notice_cost_logged_successfully: "Coût unitaire enregistré avec succès."
   notice_different_time_zones: "Cet utilisateur a un fuseau horaire différent (%{tz}). L'heure sera enregistrée en utilisant son fuseau horaire."
+  notice_time_entry_update_failed: "Failed to update time entry. Errors: %{errors}"
   permission_edit_cost_entries: "Éditer coûts unitaires réservés"
   permission_edit_own_cost_entries: "Éditer coûts unitaires propres réservés"
   permission_edit_hourly_rates: "Éditer les tarifs horaires"
@@ -175,9 +199,17 @@ fr:
   text_reassign_time_and_cost_entries: "Réassigner les heures et coûts consignés à ce lot de travaux :"
   text_warning_hidden_elements: "Certaines entrées peuvent avoir été exclues de l'agrégation."
   week: "semaine"
-  js:
-    text_are_you_sure: "Êtes-vous sûr ?"
+  total_times:
+    week: "Week Total: %{hours}"
+    month: "Month Total: %{hours}"
+    day: "Day Total: %{hours}"
   api_v3:
     errors:
       validation:
         start_time_different_date: "La partie date de startTime (%{start_time}) doit être identique à la date de spentOn (%{spent_on})."
+  ee:
+    features:
+      time_entry_time_restrictions: Require exact time tracking
+    upsell:
+      time_entry_time_restrictions:
+        description: "Improve your time tracking by requiring exact start and finish times when logging time."

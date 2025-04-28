@@ -171,11 +171,38 @@ from closing even if the form submission is successful.
 
 ```erb
 <%%= turbo_stream.dialog do
-  render(Primer::Alpha::Dialog.new(data: { 'keep-open-on-submit': true }) do |d|
+  render(Primer::Alpha::Dialog.new(id: 'my-dialog', data: { 'keep-open-on-submit': true }) do |d|
     # ...
   end
 end
 %>
+```
+
+If the dialog is marked to stay open after a successful form submission, it can either be closed manually by the user or we can programmatically
+close it with a turbo stream action.
+
+```ruby
+close_dialog_via_turbo_stream("#my-dialog", additional: { foo: "hello", bar: "world" })
+```
+
+This action will close the dialog and dispatch a `dialog:close` event with the optional additional data passed to it. This
+can be used to trigger other actions in the application, such as updating the UI.
+
+```typescript
+document.addEventListener("dialog:close", (event:CustomEvent) => {
+    interface AdditionalDialogCloseData { foo: string; bar: string; }
+    const { detail: { dialog, additional, submitted } } = event as { detail:{ dialog:HTMLDialogElement; additional:AdditionalDialogCloseData|undefined; submitted:boolean } };
+
+    // another dialog was closed, we ignore this
+    if (dialog.id !== 'my-dialog' || !submitted) { return; }
+
+    // use the additional data
+    if (additional) {
+      console.log("Additional data was passed", additional);
+    } else {
+      console.log("No additional data");
+    }
+});
 ```
 
 ## Special kinds of dialogs

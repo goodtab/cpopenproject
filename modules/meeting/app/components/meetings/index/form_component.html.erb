@@ -7,6 +7,7 @@
       data: {
         turbo: true,
         controller: [
+          "meetings--form",
           "show-when-value-selected",
           @meeting.is_a?(RecurringMeeting) ? "recurring-meetings--form" : nil
         ].compact.join(" "),
@@ -55,7 +56,7 @@
 
               frequency_row.with_column(
                 flex: 1,
-                style: "visibility: #{@meeting.frequency_working_days? ? "hidden" : "visible"}",
+                style: "visibility: #{@meeting.frequency_working_days? ? 'hidden' : 'visible'}",
                 data: {
                   target_name: "frequency",
                   not_value: "working_days",
@@ -113,10 +114,6 @@
                 end
               end
             end
-          end
-        else
-          modal_body.with_row do
-            render(Meeting::Type.new(f))
           end
         end
 

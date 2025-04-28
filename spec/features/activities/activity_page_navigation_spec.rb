@@ -216,13 +216,13 @@ RSpec.describe "Activity page navigation", :js do
         project.update(status_explanation: "New status explanation")
       end
 
-      def ensure_project_attributes_filter_is_checked
+      def ensure_project_details_filter_is_checked
         # First visited activity page (activities_path) will set the
-        # project attributes filter as checked and subsequent visits
+        # project details filter as checked and subsequent visits
         # to other activity pages will persist this setting
 
         if page.current_path == activities_path
-          check "Project attributes"
+          check "Project details"
           click_button "Apply"
         end
       end
@@ -231,7 +231,7 @@ RSpec.describe "Activity page navigation", :js do
         visit(activity_page)
         activity_page_path = page.current_path
 
-        ensure_project_attributes_filter_is_checked
+        ensure_project_details_filter_is_checked
 
         expect(page).to have_link(text: "Details")
         expect(page.text).to include("Project status description set (Details)")

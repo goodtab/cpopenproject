@@ -29,6 +29,12 @@ module API
         property :story_points,
                  render_nil: true
 
+        property :percentage_done,
+                 render_nil: true,
+                 getter: ->(*) {
+                   done_ratio
+                 }
+
         property :remaining_time,
                  render_nil: true,
                  exec_context: :decorator,

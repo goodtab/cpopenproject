@@ -36,16 +36,16 @@ RSpec.describe Queries::WorkPackages::Filter::VersionFilter do
     let(:class_key) { :version_id }
     let(:values) { [version.id.to_s] }
     let(:name) { WorkPackage.human_attribute_name("version") }
-
+    let(:scope) { instance_double(ActiveRecord::Relation) }
     before do
       if project
         allow(project)
           .to receive_message_chain(:shared_versions, :pluck)
           .and_return [version.id]
       else
-        allow(Version)
-          .to receive_message_chain(:visible, :systemwide, :pluck)
-          .and_return [version.id]
+        allow(Version).to receive(:visible).and_return(scope)
+        allow(scope).to receive(:or).with(Version.systemwide).and_return(scope)
+        allow(scope).to receive(:pluck).with(:id).and_return([version.id])
       end
     end
 
@@ -72,9 +72,7 @@ RSpec.describe Queries::WorkPackages::Filter::VersionFilter do
         end
 
         it "is false if the value does not exist as a version" do
-          allow(Version)
-            .to receive_message_chain(:visible, :systemwide, :pluck)
-            .and_return []
+          allow(scope).to receive(:pluck).with(:id).and_return([])
 
           expect(instance).not_to be_valid
         end

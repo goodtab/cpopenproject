@@ -99,7 +99,7 @@ ro:
   error_backlogs_task_cannot_be_story: "Setările nu sunt valide. Tipul de sarcină selectat nu poate fi și un tip de poveste."
   error_intro_plural: "Au fost întâlnite următoarele erori:"
   error_intro_singular: "Eroare"
-  error_outro: "Vă rugăm să corectați erorile de mai sus înainte de a le trimite din nou."
+  error_outro: "Te rog să corectezi erorile de mai sus înainte de a le trimite din nou."
   event_sprint_description: "%{summary}: %{url}\n%{description}"
   event_sprint_summary: "%{project}: %{summary}"
   ideal: "ideal"

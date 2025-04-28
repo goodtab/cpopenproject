@@ -27,7 +27,7 @@
 
 require "spec_helper"
 
-RSpec.describe Users::RegisterUserService do
+RSpec.describe Users::RegisterUserService, with_ee: %i[sso_auth_providers] do
   let(:user) { build(:user) }
   let(:instance) { described_class.new(user) }
   let(:call) { instance.call }
@@ -83,9 +83,6 @@ RSpec.describe Users::RegisterUserService do
     before do
       allow(user).to receive(:activate)
       allow(user).to receive(:save).and_return true
-
-      # required so that the azure provider is visible (ee feature)
-      allow(EnterpriseToken).to receive(:show_banners?).and_return false
     end
 
     it "tries to activate that user regardless of settings" do

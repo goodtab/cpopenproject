@@ -13,7 +13,7 @@ pt-PT:
       delete_viewpoint: 'Excluir ponto de vista'
       management: 'Gestão BCF'
       refresh: 'Atualizar'
-      refresh_work_package: 'Atualizar pacote de tarefas'
+      refresh_work_package: 'Recarregar pacote de trabalho'
     ifc_models:
       empty_warning: "Este projeto ainda não tem nenhum modelo IFC."
       use_this_link_to_manage: "Use este link para fazer upload e gerenciar seus modelos IFC"

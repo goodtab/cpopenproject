@@ -85,10 +85,6 @@ class StatusesController < ApplicationController
 
   protected
 
-  def show_local_breadcrumb
-    false
-  end
-
   def recompute_progress_values
     attributes_triggering_recomputing = ["excluded_from_totals"]
     attributes_triggering_recomputing << "default_done_ratio" if WorkPackage.status_based_mode?

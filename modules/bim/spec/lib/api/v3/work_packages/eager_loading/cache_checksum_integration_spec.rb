@@ -24,7 +24,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++require 'rspec'
+#++
 
 require "spec_helper"
 require Rails.root + "spec/lib/api/v3/work_packages/eager_loading/eager_loading_mock_wrapper"

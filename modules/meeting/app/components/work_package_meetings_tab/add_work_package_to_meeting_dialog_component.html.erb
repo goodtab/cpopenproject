@@ -18,7 +18,7 @@
     d.with_footer do
       component_collection do |buttons|
         buttons.with_component(
-          Primer::ButtonComponent.new(
+          Primer::Beta::Button.new(
             data: {
               "close-dialog-id": "add-work-package-to-meeting-dialog"
             }
@@ -27,7 +27,7 @@
           t("button_cancel")
         end
         buttons.with_component(
-          Primer::ButtonComponent.new(
+          Primer::Beta::Button.new(
             scheme: :primary,
             form: "add-work-package-to-meeting-form",
             data: { turbo: true },

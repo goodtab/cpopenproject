@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.expand_path("#{File.dirname(__FILE__)}/../../spec_helper")
+require_relative "../../spec_helper"
 
 RSpec.describe CostQuery::Operator, :reporting_query_helper do
   minimal_query

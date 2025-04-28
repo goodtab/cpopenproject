@@ -64,7 +64,8 @@ zh-TW:
         下列欄位控制 SAML 身分提供者所提供的哪些屬性會被用來在 OpenProject 中提供使用者屬性
       metadata:
         dialog: "這是 OpenProject SAML 元資料可用的 URL。可選擇使用它來設定您的身分提供者："
-      upsale:
+      upsell:
+        title: "使用 SAML 的單一登入 (SSO)"
         description: 將 OpenProject 連接到 SAML 身分提供者
       request_attributes:
         title: '要求的屬性'

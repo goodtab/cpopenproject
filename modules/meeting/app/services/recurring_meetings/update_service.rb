@@ -66,7 +66,7 @@ module RecurringMeetings
     end
 
     def reschedule_future_occurrences(recurring_meeting)
-      if only_time_of_day_changed?(recurring_meeting)
+      if only_time_of_day_changed?(recurring_meeting) && !multi_instances_per_day?(recurring_meeting)
         update_time_of_day(recurring_meeting)
       else
         remove_cancelled_schedules(recurring_meeting)
@@ -77,6 +77,17 @@ module RecurringMeetings
     def only_time_of_day_changed?(recurring_meeting)
       changes = recurring_meeting.previous_changes.keys
       changes.include?("start_time_hour") && changes.exclude?("start_date")
+    end
+
+    ##
+    # In some edit cases, we end up with multiple meetings being created
+    # per day. This ensures we can reschedule them on update.
+    def multi_instances_per_day?(recurring_meeting)
+      recurring_meeting
+        .scheduled_meetings
+        .group("start_time::date")
+        .having("COUNT(*) > 1")
+        .exists?
     end
 
     def update_time_of_day(recurring_meeting)

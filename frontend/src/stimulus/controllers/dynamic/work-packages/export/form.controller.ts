@@ -53,17 +53,26 @@ export default class FormController extends Controller<HTMLFormElement> {
   submitForm(evt:CustomEvent) {
     evt.preventDefault(); // Don't submit
     const formData = new FormData(this.element);
+
     const columns = formData.get('columns');
     if (!columns && this.mustHaveColumns(formData)) {
       return false; // Error is already displayed on the element
     }
+
+    const saveExportSettingsCheckbox = document.getElementById('op-work-packages-export-dialog-form-save_export_settings') as HTMLInputElement;
+    if (saveExportSettingsCheckbox) {
+      formData.set('save_export_settings', saveExportSettingsCheckbox.checked ? 'true' : 'false');
+    }
+
     this.requestExport(this.generateExportURL(formData))
       .then((job_id) => this.showJobModal(job_id))
       .catch((error:HttpErrorResponse) => this.handleError(error));
+
     const dialog = document.getElementById(this.jobStatusDialogIdValue) as HTMLDialogElement;
     if (dialog) {
       dialog.close();
     }
+
     return true;
   }
 
@@ -104,8 +113,10 @@ export default class FormController extends Controller<HTMLFormElement> {
         columns.forEach((v) => {
           query.append('columns[]', v);
         });
-        if (columns.length === 0) {
-          query.append('columns[]', ''); // add empty entry to indicate no columns
+        if (columns.length === 0 || value === '') {
+          // add special parameter to indicate no columns
+          // for an empty columns array the default columns would be used
+          query.append('no_columns', '1');
         }
         // Skip hidden fields (looped through query options or rails form fields)
       } else if (!['query', 'utf8', 'authenticity_token', 'format'].includes(key)) {

@@ -55,7 +55,7 @@ class WorkPackage < ApplicationRecord
   belongs_to :assigned_to, class_name: "Principal", optional: true
   belongs_to :responsible, class_name: "Principal", optional: true
   belongs_to :version, optional: true
-  belongs_to :project_life_cycle_step, class_name: "Project::LifeCycleStep", optional: true
+  belongs_to :project_phase, class_name: "Project::Phase", optional: true
   belongs_to :priority, class_name: "IssuePriority"
   belongs_to :category, class_name: "Category", optional: true
 
@@ -147,7 +147,7 @@ class WorkPackage < ApplicationRecord
   # thus the associated agenda items will be available at the time the callback method is performed.
   around_destroy :save_agenda_item_journals, prepend: true, if: -> { meeting_agenda_items.any? }
 
-  acts_as_customizable
+  acts_as_customizable validate_on: :saving_custom_fields
 
   acts_as_searchable columns: ["subject",
                                "#{table_name}.description",
@@ -382,8 +382,13 @@ class WorkPackage < ApplicationRecord
   # check if user is allowed to edit WorkPackage Journals.
   # see Acts::Journalized::Permissions#journal_editable_by
   def journal_editable_by?(journal, user)
-    user.allowed_in_project?(:edit_work_package_notes, project) ||
-      (user.allowed_in_work_package?(:edit_own_work_package_notes, self) && journal.user_id == user.id)
+    if journal.internal?
+      user.allowed_in_project?(:edit_others_internal_comments, project) ||
+        (user.allowed_in_project?(:edit_own_internal_comments, project) && journal.user_id == user.id)
+    else
+      user.allowed_in_project?(:edit_work_package_comments, project) ||
+        (user.allowed_in_work_package?(:edit_own_work_package_comments, self) && journal.user_id == user.id)
+    end
   end
 
   # Returns a scope for the projects

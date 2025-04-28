@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 #-- copyright
-# OpenProject is a project management system.
+# OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -26,7 +26,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# +
+#++
 
 require "spec_helper"
 
@@ -64,6 +64,26 @@ RSpec.describe OpenProject::OpenIDConnect::Hooks::Hook do
         call_hook
 
         expect(session).to be_empty
+      end
+    end
+
+    context "when expires_in is missing" do
+      let(:expires_in) { nil }
+
+      it "does not store an expires_in" do
+        call_hook
+
+        expect(session["omniauth.oidc_expires_in"]).to be_nil
+      end
+    end
+
+    context "when expires_in is passed as a string" do
+      let(:expires_in) { "7200" }
+
+      it "stores expires_in as integer" do
+        call_hook
+
+        expect(session["omniauth.oidc_expires_in"]).to eq(7200)
       end
     end
   end

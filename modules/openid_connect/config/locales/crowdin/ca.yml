@@ -91,7 +91,8 @@ ca:
         name: Microsoft Entra
       custom:
         name: Custom
-      upsale:
+      upsell:
+        title: "Single Sign-On (SSO) with OpenID connect"
         description: Connect OpenProject to an OpenID connect identity provider
       label_add_new: Afegeix un proveïdor d'OpenID
       label_edit: Edita el proveïdor d'OpenID %{name}

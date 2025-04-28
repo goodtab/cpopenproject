@@ -48,12 +48,21 @@ module WorkPackages
 
       def export_format_url(format)
         if @project.nil?
-          index_work_packages_path(format:)
-        elsif @query.id.present?
-          project_work_packages_path(project, query_id: @query.id, format:)
+          # Global work package list. The query_id might be nil for unsaved queries.
+          index_work_packages_path(format:, query_id: @query.id)
         else
-          project_work_packages_path(project, format:)
+          # Project work package list. The query_id might be nil for unsaved queries.
+          project_work_packages_path(project, query_id: @query.id, format:)
         end
+      end
+
+      # Users can save their export settings, but only for saved queries.
+      def offer_to_save_export_settings?
+        @query.persisted?
+      end
+
+      def saved_export_settings?
+        @query.export_settings.any?(&:persisted?)
       end
 
       def export_formats_settings

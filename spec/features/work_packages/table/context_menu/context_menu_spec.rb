@@ -57,8 +57,7 @@ RSpec.describe "Work package table context menu",
           find("body").send_keys [:control, "a"]
 
           menu.open_for(work_package)
-          menu.expect_options "Open details view", "Open fullscreen view",
-                              "Bulk edit", "Bulk copy", "Bulk change of project", "Bulk delete"
+          menu.expect_options "Bulk edit", "Bulk copy", "Bulk change of project", "Bulk delete"
         end
       end
     end

@@ -61,7 +61,7 @@ RSpec.describe Meetings::RowComponent, type: :component do
 
       context "with an associated recurring/templated meeting" do
         let(:series) { build_stubbed(:recurring_meeting, project:) }
-        let(:meeting) { build_stubbed(:structured_meeting_template, recurring_meeting: series, project:) }
+        let(:meeting) { build_stubbed(:meeting_template, recurring_meeting: series, project:) }
 
         it "shows default menu items" do
           expect(subject).to have_link "View meeting series"
@@ -99,7 +99,7 @@ RSpec.describe Meetings::RowComponent, type: :component do
 
       context "with an associated recurring/templated meeting" do
         let(:series) { build_stubbed(:recurring_meeting, project:) }
-        let(:meeting) { build_stubbed(:structured_meeting_template, recurring_meeting: series, project:) }
+        let(:meeting) { build_stubbed(:meeting_template, recurring_meeting: series, project:) }
 
         context "without a current project" do
           it "shows delete menu item with a back url" do

@@ -35,7 +35,7 @@ RSpec.describe Meetings::CopyService, "integration", type: :model do
   shared_let(:user) do
     create(:user, member_with_permissions: { project => %i(view_meetings create_meetings) })
   end
-  shared_let(:meeting) { create(:structured_meeting, project:, start_time: Time.parse("2013-03-27T15:35:00Z")) }
+  shared_let(:meeting) { create(:meeting, project:, start_time: Time.parse("2013-03-27T15:35:00Z")) }
 
   let(:instance) { described_class.new(model: meeting, user:) }
   let(:attributes) { {} }

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -46,7 +47,7 @@ RSpec.describe RecurringMeetings::InitNextOccurrenceJob, type: :model do
   subject { described_class.perform_now(series, scheduled_time) }
 
   it "schedules the first occurrence" do
-    expect { subject }.to change(StructuredMeeting, :count).by(1)
+    expect { subject }.to change(Meeting, :count).by(1)
     expect(subject).to be_success
 
     created_meeting = subject.result
@@ -62,7 +63,7 @@ RSpec.describe RecurringMeetings::InitNextOccurrenceJob, type: :model do
     end
 
     it "does not instantiate anything, but schedules the next job" do
-      expect { subject }.not_to change(StructuredMeeting, :count)
+      expect { subject }.not_to change(Meeting, :count)
       expect(subject).to be_nil
 
       expect(described_class)
@@ -73,7 +74,7 @@ RSpec.describe RecurringMeetings::InitNextOccurrenceJob, type: :model do
 
   context "when next occurrence is already instantiated" do
     let!(:instance) do
-      create(:structured_meeting,
+      create(:meeting,
              recurring_meeting: series,
              start_time: Time.zone.tomorrow + 10.hours)
     end
@@ -88,7 +89,7 @@ RSpec.describe RecurringMeetings::InitNextOccurrenceJob, type: :model do
     let(:next_occurrence) { Time.zone.tomorrow + 1.day + 10.hours }
 
     it "does not instantiate anything, but schedules the next job" do
-      expect { subject }.not_to change(StructuredMeeting, :count)
+      expect { subject }.not_to change(Meeting, :count)
       expect(subject).to be_nil
 
       expect(described_class)
@@ -99,7 +100,7 @@ RSpec.describe RecurringMeetings::InitNextOccurrenceJob, type: :model do
 
   context "when next occurrence is already instantiated, and moved" do
     let!(:instance) do
-      create(:structured_meeting,
+      create(:meeting,
              recurring_meeting: series,
              start_time: Time.zone.tomorrow + 1.day + 10.hours)
     end
@@ -114,7 +115,7 @@ RSpec.describe RecurringMeetings::InitNextOccurrenceJob, type: :model do
     let(:next_occurrence) { Time.zone.tomorrow + 1.day + 10.hours }
 
     it "does not instantiate anything, but schedules the next one" do
-      expect { subject }.not_to change(StructuredMeeting, :count)
+      expect { subject }.not_to change(Meeting, :count)
       expect(subject).to be_nil
       expect(described_class)
         .to have_been_enqueued.with(series, next_occurrence)
@@ -124,7 +125,7 @@ RSpec.describe RecurringMeetings::InitNextOccurrenceJob, type: :model do
 
   context "when later occurrence is already instantiated" do
     let!(:instance) do
-      create(:structured_meeting,
+      create(:meeting,
              recurring_meeting: series,
              start_time: Time.zone.tomorrow + 1.day + 10.hours)
     end
@@ -139,7 +140,7 @@ RSpec.describe RecurringMeetings::InitNextOccurrenceJob, type: :model do
     let(:next_occurrence) { Time.zone.tomorrow + 1.day + 10.hours }
 
     it "schedules the one for tomorrow" do
-      expect { subject }.to change(StructuredMeeting, :count).by(1)
+      expect { subject }.to change(Meeting, :count).by(1)
       expect(subject).to be_success
 
       created_meeting = subject.result

@@ -48,7 +48,7 @@ class WorkPackages::DatePickerController < ApplicationController
     respond_to do |format|
       format.html do
         render :show,
-               locals: { work_package:, schedule_manually:, params: params.merge(date_mode: date_mode).permit! },
+               locals: { work_package:, schedule_manually:, focused_field:, params: params.merge(date_mode: date_mode).permit! },
                layout: false
       end
 
@@ -120,10 +120,13 @@ class WorkPackages::DatePickerController < ApplicationController
   # rubocop:enable Metrics/AbcSize
 
   def update
+    wp_params = work_package_datepicker_params
+    wp_params = manage_params_for_automatic_mode(wp_params)
+
     service_call = WorkPackages::UpdateService
                      .new(user: current_user,
                           model: @work_package)
-                     .call(work_package_datepicker_params)
+                     .call(wp_params)
 
     if service_call.success?
       respond_to do |format|
@@ -162,12 +165,21 @@ class WorkPackages::DatePickerController < ApplicationController
 
     trigger = params[:field]
 
+    # For automatic scheduling, we focus the due date initially and do not switch to start date after touching it
+    if !ActiveModel::Type::Boolean.new.cast(schedule_manually) && trigger != "duration"
+      return :due_date
+    end
+
     # Decide which field to focus next
     case trigger
+    when "startDate"
+      :start_date
     when "work_package[start_date]"
       handle_focus_order_for_fields(:start_date, :due_date)
-    when "work_package[duration]"
+    when "work_package[duration]", "duration"
       :duration
+    when "dueDate"
+      :due_date
     when "work_package[due_date]"
       handle_focus_order_for_fields(:due_date, :start_date)
     else
@@ -187,7 +199,7 @@ class WorkPackages::DatePickerController < ApplicationController
                    "start_date_touched",
                    "due_date_touched",
                    "duration_touched")
-            .transform_values { _1 == "true" }
+            .transform_values { it == "true" }
             .permit!
     else
       {}
@@ -224,11 +236,13 @@ class WorkPackages::DatePickerController < ApplicationController
             .slice(*allowed_touched_params)
             .merge(schedule_manually:, date_mode:, triggering_field: params[:triggering_field])
             .permit!
+    else
+      {}
     end
   end
 
   def allowed_touched_params
-    allowed_params.filter { touched?(_1) }
+    allowed_params.filter { touched?(it) }
   end
 
   def allowed_params
@@ -249,13 +263,22 @@ class WorkPackages::DatePickerController < ApplicationController
 
   def set_date_attributes_to_work_package
     wp_params = work_package_datepicker_params
+    wp_params = manage_params_for_automatic_mode(wp_params)
 
     if wp_params.present?
       WorkPackages::SetAttributesService
         .new(user: current_user,
              model: @work_package,
-             contract_class: WorkPackages::CreateContract)
+             contract_class:)
         .call(wp_params)
+    end
+  end
+
+  def contract_class
+    if @work_package.new_record?
+      WorkPackages::CreateContract
+    else
+      WorkPackages::UpdateContract
     end
   end
 
@@ -304,5 +327,17 @@ class WorkPackages::DatePickerController < ApplicationController
     else
       alternative_field
     end
+  end
+
+  def manage_params_for_automatic_mode(wp_params)
+    return wp_params if wp_params["schedule_manually"] != "false"
+
+    # For WP with children the dates are always fixed
+    return wp_params.without("start_date", "due_date") if work_package.children.any?
+
+    # the start should be preserved and will thus be send as a parameter
+    wp_params["start_date"] = work_package.start_date.to_s
+
+    wp_params
   end
 end

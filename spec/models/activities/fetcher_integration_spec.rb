@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -30,11 +32,15 @@ require "spec_helper"
 
 RSpec.describe Activities::Fetcher, "integration" do
   shared_let(:user) { create(:user) }
-  shared_let(:permissions) { %i[view_work_packages view_time_entries view_changesets view_wiki_edits] }
+  shared_let(:permissions) do
+    %i[view_work_packages view_time_entries view_changesets view_wiki_edits view_internal_comments]
+  end
   shared_let(:role) { create(:project_role, permissions:) }
   # execute as user so that the user is the author of the project, and the
   # project create event will be displayed in user activities
   shared_let(:project) { User.execute_as(user) { create(:project, members: { user => role }) } }
+
+  let(:admin) { create(:admin) }
 
   let(:instance) { described_class.new(user, options) }
   let(:options) { {} }
@@ -44,7 +50,7 @@ RSpec.describe Activities::Fetcher, "integration" do
       .not_to include("budgets")
   end
 
-  describe "#events" do
+  describe "#events", with_flag: { internal_comments: true } do
     let(:event_user) { user }
     let(:work_package) { create(:work_package, project:, author: event_user) }
     let(:forum) { create(:forum, project:) }
@@ -54,19 +60,80 @@ RSpec.describe Activities::Fetcher, "integration" do
     let(:repository) { create(:repository_subversion, project:) }
     let(:changeset) { create(:changeset, committer: event_user.login, repository:) }
     let(:wiki) { create(:wiki, project:) }
-    let(:wiki_page) do
-      create(:wiki_page, wiki:, author: event_user, text: "some text")
+    let(:wiki_page) { create(:wiki_page, wiki:, author: event_user, text: "some text") }
+    let(:internal_note) do
+      create(:work_package_journal,
+             journable: work_package,
+             user: admin,
+             notes: "Internal comment",
+             internal: true,
+             version: 2,
+             data: build(:journal_work_package_journal,
+                         subject: work_package.subject,
+                         status_id: work_package.status_id,
+                         type_id: work_package.type_id,
+                         project_id: work_package.project_id))
     end
 
-    subject { instance.events(from: 30.days.ago, to: 1.day.from_now) }
+    subject(:event_journables) { instance.events(from: 30.days.ago, to: 1.day.from_now).map { it.journal.journable } }
+
+    def activities_of_types(*klasses)
+      activities.select do |activity|
+        klasses.any? do |klass|
+          activity.is_a?(klass)
+        end
+      end
+    end
+
+    shared_examples "specifying scope" do
+      context "without scope set" do
+        it "finds events of all types" do
+          expect(event_journables)
+            .to match_array(activities)
+        end
+      end
+
+      context "with scope :all" do
+        before { options[:scope] = :all }
+
+        it "finds events of all types" do
+          expect(event_journables)
+            .to match_array(activities)
+        end
+      end
+
+      context "with scope :default" do
+        before { options[:scope] = :default }
+
+        it "finds events that are registered to be shown by default" do
+          expect(event_journables)
+            .to match_array(activities_of_types(WorkPackage, Changeset))
+        end
+      end
+
+      context "with scope of event types" do
+        before { options[:scope] = %w[time_entries messages project_details] }
+
+        it "finds only events matching the scope" do
+          expect(event_journables)
+            .to match_array(activities_of_types(Message, TimeEntry, Project))
+        end
+      end
+
+      context "with scope of compatibility alias of project_attributes for project_details" do
+        before { options[:scope] = %w[project_attributes] }
+
+        it "finds only events matching the scope" do
+          expect(event_journables)
+            .to match_array(activities_of_types(Project))
+        end
+      end
+    end
 
     context "for global activities" do
       let!(:activities) { [project, work_package, message, news, time_entry, changeset, wiki_page] }
 
-      it "finds events of all types" do
-        expect(subject.map(&:journable_id))
-          .to match_array(activities.map(&:id))
-      end
+      it_behaves_like "specifying scope"
 
       context "if lacking permissions" do
         before do
@@ -74,31 +141,49 @@ RSpec.describe Activities::Fetcher, "integration" do
         end
 
         it "finds only events for which permissions are satisfied" do
-          # project attributes, news and message only require the user to be member
-          expect(subject.map(&:journable_id))
-            .to contain_exactly(project.id, message.id, news.id)
+          # project details, news and message only require the user to be member
+          expect(event_journables)
+            .to contain_exactly(project, message, news)
         end
       end
 
       context "if project has activity disabled" do
         before do
-          project.enabled_module_names = project.enabled_module_names - ["activity"]
+          project.enabled_module_names -= ["activity"]
         end
 
         it "finds no events" do
-          expect(subject.map(&:journable_id))
+          expect(event_journables)
             .to be_empty
         end
       end
 
-      context "if restricting the scope" do
+      context "if user cannot see internal journals" do
         before do
-          options[:scope] = %w(time_entries messages)
+          role.role_permissions
+            .find_by(permission: "view_internal_comments")
+            .destroy
+
+          # reload otherwise permissions don't update
+          event_user.reload
+
+          # make sure internal_note is created
+          internal_note
         end
 
-        it "finds only events matching the scope" do
-          expect(subject.map(&:journable_id))
-            .to contain_exactly(message.id, time_entry.id)
+        it "does not find events with internal journals" do
+          expect(instance.events.map(&:journal).select(&:internal)).to be_empty
+        end
+      end
+
+      context "if user can see internal journals" do
+        before do
+          # make sure internal_note is created
+          internal_note
+        end
+
+        it "finds events with internal journals" do
+          expect(instance.events.map(&:journal).select(&:internal)).to include(internal_note)
         end
       end
     end
@@ -107,47 +192,62 @@ RSpec.describe Activities::Fetcher, "integration" do
       let(:options) { { project: } }
       let!(:activities) { [project, work_package, message, news, time_entry, changeset, wiki_page] }
 
-      it "finds events of all types" do
-        expect(subject.map(&:journable_id))
-          .to match_array(activities.map(&:id))
-      end
+      it_behaves_like "specifying scope"
 
       context "if lacking permissions" do
         before do
           role
-          .role_permissions
-          # n.b. public permissions are now stored in the database just like others, so to keep the tests like they are
-          # we need to filter them out here
-          .reject { |permission| OpenProject::AccessControl.permission(permission.permission.to_sym).public? }
-          .map(&:destroy)
+            .role_permissions
+            # n.b. public permissions are now stored in the database just like others, so to keep the tests like they
+            # are we need to filter them out here
+            .reject { |permission| OpenProject::AccessControl.permission(permission.permission.to_sym).public? }
+            .each(&:destroy)
         end
 
         it "finds only events for which permissions are satisfied" do
-          # project attributes, news and message only require the user to be member
-          expect(subject.map(&:journable_id))
-            .to contain_exactly(project.id, message.id, news.id)
+          # project details, news and message only require the user to be member
+          expect(event_journables)
+            .to contain_exactly(project, message, news)
         end
       end
 
       context "if project has activity disabled" do
         before do
-          project.enabled_module_names = project.enabled_module_names - ["activity"]
+          project.enabled_module_names -= ["activity"]
         end
 
         it "finds no events" do
-          expect(subject.map(&:journable_id))
+          expect(event_journables)
             .to be_empty
         end
       end
 
-      context "if restricting the scope" do
+      context "if user cannot see internal journals" do
         before do
-          options[:scope] = %w(time_entries messages)
+          role.role_permissions
+            .find_by(permission: "view_internal_comments")
+            .destroy
+
+          # reload otherwise permissions don't update
+          event_user.reload
+
+          # make sure internal_note is created
+          internal_note
         end
 
-        it "finds only events matching the scope" do
-          expect(subject.map(&:journable_id))
-            .to contain_exactly(message.id, time_entry.id)
+        it "does not find events with internal journals" do
+          expect(instance.events.map(&:journal).select(&:internal)).to be_empty
+        end
+      end
+
+      context "if user can see internal journals" do
+        before do
+          # make sure internal_note is created
+          internal_note
+        end
+
+        it "finds events with internal journals" do
+          expect(instance.events.map(&:journal).select(&:internal)).to include(internal_note)
         end
       end
     end
@@ -158,29 +258,21 @@ RSpec.describe Activities::Fetcher, "integration" do
           project.reload
         end
       end
+
+      let(:options) { { project:, with_subprojects: 1 } }
       let(:subproject_news) { create(:news, project: subproject) }
       let(:subproject_work_package) { create(:work_package, project: subproject, author: event_user) }
-      let(:subproject_member) do
+      let(:subproject_member_permissions) { permissions }
+
+      let!(:subproject_member) do
         create(:member,
                user:,
                project: subproject,
-               roles: [create(:project_role, permissions:)])
+               roles: [create(:project_role, permissions: subproject_member_permissions)])
       end
-
       let!(:activities) { [project, subproject, news, subproject_news, work_package, subproject_work_package] }
 
-      context "if including subprojects" do
-        before do
-          subproject_member
-        end
-
-        let(:options) { { project:, with_subprojects: 1 } }
-
-        it "finds events in the subproject" do
-          expect(subject.map(&:journable_id))
-            .to match_array(activities.map(&:id))
-        end
-      end
+      it_behaves_like "specifying scope"
 
       context "if the subproject has activity disabled" do
         before do
@@ -188,82 +280,68 @@ RSpec.describe Activities::Fetcher, "integration" do
         end
 
         it "lacks events from subproject" do
-          expect(subject.map(&:journable_id))
-            .to contain_exactly(project.id, news.id, work_package.id)
+          expect(event_journables)
+            .to contain_exactly(project, news, work_package)
         end
       end
 
       context "if not member of the subproject" do
-        let(:options) { { project:, with_subprojects: 1 } }
+        let!(:subproject_member) { nil }
 
         it "lacks events from subproject" do
-          expect(subject.map(&:journable_id))
-            .to contain_exactly(project.id, news.id, work_package.id)
+          expect(event_journables)
+            .to contain_exactly(project, news, work_package)
         end
       end
 
       context "if lacking permissions for the subproject" do
-        let(:options) { { project:, with_subprojects: 1 } }
-        let!(:subproject_member) do
-          create(:member,
-                 user:,
-                 project: subproject,
-                 roles: [create(:project_role, permissions: [])])
-        end
+        let(:subproject_member_permissions) { [] }
 
         it "finds only events for which permissions are satisfied" do
-          # project attributes and news only require the user to be member
-          expect(subject.map(&:journable_id))
-            .to contain_exactly(project.id, subproject.id, news.id, subproject_news.id, work_package.id)
-          expect(subject.filter { |e| e.event_type.starts_with?("work_package") }.map(&:journable_id))
-            .not_to include(subproject_work_package.id)
+          # project details and news only require the user to be member
+          expect(event_journables)
+            .to contain_exactly(project, subproject, news, subproject_news, work_package)
         end
       end
 
       context "if excluding subprojects" do
-        before do
-          subproject_member
-        end
-
         let(:options) { { project:, with_subprojects: nil } }
 
         it "lacks events from subproject" do
-          expect(subject.map(&:journable_id))
-            .to contain_exactly(project.id, news.id, work_package.id)
+          expect(event_journables)
+            .to contain_exactly(project, news, work_package)
         end
       end
     end
 
     context "for activities of a user" do
       let(:options) { { author: user } }
+
       let!(:activities) do
         # Login to have all the journals created as the user
         login_as(user)
         [project, work_package, message, news, time_entry, changeset, wiki_page]
       end
 
-      it "finds events of all types" do
-        expect(subject.map(&:journable_id))
-          .to match_array(activities.map(&:id))
-      end
+      it_behaves_like "specifying scope"
 
       context "for a different user" do
         let(:other_user) { create(:user) }
         let(:options) { { author: other_user } }
 
         it "does not return the events made by the non queried for user" do
-          expect(subject.map(&:journable_id))
+          expect(event_journables)
             .to be_empty
         end
       end
 
       context "if project has activity disabled" do
         before do
-          project.enabled_module_names = project.enabled_module_names - ["activity"]
+          project.enabled_module_names -= ["activity"]
         end
 
         it "finds no events" do
-          expect(subject.map(&:journable_id))
+          expect(event_journables)
             .to be_empty
         end
       end
@@ -274,20 +352,9 @@ RSpec.describe Activities::Fetcher, "integration" do
         end
 
         it "finds only events for which permissions are satisfied" do
-          # project attributes, news and message only require the user to be member
-          expect(subject.map(&:journable_id))
-            .to contain_exactly(project.id, message.id, news.id)
-        end
-      end
-
-      context "if restricting the scope" do
-        before do
-          options[:scope] = %w(time_entries messages)
-        end
-
-        it "finds only events matching the scope" do
-          expect(subject.map(&:journable_id))
-            .to contain_exactly(message.id, time_entry.id)
+          # project details, news and message only require the user to be member
+          expect(event_journables)
+            .to contain_exactly(project, message, news)
         end
       end
     end

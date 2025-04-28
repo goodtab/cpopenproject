@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -221,7 +223,7 @@ class CostReportsController < ApplicationController
     filter = f_cls.new.tap do |f|
       f.values = JSON.parse(params[:values].tr("'", '"')) if params[:values].present? && params[:values]
     end
-    render_widget Widget::Filters::Option, filter, to: canvas = ""
+    render_widget Widget::Filters::Option, filter, to: canvas = +""
 
     render plain: canvas, layout: !request.xhr?
   end

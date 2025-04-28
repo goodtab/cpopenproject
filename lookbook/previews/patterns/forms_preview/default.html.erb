@@ -10,6 +10,15 @@
       )
 
       f.text_field(
+        name: :hours,
+        label: "hours",
+        type: :number,
+        required: true,
+        trailing_visual: { text: { text: "min" } },
+        input_width: :xsmall
+      )
+
+      f.text_field(
         name: :ultimate_answer,
         label: "Small",
         required: true,

@@ -52,8 +52,8 @@ export class WpTableConfigurationHighlightingTabComponent implements TabComponen
       priority: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.priority'),
       entire_row_by: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.entire_row_by'),
     },
-    upsaleAttributeHighlighting: this.I18n.t('js.work_packages.table_configuration.upsale.attribute_highlighting'),
-    upsaleCheckOutLink: this.I18n.t('js.work_packages.table_configuration.upsale.check_out_link'),
+    upsellAttributeHighlighting: this.I18n.t('js.work_packages.table_configuration.upsell.attribute_highlighting'),
+    upsellCheckOutLink: this.I18n.t('js.work_packages.table_configuration.upsell.check_out_link'),
     more_info_link: enterpriseDocsUrl.tableHighlighting,
   };
 
@@ -74,7 +74,7 @@ export class WpTableConfigurationHighlightingTabComponent implements TabComponen
 
     this.setSelectedValues();
 
-    this.eeShowBanners = this.Banners.eeShowBanners;
+    this.eeShowBanners = this.Banners.showBannerFor('conditional_highlighting');
     this.updateMode(this.wpTableHighlight.current.mode);
 
     if (this.eeShowBanners) {

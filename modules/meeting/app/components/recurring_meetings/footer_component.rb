@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -39,7 +40,7 @@ module RecurringMeetings
       @meeting = meeting
       @project = project
       @current_count = count
-      @direction = direction
+      @direction = direction.to_sym
       @max_count = max_count
     end
 
@@ -48,16 +49,20 @@ module RecurringMeetings
     end
 
     def label
-      # If it never ends, don't try to count it
-      return endless_label if @meeting.end_after_never?
-
-      count = @max_count - @current_count
-      label_suffix = count == 1 ? "_singular" : ""
-
-      if @direction == "past"
-        I18n.t("label_recurring_meeting_more_past#{label_suffix}", count:)
+      if @direction == :past || !@meeting.end_after_never?
+        countable_label
       else
-        I18n.t("label_recurring_meeting_more#{label_suffix}", count:, schedule: @meeting.full_schedule_in_words)
+        # If it never ends, don't try to count it
+        endless_label
+      end
+    end
+
+    def countable_label
+      count = @max_count - @current_count
+      if @direction == :past
+        I18n.t("label_recurring_meeting_more_past", count:)
+      else
+        I18n.t("label_recurring_meeting_more", count:, schedule: @meeting.full_schedule_in_words)
       end
     end
 

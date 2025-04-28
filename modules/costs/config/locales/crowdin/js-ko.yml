@@ -21,6 +21,9 @@
 #++
 ko:
   js:
+    text_are_you_sure: "계속하시겠습니까?"
+    myTimeTracking:
+      noSpecificTime: "No specific time"
     work_packages:
       property_groups:
         costs: "비용"

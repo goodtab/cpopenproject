@@ -181,7 +181,8 @@ export class TypeFormConfigurationComponent extends UntilDestroyedMixin implemen
   }
 
   editQuery(group:TypeGroup):void {
-    this.typeBanner.conditional(
+    void this.typeBanner.conditional(
+      'edit_attribute_groups',
       () => this.typeBanner.showEEOnlyHint(),
       () => {
         // Disable display mode and timeline for now since we don't want users to enable it
@@ -200,7 +201,8 @@ export class TypeFormConfigurationComponent extends UntilDestroyedMixin implemen
   }
 
   deleteGroup(group:TypeGroup):void {
-    this.typeBanner.conditional(
+    void this.typeBanner.conditional(
+      'edit_attribute_groups',
       () => this.typeBanner.showEEOnlyHint(),
       () => {
         if (group.type === 'attribute') {

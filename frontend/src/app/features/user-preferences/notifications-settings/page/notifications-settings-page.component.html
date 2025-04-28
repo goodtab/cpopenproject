@@ -166,15 +166,10 @@
     </div>
   </div>
 
-  <op-enterprise-banner
-    *ngIf="eeShowBanners"
-    [moreInfoLink]="text.more_info_link"
-    [collapsible]="true"
-    [textMessage]="text.teaser_text"
-    opReferrer="notifications#date-alerts"
-    class="op-date-alert-ee-banner">
-  </op-enterprise-banner>
-
+  <op-enterprise-banner-frame
+    feature="date_alerts"
+    [dismissable]="true"
+  ></op-enterprise-banner-frame>
 
   <div class="op-form--section-header">
     <h3 class="op-form--section-header-title">{{ text.alsoNotifyFor.title }}</h3>

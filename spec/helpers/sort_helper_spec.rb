@@ -428,16 +428,16 @@ RSpec.describe SortHelper do
       end
     end
 
-    context "with a life cycle gate column" do
-      let(:life_cycle_step) { create(:project_gate_definition) }
-      let(:life_cycle_column) { Queries::Projects::Selects::LifeCycleStep.new("lcsd_#{life_cycle_step.id}") }
+    context "with a project phase column" do
+      let(:project_phase_definition) { create(:project_phase_definition) }
+      let(:life_cycle_column) { Queries::Projects::Selects::ProjectPhase.new("project_phase_#{project_phase_definition.id}") }
 
-      let(:options) { { caption: life_cycle_step.name } }
+      let(:options) { { caption: project_phase_definition.name } }
 
       subject(:output) do
         # Not setting any filter column mappings here, so for other column types, this should use the default filter
         helper.sort_header_with_action_menu(life_cycle_column,
-                                            %W[name lcsd_#{life_cycle_step.id}], {}, **options)
+                                            %W[name project_phase_#{project_phase_definition.id}], {}, **options)
       end
 
       it "never offers a filter by action" do
@@ -446,24 +446,12 @@ RSpec.describe SortHelper do
         expect(filter_by).to be_nil
       end
 
-      it "shows a diamond icon in the header for gates" do
-        icon = action_menu.at_css(".generic-table--action-menu-button .Button-leadingVisual .octicon-diamond")
+      it "shows a commit icon in the header for gates" do
+        icon = action_menu.at_css(".generic-table--action-menu-button .Button-leadingVisual .octicon-op-phase")
         expect(icon).to be_present
 
         header_text = action_menu.at_css(".generic-table--action-menu-button .Button-label").text.strip
         expect(header_text).to eq(life_cycle_column.caption)
-      end
-
-      context "with a life cycle stage column" do
-        let(:life_cycle_step) { create(:project_stage_definition) }
-
-        it "shows a commit icon in the header for gates" do
-          icon = action_menu.at_css(".generic-table--action-menu-button .Button-leadingVisual .octicon-git-commit")
-          expect(icon).to be_present
-
-          header_text = action_menu.at_css(".generic-table--action-menu-button .Button-label").text.strip
-          expect(header_text).to eq(life_cycle_column.caption)
-        end
       end
     end
   end

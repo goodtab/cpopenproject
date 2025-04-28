@@ -44,7 +44,6 @@ require('expose-loader?dragula!dragula/dist/dragula.min.js');
 require('@uirouter/angular');
 
 // Jquery UI
-require('jquery-ui/ui/core');
 require('jquery-ui/ui/position');
 require('jquery-ui/ui/disable-selection');
 require('jquery-ui/ui/widgets/sortable');

@@ -61,7 +61,6 @@ module Users
             )
           SQL
         },
-        { class: MeetingContent, column: :text },
         { class: Journal::MeetingContentJournal, column: :text },
         { class: Message, column: :content },
         { class: Journal::MessageJournal, column: :content },

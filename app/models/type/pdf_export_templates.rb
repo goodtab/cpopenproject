@@ -29,6 +29,8 @@
 #++
 
 class Type::PdfExportTemplates
+  include WorkPackage::PDFExport::Templates
+
   Template = Data.define(:id, :label, :caption, :enabled)
 
   def initialize(type)
@@ -83,11 +85,5 @@ class Type::PdfExportTemplates
     ordered_template_ids.delete_at(prev_index) unless prev_index.nil?
     ordered_template_ids.insert(position, template_id)
     @type.export_templates_order = ordered_template_ids
-  end
-
-  private
-
-  def built_in_templates
-    ::WorkPackage::PDFExport::Templates::TEMPLATES
   end
 end

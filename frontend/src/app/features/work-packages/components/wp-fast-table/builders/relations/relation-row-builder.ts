@@ -1,10 +1,8 @@
 import { Injector } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { RelationColumnType } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-relation-columns.service';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { States } from 'core-app/core/states/states.service';
-import { RelationResource } from 'core-app/features/hal/resources/relation-resource';
 import { commonRowClassName, SingleRowBuilder, tableRowClassName } from '../rows/single-row-builder';
 import { tdClassName } from '../cell-builder';
 import { WorkPackageTable } from '../../wp-fast-table';
@@ -25,8 +23,10 @@ export class RelationRowBuilder extends SingleRowBuilder {
 
   @InjectField() public I18n:I18nService;
 
-  constructor(public readonly injector:Injector,
-    protected workPackageTable:WorkPackageTable) {
+  constructor(
+public readonly injector:Injector,
+              protected workPackageTable:WorkPackageTable,
+) {
     super(injector, workPackageTable);
   }
 
@@ -49,14 +49,10 @@ export class RelationRowBuilder extends SingleRowBuilder {
   /**
    * Build the columns on the given empty row
    */
-  public buildEmptyRelationRow(from:WorkPackageResource, relation:RelationResource, type:RelationColumnType):[HTMLElement, WorkPackageResource] {
-    const denormalized = relation.denormalized(from);
-
-    const to = this.states.workPackages.get(denormalized.targetId).value!;
-
+  public buildEmptyRelationRow(from:WorkPackageResource, to:WorkPackageResource):[HTMLElement, WorkPackageResource] {
     // Let the primary row builder build the row
     const row = this.createEmptyRelationRow(from, to);
-    const [tr, _] = super.buildEmptyRow(to, row);
+    const [tr] = super.buildEmptyRow(to, row);
 
     return [tr, to];
   }
@@ -73,11 +69,13 @@ export class RelationRowBuilder extends SingleRowBuilder {
     tr.dataset.classIdentifier = identifier;
 
     tr.classList.add(
-      commonRowClassName, tableRowClassName, 'issue',
-      'wp-table--relations-aditional-row',
-      identifier,
-      `${identifier}-table`,
-      relationGroupClass(from.id!),
+      commonRowClassName,
+tableRowClassName,
+'issue',
+'wp-table--relations-additional-row',
+identifier,
+`${identifier}-table`,
+relationGroupClass(from.id!),
     );
 
     return tr;
@@ -89,29 +87,18 @@ export class RelationRowBuilder extends SingleRowBuilder {
 
   /**
    *
-   * @param from
-   * @param denormalized
-   * @param type
+   * @param jRow
+   * @param typeLabel
+   * @param columnId
    */
-  public appendRelationLabel(jRow:JQuery, from:WorkPackageResource, relation:RelationResource, columnId:string, type:RelationColumnType) {
-    const denormalized = relation.denormalized(from);
-    let typeLabel = '';
-
-    // Add the relation label if this is a "Relations for <WP Type>" column
-    if (type === 'toType') {
-      typeLabel = this.I18n.t(`js.relation_labels.${denormalized.reverseRelationType}`);
-    }
-    // Add the WP type label if this is a "<Relation Type> Relations" column
-    if (type === 'ofType') {
-      const wp = this.states.workPackages.get(denormalized.target.id!).value!;
-      typeLabel = wp.type.name;
-    }
-
+  public appendRelationLabel(
+    jRow:JQuery,
+    typeLabel:string,
+    columnId:string,
+  ):void {
     const relationLabel = document.createElement('span');
-    relationLabel.classList.add('relation-row--type-label');
+    relationLabel.classList.add('relation-row--type-label', 'badge');
     relationLabel.textContent = typeLabel;
-
-    const textNode = document.createTextNode(denormalized.target.name);
 
     jRow.find(`.${relationCellClassName}`).empty();
     jRow.find(`.${relationCellClassName}.${columnId}`).append(relationLabel);

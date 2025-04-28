@@ -50,18 +50,18 @@ RSpec.describe CustomStylesController do
           allow(EnterpriseToken).to receive(:current).and_return(nil)
         end
 
-        it "redirects to #upsale" do
-          expect(subject).to redirect_to action: :upsale
+        it "redirects to #upsell" do
+          expect(subject).to redirect_to action: :upsell
         end
       end
     end
 
-    describe "#upsale" do
-      subject { get :upsale }
+    describe "#upsell" do
+      subject { get :upsell }
 
-      it "renders upsale" do
+      it "renders upsell" do
         expect(subject).to be_successful
-        expect(subject).to render_template "upsale"
+        expect(subject).to render_template "upsell"
       end
     end
 

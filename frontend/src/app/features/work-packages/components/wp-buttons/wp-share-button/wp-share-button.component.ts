@@ -52,7 +52,7 @@ import { CollectionResource } from 'core-app/features/hal/resources/collection-r
 export class WorkPackageShareButtonComponent extends UntilDestroyedMixin implements OnInit {
   @Input() public workPackage:WorkPackageResource;
 
-  showEnterpriseIcon = this.bannersService.eeShowBanners;
+  showEnterpriseIcon = this.bannersService.showBannerFor('work_package_sharing');
 
   shareCount$:Observable<number>;
 

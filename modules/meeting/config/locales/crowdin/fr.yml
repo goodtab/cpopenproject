@@ -70,11 +70,9 @@ fr:
         invalid_time_format: "n’est pas une heure valide. Format requis : HH:MM"
     models:
       recurring_meeting: "Réunion récurrente"
-      structured_meeting: "Réunion ponctuelle"
-      meeting: "Réunion"
+      meeting: "Réunion ponctuelle"
       meeting_agenda_item: ""
       meeting_agenda: "Ordre du jour"
-      meeting_minutes: "Compte-rendu"
       meeting_section: "Section"
   activity:
     filter:
@@ -133,11 +131,13 @@ fr:
   label_recurring_meeting_restore: "Restaurer cette occurrence"
   label_recurring_meeting_schedule: "Programmer"
   label_recurring_meeting_next_occurrence: "Occurrence suivante"
-  label_recurring_meeting_more: "Il y a %{count} autres réunions prévues (%{schedule})."
   label_recurring_meeting_no_end_date: "Il y a d'autres réunions planifiées (%{schedule})."
-  label_recurring_meeting_more_singular: "Il y a %{count} autre réunion prévue (%{schedule})."
-  label_recurring_meeting_more_past: "Il y a %{count} autres réunions passées."
-  label_recurring_meeting_more_past_singular: "Il y a %{count} autre réunion passée."
+  label_recurring_meeting_more:
+    one: "Il y a encore une réunion prévue (%{schedule})."
+    other: "Il y a %{count} autres réunions prévues (%{schedule})."
+  label_recurring_meeting_more_past:
+    one: "Il y a encore une réunion passée."
+    other: "Il y a %{count} autres réunions passées."
   label_recurring_meeting_show_more: "Afficher plus"
   label_recurring_meeting_series_create: "Créer une série de réunions"
   label_recurring_meeting_series_edit: "Modifier la série de réunions"
@@ -215,9 +215,6 @@ fr:
         new_date_time: "Nouvelle date/heure"
     label_mail_all_participants: "Envoyer un mail à tous les participants"
     types:
-      classic: "Classique"
-      classic_text: "Organisez votre réunion sous la forme d'un ordre du jour et d'un protocole sous forme de texte unique formatable."
-      structured: "Structurée"
       one_time: "Ponctuelle"
       recurring: "Récurrente"
       recurring_text: "Créez une série de réunions avec un modèle dynamique pour chaque occurrence."
@@ -391,9 +388,7 @@ fr:
   label_meeting_details_edit: "Modifier les détails de la réunion"
   label_meeting_state: "Statut de la réunion"
   label_meeting_state_open: "Ouvert"
-  label_meeting_state_open_html: "<i>Ouvrir</i>"
   label_meeting_state_closed: "Fermé"
-  label_meeting_state_closed_html: "<i>Fermé</i>"
   label_meeting_state_agenda_created: "Ordre du jour créé"
   label_meeting_state_planned: "Planifiée"
   label_meeting_state_cancelled: "Annulée"
@@ -401,7 +396,7 @@ fr:
   label_meeting_state_in_progress: "En cours"
   label_meeting_reopen_action: "Réouvrir la réunion"
   label_meeting_close_action: "Clôturer la réunion"
-  label_meeting_in_progress_action: "Marquer comme étant en cours"
+  label_meeting_in_progress_action: "Démarrer la réunion"
   text_meeting_open_description: "Cette réunion est ouverte. Vous pouvez ajouter/supprimer des éléments de l'ordre du jour et les modifier comme vous le souhaitez. Une fois l'ordre du jour prêt, marquez-le comme étant en cours pour documenter les résultats."
   text_meeting_closed_description: "Cette réunion est clôturée. Vous ne pouvez plus ajouter/supprimer des points de l'ordre du jour."
   text_meeting_in_progress_description: "Cette réunion est en cours. Vous pouvez documenter les résultats pour chaque élément de l'ordre du jour, les réorganiser et même en ajouter de nouveaux. Une fois la réunion terminée, vous pouvez la marquer comme fermée pour la verrouiller."
@@ -424,6 +419,6 @@ fr:
   text_agenda_item_move_next_meeting: "Voulez-vous vraiment déplacer cet élément vers la prochaine réunion le %{date} à %{time} ?"
   text_agenda_item_moved_to_next_meeting: "L'ordre du jour a été déplacé vers la prochaine réunion, le %{date}"
   text_work_package_has_no_upcoming_meeting_agenda_items: "Ce lot de travaux n'est pas encore inclus dans l'ordre du jour d'une prochaine réunion."
-  text_agenda_item_move_next_meeting_cancelled: "Unable to move to the next meeting since it has been cancelled."
+  text_agenda_item_move_next_meeting_cancelled: "Impossible de passer à la prochaine réunion, car elle a été annulée."
   text_work_package_add_to_meeting_hint: 'Utilisez le bouton "Ajouter à la réunion" pour ajouter ce lot de travaux à une réunion à venir.'
   text_work_package_has_no_past_meeting_agenda_items: "Ce lot de travaux n'a pas été mentionné lors d'une réunion précédente."

@@ -35,11 +35,20 @@ zh-CN:
         label_sort_desc: "时间降序"
         label_type_to_comment: "添加评论。输入 @ 以通知他人。"
         label_submit_comment: "提交评论"
+        label_who: 谁？
         changed_on: "更改于"
         created_on: "创建于"
         changed: "已更改"
         created: "已创建"
         commented: "已评论"
+        internal_comment: 内部评论
+        internal_journal: 内部评论仅对有限的成员组可见。
+        unsaved_changes_confirmation_message: 您有未保存的更改。您确定要关闭编辑器吗？
+        internal_comment_confirmation:
+          title: "公开此评论吗？"
+          heading: "公开此评论吗？"
+          description: "您的评论将对任何能够访问此工作包的人可见。您确定要这样做吗？"
+          confirm_button_text: "设为公开"
   admin:
     plugins:
       no_results_title_text: 目前没有安装插件。
@@ -59,9 +68,6 @@ zh-CN:
         main-menu-bg-selected-background: "选择时的主菜单"
         main-menu-bg-hover-background: "悬停时的主菜单"
       custom_colors: "自定义颜色"
-      customize: "使用您自己的徽标和颜色自定义 OpenProject 安装。"
-      enterprise_notice: "这个插件仅对企业版支持订阅者开放，以感谢他们对开发 OpenProject 的赞助。"
-      enterprise_more_info: "注：使用的徽标将可公开访问。"
       manage_colors: "编辑颜色选择选项"
       instructions:
         primary-button-color: "强烈的强调色，通常用于屏幕上最重要的按钮。"
@@ -208,9 +214,6 @@ zh-CN:
     new: "添加自定义操作"
     edit: "编辑自定义操作 %{name}"
     execute: "执行 %{name}"
-    upsale:
-      title: "自定义操作"
-      description: "自定义操作是一组预定义操作的一键式快捷方式，您可以根据状态、角色、类型或项目在某些工作包上提供这些操作。"
   custom_fields:
     admin:
       custom_field_projects:
@@ -238,10 +241,8 @@ zh-CN:
       hierarchy:
         subitems:
           zero: 无子项目
-          one: 1个子项目
+          one: 1 个子项目
           other: "%{count} 个子项目"
-    upsale:
-      custom_field_format_hierarchy: "工作包的自定义字段需要层级结构？"
     text_add_new_custom_field: >
       要向项目添加新的自定义字段，您需要先创建字段，然后才能将其添加到此项目中。
     is_enabled_globally: "已全局启用"
@@ -293,8 +294,9 @@ zh-CN:
   global_search:
     placeholder: "在%{app_title}中搜索"
     overwritten_tabs:
-      wiki_pages: "维基"
+      all: "全部"
       messages: "论坛"
+      wiki_pages: "维基"
   groups:
     index:
       no_results_title_text: 目前没有组。
@@ -346,6 +348,18 @@ zh-CN:
         heading: "删除此项目列表？"
         text: "此操作不会删除列表中包含的任何项目。确定要删除此项目列表吗？"
     settings:
+      public_warning: >
+        此项目是公开的。 任何有权访问此实例的用户都将能够访问此项目并与之交互，具体根据其角色和相关权限。 子项目不受影响，有自己的设置。
+      public_confirmation:
+        checkbox: "确认将原本的私有内容公开"
+        title: "是否公开此项目？"
+        description: >
+          任何有权访问此实例的用户都将能够访问此项目并与之交互，具体根据其角色和身份验证。 子项目不受影响，有自己的设置。
+      private_confirmation:
+        checkbox: "确认将原本公开的内容设为私有。"
+        title: "是否将此项目设为私有？"
+        description: >
+          根据项目成员的角色和相关权限，项目只对他们可见。子项目不会受到影响并且有自己的设置。
       change_identifier: 更改标识符
       actions:
         label_enable_all: "全部启用"
@@ -363,13 +377,13 @@ zh-CN:
       life_cycle:
         header:
           title: "项目生命周期"
-          description_html: '项目生命周期中的这些项目阶段和关口将显示在 <a href=%{overview_url} target="_blank"> 项目概览页面</a> 中，并由实例管理员在 <a href=%{admin_settings_url} target="_blank"> 管理设置</a> 中定义。您可以启用或禁用单个属性。'
-        non_defined: "目前既未定义阶段也未定关口。"
-        section_header: "阶段和关口"
+          description_html: "活动项目阶段定义此项目的生命周期，并在<a href=%{admin_settings_url} target=\"_blank\">管理设置</a>。已启用的阶段将显示在您的 <a href=%{overview_url} target=\"_blank\"> 项目概述中</a>。"
+        non_defined: "当前没有定义阶段。"
+        section_header: "阶段"
         step:
           use_in_project: "在此项目中使用 %{step}"
         filter:
-          label: "搜索项目阶段或关口"
+          label: "搜索项目阶段"
       project_custom_fields:
         header:
           title: "项目属性"
@@ -394,7 +408,7 @@ zh-CN:
         no_results_title_text: 此项目没有已记录的额外磁盘空间消耗。
       work_package_priorities:
         new_label: "新优先级"
-  project_stage:
+  project_phase:
     working_days_count:
       other: "时长： %{count} 个工作日"
   lists:
@@ -530,10 +544,6 @@ zh-CN:
         出现的所有占位符用户（例如，作为受理人、负责人或其他用户值）将被重新分配给一个名为“已删除用户”的帐户。 由于每个已删除帐户的数据都会被重新分配给此帐户，因此无法将用户创建的数据与另一个已删除帐户的数据区分。
       irreversible: "此操作不可逆"
       confirmation: "输入占位符用户名 %{name} 以确认删除。"
-    upsale:
-      title: 占位符用户
-      description: >
-        占位符用户是一种将工作包分配给不属于您项目的用户的方法。它们在一系列场景中十分有用；例如，如果您需要跟踪尚未命名或可用的资源的任务，或者如果您不想让该人员访问 OpenProject 但仍希望跟踪分配给他们的任务。
   prioritiies:
     edit:
       priority_color_text: |
@@ -559,8 +569,8 @@ zh-CN:
       status_default_text: |-
         新工作包默认状态不能为只读。
       status_excluded_from_totals_text: |-
-        选中此选项可将具有此状态的工作包排除在层次结构中的 "工时"、"
-        剩余工时 "和 "完成百分比 "总数之外。
+        选中此选项可将具有此状态的工作包排除在层次结构中的 "工时"、
+        "剩余工时 "和 "完成百分比 "总数之外。
       status_percent_complete_text: |-
         在<a href="%{href}">基于状态的进度计算模式</a>下，当选择该状态时，工作包的 完成% 会自动设置为该值。
         在基于工作的模式下忽略。
@@ -588,8 +598,6 @@ zh-CN:
     edit:
       form_configuration:
         tab: "表单配置"
-      more_info_text_html: >
-        企业版允许您使用以下附加组件自定义表单配置：<br> <ul class="%{list_styling_class}"> <li><b>添加新属性组</b></li> <li><b>重命名属性组</b></li> <li><b>添加相关工作包的表格</b></li> </ul>
       projects:
         tab: "项目"
         enabled_projects: "已启用的项目"
@@ -606,8 +614,12 @@ zh-CN:
           caption: "使用引用属性和文本定义模式，自动生成工作包主题。用户将无法手动编辑主题。"
         pattern:
           label: "主题模式"
-          caption: "搜索属性或添加文本。要在元素之间创建空格，请将其添加为文本。"
-          insert_as_text: "添加文本：%{word}"
+          caption: "添加文本或输入斜杠“/”以搜索属性。你可以使用空格来分隔它们。"
+          headings:
+            work_package: "工作包"
+            parent: "父级"
+            project: "项目"
+          insert_as_text: "未找到属性。以文本形式添加：“%{word}”"
       export_configuration:
         tab: "生成 PDF"
         intro: "为此类型选择模板。模板决定此类型工作包导出的PDF的设计和可见属性。默认选择列表上的第一个模板。"
@@ -731,17 +743,17 @@ zh-CN:
       label_relates_to_plural: "关联到"
       relates_description: "在两个工作包之间建立一个可见的链接，不产生额外效果"
       relates_to_description: "在两个工作包之间建立一个可见的链接，不产生额外效果"
-      label_precedes_singular: "继承者(以后)"
-      label_precedes_plural: "继承者(以后)"
+      label_precedes_singular: "后置任务 (FS)"
+      label_precedes_plural: "后置任务 (FS)"
       precedes_description: "相关的工作包必然需要在这个完成后启动"
-      label_follows_singular: "前任(之前)"
-      label_follows_plural: "前任(之前)"
+      label_follows_singular: "前置任务 (SF)"
+      label_follows_plural: "前置任务 (SF)"
       follows_description: "相关工作包必须在本工作包启动前完成"
       label_child_singular: "子节点"
       label_child_plural: "子项"
-      new_child: "新建子项"
+      new_child: "新建子工作包"
       new_child_text: "创建工作包，作为当前(父)工作包的子项"
-      existing_child: "添加现有子项"
+      child: "子工作包"
       child_description: "使相关工作包成为当前(父) 工作包的子项目"
       label_closest: "最近的"
       label_blocks_singular: "阻止"
@@ -752,7 +764,7 @@ zh-CN:
       label_blocked_by_singular: "被阻止"
       label_blocked__by_plural: "被阻止"
       blocked_description: "相关工作包结束之前，本工作包不能关闭"
-      blocked_by_description: "在本工作包结束之前，相关工作包不能关闭"
+      blocked_by_description: "在相关工作包结束之前，本工作包不能关闭"
       label_duplicates_singular: "复制"
       label_duplicates_plural: "复制"
       duplicates_description: "这是相关工作包的副本"
@@ -933,17 +945,23 @@ zh-CN:
       project_custom_field:
         is_required: "在所有项目中应用"
         custom_field_section: 单元
-      project/life_cycle_step:
+      project/phase:
+        date_range: "日期范围"
         definition: "定义"
-      project/life_cycle_step_definition:
+      project/phase_definition:
         name: "名称"
         color: "颜色"
+        start_gate: "开始阶段关口"
+        start_gate_name: "开始阶段关口名称"
+        finish_gate: "结束阶段关口"
+        finish_gate_name: "结束阶段关口名称"
       query:
         sums: "总和"
         columns: "列"
         column_names: "列"
         relations_to_type_column: "与%{type} 的关系"
         relations_of_type_column: "%{type} 关系"
+        child_work_packages: "子级工作包"
         group_by: "汇总结果根据"
         sort_by: "结果排序方式"
         filters: "筛选器"
@@ -1022,6 +1040,7 @@ zh-CN:
         consented_at: "同意在"
       user_preference:
         comments_sorting: "显示评论"
+        dismissed_enterprise_banners: "隐藏企业横幅"
         impaired: "辅助功能模式"
         auto_hide_popups: "自动隐藏成功通知"
         warn_on_leaving_unsaved: "离开未保存更改的工作包时提示我"
@@ -1038,13 +1057,15 @@ zh-CN:
       wiki_page:
         parent_title: "父级页面"
         redirect_existing_links: "将现有的链接重定向"
+        text: "页面内容"
       work_package:
+        ancestor: "子级" #used for filtering of work packages that are descendants of a given work package
         begin_insertion: "开始插入"
         begin_deletion: "开始删除"
         children: "子元素"
         derived_done_ratio: "总完成度%"
-        derived_remaining_hours: "总剩余工作总量"
-        derived_remaining_time: "总剩余工作总量"
+        derived_remaining_hours: "总剩余工时"
+        derived_remaining_time: "总剩余工时"
         done_ratio: "% 完成"
         duration: "持续时间"
         end_insertion: "结束插入"
@@ -1054,6 +1075,7 @@ zh-CN:
           title: "工作日"
           false: "仅工作日"
           true: "包括非工作日"
+        journal_internal: 内部日记
         notify: "通知" #used in custom actions
         parent: "父级"
         parent_issue: "父级"
@@ -1061,8 +1083,8 @@ zh-CN:
         priority: "优先级"
         progress: "% 完成"
         readonly: "只读"
-        remaining_hours: "剩余工作"
-        remaining_time: "剩余工作"
+        remaining_hours: "剩余工时"
+        remaining_time: "剩余工时"
         shared_with_users: "共享对象"
         schedule_manually: "手动计划"
         spent_hours: "已耗工时"
@@ -1097,6 +1119,7 @@ zh-CN:
         empty: "不能为空。"
         even: "必须是偶数。"
         exclusion: "是保留关键字。"
+        feature_disabled: 不可用。
         file_too_large: "太大 (最大大小为 %{count} 字节)。"
         filter_does_not_exist: "筛选器不存在。"
         format: "与预期的格式“%{expected}”不匹配。"
@@ -1233,42 +1256,12 @@ zh-CN:
           attributes:
             project_ids:
               blank: "请选择一个项目。"
-        project/life_cycle_step_definition:
-          attributes:
-            type:
-              must_be_a_stage_or_gate: "必须是 Project::StageDefinition 或 Project::GateDefinition"
-              type_and_class_name_mismatch: "必须匹配实例化类型名称"
-        project/gate_definition:
-          attributes:
-            type:
-              type_and_class_name_mismatch: "必须是一个项目：:关口定义"
-        project/stage_definition:
-          attributes:
-            type:
-              type_and_class_name_mismatch: "必须是一个项目：:阶段定义"
-        project/life_cycle_step:
-          attributes:
-            type:
-              must_be_a_stage_or_gate: "必须是 Project::Stage 或 Project::Gate"
-              must_be_a_stage: "必须是 Project::Stage"
-              must_be_a_gate: "必须是 Project::Gate"
-              type_and_class_name_mismatch: "必须匹配实例化类型名称"
-        project/gate:
-          attributes:
-            base:
-              end_date_not_allowed: "无法将结束日期分配给一个项目：:关口"
-            type:
-              type_and_class_name_mismatch: "必须是一个项目：:关口"
-            date:
-              non_continuous_dates: "不能早于前一个 %{step}的结束日期。"
-        project/stage:
+        project/phase:
           attributes:
             date_range:
-              start_date_must_be_before_end_date: "开始日期必须早于结束日期。"
-              non_continuous_dates: "不能早于前一个 %{step}的结束日期。"
+              start_date_must_be_before_finish_date: "开始日期必须早于结束日期。"
+              non_continuous_dates: "不能早于上一阶段的结束日期。"
               incomplete: "不完整。"
-            type:
-              type_and_class_name_mismatch: "必须是一个项目::阶段"
         query:
           attributes:
             project:
@@ -1303,6 +1296,10 @@ zh-CN:
             values:
               inclusion: "过滤器有无效值。"
               format: "%{message}"
+        queries/principals/filters/internal_mentionable_on_work_package_filter:
+          attributes:
+            values:
+              single_value_requirement: "必须是单个工作包"
         relation:
           typed_dag:
             circular_dependency: "关系会创建关系的循环。"
@@ -1495,8 +1492,6 @@ zh-CN:
         other: "通知"
       placeholder_user: "占位符用户"
       project: "项目"
-      project/gate_definition: "关口"
-      project/stage_definition: "阶段"
       project_query:
         other: "项目列表"
       query: "自定义查询"
@@ -1548,11 +1543,19 @@ zh-CN:
       changeset: "更改集"
       message: "论坛"
       news: "新闻"
-      project_attribute: "项目属性"
+      project_details: "项目详细信息"
       subproject: "包括子项目"
       time_entry: "用时"
       wiki_edit: "维基"
       work_package: "工作包"
+    project_phase:
+      activated: "已激活"
+      deactivated: "已停用"
+      added_date: "设为 %{date}"
+      changed_date: "由 %{from} 变更为 %{to}"
+      removed_date: "删除日期%{date}"
+      phase_and_one_gate: "%{phase_message}。%{gate_message}"
+      phase_and_both_gates: "%{phase_message}。%{start_gate_message}，和%{finish_gate_message}"
   #common attributes of all models
   attributes:
     active: "激活"
@@ -1581,13 +1584,13 @@ zh-CN:
     default_columns: "默认的列"
     description: "描述"
     derived_due_date: "派生的完成日期"
-    derived_estimated_hours: "总工作量"
+    derived_estimated_hours: "总工时"
     derived_start_date: "派生的开始日期"
     direction: "方向"
     display_sums: "显示汇总"
     due_date: "完成日期"
-    estimated_hours: "工作"
-    estimated_time: "工作"
+    estimated_hours: "工时"
+    estimated_time: "工时"
     email: "Email"
     entity_type: "实体"
     expires_at: "过期于"
@@ -1794,7 +1797,8 @@ zh-CN:
     text:
       failed: '无法将项目"%{source_project_name}"复制到项目"%{target_project_name}"。'
       succeeded: '已复制项目"%{source_project_name}"到"%{target_project_name}"。'
-  create_new_page: "维基页面"
+  create_wiki_page: "创建新的 Wiki 页面"
+  create_wiki_page_button: "Wiki 页面"
   date:
     abbr_day_names:
       - "周日"
@@ -1927,17 +1931,77 @@ zh-CN:
   #Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
   direction: 从左向右
   ee:
-    upsale:
+    features:
+      baseline_comparison: 基线比较
+      board_view: 高级面板
+      conditional_highlighting: 条件高亮
+      internal_comments: 内部评论
+      custom_actions: 自定义操作
+      custom_field_hierarchies: 类型层次结构的自定义字段
+      customize_life_cycle: 自定义生命周期
+      date_alerts: 日期提醒
+      define_custom_style: 自定义主题和 Logo
+      edit_attribute_groups: 编辑属性组
+      gantt_pdf_export: 甘特图 PDF 导出
+      grid_widget_wp_graph: 工作包图微件
+      ldap_groups: LDAP 用户和群组同步
+      one_drive_sharepoint_file_storage: OneDrive/SharePoint 文件存储
+      placeholder_users: 占位符用户
+      project_list_sharing: 项目列表共享
+      readonly_work_packages: 只读工作包
+      sso_auth_providers: 单点登录
+      team_planner_view: 工作组规划器视图
+      two_factor_authentication: 双因子认证
+      virus_scanning: 反病毒扫描
+      work_package_query_relation_columns: 工作包查询关系列
+      work_package_sharing: 与外部用户共享工作包
+      work_package_subject_generation: 工作包主题生成
+    upsell:
       title: "企业附加组件"
-      link_title: "更多信息"
-      automatic_subject_generation:
+      plan_title: "企业 %{plan} 附加组件"
+      plan_name: "%{plan} 企业计划"
+      plan_text_html: "从 %{plan_name} 开始可用。"
+      hide_banner: "隐藏此广告"
+      baseline_comparison:
+        description: 高亮显示自从过去任意时间点以来对此列表所做的更改。
+      work_package_subject_generation:
         description: "使用引用的属性和文本自动生成主题。"
       customize_life_cycle:
-        description: "创建和组织与 PM2 项目周期规划不同的项目阶段和关口。"
-      form_configuration:
-        description: "使用以下附加组件自定义表单配置："
-        add_groups: "添加新属性组"
-        rename_groups: "重命名属性组"
+        description: "创建和组织与PM2项目周期规划不同的项目阶段。"
+      conditional_highlighting:
+        description: "想让工作包脱颖而出吗？在工作包表中使用条件高亮显示。"
+      work_package_query_relation_columns:
+        description: "需要在工作包列表中看到关系或子项吗？"
+      edit_attribute_groups:
+        description: "使用这些附加组件自定义表单配置："
+        features:
+          groups: "添加新属性组"
+          rename: "重命名属性组"
+          related: "添加一个相关工作包表"
+      readonly_work_packages:
+        description: "标记工作包为只读的特定状态。"
+      custom_field_hierarchies:
+        description: "层次结构自定义字段允许通过使用多层次选择列表来组织工作包中的层次结构。"
+      date_alerts:
+        description: "通过日期提醒，您将收到即将开始或完成日期的通知，以免错过或忘记重要截止日期。"
+      work_package_sharing:
+        description: "与非此项目成员的用户共享工作包。"
+      define_custom_style:
+        title: "自定义颜色主题和 Logo"
+        more_info: "注：使用的 Logo 将可公开访问。"
+        description: 使用您自己的 Logo 和颜色来自定义 OpenProject 安装。
+      custom_actions:
+        title: "自定义操作"
+        description: "自定义动作是一键式快捷方式，您可以在根据状态、角色、类型或项目。在某些工作包上执行一组预先定义的操作。"
+      virus_scanning:
+        description: "确保在 OpenProject 中上传的文件在被其他用户访问之前进行病毒扫描。"
+      placeholder_users:
+        title: 占位符用户
+        description: >
+          占位符用户是一种将工作包分配给不属于您项目的用户的方法。它们在一系列场景中十分有用；例如，如果您需要跟踪尚未命名或可用资源的任务，或者如果您不想让该人员访问 OpenProject 但仍希望跟踪分配给他们的任务。
+      internal_comments:
+        title: "仅您可见"
+        description: "内部评论允许内部团队相互私下沟通。这些只对某些项目角色可见，不会公开看到。"
   enumeration_activities: "时间跟踪活动"
   enumeration_work_package_priorities: "工作包优先级"
   enumeration_reported_project_statuses: "报告的项目状态"
@@ -2003,7 +2067,7 @@ zh-CN:
     changeset: "编辑更改集"
     message: 编辑消息
     news: 新闻
-    project_attributes: "项目属性已编辑"
+    project_details: "项目详情已编辑"
     project: "项目已编辑"
     projects: "项目已编辑"
     reply: 答复
@@ -2019,6 +2083,8 @@ zh-CN:
     dialog:
       title: "导出"
       submit: "导出"
+      save_export_settings:
+        label: "保存设置"
       format:
         label: "文件格式"
         options:
@@ -2082,6 +2148,8 @@ zh-CN:
     your_work_packages_export: "正在导出工作包"
     succeeded: "导出完成"
     failed: "在尝试导出工作包时发生错误： %{message}"
+    errors:
+      embedded_table_with_too_many_columns: "此嵌入式工作包表无法放在此页面上，请减少列数。"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -2126,6 +2194,12 @@ zh-CN:
         caption: 为了更好的布局和说明，在单词之间换行。
       hyphenation_language:
         label: 语言和连惯性
+      page_orientation:
+        label: 页面方向
+        caption: 选择 PDF 文档中页面的方向。
+        options:
+          portrait: 纵向
+          landscape: 横向
   extraction:
     available:
       pdftotext: "Pdftotext 可用 (可选)"
@@ -2154,9 +2228,8 @@ zh-CN:
       users: "此 OpenProject 实例中的最新注册用户。"
     blocks:
       community: "OpenProject 社区"
-      upsale:
+      upsell:
         title: "升级到企业版"
-        more_info: "更多信息"
     links:
       upgrade_enterprise_edition: "升级到企业版"
       postgres_migration: "将您的安装迁移到 PostgreSQL"
@@ -2633,6 +2706,7 @@ zh-CN:
   label_modules: "模块"
   label_months_from: "月份从"
   label_more: "更多"
+  label_more_information: "更多信息"
   label_more_than_ago: "更多天前"
   label_move_column_left: "左移列"
   label_move_column_right: "右移列"
@@ -2732,7 +2806,7 @@ zh-CN:
   label_project_new: "新的项目"
   label_project_plural: "项目"
   label_project_list_plural: "项目列表"
-  label_project_lifecycle: "项目生命周期"
+  label_project_life_cycle: "项目生命周期"
   label_project_attributes_plural: "项目属性"
   label_project_custom_field_plural: "项目属性"
   label_project_settings: "项目设置"
@@ -3189,6 +3263,7 @@ zh-CN:
   notice_successful_delete: "成功删除。"
   notice_successful_cancel: "取消成功"
   notice_successful_update: "成功更新。"
+  notice_unsuccessful_update: "更新失败。"
   notice_successful_update_custom_fields_added_to_project: |
     更新成功。已激活类型的自定义字段在工作包表单上自动激活。<a href="%{url}" target="_blank">了解详情</a>。
   notice_to_many_principals_to_display: "搜索结果数量过多。\n请键入新成员 (或组) 的名字来缩小搜索范围。"
@@ -3225,12 +3300,13 @@ zh-CN:
     text_getting_started_description: "快速了解 OpenProject 的项目管理和团队协作。您可以从帮助菜单重新启动此视频。"
     welcome: "欢迎使用 %{app_title}"
     select_language: "请选择您的语言"
-  permission_add_work_package_notes: "添加评论"
+  permission_add_work_package_comments: "添加评论"
   permission_add_work_packages: "添加工作包"
   permission_add_messages: "发布消息"
   permission_add_project: "创建项目"
   permission_add_work_package_attachments: "添加附件"
   permission_add_work_package_attachments_explanation: "允许在没有编辑工作包权限的情况下添加附件"
+  permission_add_internal_comments: "写内部评论"
   permission_archive_project: "归档项目"
   permission_create_user: "创建用户"
   permission_manage_user: "编辑用户"
@@ -3255,16 +3331,19 @@ zh-CN:
   permission_delete_timelines: "删除时间线"
   permission_delete_wiki_pages: "删除维基页面"
   permission_delete_wiki_pages_attachments: "删除附件"
-  permission_edit_work_package_notes: "中度评论"
-  permission_edit_work_package_notes_explanation: "注意：拥有此权限的用户可以编辑任何人的评论。"
+  permission_edit_work_package_comments: "审核评论"
+  permission_edit_work_package_comments_explanation: "注意：拥有此权限的用户可以编辑任何人的评论。"
   permission_edit_work_packages: "编辑工作包"
   permission_edit_messages: "编辑消息"
-  permission_edit_own_work_package_notes: "编辑自己的评论"
+  permission_edit_own_internal_comments: "编辑自己的内部评论"
+  permission_edit_own_work_package_comments: "编辑自己的评论"
   permission_edit_own_messages: "编辑自己的消息"
   permission_edit_own_time_entries: "编辑自己的时间记录"
+  permission_edit_others_internal_comments: "审核内部评论"
+  permission_edit_others_internal_comments_explanation: "注意：拥有此权限的用户可以编辑其他用户的内部评论。"
   permission_edit_project: "编辑项目"
   permission_edit_project_attributes: "编辑项目属性"
-  permission_edit_project_stages_and_gates: "编辑项目阶段和关口"
+  permission_edit_project_phases: "编辑项目阶段"
   permission_edit_reportings: "编辑报告"
   permission_edit_time_entries: "编辑其他用户的时间日志"
   permission_edit_timelines: "编辑时间线"
@@ -3294,14 +3373,15 @@ zh-CN:
   permission_search_project: "搜索项目"
   permission_select_custom_fields: "选择自定义字段"
   permission_select_project_custom_fields: "选择项目属性"
-  permission_select_project_life_cycle: "选择项目阶段和关口"
-  permission_select_project_life_cycle_explanation: "激活/停用项目中的阶段和关口。允许户选择适合项目的生命周期，因为非激活的阶段和关口在项目概览页或项目列表中都不可见。"
+  permission_select_project_phases: "选择项目阶段"
+  permission_select_project_phases_explanation: "激活/停用项目中的阶段。允许户选择适合项目的生命周期，因为非激活的阶段在项目概览页或项目列表中都不可见。"
   permission_select_project_modules: "选择项目模块"
   permission_share_work_packages: "共享工作包"
   permission_manage_types: "选择类型"
   permission_manage_own_reminders: "创建个人提醒事项"
   permission_view_project: "查看项目"
   permission_view_changesets: "查看 OpenProject 存储库修订"
+  permission_view_internal_comments: "查看内部评论"
   permission_view_commit_author_statistics: "查看提交作者统计信息"
   permission_view_dashboards: "查看仪表板"
   permission_view_work_package_watchers: "查看关注者列表"
@@ -3320,7 +3400,7 @@ zh-CN:
   permission_work_package_assigned_explanation: "工作包可以分配给在各自项目中拥有此角色的用户和组"
   permission_view_project_activity: "查看项目活动"
   permission_view_project_attributes: "查看项目属性"
-  permission_view_project_stages_and_gates: "查看项目阶段和关口"
+  permission_view_project_phases: "查看项目阶段"
   permission_save_bcf_queries: "保存 BCF 查询"
   permission_manage_public_bcf_queries: "管理公开的 BCF 查询"
   permission_edit_attribute_help_texts: "编辑属性帮助文本"
@@ -3346,9 +3426,9 @@ zh-CN:
       subprojects_confirmation: "其 子项目(s): %{value} 也将被删除。"
       title: "删除项目 %{name}"
     filters:
-      life_cycle_any: "生命周期：任何阶段或门"
-      life_cycle_stage: "生命周期阶段：%{stage}"
-      life_cycle_gate: "生命周期门：%{gate}"
+      project_phase: "项目阶段：%{phase}"
+      project_phase_any: "项目阶段：任何阶段"
+      project_phase_gate: "项目阶段关口：%{gate}"
     identifier:
       warning_one: 项目的成员将重新迁移至项目的存储库。
       warning_two: 该项目的现有链接将不再有效。
@@ -3491,6 +3571,9 @@ zh-CN:
     manual: "设为手动"
     automatic: "设为自动"
   search_input_placeholder: "搜索"
+  setting_allowed_link_protocols: "允许的链接协议"
+  setting_allowed_link_protocols_text_html: >-
+    允许这些协议在工作包描述、长文本字段和评论中显示为链接。例如，%{tel_code} 或 %{element_code}。每行输入一个协议。<br/> 协议 %{http_code}、%{https_code} 和 %{mailto_code} 始终允许。
   setting_after_first_login_redirect_url: "首次登录重定向"
   setting_after_first_login_redirect_url_text_html: >
     设置用户首次登录后的重定向路径。如果该路径为空，则重定向到主页以进行导览介绍。 <br/> 示例： <code>/my/page</code>
@@ -3627,6 +3710,8 @@ zh-CN:
   setting_repository_truncate_at: "存储库浏览器中显示的最多的文件个数"
   setting_rest_api_enabled: "启用 REST Web 服务"
   setting_self_registration: "自助注册"
+  setting_self_registration_warning: >
+    用户将能够激活自己的帐户。注意，这将使他们能够访问所有公共项目及其内容。 请确保在公共项目中不会暴露任何敏感数据或私人数据。
   setting_session_ttl: "在处于非活动状态后会话过期时间"
   setting_session_ttl_hint: "当设置的值低于5时，其作用类似于禁用。"
   setting_session_ttl_enabled: "会话过期"
@@ -3671,8 +3756,6 @@ zh-CN:
         剩余文件已扫描。%{file_count} 个文件位于隔离区。您将被重定向到隔离区页面。使用此页面可以删除或覆盖被隔离的文件。
       remaining_rescanned_files: >
         病毒扫描已成功启用。之前上传的 %{file_count} 仍需扫描。此过程已在后台安排。扫描期间，文件仍可访问。
-      upsale:
-        description: "确保在其他用户可以访问 OpenProject 中上传的文件之前对其进行病毒扫描。"
       actions:
         delete: "删除文件"
         quarantine: "隔离文件"
@@ -3723,27 +3806,27 @@ zh-CN:
       new:
         heading: "新建属性"
         description: "对该项目属性的更改将反映在启用该属性的所有项目中。不能按项目禁用必填属性。"
-    project_life_cycle_step_definitions:
+    project_phase_definitions:
       heading: "项目生命周期"
-      heading_description: "项目生命周期由阶段和关口组成，用于构建项目。它们将显示在项目的概述页面，并在项目列表中提供。可以选择单个阶段和关口来定制项目，但无法在项目级别上重新排序。"
+      heading_description: "项目生命周期定义了可以用于您的项目规划并将出现在每个项目的概览页面中的项目阶段。 这些属性可以启用或禁用，但不能在项目一级重新排序。"
       label_add: "添加"
-      label_add_description: "添加生命周期定义"
-      label_add_stage: "阶段"
-      label_add_gate: "关口"
+      label_add_description: "添加项目阶段定义"
       filter:
-        label: "搜索项目阶段或关口"
-      section_header: "阶段和关口"
-      non_defined: "目前既未定义阶段也未定关口。"
+        label: "搜索项目阶段"
+      section_header: "阶段"
+      non_defined: "当前没有定义阶段。"
+      phase_gates: "阶段关口"
       new:
-        description: "对该项目步骤的更改将反映在启用该步骤的所有项目中。"
-      new_stage:
+        description: "对此项目阶段的更改将反映在所有启用的项目中。"
         heading: "新阶段"
-      new_gate:
-        heading: "新关口"
-      edit_stage:
+      edit:
         heading: "编辑阶段"
-      edit_gate:
-        heading: "编辑阶段"
+      both_gate: "开始和结束关口"
+      no_gate: "无关口"
+      start_gate: "开始关口"
+      start_gate_caption: "添加一个带有阶段开始日期的关口"
+      finish_gate: "结束关口"
+      finish_gate_caption: "添加一个带有阶段结束日期的关口"
     projects:
       missing_dependencies: "已检查依赖于 %{dependencies} 的项目模块 %{module}。您也需要检查这些依赖项。"
       section_new_projects: "新项目的设置"
@@ -3757,10 +3840,10 @@ zh-CN:
       section_work_week: "工作周"
       section_holidays_and_closures: "节假日与停业"
     work_packages:
-      categories_tab: "类别"
-      custom_fields_tab: "自定义字段"
-      types_tab: "类型"
       not_allowed_text: "您没有查看此页面的权限。"
+      activities:
+        enable_internal_comments: "启用内部评论"
+        helper_text: "内部评论允许内部团队私下里互相沟通。这些评论仅对拥有相应权限的选定角色可见，并且不会公开显示。%{link}"
   text_formatting:
     markdown: "Markdown"
     plain: "纯文本"
@@ -3782,7 +3865,7 @@ zh-CN:
   text_are_you_sure_continue: "确定要继续吗？"
   text_are_you_sure_with_children: "删除工作包和所有子工作包吗？"
   text_are_you_sure_with_project_custom_fields: "删除该属性也会删除其在所有项目中的值。您确定要这样做吗？"
-  text_are_you_sure_with_project_life_cycle_step: "删除该步骤也会删除其在所有项目中的使用。您确定要这样做吗？"
+  text_are_you_sure_with_project_life_cycle_step: "删除这个阶段也会删除它在所有项目中的使用。您确定要这样做吗？"
   text_assign_to_project: "分配给项目"
   text_form_configuration: >
     您可以自定义哪些字段将显示在工作包窗体中。您可以自由地对字段进行分组, 以反映您的域的需求。
@@ -3796,8 +3879,6 @@ zh-CN:
     使用自定义字段时：请记住，还需要按项目激活自定义字段。
   text_custom_field_hint_activate_per_project_and_type: >
     需要按工作包类型和项目激活自定义字段。
-  text_wp_status_read_only_html: >
-    企业版将为工作包的状态字段添加以下其他附加组件：<br> <ul> <li><b>允许将工作包标记为特定状态的只读</b></li> </ul>
   text_project_custom_field_html: >
     企业版将为项目的自定义字段添加以下其他附加组件：<br> <ul> <li><b>在项目列表中添加项目自定义字段，以创建项目组合视图</b></li> </ul>
   text_custom_logo_instructions: >
@@ -4109,7 +4190,7 @@ zh-CN:
         view_description: "可以查看此项目列表。"
         edit: "编辑"
         edit_description: "可以查看、共享和编辑此项目列表。"
-      upsale:
+      upsell:
         message: "与单个用户共享项目列表是一项企业附加功能。"
   working_days:
     info: >
@@ -4339,27 +4420,3 @@ zh-CN:
     description: "将 OmniAuth SAML 身份提供程序添加到 OpenProject"
   enterprise_plans:
     legacy_enterprise: "企业计划"
-  enterprise_features:
-    baseline_comparison: 基线比较
-    board_view: 看板视图
-    conditional_highlighting: 条件高亮显示
-    custom_actions: 自定义操作
-    custom_field_hierarchies: 自定义字段层次结构
-    customize_life_cycle: 自定义生命周期
-    date_alerts: 日期提醒
-    define_custom_style: 创建自定义样式
-    edit_attribute_groups: 编辑属性组
-    gantt_pdf_export: 甘特图 PDF 导出
-    grid_widget_wp_graph: 网格小组件工作包图
-    ldap_groups: LDAP 组
-    one_drive_sharepoint_file_storage: OneDrive/SharePoint 文件存储
-    placeholder_users: 占位符用户
-    project_list_sharing: 项目列表共享
-    readonly_work_packages: 只读工作包
-    sso_auth_providers: SSO 认证提供商
-    team_planner_view: 团队规划视图
-    two_factor_authentication: 双因子认证
-    virus_scanning: 附件病毒扫描
-    work_package_query_relation_columns: 工作包查询关系列
-    work_package_sharing: 工作包分享
-    work_package_subject_generation: 工作包主题生成

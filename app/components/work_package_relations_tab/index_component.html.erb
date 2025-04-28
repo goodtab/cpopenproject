@@ -12,8 +12,8 @@
         action_bar.with_column(flex_shrink: 0, ml: 2) do
           render(
             Primer::Alpha::ActionMenu.new(
-              test_selector: NEW_RELATION_ACTION_MENU,
-              menu_id: NEW_RELATION_ACTION_MENU
+              test_selector: ADD_RELATION_ACTION_MENU,
+              menu_id: ADD_RELATION_ACTION_MENU
             )
           ) do |menu|
             menu.with_show_button do |button|
@@ -22,23 +22,7 @@
               t(:label_relation)
             end
 
-            render_child_menu_items(menu)
-
-            if should_render_add_relations?
-              Relation::TYPES.each do |relation_type, type_configuration_hash|
-                label_key = "#{I18N_NAMESPACE}.relations.#{type_configuration_hash[:name]}_singular"
-                menu.with_item(
-                  label: t(label_key).upcase_first,
-                  href: new_relation_path(relation_type:),
-                  test_selector: new_button_test_selector(relation_type:),
-                  content_arguments: {
-                    data: { turbo_stream: true }
-                  }
-                ) do |item|
-                  item.with_description.with_content(t("#{I18N_NAMESPACE}.relations.#{relation_type}_description"))
-                end
-              end
-            end
+            render_add_relations_menu_items(menu, ADD_RELATION_MENU_TYPES)
           end
         end
       end
@@ -47,64 +31,22 @@
 
   <%=
     flex_layout(mb: 3) do |flex|
-      if any_relations?
-        key_namespace = "#{I18N_NAMESPACE}.relations"
-
-        # Relations
-        directionally_aware_grouped_relations.each do |relation_group|
-          base_key = "#{I18N_NAMESPACE}.relations.label_#{relation_group.type}"
-
-          # Combine visible and invisible relations into a single list
-          all_relations = relation_group.visible_relations.map { |r| [r, :visible] } +
-            relation_group.ghost_relations.map { |r| [r, :ghost] }
-
+      if relation_groups.any?
+        relation_groups.each do |relation_group|
           flex.with_row(mb: 4) do
             render_relation_group(
-              title: t("#{base_key}_plural").upcase_first,
-              relation_type: relation_group.type,
-              items: all_relations
-            ) do |relation, visibility|
-              # Render each relation with its visibility
+              title: t("#{I18N_NAMESPACE}.relations.label_#{relation_group.type}_plural").upcase_first,
+              relation_group:
+            ) do |relation_item|
               render(
-                WorkPackageRelationsTab::RelationComponent.new(
-                  work_package: work_package,
-                  relation: relation,
-                  visibility: visibility,
-                  closest: relation_group.closest_relation?(relation)
-                )
-              )
-            end
-          end
-        end
-
-        # Children
-        if any_children?
-          base_key = "#{key_namespace}.label_child"
-
-          # Combine visible and invisible children into a single list
-          all_children = visible_children.map { |r| [r, :visible] } +
-            ghost_children.map { |r| [r, :ghost] }
-
-          flex.with_row do
-            render_relation_group(
-              title: t("#{base_key}_plural").upcase_first,
-              relation_type: :children,
-              items: all_children
-            ) do |child, visibility|
-              render(
-                WorkPackageRelationsTab::RelationComponent.new(
-                  work_package:,
-                  relation: nil,
-                  child:,
-                  visibility: visibility
-                )
+                WorkPackageRelationsTab::RelationComponent.new(relation_item:)
               )
             end
           end
         end
       else
         flex.with_row do
-          render Primer::Beta::Blankslate.new(border: true) do |component|
+          render Primer::Beta::Blankslate.new(border: true, data: { test_selector: "no-relations-blankslate" }) do |component|
             component.with_visual_icon(icon: "package-dependents")
             component.with_heading(tag: :h4).with_content(t("#{I18N_NAMESPACE}.index.blankslate_heading"))
             component.with_description { t("#{I18N_NAMESPACE}.index.blankslate_description") }

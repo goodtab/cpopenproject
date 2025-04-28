@@ -52,7 +52,7 @@ import {
   OpGitlabPipelineStatusSuccessIconComponent,
   OpGitlabPipelineStatusWaitingIconComponent,
   XCircleIconComponent,
-  OpKebabVerticalIconComponent,
+  KebabHorizontalIconComponent,
   ReadIconComponent,
   EyeIconComponent,
   EyeClosedIconComponent,
@@ -115,7 +115,7 @@ import {
 
     XCircleIconComponent,
 
-    OpKebabVerticalIconComponent,
+    KebabHorizontalIconComponent,
     ReadIconComponent,
     EyeIconComponent,
     EyeClosedIconComponent,
@@ -179,7 +179,7 @@ import {
     OpGitlabPipelineStatusWaitingIconComponent,
     XCircleIconComponent,
 
-    OpKebabVerticalIconComponent,
+    KebabHorizontalIconComponent,
     ReadIconComponent,
     EyeIconComponent,
     EyeClosedIconComponent,

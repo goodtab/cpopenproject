@@ -35,9 +35,9 @@ See COPYRIGHT and LICENSE files for more details.
           render(Primer::OpenProject::SubHeader.new) do |subheader|
             subheader.with_filter_input(
               name: "border-box-filter",
-              label: t("settings.project_life_cycle_step_definitions.filter.label"),
+              label: t("settings.project_phase_definitions.filter.label"),
               visually_hide_label: true,
-              placeholder: t("settings.project_life_cycle_step_definitions.filter.label"),
+              placeholder: t("settings.project_phase_definitions.filter.label"),
               leading_visual: {
                 icon: :search,
                 size: :small
@@ -50,32 +50,15 @@ See COPYRIGHT and LICENSE files for more details.
             )
             subheader.with_action_component do
               render(
-                Primer::Alpha::ActionMenu.new(
-                  anchor_align: :end
-                )
-              ) do |menu|
-                menu.with_show_button(
+                Primer::Beta::Button.new(
                   scheme: :primary,
-                  aria: { label: I18n.t("settings.project_life_cycle_step_definitions.label_add_description") }
-                ) do |button|
-                  button.with_leading_visual_icon(icon: :plus)
-                  button.with_trailing_action_icon(icon: :"triangle-down")
-                  I18n.t("settings.project_life_cycle_step_definitions.label_add")
-                end
-
-                menu.with_item(
-                  label: I18n.t("settings.project_life_cycle_step_definitions.label_add_stage"),
-                  href: new_stage_admin_settings_project_life_cycle_step_definitions_path
-                ) do |item|
-                  item.with_leading_visual_icon(icon: "git-commit")
-                end
-
-                menu.with_item(
-                  label: I18n.t("settings.project_life_cycle_step_definitions.label_add_gate"),
-                  href: new_gate_admin_settings_project_life_cycle_step_definitions_path
-                ) do |item|
-                  item.with_leading_visual_icon(icon: "diamond")
-                end
+                  aria: { label: I18n.t("settings.project_phase_definitions.label_add_description") },
+                  tag: :a,
+                  href: new_admin_settings_project_phase_definition_path
+                )
+              ) do |button|
+                button.with_leading_visual_icon(icon: :plus)
+                I18n.t("settings.project_phase_definitions.label_add")
               end
             end
           end
@@ -90,7 +73,7 @@ See COPYRIGHT and LICENSE files for more details.
             flex_layout(justify_content: :space_between, align_items: :center) do |header_container|
               header_container.with_column do
                 render(Primer::Beta::Text.new(font_weight: :bold)) do
-                  I18n.t("settings.project_life_cycle_step_definitions.section_header")
+                  I18n.t("settings.project_phase_definitions.section_header")
                 end
               end
             end
@@ -98,7 +81,7 @@ See COPYRIGHT and LICENSE files for more details.
           if definitions.empty?
             component.with_row do
               render(Primer::Beta::Text.new(color: :subtle)) do
-                t("settings.project_life_cycle_step_definitions.non_defined")
+                t("settings.project_phase_definitions.non_defined")
               end
             end
           else

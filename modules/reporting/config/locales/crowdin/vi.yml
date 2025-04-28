@@ -93,7 +93,9 @@ vi:
       button: "Xuất bảng thời gian bằng PDF"
       timesheet: "Bảng thời gian"
       time: "Thời gian"
-      sum_hours: Tổng cộng
+      sums_hours: Sums
+      overview_per_user_total: "Overview: Total hours per user"
+      overview_per_user_day: "Overview: Hours per user per day"
     cost_reports:
       title: "Xuất báo cáo chi phí của bạn sang XLS"
       start_time: "Thời gian bắt đầu"

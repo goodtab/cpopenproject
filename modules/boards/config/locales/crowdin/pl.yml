@@ -6,6 +6,10 @@ pl:
   permission_show_board_views: "Wyświetl tablice"
   permission_manage_board_views: "Zarządzaj tablicami"
   project_module_board_view: "Tablice"
+  ee:
+    upsell:
+      board_view:
+        description: 'Czy chcesz zautomatyzować swoje przepływy pracy za pomocą tablic? Zaawansowane tablice to funkcja dodatku Enterprise. Przejdź na płatny plan.'
   boards:
     label_board: "Tablica"
     label_boards: "Tablice"
@@ -19,7 +23,7 @@ pl:
       status: Status
       version: Wersja
       subproject: Podprojekt
-      subtasks: Nadrzędny-podrzędny
+      subtasks: Nadrzędny-podrzędny 
       basic: Podstawowe
     board_type_descriptions:
       basic: >
@@ -34,6 +38,3 @@ pl:
         Tablica z zautomatyzowanymi kolumnami projektów składowych. Przeciąganie pakietów roboczych na inne listy odpowiednio aktualizuje (pod)projekt.
       subtasks: >
         Tablica z zautomatyzowanymi kolumnami elementów składowych. Przeciąganie pakietów roboczych na inne listy odpowiednio aktualizuje elementy nadrzędne.
-    upsale:
-      teaser_text: 'Czy chcesz zautomatyzować swoje przepływy pracy za pomocą tablic? Zaawansowane tablice to funkcja dodatku Enterprise. Przejdź na płatny plan.'
-      upgrade: 'Uaktualnij teraz'

@@ -42,12 +42,6 @@ class BacklogsSettingsController < ApplicationController
     redirect_to action: :show
   end
 
-  def show_local_breadcrumb
-    false
-  end
-
-  def default_breadcrumb; end
-
   private
 
   def check_valid_settings

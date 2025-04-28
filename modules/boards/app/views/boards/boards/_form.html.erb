@@ -61,18 +61,9 @@ See COPYRIGHT and LICENSE files for more details.
   <div class="form--field -required -align-start">
     <label class="form--label" for="board_type"><%= t("boards.label_board_type") %></label>
     <div class="form--field-container -enterprise-restricted">
-      <% unless EnterpriseToken.allows_to?(:board_view) %>
-        <p class="boards-enterprise-banner-wide">
-          <%= angular_component_tag "opce-enterprise-banner",
-                                    inputs: {
-                                      collapsible: false,
-                                      opReferrer: "boards",
-                                      linkMessage: t("boards.upsale.upgrade"),
-                                      textMessage: t("boards.upsale.teaser_text"),
-                                      moreInfoLink: OpenProject::Static::Links.links[:enterprise_docs][:boards][:href]
-                                    } %>
-        </p>
-      <% end %>
+      <%=
+        render(EnterpriseEdition::BannerComponent.new(:board_view))
+      %>
 
       <div class="op-tile-block">
         <% board_types.each_with_index do |board_type, tile_number| %>

@@ -8,16 +8,17 @@ keywords: time tracking, logging time, define rate, labor costs
 
 # Time tracking
 
-Users can book their time or units spent on an activity within a project directly on work packages,  which gives a clear indication of how much effort the project activities require. You can log time in the work package view, track time via the time tracking button or via a commit message. You can also log time directly from **My spent time** widget on **My Page**.
+Users can book their time or units spent on an activity within a project directly on work packages,  which gives a clear indication of how much effort the project activities require. You can log time in the work package view, track time via the time tracking button or via a commit message. You can also log time directly from **My spent time** widget on **My page**.
 
-> **Note**: To use the time tracking functionality, the **Time and costs module** needs to be activated in the [project settings](../../projects/project-settings/modules/).
+> [!NOTE]
+> To use the time tracking functionality, the **Time and costs module** needs to be activated in the [project settings](../../projects/project-settings/modules/).
 
 | Topic                                                        | Content                                                      |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [Log time in the work package view](#log-time-in-the-work-package-view) | How to log time to a work package.                           |
 | [Log time via the time tracking button](#log-time-via-the-time-tracking-button) | How to track time in real time using the start/stop time tracking button |
 | [Log time via commit message](#log-time-via-commit-message)  | How to log time via a commit message to a work package.      |
-| [Log time via My page](#log-time-via-my-page)                | How to easily track and display spent time in the spent time widget on the MyPage. |
+| [Log time via My page](#log-time-via-my-page)                | How to easily track and display spent time in the spent time widget on the My page. |
 | [Edit logged time](#edit-logged-time)                        | How to edit logged time on a work package.                   |
 | [Delete time entries](#delete-time-entries)                  | How to delete time entries logged to a work package.         |
 | [Log and edit time for other users](#log-and-edit-time-for-other-users) | How to log time to work packages.                            |
@@ -68,17 +69,17 @@ If you navigate away from the work package in which you have a timer running, yo
 
 ## Log time via commit message
 
-> **Note**: this is a power user feature that is currently only available for on-premises installations.
->
+> [!NOTE]
+> This is a power user feature that is currently only available for on-premises installations. 
 > **Enable time logging** option must be [activated under system settings](../../../system-admin-guide/system-settings/repositories/) in order to log time via a commit message.
 
 To log time via commit message **Repository** module must be activated and an SVN or Git repository needs to be configured. Once it is configured you can enter the following syntax into a commit message of your client (for example GitHub desktop client or a command line client) to log time: *refs #work package number @amount of hours*. For  example refs #123 @2h will log 2 hours of spent time for the work package number 123.![openproject_user_guide_log_time_commit_message](openproject_user_guide_log_time_commit_message.png)
 
-## Log time via My Page
+## Log time via My page
 
-You can easily track spent time in the **spent time widget on the MyPage** and get an overview about all your activities during a week. It is like a weekly timesheet for yourself.
+You can easily track spent time in the **spent time widget on the My page** and get an overview about all your activities during a week. It is like a weekly timesheet for yourself.
 
-See more information about the My spent time widget on the [MyPage](../../../getting-started/my-page/#my-spent-time-widget).
+See more information about the My spent time widget on the [My page](../../../getting-started/my-page/#my-spent-time-widget).
 
 ![spent time widget](openproject_user_guide_my_spent_time_widget.png)
 
@@ -108,7 +109,8 @@ In the list of time entries, click on the **Delete** icon next to a time entry t
 
 Starting with OpenProject 12.2, users with certain roles are able to log and edit time for other users.
 
-> To enable this functionality, an administrator has to grant this privilege to a particular role in the **Roles and Permissions** section under **Users and Permissions** in the administrator settings.
+> [!TIP]
+> To enable this functionality, an administrator has to grant this privilege to a particular role in the **Roles and permissions** section under **Users and permissions** in the administrator settings.
 >
 > There are two permissions that can be enabled.
 >

@@ -37,7 +37,7 @@ ruby File.read(File.expand_path(".ruby-version", __dir__)).strip
 gem "actionpack-xml_parser", "~> 2.0.0"
 gem "activemodel-serializers-xml", "~> 1.0.1"
 gem "activerecord-import", "~> 2.1.0"
-gem "activerecord-session_store", "~> 2.1.0"
+gem "activerecord-session_store", "~> 2.2.0"
 gem "ox"
 gem "rails", "~> 8.0.1"
 gem "responders", "~> 3.0"
@@ -83,7 +83,7 @@ gem "htmldiff"
 gem "stringex", "~> 2.8.5"
 
 # CommonMark markdown parser with GFM extension
-gem "commonmarker", "~> 2.1.0"
+gem "commonmarker", "~> 2.3.0"
 
 # HTML pipeline for transformations on text formatter output
 # such as sanitization or additional features
@@ -151,14 +151,14 @@ gem "gon", "~> 6.4.0"
 gem "lograge", "~> 0.14.0"
 
 # Structured warnings to selectively disable them in production
-gem "structured_warnings", "~> 0.4.0"
+gem "structured_warnings", "~> 0.5.0"
 
 # catch exceptions and send them to any airbrake compatible backend
 # don't require by default, instead load on-demand when actually configured
 gem "airbrake", "~> 13.0.0", require: false
 
-gem "markly", "~> 0.10" # another markdown parser like commonmarker, but with AST support used in PDF export
-gem "md_to_pdf", git: "https://github.com/opf/md-to-pdf", ref: "66893683b94a5fe8f1dc9a60600773307209cdd2"
+gem "markly", "~> 0.13" # another markdown parser like commonmarker, but with AST support used in PDF export
+gem "md_to_pdf", git: "https://github.com/opf/md-to-pdf", ref: "67d14c6c7a13f918d158bde1a51ef1067a8cf724"
 gem "prawn", "~> 2.4"
 gem "ttfunk", "~> 1.7.0" # remove after https://github.com/prawnpdf/prawn/issues/1346 resolved.
 
@@ -191,7 +191,7 @@ gem "puma", "~> 6.5"
 gem "puma-plugin-statsd", "~> 2.0"
 gem "rack-timeout", "~> 0.7.0", require: "rack/timeout/base"
 
-gem "nokogiri", "~> 1.18.1"
+gem "nokogiri", "~> 1.18.8"
 
 gem "carrierwave", "~> 1.3.4"
 gem "carrierwave_direct", "~> 2.1.0"
@@ -201,7 +201,7 @@ gem "aws-sdk-core", "~> 3.107"
 # File upload via fog + screenshots on travis
 gem "aws-sdk-s3", "~> 1.91"
 
-gem "openproject-token", "~> 5.0"
+gem "openproject-token", "~> 5.3.0"
 
 gem "plaintext", "~> 0.3.2"
 
@@ -340,7 +340,7 @@ group :development, :test do
   # https://github.com/puma/puma/issues/2835#issuecomment-2302133927
   gem "byebug"
 
-  gem "pry-byebug", "~> 3.10.0", platforms: [:mri]
+  gem "pry-byebug", "~> 3.11.0", platforms: [:mri]
   gem "pry-rails", "~> 0.3.6"
   gem "pry-rescue", "~> 1.6.0"
 
@@ -410,6 +410,6 @@ gemfiles.each do |file|
   send(:eval_gemfile, file) if File.readable?(file)
 end
 
-gem "openproject-octicons", "~>19.22.3 "
-gem "openproject-octicons_helper", "~>19.22.3"
-gem "openproject-primer_view_components", "~>0.56.1"
+gem "openproject-octicons", "~>19.25.0"
+gem "openproject-octicons_helper", "~>19.25.0"
+gem "openproject-primer_view_components", "~>0.63.0"

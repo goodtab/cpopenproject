@@ -94,7 +94,6 @@ module API::V3::Storages
 
     property :storageAudience,
              skip_render: ->(represented:, **) { !represented.provider_type_nextcloud? },
-             skip_parse: ->(represented:, **) { !represented.provider_type_nextcloud? },
              getter: ->(represented:, **) { represented.provider_type_nextcloud? && represented.storage_audience },
              setter: ->(fragment:, represented:, **) { represented.storage_audience = fragment }
 
@@ -169,8 +168,6 @@ module API::V3::Storages
                             { href: method }
                           },
                           setter: ->(fragment:, **) {
-                            break unless represented.provider_type_nextcloud?
-
                             href = fragment["href"]
                             break if href.blank? || !AUTHENTICATION_METHOD_MAP.key?(href)
 

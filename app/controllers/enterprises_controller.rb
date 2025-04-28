@@ -98,12 +98,6 @@ class EnterprisesController < ApplicationController
     helpers.write_augur_to_gon
   end
 
-  def default_breadcrumb; end
-
-  def show_local_breadcrumb
-    false
-  end
-
   def check_user_limit
     if OpenProject::Enterprise.user_limit_reached?
       flash.now[:warning] = I18n.t(

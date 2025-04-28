@@ -34,10 +34,7 @@ module Costs
 
     include OpenProject::Plugins::ActsAsOpEngine
 
-    register "costs",
-             author_url: "https://www.openproject.org",
-             bundled: true,
-             settings: { menu_item: :costs_settings } do
+    register "costs", author_url: "https://www.openproject.org", bundled: true, settings: { menu_item: :costs_settings } do
       project_module :costs do
         permission :view_time_entries,
                    {},
@@ -144,6 +141,13 @@ module Costs
            if: ->(*) { User.current.admin? },
            parent: :admin_costs,
            caption: :enumeration_activities
+
+      menu :global_menu,
+           :my_time_tracking,
+           { controller: "/my/time_tracking", action: "index" },
+           after: :my_page,
+           caption: :label_my_time_tracking,
+           icon: :stopwatch
     end
 
     initializer "costs.settings" do
@@ -151,11 +155,6 @@ module Costs
       ::Settings::Definition.add "costs_currency_format", default: "%n %u", format: :string
       ::Settings::Definition.add "allow_tracking_start_and_end_times", default: false, format: :boolean
       ::Settings::Definition.add "enforce_tracking_start_and_end_times", default: false, format: :boolean
-    end
-
-    initializer "costs.feature_decisions" do
-      OpenProject::FeatureDecisions.add :track_start_and_end_times_for_time_entries,
-                                        description: "Allows admins to enable tracking start and end times for time entries"
     end
 
     activity_provider :time_entries, class_name: "Activities::TimeEntryActivityProvider", default: false

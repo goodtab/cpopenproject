@@ -19,7 +19,11 @@ Meetings in OpenProject allow you to manage and document your project meetings, 
 > With OpenProject 15.3 dynamic meetings are replaced by [one-time meetings](../one-time-meetings) and [recurring meetings](../recurring-meetings) to further improve meeting management.
 
 > [!IMPORTANT]
-> Please keep in mind that the ability to create classic meetings will eventually be removed from OpenProject.At the moment, the Meetings module lets you create classic or dynamic meetings but please keep in mind that the ability to create classic meetings will eventually be removed from OpenProject.
+> Please keep in mind that the ability to create classic meetings will be removed with OpenProject 16.0. Don't worry, no data will be lost: 
+> - All existing classic meetings will be converted into a one-time dynamic meetings. 
+> - Agenda text will be converted to agenda items. 
+> - Meeting minutes will be converted into meeting outcome. 
+> - Author information will be saved in the respective presenter fields. 
 
 | Topic                                                                     | Content                                     |
 |---------------------------------------------------------------------------|---------------------------------------------|
@@ -61,7 +65,7 @@ You can then specify the following:
 
 If you want to change the details of a meeting, for example its time or location, open the meetings details view by clicking on the title in the overview list and click on **Edit** next to the meeting’s name.
 
-![edit-meeting](edit-meeting.png)
+![Edit icon a classic meeting in OpenProject](edit-meeting.png)
 
 An edit screen is displayed and the meeting information can be adjusted.
 

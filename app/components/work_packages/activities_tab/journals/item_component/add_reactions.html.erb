@@ -12,14 +12,14 @@
         icon: "smiley",
         "aria-label": I18n.t("reactions.add_reaction"),
         name: I18n.t("reactions.add_reaction"),
-        mr: 2,
+        mr: 1,
         test_selector: "add-reactions-button"
       )
 
       overlay.with_body(pt: 2, test_selector: "emoji-reactions-overlay") do
         flex_layout(flex_wrap: :wrap, classes: "op-add-reactions-overlay") do |add_reactions_container|
           EmojiReaction.available_emoji_reactions.each do |emoji, reaction|
-            add_reactions_container.with_column(mr: 2) do
+            add_reactions_container.with_column(mr: 1) do
               render(
                 Primer::Beta::Button.new(
                   scheme: button_scheme(reaction),
@@ -34,7 +34,9 @@
                     turbo_method: :put,
                     "work-packages--activities-tab--index-target": "reactionButton"
                   },
-                  aria: { label: I18n.t("reactions.react_with", reaction: reaction.to_s.humanize(capitalize: false)) }
+                  aria: { label: I18n.t("reactions.react_with", reaction: reaction.to_s.humanize(capitalize: false)) },
+                  font_size: 4,
+                  classes: "op-add-reactions-button"
                 )
               ) do
                 emoji

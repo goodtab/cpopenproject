@@ -176,6 +176,32 @@ module TableHelpers
         expect(follower.follows_relations.first.lag).to eq(2)
       end
 
+      it "creates 'precedes' relations between work packages out of the table data" do
+        table_representation = <<~TABLE
+          subject     | successors
+          predecessor | precedes main with lag 2
+          main        | precedes successor
+          successor   |
+        TABLE
+
+        table_data = described_class.for(table_representation)
+        table = table_data.create_work_packages
+        expect(table.work_packages.count).to eq(3)
+        predecessor = table.work_package(:predecessor)
+        main = table.work_package(:main)
+        successor = table.work_package(:successor)
+
+        expect(main.follows_relations.count).to eq(1)
+        expect(main.follows_relations.first.predecessor).to eq(predecessor)
+        expect(main.follows_relations.first.successor).to eq(main)
+        expect(main.follows_relations.first.lag).to eq(2)
+
+        expect(main.precedes_relations.count).to eq(1)
+        expect(main.precedes_relations.first.predecessor).to eq(main)
+        expect(main.precedes_relations.first.successor).to eq(successor)
+        expect(main.precedes_relations.first.lag).to eq(0)
+      end
+
       it "creates 'relates' relations between work packages out of the table data" do
         table_representation = <<~TABLE
           subject  | related to
@@ -191,6 +217,25 @@ module TableHelpers
         expect(other.relations.relates.count).to eq(1)
         expect(other.relations.relates.first.to).to eq(main)
         expect(other.relations.relates.first.lag).to be_nil
+      end
+
+      it "can creates 'follows' and 'relates' relations at the same time out of the table data" do
+        table_representation = <<~TABLE
+          subject     | related to | predecessors
+          pred        |            |
+          other       |            |
+          main        | other      | pred
+        TABLE
+
+        table_data = described_class.for(table_representation)
+        table = table_data.create_work_packages
+        expect(table.work_packages.count).to eq(3)
+        pred = table.work_package(:pred)
+        other = table.work_package(:other)
+        main = table.work_package(:main)
+        expect(main.relations.count).to eq(2)
+        expect(main.relations.relates.first.to).to eq(other)
+        expect(main.relations.follows.first.to).to eq(pred)
       end
 
       it "raises an error if a given status name does not exist" do

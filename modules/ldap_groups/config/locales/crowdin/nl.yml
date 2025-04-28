@@ -1,4 +1,9 @@
 nl:
+  ee:
+    upsell:
+      ldap_groups:
+        title: 'LDAP groep synchronisatie'
+        description: 'Synchronize LDAP groups with OpenProject groups to manage users, change their permissions and facilitate user management across groups.'
   plugin_openproject_ldap_groups:
     name: "OpenProject LDAP groups"
     description: "Synchronization of LDAP group memberships."
@@ -71,5 +76,5 @@ nl:
           Als u deze optie inschakelt, worden de gevonden gebruikers ook automatisch aangemaakt in OpenProject. Zonder deze optie worden alleen bestaande accounts in OpenProject aan groepen toegevoegd.
         dn_text: 'Voer de volledige DN van de groep in LDAP'
         group_text: 'Selecteer een bestaande OpenProject groep waar leden van de LDAP mee gesynchroniseerd zullen worden.'
-      upsale:
+      upsell:
         description: 'Profiteer van gesynchroniseerde LDAP-groepen om gebruikers te beheren, wijzig hun rechten en faciliteer gebruikersbeheer over groepen.'

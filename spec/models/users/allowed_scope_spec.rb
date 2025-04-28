@@ -29,28 +29,26 @@
 require "spec_helper"
 
 RSpec.describe User, "allowed scope" do
-  let(:user) { member.principal }
-  let(:anonymous) { build(:anonymous) }
-  let(:project) { build(:project, public: false) }
-  let(:project2) { build(:project, public: false) }
+  shared_let(:project) { create(:project, public: false) }
+  shared_let(:project2) { create(:project, public: false) }
+  shared_let(:user) { create(:user) }
+  shared_let(:anonymous) { create(:anonymous) }
+  shared_let(:anonymous_role) { create(:anonymous_role) }
+  shared_let(:non_member_role) { create(:non_member) }
+
   let(:role) { build(:project_role) }
   let(:role2) { build(:project_role) }
   let(:anonymous_role) { build(:anonymous_role) }
   let(:member) do
-    build(:member, project:,
-                   roles: [role])
+    build(:member,
+          principal: user,
+          project:,
+          roles: [role])
   end
 
   let(:action) { :view_work_packages }
   let(:other_action) { :another }
   let(:public_action) { :view_project }
-
-  before do
-    user.save!
-    anonymous.save!
-    ProjectRole.anonymous
-    ProjectRole.non_member
-  end
 
   context "with the context being a project " \
           "without the project being public " \

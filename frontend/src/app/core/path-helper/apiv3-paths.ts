@@ -47,7 +47,11 @@ export class ApiV3Paths {
       filters.add('member', '=', [(workPackage.project as HalResource).id as string]);
     } else {
       // that are mentionable on the work package
-      filters.add('mentionable_on_work_package', '=', [workPackage.id.toString()]);
+      filters.add(
+        (this.isInternalMentionable() ? 'internal_mentionable_on_work_package' : 'mentionable_on_work_package'),
+        '=',
+        [workPackage.id.toString()],
+      );
     }
     // That are users:
     filters.add('type', '=', ['User', 'Group']);
@@ -57,8 +61,20 @@ export class ApiV3Paths {
       filters.add('name', '~', [term]);
     }
 
-    return `${this.apiV3Base
-    }/principals?${
-      filters.toParams({ sortBy: '[["name","asc"]]', offset: '1', pageSize: '10' })}`;
+    return `${this.apiV3Base}/principals?${filters.toParams({ sortBy: '[["name","asc"]]', offset: '1', pageSize: '10' })}`;
+  }
+
+  /**
+   * Check if either adding or editing a comment is internal, and thus
+   * the mentionable principals are to be internal
+   *
+   * @returns {boolean}
+   */
+  private isInternalMentionable():boolean {
+    const isInternalAttributeValue = 'data-work-packages--activities-tab--internal-comment-is-internal-value';
+    const addingCommentIsInternal = document.getElementById('work-packages-activities-tab-add-comment-component')?.getAttribute(isInternalAttributeValue) === 'true';
+    const editingCommentIsInternal = document.querySelector('.work-packages-activities-tab-journals-item-component-edit')?.getAttribute(isInternalAttributeValue) === 'true';
+
+    return addingCommentIsInternal || editingCommentIsInternal;
   }
 }

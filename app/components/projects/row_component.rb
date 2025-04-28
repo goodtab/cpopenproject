@@ -30,8 +30,9 @@
 module Projects
   class RowComponent < ::RowComponent
     delegate :identifier, to: :project
-    delegate :favored_project_ids, to: :table
-    delegate :project_life_cycle_step_by_definition, to: :table
+    delegate :favored_project_ids,
+             :project_phase_by_definition,
+             to: :table
 
     def project
       model.first
@@ -70,8 +71,8 @@ module Projects
     def column_value(column)
       if custom_field_column?(column)
         custom_field_column(column)
-      elsif life_cycle_step_column?(column)
-        life_cycle_step_column(column)
+      elsif project_phase_column?(column)
+        project_phase_column(column)
       else
         send(column.attribute)
       end
@@ -97,14 +98,14 @@ module Projects
       end
     end
 
-    def life_cycle_step_column(column)
-      return nil unless user_can_view_project_stages_and_gates?
+    def project_phase_column(column)
+      return nil unless user_can_view_project_phases?
 
-      life_cycle_step = project_life_cycle_step_by_definition(column.life_cycle_step_definition, project)
+      phase = project_phase_by_definition(column.project_phase_definition, project)
 
-      return nil if life_cycle_step.blank?
+      return nil if phase.blank?
 
-      fmt_date_or_range(life_cycle_step.start_date, life_cycle_step.end_date)
+      render Projects::PhaseComponent.new(phase:)
     end
 
     def created_at
@@ -323,7 +324,7 @@ module Projects
           scheme: :default,
           icon: :check,
           label: I18n.t(:label_project_activity),
-          href: project_activity_index_path(project, event_types: ["project_attributes"])
+          href: project_activity_index_path(project, event_types: ["project_details"])
         }
       end
     end
@@ -383,37 +384,20 @@ module Projects
       User.current.allowed_in_project?(:view_project_attributes, project)
     end
 
-    def user_can_view_project_stages_and_gates?
-      User.current.allowed_in_project?(:view_project_stages_and_gates, project)
+    def user_can_view_project_phases?
+      User.current.allowed_in_project?(:view_project_phases, project)
     end
 
     def custom_field_column?(column)
       column.is_a?(::Queries::Projects::Selects::CustomField)
     end
 
-    def life_cycle_step_column?(column)
-      column.is_a?(::Queries::Projects::Selects::LifeCycleStep)
+    def project_phase_column?(column)
+      column.is_a?(::Queries::Projects::Selects::ProjectPhase)
     end
 
     def current_page
       table.model.current_page.to_s
-    end
-
-    private
-
-    # If only the `start_date` is given, will return a formatted version of that date as string.
-    # When `end_date` is given as well, will return a representation of the date range from start to end.
-    # @example
-    #    fmt_date_or_range(Date.new(2024, 12, 4))
-    #      "04/12/2024"
-    #
-    #    fmt_date_or_range(Date.new(2024, 12, 4), Date.new(2024, 12, 10))
-    #      "04/12/2024 - 10/12/2024"
-    def fmt_date_or_range(start_date, end_date = nil)
-      [start_date, end_date]
-        .compact
-        .map { |d| helpers.format_date(d) }
-        .join(" - ")
     end
   end
 end

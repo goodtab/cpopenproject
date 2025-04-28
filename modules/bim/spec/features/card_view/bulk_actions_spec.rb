@@ -59,8 +59,8 @@ RSpec.describe "Copy work packages through Rails view", :js, with_config: { edit
       let(:current_user) { dev }
 
       it "does not allow to copy" do
-        context_menu.open_for work_package, card_view: true
-        context_menu.expect_no_options "Bulk copy"
+        context_menu.open_for work_package, card_view: true, check_if_open: false
+        context_menu.expect_closed
       end
     end
   end
@@ -79,8 +79,8 @@ RSpec.describe "Copy work packages through Rails view", :js, with_config: { edit
       let(:current_user) { dev }
 
       it "does not allow to move" do
-        context_menu.open_for work_package, card_view: true
-        context_menu.expect_no_options "Bulk change of project"
+        context_menu.open_for work_package, card_view: true, check_if_open: false
+        context_menu.expect_closed
       end
     end
   end
@@ -117,8 +117,8 @@ RSpec.describe "Copy work packages through Rails view", :js, with_config: { edit
       let(:current_user) { dev }
 
       it "does not allow to edit" do
-        context_menu.open_for work_package, card_view: true
-        context_menu.expect_no_options "Bulk edit"
+        context_menu.open_for work_package, card_view: true, check_if_open: false
+        context_menu.expect_closed
       end
     end
   end

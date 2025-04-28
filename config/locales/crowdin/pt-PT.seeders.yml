@@ -34,16 +34,14 @@ pt-PT:
           name: Cinza (escuro)
         item_13:
           name: Preto
-      life_cycle_colors:
+      project_phase_colors:
         item_0:
           name: PM2 Laranja
         item_1:
-          name: PM2 Roxo
-        item_2:
           name: PM2 Vermelho
-        item_3:
+        item_2:
           name: PM2 Magenta
-        item_4:
+        item_3:
           name: PM2 Verde amarelo
       document_categories:
         item_0:
@@ -81,21 +79,18 @@ pt-PT:
         item_1:
           name: Função global padrão
     standard:
-      life_cycles:
+      project_phases:
         item_0:
           name: A iniciar
         item_1:
-          name: Pronto para o planeamento
-        item_2:
           name: Planeamento
+          start_gate: Pronto para o planeamento
+        item_2:
+          name: A executar
+          start_gate: Pronto para executar
         item_3:
-          name: Pronto para a execução
-        item_4:
-          name: Execução
-        item_5:
-          name: Pronto para o encerramento
-        item_6:
           name: Encerramento
+          start_gate: Pronto para o encerramento
       priorities:
         item_0:
           name: Baixo
@@ -130,7 +125,7 @@ pt-PT:
               name: Planeador de equipa
           boards:
             kanban:
-              name: Quadro de Kanban
+              name: Quadro Kanban
             basic:
               name: Quadro básico
               lists:
@@ -249,13 +244,13 @@ pt-PT:
                   _Documente aqui os tópicos da reunião de planeamento do Sprint_
 
                   * Tempo atribuído (8 h)
-                  * Entrada: Lista de acumulados de produto
-                  * Saída: Lista de acumulados do Sprint
+                  * Entrada: Backlog do produto
+                  * Saída: Backlog do Sprint
 
                   * Dividido em dois períodos adicionais de 4 h:
 
-                      * O Proprietário do Produto apresenta a [Lista de acumulados de produto]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) e as prioridades para a equipa e explica o Objetivo do Sprint, com o qual a equipa deve concordar. Juntos, dão prioridade aos tópicos da Lista de acumulados de produto que a equipa irá tratar no próximo sprint. A equipa compromete-se com a entrega que foi discutida.
-                      * A equipa planeia autonomamente (sem o Proprietário do Produto) em pormenor e divide as tarefas a partir dos requisitos discutidos para consolidar uma [Lista de acumulados do Sprint]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
+                      * O Proprietário do Produto apresenta o [Backlog do produto]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) e as prioridades à equipa, e explica o objetivo do Sprint, com o qual a equipa deve concordar. Juntos, dão prioridade aos tópicos do backlog de produto que a equipa irá tratar no próximo sprint. A equipa compromete-se com a entrega discutida.
+                      * A equipa planeia autonomamente (sem o Proprietário do Produto) em pormenor, e divide as tarefas a partir dos requisitos discutidos para consolidar um [Backlog do Sprint]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
 
 
                   ### Reunião diária do Scrum
@@ -268,7 +263,7 @@ pt-PT:
                       * O que tenciono fazer até à próxima reunião diária do Scrum?
                       * O que é que bloqueou o meu trabalho (Impedimentos)?
                   * O Scrum Master modera e anota [Impedimentos do Sprint](##sprint:scrum_project__version__sprint_1).
-                  * O Proprietário do Produto pode participar para se manter informado.
+                  * O Proprietário do Produto pode participar para se manter a par.
 
                   ### Reunião de revisão do Sprint
 
@@ -304,7 +299,7 @@ pt-PT:
               name: Tarefas
           boards:
             kanban:
-              name: Quadro de Kanban
+              name: Quadro Kanban
             basic:
               name: Quadro de tarefas
               lists:
@@ -329,12 +324,12 @@ pt-PT:
 
                     _Experimente os seguintes passos:_
 
-                    1. *Convidar novos membros para o seu projeto*: &rightarrow; Aceda a [Membros]({{opSetting:base_url}}/projects/your-scrum-project/members) na navegação do projeto.
-                    2. *Ver o seu repositório de produtos e repositórios de Sprint*: &rightarrow; Aceda a [Repositórios]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) na navegação do projeto.
-                    3. *Ver o seu quadro de tarefas*: &rightarrow; Aceda a [Repositórios]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Clique na seta para a direita em Sprint &rightarrow; Selecione [Quadro de tarefas](##sprint:scrum_project__version__sprint_1).
+                    1. *Convidar novos membros para o projeto*: &rightarrow; Aceda a [Membros]({{opSetting:base_url}}/projects/your-scrum-project/members) na navegação do projeto.
+                    2. *Ver o seu backlog de produtos e backlog de sprint*: &rightarrow; Aceda a [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) na navegação do projeto.
+                    3. *Ver o seu quadro de tarefas*: &rightarrow; Aceda a [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Clique na seta para a direita em Sprint &rightarrow; Selecione [Quadro de tarefas](##sprint:scrum_project__version__sprint_1).
                     4. *Criar um novo pacote de trabalho*: &rightarrow; Aceda a [Pacotes de trabalho &rightarrow; Criar]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
                     5. *Criar e atualizar um plano de projeto*: &rightarrow; Aceda a [Plano do projeto](##query:scrum_project__query__project_plan) na navegação do projeto.
-                    6. *Criar uma wiki do Sprint*: &rightarrow; Aceda a [Repositórios]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) e abra a wiki do sprint a partir do menu pendente do lado direito num sprint. Pode editar o [modelo da wiki]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) com base nas suas necessidades.
+                    6. *Criar uma wiki do Sprint*: &rightarrow; Aceda a [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) e abra a wiki do sprint a partir do menu pendente do lado direito num sprint. Pode editar o [modelo da wiki]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) mediante as suas necessidades.
                     7. *Ativar mais módulos*: &rightarrow; Aceda a [Definições do projeto &rightarrow; Módulos]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
 
                     Aqui encontra as nossas [Guias do Utilizador](https://www.openproject.org/docs/user-guide/).
@@ -402,13 +397,13 @@ pt-PT:
             _Documente aqui os tópicos da reunião de planeamento do Sprint_
 
             * Tempo atribuído (8 h)
-            * Entrada: Lista de acumulados de produto
-            * Saída: Lista de acumulados do Sprint
+            * Entrada: Backlog de produto
+            * Saída: Backlog do Sprint
 
             * Dividido em dois períodos adicionais de 4 h:
 
-                * O Proprietário do Produto apresenta a [Lista de acumulados de produto]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) e as prioridades para a equipa e explica o Objetivo do Sprint, com o qual a equipa deve concordar. Juntos, dão prioridade aos tópicos da Lista de acumulados de produto que a equipa irá tratar no próximo sprint. A equipa compromete-se com a entrega que foi discutida.
-                * A equipa planeia autonomamente (sem o Proprietário do Produto) em pormenor e divide as tarefas a partir dos requisitos discutidos para consolidar uma [Lista de acumulados do Sprint]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
+                * O Proprietário do Produto apresenta ao[Backlog de produto]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) e as prioridades à equipa, e explica o objetivo do Sprint, com o qual a equipa deve concordar. Juntos, dão prioridade aos tópicos do backlog de produto que a equipa irá tratar no próximo sprint. A equipa compromete-se com a entrega discutida.
+                * A equipa planeia autonomamente (sem o Proprietário do Produto) em pormenor e divide as tarefas a partir dos requisitos discutidos para consolidar um [Backlog do Sprint]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
 
 
             ### Reunião diária do Scrum
@@ -490,7 +485,7 @@ pt-PT:
         item_1:
           name: Marco
         item_2:
-          name: Fase
+          name: Tarefa de resumo
         item_3:
           name: Funcionalidade
         item_4:

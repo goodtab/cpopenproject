@@ -54,7 +54,7 @@ module HomescreenHelper
   ##
   # Determine whether we should render the links on homescreen?
   def show_homescreen_links?
-    EnterpriseToken.show_banners? || OpenProject::Configuration.show_community_links?
+    OpenProject::Configuration.show_community_links?
   end
 
   ##

@@ -4,7 +4,7 @@
       flex_layout do |start_date|
         start_date.with_row(classes: container_classes(:start_date)) do
           render(
-            Primer::ButtonComponent.new(
+            Primer::Beta::Button.new(
               tag: :a,
               href: single_date_field_button_link("start_date"),
               data: { turbo_frame: "wp-datepicker-dialog--content", morph: true },
@@ -29,9 +29,9 @@
     unless @is_milestone
       body.with_column(classes: "wp-datepicker-dialog-date-form--due-date") do
         flex_layout do |due_date|
-          due_date.with_row(classes: container_classes(:due_date), data: { skip_morphing: true }) do
+          due_date.with_row(classes: container_classes(:due_date)) do
             render(
-              Primer::ButtonComponent.new(
+              Primer::Beta::Button.new(
                 tag: :a,
                 href: single_date_field_button_link("due_date"),
                 data: { turbo_frame: "wp-datepicker-dialog--content", morph: true },

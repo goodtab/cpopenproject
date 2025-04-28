@@ -33,8 +33,8 @@ et:
   default_doc_category_user: "Kasutaja dokumentatsioon"
   enumeration_doc_categories: "Dokumentide kategooriad"
   documents:
-    label_attachment_author: "Attachment author"
-    label_categories: "Categories"
+    label_attachment_author: "Lisatud faili autor"
+    label_categories: "Kategooriad"
     new_category: "Uus kategooria"
   label_document_added: "Dokument on lisatud"
   label_document_new: "Uus dokument"

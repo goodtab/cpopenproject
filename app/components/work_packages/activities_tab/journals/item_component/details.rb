@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -193,7 +193,7 @@ module WorkPackages
             render(Primer::Beta::Octicon.new(
                      :"dot-fill", # color is set via CSS as requested by UI/UX Team
                      classes: "work-packages-activities-tab-journals-item-component-details--notification-dot-icon",
-                     size: :medium,
+                     size: (OpenProject::FeatureDecisions.internal_comments_active? ? :small : :medium),
                      data: { test_selector: "op-journal-unread-notification", "op-ian-center-update-immediate": true }
                    ))
           end

@@ -103,7 +103,7 @@ module SharingStrategies
       if EnterpriseToken.allows_to?(:work_package_sharing)
         super
       else
-        Shares::WorkPackages::ModalUpsaleComponent.new
+        Shares::WorkPackages::ModalUpsellComponent.new
       end
     end
 

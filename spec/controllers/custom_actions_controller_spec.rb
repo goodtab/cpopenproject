@@ -46,8 +46,7 @@ RSpec.describe CustomActionsController, with_ee: %i[custom_actions] do
       end
 
       it "renders enterprise_token" do
-        expect(response)
-          .to render_template "common/upsale"
+        expect(response).to render_template "custom_actions/upsell"
       end
     end
   end

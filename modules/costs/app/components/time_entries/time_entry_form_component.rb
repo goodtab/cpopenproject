@@ -50,7 +50,8 @@ module TimeEntries
           "time-entry-target" => "form",
           refresh_form_url: refresh_form_time_entries_path
         },
-        id: "time-entry-form"
+        id: "time-entry-form",
+        html: { autocomplete: "off" }
       }
 
       if time_entry.persisted?

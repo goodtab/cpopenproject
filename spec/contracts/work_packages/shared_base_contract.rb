@@ -29,7 +29,6 @@
 RSpec.shared_examples_for "work package contract" do
   let(:user) { build_stubbed(:user) }
   let(:other_user) { build_stubbed(:user) }
-  let(:policy) { double(WorkPackagePolicy, allowed?: true) }
 
   subject(:contract) { described_class.new(work_package, user) }
 
@@ -37,12 +36,6 @@ RSpec.shared_examples_for "work package contract" do
     contract = subject
     contract.validate
     contract
-  end
-
-  before do
-    allow(WorkPackagePolicy)
-      .to receive(:new)
-      .and_return(policy)
   end
 
   let(:possible_assignees) { [] }

@@ -92,10 +92,24 @@ RSpec.describe "Favorite projects", :js, :selenium do
         top_menu.expect_result other_project.name
       end
 
+      top_menu.expect_current_mode "All"
       top_menu.switch_mode "Favorites"
+      top_menu.expect_current_mode "Favorites"
 
       top_menu.expect_result project.name
       top_menu.expect_no_result other_project.name
+
+      # It should keep the display mode selection
+      visit home_path
+
+      retry_block do
+        top_menu.toggle unless top_menu.open?
+        top_menu.expect_open
+      end
+
+      top_menu.expect_current_mode "Favorites"
+      top_menu.switch_mode "All"
+      top_menu.expect_current_mode "All"
     end
 
     context "when project is favored" do

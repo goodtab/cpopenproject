@@ -27,7 +27,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 <% html_title(t(:label_administration), t(:label_change_status_of_user, username: @user.name).to_s) -%>
-<% local_assigns[:additional_breadcrumb] = @user.name %>
 
 <% new_status = t("user.#{@status_change}") %>
 <%= labelled_tabular_form_with model: @user, url: change_status_user_path(@user, @status_change => "1"), html: { method: :post, class: "form" } do %>

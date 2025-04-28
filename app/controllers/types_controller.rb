@@ -136,10 +136,6 @@ class TypesController < ApplicationController
     render action: :edit, status:
   end
 
-  def show_local_breadcrumb
-    false
-  end
-
   def destroy_error_message
     if @type.is_standard?
       t(:error_can_not_delete_standard_type)

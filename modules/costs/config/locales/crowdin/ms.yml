@@ -50,13 +50,19 @@ ms:
         project: Projek
         user: Pengguna
         work_package: Pakej kerja
+        subject: Subjek
         hours: Jam
         comments: Komen
         activity: Aktiviti
         spent_on: Tarikh
         start_time: Masa mula
         end_time: Finish time
+        time: Masa
     models:
+      time_entry:
+        other: "Time entries"
+      cost_entry:
+        other: "Cost entries"
       cost_type:
         other: "Jenis kos"
       time_entry_activity:
@@ -142,12 +148,28 @@ ms:
   label_cost: "Cost"
   label_costs: "Kos"
   label_mandatory_fields: "Mandatory fields"
+  label_my_time_tracking: "My time tracking"
+  label_no_time: "No time tracked"
+  label_next_day: "Next day"
+  label_next_week: "Minggu hadapan"
+  label_next_month: "Next month"
+  label_previous_day: "Previous day"
+  label_previous_week: "Minggu sebelumnya"
+  label_previous_month: "Previous month"
+  label_specific_day: "Day %{day}"
+  label_specific_week: "Calendar week %{week}"
+  label_specific_month: "Month %{month}"
+  label_list: "Senarai"
+  label_month: "Month"
+  label_day: "Hari"
+  label_today_capitalized: "Hari ini"
   placeholder_activity_select_work_package_first: Work package selection is required first
   notice_something_wrong: "Ada ralat berlaku. Sila cuba lagi."
   notice_successful_restore: "Pemulihan berjaya."
   notice_successful_lock: "Berjaya dikunci."
   notice_cost_logged_successfully: "Unit kos berjaya dilog."
   notice_different_time_zones: "This user has a different time zone (%{tz}). Time will be logged using their time zone."
+  notice_time_entry_update_failed: "Failed to update time entry. Errors: %{errors}"
   permission_edit_cost_entries: "Edit kos unit yang ditempah"
   permission_edit_own_cost_entries: "Edit kos unit yang ditempah sendiri"
   permission_edit_hourly_rates: "Edit kadar jam"
@@ -173,9 +195,17 @@ ms:
   text_reassign_time_and_cost_entries: "Tetapkan semula jam dan kos yang dilaporkan ke projek:"
   text_warning_hidden_elements: "Beberapa entri mungkin telah dikecualikan daripada pengumpulan."
   week: "minggu"
-  js:
-    text_are_you_sure: "Adakah anda pasti?"
+  total_times:
+    week: "Week Total: %{hours}"
+    month: "Month Total: %{hours}"
+    day: "Day Total: %{hours}"
   api_v3:
     errors:
       validation:
         start_time_different_date: "Date part of startTime (%{start_time}) must be the same as the spentOn (%{spent_on}) date."
+  ee:
+    features:
+      time_entry_time_restrictions: Require exact time tracking
+    upsell:
+      time_entry_time_restrictions:
+        description: "Improve your time tracking by requiring exact start and finish times when logging time."

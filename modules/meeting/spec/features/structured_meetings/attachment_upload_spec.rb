@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -29,7 +30,7 @@
 
 require "spec_helper"
 require "features/page_objects/notification"
-require_relative "../../support/pages/structured_meeting/show"
+require_relative "../../support/pages/meetings/show"
 
 RSpec.describe "Upload attachment to meetings", :js do
   let(:user) do
@@ -43,8 +44,8 @@ RSpec.describe "Upload attachment to meetings", :js do
   let(:wiki_page_content) { project.wiki.pages.first.text }
   let(:attachment_list) { Components::AttachmentsList.new("#content") }
 
-  let(:meeting) { create(:structured_meeting, project:) }
-  let(:show_page) { Pages::StructuredMeeting::Show.new(meeting) }
+  let(:meeting) { create(:meeting, project:) }
+  let(:show_page) { Pages::Meetings::Show.new(meeting) }
 
   before do
     login_as(user)

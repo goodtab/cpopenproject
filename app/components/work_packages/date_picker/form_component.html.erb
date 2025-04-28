@@ -21,7 +21,7 @@
                   control.with_item(
                     tag: :a,
                     icon: :pin,
-                    href: work_package_datepicker_dialog_content_path(params.merge(schedule_manually: true).permit!),
+                    href: dialog_content_with(schedule_manually: true),
                     data: {
                       turbo_stream: true,
                       qa_selected: schedule_manually
@@ -33,13 +33,12 @@
                   control.with_item(
                     tag: :a,
                     icon: "op-auto-date",
-                    href: work_package_datepicker_dialog_content_path(params.merge(schedule_manually: false).permit!),
+                    href: dialog_content_with(schedule_manually: false),
                     data: {
                       turbo_stream: true,
                       qa_selected: !schedule_manually
                     },
                     test_selector: "op-datepicker-modal--scheduling_automatic",
-                    disabled: work_package.new_record?,
                     label: I18n.t("work_packages.datepicker_modal.mode.automatic"),
                     selected: !schedule_manually
                   )
@@ -48,23 +47,25 @@
             end
           end
 
-          first_row.with_column(mb: 1) do
-            render(
-              Primer::Alpha::CheckBox.new(
-                name: "work_package[ignore_non_working_days]",
-                id: "work_package_ignore_non_working_days",
-                label: I18n.t("work_packages.datepicker_modal.ignore_non_working_days.title"),
-                checked: !work_package.ignore_non_working_days,
-                disabled: disabled_checkbox?,
-                test_selector: "op-datepicker-modal--ignore-non-working-days",
-                value: 0,
-                unchecked_value: 1,
-                data: { "work-packages--date-picker--preview-target": "fieldInput",
-                        action: "work-packages--date-picker--preview#markFieldAsTouched " \
-                                "work-packages--date-picker--preview#inputChanged " \
-                                "work-packages--date-picker--preview#setIgnoreNonWorkingDays" }
+          if show_date_form
+            first_row.with_column(mb: 1) do
+              render(
+                Primer::Alpha::CheckBox.new(
+                  name: "work_package[ignore_non_working_days]",
+                  id: "work_package_ignore_non_working_days",
+                  label: I18n.t("work_packages.datepicker_modal.ignore_non_working_days.title"),
+                  checked: !work_package.ignore_non_working_days,
+                  disabled: disabled_checkbox?,
+                  test_selector: "op-datepicker-modal--ignore-non-working-days",
+                  value: 0,
+                  unchecked_value: 1,
+                  data: { "work-packages--date-picker--preview-target": "fieldInput",
+                          action: "work-packages--date-picker--preview#markFieldAsTouched " \
+                                  "work-packages--date-picker--preview#inputChanged " \
+                                  "work-packages--date-picker--preview#setIgnoreNonWorkingDays" }
+                )
               )
-            )
+            end
           end
         end
       end
@@ -96,7 +97,7 @@
           )
         end
 
-        body.with_row("aria-hidden": true) do
+        body.with_row("aria-hidden": true, classes: "wp-datepicker-dialog--date-picker-instance") do
           helpers.angular_component_tag "opce-wp-date-picker-instance",
                                         inputs: {
                                           start_date: work_package.start_date,

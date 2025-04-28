@@ -81,7 +81,7 @@ module OpenProject::Plugins
 
     def self.filtered_strategy?(_strategy_key, provider)
       name = provider[:name]&.to_s
-      !EnterpriseToken.show_banners? || name == "developer"
+      EnterpriseToken.allows_to?(:sso_auth_providers) || name == "developer"
     end
 
     def self.strategy_key(strategy)

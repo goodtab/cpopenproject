@@ -239,7 +239,7 @@ cs:
           status_waiting: "e-mail odeslán - čeká na potvrzení"
           test_ee: "Vyzkoušejte Enterprise Edition 14 dní zdarma"
           quick_overview: "Získejte rychlý přehled o řízení projektu a týmové spolupráci s OpenProject Enterprise edion."
-        upsale:
+        upsell:
           become_hero: "Staň se hrdinou!"
           enterprise_info_html: "%{feature_title} je <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span>  Enterprise   doplněk."
           upgrade_info: "Přejděte na placenou verzi a začněte ji používat ve vašem týmu."
@@ -357,10 +357,10 @@ cs:
           learn_about: "Další informace o nových funkcích"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "15_4":
+          "15_5":
             standard:
               new_features_html: >
-                The release brings various features and improvements for you, e.g. <br> <ul class="%{list_styling_class}"> <li>Enable automatic scheduling mode.</li> <li>Set agenda item outcomes for meetings.</li> <li>Generate PDF documents from a work package description.</li> <li>Better manage a large number of projects with an enhanced project lists view.</li> <li>Use @-mention of user when quote replying to a comment.</li> </ul>
+                The release brings various features and improvements for you, e.g. <br> <ul class="%{list_styling_class}"> <li>Filter for descendants (children and grandchildren) of work packages.</li> <li>Benefit from advanced accessibility in the date picker.</li> <li>See % Complete included in work package table sums.</li> <li>Include a column for children in work package tables.</li> <li>Better use the date picker in mobile screens.</li> <li>PDF exports matching configured form layout.</li> </ul>
     ical_sharing_modal:
       title: "Přihlásit kalendář k odběru"
       inital_setup_error_message: "Při načítání dat došlo k chybě."
@@ -462,6 +462,7 @@ cs:
     label_menu_collapse: "sbalit"
     label_menu_expand: "rozbalit"
     label_more_than_ago: "před více jak (dny)"
+    label_moderate_comment: "Moderate comment"
     label_next: "Další"
     label_no_color: "Bez barvy"
     label_no_data: "Žádná data k zobrazení"
@@ -630,9 +631,6 @@ cs:
         property_is: "je v %{difference_in_days}"
         property_was: "byl před %{difference_in_days}"
         property_is_deleted: "je vymazán."
-        upsale:
-          title: "Upozornění na datum"
-          description: "S upozorněním na datum budete upozorněni na blížící se datum zahájení nebo ukončení, abyste nikdy nezmeškali nebo nezapomněli na důležitou lhůtu."
       center:
         label_actor_and: "a"
         and_more_users:
@@ -697,7 +695,6 @@ cs:
           date_alerts:
             title: "Upozornění na datum"
             description: "Automatická oznámení, pokud se blíží důležitá data pro otevřené pracovní balíčky, které jste zapojeni (přiřazený, zodpovědný nebo sledovaný)."
-            teaser_text: "S upozorněním na datum budete upozorněni na blížící se datum zahájení nebo ukončení, abyste nikdy nezmeškali nebo nezapomněli na důležitou lhůtu."
           overdue: Po termínu
         project_specific:
           title: "Nastavení upozornění pro konkrétní projekt\n"
@@ -800,6 +797,7 @@ cs:
       typeahead_placeholder: Hledání možných přihlížejících
     relation_labels:
       parent: "Nadřazený"
+      child: "Potomek"
       children: "Potomci"
       relates: "Související s"
       duplicates: "Duplikáty"
@@ -829,7 +827,7 @@ cs:
       add_new_child: "Vytvořit nového potomka"
       create_new: "Vytvořit nový"
       add_existing: "Přidat existující"
-      add_existing_child: "Přidat existujícího potomka"
+      add_existing_child: "Přidat potomka"
       remove_child: "Odstranit potomka"
       add_new_relation: "Vytvořit nový vztah"
       add_existing_relation: "Přidat existující vztah"
@@ -868,7 +866,7 @@ cs:
     tl_toolbar:
       zooms: "Úroveň zvětšení"
       outlines: "Úroveň hierarchie"
-    upsale:
+    upsell:
       ee_only: "doplňek Enterprise Edice"
     wiki_formatting:
       strong: "Silný"
@@ -1047,8 +1045,6 @@ cs:
       sharing:
         title: "Sdílet pracovní balíček"
         show_all_users: "Zobrazit všechny uživatele, s nimiž byl pracovní balíček sdílen s"
-        upsale:
-          description: "Sdílejte pracovní balíčky s uživateli, kteří nejsou členy projektu."
       table:
         configure_button: "Konfigurovat tabulku pracovních balíčků"
         summary: "Tabulka s řádky pracovního balíčku a atributy sloupců pracovního balíčku."
@@ -1083,10 +1079,6 @@ cs:
           manually: "Ručně"
           warning: "Při aktivaci režimu automatického řazení ztratíte své předchozí řazení."
         columns_help_text: "Toto pole použijte pro přidání nebo odebrání sloupců v tabulkovém zobrazení. Přetažením sloupců myší změníte jejich pořadí v tabulce."
-        upsale:
-          attribute_highlighting: "Potřebujete určité pracovní balíčky, aby vyšly z celkového objemu?"
-          relation_columns: "Potřebujete vidět vztahy v seznamu pracovních balíčků?"
-          check_out_link: "Podívejte se na Enterprise edici."
         relation_filters:
           filter_work_packages_by_relation_type: "Filtrovat pracovní balíčky podle typu vztahu"
       tabs:
@@ -1306,9 +1298,7 @@ cs:
       clear: "Vyčistit"
       apply: "Použít"
       header_description: "Zvýraznit změny provedené v tomto seznamu od té doby v minulosti."
-      enterprise_header_description: "Zvýraznit změny provedené v tomto seznamu od chvíle, kdy v minulosti došlo k vydání Enterprise ."
       show_changes_since: "Zobrazit změny od"
-      baseline_comparison: "Srovnání baseline"
       help_description: "Referenční časové pásmo pro Baseline"
       time_description: "Ve vašem místním čase: %{datetime}"
       time: "Čas"

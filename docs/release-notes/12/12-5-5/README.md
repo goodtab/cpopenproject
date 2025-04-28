@@ -20,7 +20,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: MyProjectPageToGrid migration fails \[[#48122](https://community.openproject.org/wp/48122)\]
 - Fixed: Missing translation for "Comment added" on work package activity tracking \[[#48157](https://community.openproject.org/wp/48157)\]
 - Fixed: Links from the welcome text stop working when text is edited \[[#48158](https://community.openproject.org/wp/48158)\]
-- Fixed: Document not listing project name under My Page \[[#48177](https://community.openproject.org/wp/48177)\]
+- Fixed: Document not listing project name under My page \[[#48177](https://community.openproject.org/wp/48177)\]
 
 ## Contributions
 

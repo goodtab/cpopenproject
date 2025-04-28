@@ -1,14 +1,15 @@
 #English strings go here
 fa:
+  ee:
+    upsell:
+      board_view:
+        description: 'آیا می خواهید گردش کار خود را با تابلوها خودکار کنید؟ بردهای پیشرفته یک افزونه Enterprise هستند. لطفاً به یک طرح پولی ارتقا دهید.'
   js:
     boards:
       create_new: 'ایجاد تابلوی‌ اعلانات'
       label_unnamed_board: 'انجمن بدون نام'
       label_unnamed_list: 'Unnamed list'
       label_board_type: 'نوع انجمن'
-      upsale:
-        teaser_text: 'آیا می خواهید گردش کار خود را با تابلوها خودکار کنید؟ بردهای پیشرفته یک افزونه Enterprise هستند. لطفاً به یک طرح پولی ارتقا دهید.'
-        upgrade: 'هم اکنون ارتقا داده شود'
       lists:
         delete: 'حذف لیست'
       version:
@@ -37,6 +38,8 @@ fa:
         select_board_type: 'Please choose the type of board you need.'
         free_text: >
           از ابتدا با یک تخته خالی شروع کنید. به صورت دستی کارت ها و ستون ها را به این تابلو اضافه کنید.
+
+
         action: 'Action board'
         action_by_attribute: 'تابلوی اکشن (%{attribute})'
         action_text: >
@@ -46,9 +49,13 @@ fa:
         action_text_subtasks: >
           تابلویی با ستون های خودکار برای عناصر فرعی. کشیدن بسته‌های کاری به فهرست‌های دیگر، والد را متناسب با آن به‌روزرسانی می‌کند.
         action_text_status: >
-          ستون هایی برای وضعیت هایی مانند To Do، در حال انجام، انجام شد.
+           ستون هایی برای وضعیت هایی مانند To Do، در حال انجام، انجام شد.
+
+
         action_text_assignee: >
           تابلو با ستون های خودکار بر اساس کاربران اختصاص داده شده. ایده آل برای ارسال بسته های کاری
+
+
         action_text_version: >
           تابلویی با ستون های خودکار بر اساس ویژگی نسخه. ایده آل برای برنامه ریزی توسعه محصول.
         action_type:

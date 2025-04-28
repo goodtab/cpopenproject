@@ -7,9 +7,8 @@ module Components
     include MonthRangeSelection
 
     def clear!
-      super
-
       set_field(duration_field, "", wait_for_changes_to_be_applied: false)
+      super
     end
 
     def expect_banner_text(text, **)
@@ -101,6 +100,10 @@ module Components
       end
     end
 
+    def expect_add_start_date_button_visible
+      expect(container).to have_link("Start date")
+    end
+
     def enable_due_date
       retry_block do
         page.find_test_selector("wp-datepicker--show-due-date").click
@@ -171,6 +174,24 @@ module Components
       end
     end
 
+    def click_manual_scheduling_mode
+      container.click_link I18n.t("work_packages.datepicker_modal.mode.manual")
+    end
+
+    def click_automatic_scheduling_mode
+      container.click_link I18n.t("work_packages.datepicker_modal.mode.automatic")
+    end
+
+    def expect_working_days_only_checkbox_visible
+      expect(container)
+        .to have_field(I18n.t("work_packages.datepicker_modal.ignore_non_working_days.title"), disabled: :all)
+    end
+
+    def expect_no_working_days_only_checkbox_visible
+      expect(container)
+        .to have_no_field(I18n.t("work_packages.datepicker_modal.ignore_non_working_days.title"))
+    end
+
     def expect_working_days_only_disabled
       expect(container)
         .to have_field("work_package[ignore_non_working_days]", disabled: true)
@@ -218,7 +239,7 @@ module Components
     def input_aria_related_element(input_element, describedby:)
       input_element["aria-describedby"]
         .split
-        .find { _1.start_with?("#{describedby}-") }
+        .find { it.start_with?("#{describedby}-") }
         &.then { |id| find(id:, visible: :all) }
     end
   end

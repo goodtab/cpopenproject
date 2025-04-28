@@ -81,7 +81,7 @@ cs:
       text_2fa_enabled: "Při každém přihlášení bude tento uživatel požádán, aby zadal jednorázové heslo z jeho výchozího 2FA zařízení."
       text_2fa_disabled: "Uživatel si nenastavil 2FA zařízení prostřednictvím stránky 'Můj účet'"
       only_sms_allowed: "Pro ostatní uživatele lze nastavit pouze doručení SMS."
-    upsale:
+    upsell:
       title: "Dvoufázové ověření"
       description: "Posilte bezpečnost vaší OpenProject instance tím, že nabízíte (nebo vynucujte) dvoufaktorové ověřování všem členům projektu."
     backup_codes:

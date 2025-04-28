@@ -39,7 +39,7 @@ class CustomStylesController < ApplicationController
   before_action :require_admin,
                 except: UNGUARDED_ACTIONS
   before_action :require_ee_token,
-                except: UNGUARDED_ACTIONS + %i[upsale]
+                except: UNGUARDED_ACTIONS + %i[upsell]
   skip_before_action :check_if_login_required,
                      only: UNGUARDED_ACTIONS
   no_authorization_required! *UNGUARDED_ACTIONS
@@ -58,7 +58,7 @@ class CustomStylesController < ApplicationController
     end
   end
 
-  def upsale; end
+  def upsell; end
 
   def create
     @custom_style = CustomStyle.create(custom_style_params)
@@ -180,7 +180,7 @@ class CustomStylesController < ApplicationController
 
   def require_ee_token
     unless EnterpriseToken.allows_to?(:define_custom_style)
-      redirect_to custom_style_upsale_path
+      redirect_to custom_style_upsell_path
     end
   end
 

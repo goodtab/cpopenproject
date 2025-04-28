@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -34,7 +35,7 @@ RSpec.describe Meetings::DemoData::MeetingAgendaItemsSeeder do
 
   shared_let(:alice) { create(:user, firstname: "Alice") }
   shared_let(:bob) { create(:user, firstname: "Bob") }
-  shared_let(:meeting) { create(:structured_meeting, title: "Weekly meeting") }
+  shared_let(:meeting) { create(:meeting, title: "Weekly meeting") }
   shared_let(:work_package) { create(:work_package, subject: "Some important task") }
 
   subject(:seeder) { described_class.new("_project", seed_data) }

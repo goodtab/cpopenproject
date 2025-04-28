@@ -34,16 +34,14 @@ ko:
           name: 회색(진함)
         item_13:
           name: 검은색
-      life_cycle_colors:
+      project_phase_colors:
         item_0:
           name: PM2 주황색
         item_1:
-          name: PM2 보라색
-        item_2:
           name: PM2 빨간색
-        item_3:
+        item_2:
           name: PM2 심홍색
-        item_4:
+        item_3:
           name: PM2 녹색 노란색
       document_categories:
         item_0:
@@ -81,21 +79,18 @@ ko:
         item_1:
           name: 표준 글로벌 역할
     standard:
-      life_cycles:
+      project_phases:
         item_0:
           name: 시작
         item_1:
-          name: 계획 준비 완료
-        item_2:
           name: 계획
-        item_3:
-          name: 실행 준비 완료
-        item_4:
+          start_gate: 계획 준비 완료
+        item_2:
           name: 실행
-        item_5:
-          name: 종료 준비 완료
-        item_6:
+          start_gate: 실행 준비 완료
+        item_3:
           name: 종료
+          start_gate: 종료 준비 완료
       priorities:
         item_0:
           name: 낮음
@@ -288,7 +283,7 @@ ko:
 
                   * 타임 박스(3시간).
                   * 스프린트 검토 후, 스크럼 마스터가 알맞게 조정합니다.
-                  * 무엇이 잘 되었는지, 다음 스프린트를 위해 생산성을 높이거나, 더 재미있게 하기 위해 개선해야 할 사항은 무엇인지 등 스프린트에 대해 팀이 논의합니다.
+                  * 무엇이 잘 되었는지, 다음 스프린트를 위해 생산성을 높이거나, 더 재미있게 하기 위해 개선해야 할 사항은 무엇인지 등 스프린트에 대해 팀이 논의합니다. 
             item_3:
               name: 스프린트 2
           categories:
@@ -490,7 +485,7 @@ ko:
         item_1:
           name: 마일스톤
         item_2:
-          name: 단계
+          name: 요약 작업
         item_3:
           name: 기능
         item_4:

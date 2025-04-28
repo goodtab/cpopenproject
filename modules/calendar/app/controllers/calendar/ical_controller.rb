@@ -33,15 +33,10 @@ module ::Calendar
     no_authorization_required! :show
 
     def show
-      begin
-        call = ::Calendar::ICalResponseService.new.call(
-          ical_token_string: params[:ical_token],
-          query_id: params[:id]
-        )
-      rescue ActiveRecord::RecordNotFound
-        render_404
-        return
-      end
+      call = ::Calendar::ICalResponseService.new.call(
+        ical_token_string: params[:ical_token],
+        query_id: params[:id]
+      )
 
       if call.present? && call.success?
         send_data call.result, filename: "openproject_calendar_#{DateTime.now.to_i}.ics"

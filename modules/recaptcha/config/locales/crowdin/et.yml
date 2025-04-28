@@ -5,8 +5,8 @@ et:
     description: "This module provides recaptcha checks during login."
   recaptcha:
     label_recaptcha: "reCAPTCHA"
-    button_please_wait: 'Please wait ...'
-    verify_account: "Verify your account"
+    button_please_wait: 'Palun oota ...'
+    verify_account: "Verifitseerige oma konto"
     error_captcha: "Your account could not be verified. Please contact an administrator."
     settings:
       website_key: 'Website key (May also be called "Site key")'

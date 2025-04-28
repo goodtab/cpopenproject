@@ -1,0 +1,30 @@
+<%= render(Primer::OpenProject::SubHeader.new) do |component|
+      component.with_filter_component do
+        render(My::TimeTracking::ModeSwitcherComponent.new(current_mode: mode, view_mode: view_mode, date: date))
+      end
+
+      component.with_text { title }
+
+      component.with_action_component do
+        render(Primer::Beta::ButtonGroup.new) do |group|
+          group.with_button(icon: "arrow-left", tag: :a, **previous_attrs)
+          group.with_button(icon: "arrow-right", tag: :a, **next_attrs)
+        end
+      end
+
+      component.with_action_button(tag: :a, href: today_href) do |button|
+        button.with_leading_visual_icon(icon: "op-calendar-day")
+        I18n.t(:label_today_capitalized)
+      end
+
+      component.with_action_button(
+        scheme: :primary,
+        data: { "turbo-stream" => true },
+        aria: { "label" => t(:button_log_time) },
+        tag: :a,
+        href: dialog_time_entries_path(onlyMe: true)
+      ) do |button|
+        button.with_leading_visual_icon(icon: "plus")
+        t(:button_log_time)
+      end
+    end %>

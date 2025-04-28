@@ -1,4 +1,9 @@
 zh-TW:
+  ee:
+    upsell:
+      ldap_groups:
+        title: 'LDAP 群組同步'
+        description: '將 LDAP 群組與 OpenProject 群組同步，以管理使用者、變更其權限，並簡化跨群組的使用者管理。'
   plugin_openproject_ldap_groups:
     name: "OpenProject LDAP 群組"
     description: "LDAP組成員同步。"
@@ -71,5 +76,5 @@ zh-TW:
           如果啓用此選項，找到的使用者會自動新增到OpenProject系統。如果不啓用，只有 OpenProject 現有帳戶會加到群組中。
         dn_text: '輸入 LDAP 群組完整DN'
         group_text: '選擇 LDAP 群組同步至現有 OpenProject 群組'
-      upsale:
+      upsell:
         description: '利用 LDAP 同步群組來管理用戶、更改其權限並促進跨群組的用戶管理。'

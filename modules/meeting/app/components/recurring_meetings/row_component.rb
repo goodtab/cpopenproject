@@ -137,7 +137,7 @@ module RecurringMeetings
     def action_menu
       render(Primer::Alpha::ActionMenu.new) do |menu|
         menu.with_show_button(icon: "kebab-horizontal",
-                              "aria-label": "More",
+                              "aria-label": t(:label_more),
                               scheme: :invisible,
                               data: {
                                 "test-selector": "more-button"

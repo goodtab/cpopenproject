@@ -30,7 +30,7 @@ ru:
         overridden_costs: "Переопределенные расходы"
         spent: "Потрачено"
         spent_on: "Дата"
-        logged_by: "Зарегистрировано"
+        logged_by: "Учтено"
       cost_type:
         unit: "Наименование количественного показателя"
         unit_plural: "Множественное наименование количественного показателя"
@@ -50,13 +50,25 @@ ru:
         project: Проект
         user: Пользователь
         work_package: Пакет работ
+        subject: Тема
         hours: Часы
         comments: Комментарий
         activity: Деятельность
         spent_on: Дата
         start_time: Время начала
         end_time: Время окончания
+        time: Время
     models:
+      time_entry:
+        one: "Запись о трудозатратах"
+        few: "Записи о трудозатратах"
+        many: "Записей о трудозатратах"
+        other: "Записи о трудозатратах"
+      cost_entry:
+        one: "Запись трудозатрат"
+        few: "Записи трудозатрат"
+        many: "Записи трудозатрат"
+        other: "Записи трудозатрат"
       cost_type:
         one: "Тип затрат"
         few: "Типы затрат"
@@ -100,7 +112,7 @@ ru:
   caption_save_rate: "Сохранить тариф"
   caption_set_rate: "Установить текущий тариф"
   caption_show_locked: "Показывать Заблокированные типы"
-  caption_log_time_dialog: "Журналировать время"
+  caption_log_time_dialog: "Добавить трудозатраты"
   description_date_for_new_rate: "Дата для нового тарифа"
   description_costs_settings: "Определите желаемый формат для затрат во всех проектах."
   description_time_settings: "Определите, какие поля являются обязательными для заполнения при регистрации времени во всех проектах."
@@ -148,12 +160,28 @@ ru:
   label_cost: "Затраты"
   label_costs: "Затраты"
   label_mandatory_fields: "Обязательные поля"
+  label_my_time_tracking: "Моё отслеживание времени"
+  label_no_time: "Нет учтённого времени"
+  label_next_day: "След. день"
+  label_next_week: "На следующей неделе"
+  label_next_month: "Следующий месяц"
+  label_previous_day: "Предыдущий день"
+  label_previous_week: "Предыдущая неделя"
+  label_previous_month: "Предыдущий месяц"
+  label_specific_day: "День %{day}"
+  label_specific_week: "Календарная неделя %{week}"
+  label_specific_month: "Месяц %{month}"
+  label_list: "Список"
+  label_month: "Месяц"
+  label_day: "День"
+  label_today_capitalized: "Сегодня"
   placeholder_activity_select_work_package_first: Сначала необходимо выбрать пакет работ
   notice_something_wrong: "Произошла ошибка. Пожалуйста, попробуйте снова."
   notice_successful_restore: "Успешное восстановление."
   notice_successful_lock: "Успешно заблокировано."
   notice_cost_logged_successfully: "Стоимость единицы успешно зажурналировано "
   notice_different_time_zones: "У этого пользователя другой часовой пояс (%{tz}). Время будет журналироваться с учетом его часового пояса."
+  notice_time_entry_update_failed: "Не удалось обновить запись учёта времени. Ошибки: %{errors}"
   permission_edit_cost_entries: "Править зарегестрированные количественные затраты"
   permission_edit_own_cost_entries: "Править собственные зарегистрированные количественные затраты"
   permission_edit_hourly_rates: "Править почасовые тарифы"
@@ -179,9 +207,17 @@ ru:
   text_reassign_time_and_cost_entries: "Переназначьте сообщенные часы и расходы на этот пакет работ:"
   text_warning_hidden_elements: "Некоторые записи были исключены из агрегирования."
   week: "неделя"
-  js:
-    text_are_you_sure: "Уверены?"
+  total_times:
+    week: "Итог недели: %{hours}"
+    month: "Итог месяца: %{hours}"
+    day: "Итог дня: %{hours}"
   api_v3:
     errors:
       validation:
         start_time_different_date: "Дата startTime (%{start_time}) должна быть такой же, как дата spentOn (%{spent_on})."
+  ee:
+    features:
+      time_entry_time_restrictions: Требует точного отслеживания времени
+    upsell:
+      time_entry_time_restrictions:
+        description: "Улучшите отслеживание времени, требуя точного времени начала и окончания при записи трудозатрат."

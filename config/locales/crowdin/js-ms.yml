@@ -239,10 +239,10 @@ ms:
           status_waiting: "e-mel dihantar - sedang menunggu pengesahan"
           test_ee: "Cuba edisi Enterprise 14 hari secara percuma"
           quick_overview: "Dapatkan gambaran keseluruhan ringkas pengurusan projek dan kolaborasi kumpulan dengan OpenProject edisi Enterprise."
-        upsale:
+        upsell:
           become_hero: "Jadilah wira!"
           enterprise_info_html: "%{feature_title} adalah tambahan Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span>."
-          upgrade_info: "Sila naik taraf ke pelan berbayar untuk aktifkan dan mula menggunakannya dalam pasukan anda."
+          upgrade_info: "Sila naik taraf ke pelan berbayar untuk mengaktifkan dan mula menggunakannya dalam pasukan anda."
           benefits:
             description: "Apakah manfaat edisi Enterprise di premis?"
             high_security: "Fitur keselamatan"
@@ -253,7 +253,7 @@ ms:
             premium_features_text: "Board Agile, tema tersuai dan logo, graf, aliran kerja yang cerdas dengan tindakan tersuai, carian teks penuh untuk lampiran pakej kerja dan pelbagai pilihan ruang tersuai."
             professional_support: "Sokongan profesional"
             professional_support_text: "Dapatkan sokongan yang boleh dipercayai, sokongan peribadi yang berkualiti tinggi daripada jurutera sokongan berpengalaman dengan pengetahuan pakar tentang menjalankan OpenProject dalam persekitaran perniagaan yang kritikal."
-          button_start_trial: "Mulakan percubaan percuma"
+          button_start_trial: "Mulakan tempoh percubaan percuma"
           button_upgrade: "Naik taraf sekarang"
           button_contact_us: "Hubungi kami untuk demo"
           button_book_now: "Tempah sekarang"
@@ -263,7 +263,7 @@ ms:
           more_info: "Maklumat lanjut"
           text: >
             OpenProject edisi Enterprise dibina di atas edisi Komuniti. Ia termasuk tambahan Enterprise dan bantuan profesional terutamanya ia ditujukan ke organisasi dengan lebih dari 10 pengguna yang menguruskan projek perniagaan kritikal dengan OpenProject.
-          unlimited: "Tanpa had"
+          unlimited: "Tiada had"
           you_contribute: "Pembangun perlu membayar bil-bil mereka juga. Dengan menaik taraf ke edisi Enterprise, anda akan menyokong usaha komuniti sumber terbuka dan menyumbang ke pembangunan, penyelenggaraan dan penambahbaikan berterusan."
       working_days:
         calendar:
@@ -358,10 +358,10 @@ ms:
           learn_about: "Ketahui lebih lanjut mengenai fitur-fitur baharu."
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "15_4":
+          "15_5":
             standard:
               new_features_html: >
-                The release brings various features and improvements for you, e.g. <br> <ul class="%{list_styling_class}"> <li>Enable automatic scheduling mode.</li> <li>Set agenda item outcomes for meetings.</li> <li>Generate PDF documents from a work package description.</li> <li>Better manage a large number of projects with an enhanced project lists view.</li> <li>Use @-mention of user when quote replying to a comment.</li> </ul>
+                The release brings various features and improvements for you, e.g. <br> <ul class="%{list_styling_class}"> <li>Filter for descendants (children and grandchildren) of work packages.</li> <li>Benefit from advanced accessibility in the date picker.</li> <li>See % Complete included in work package table sums.</li> <li>Include a column for children in work package tables.</li> <li>Better use the date picker in mobile screens.</li> <li>PDF exports matching configured form layout.</li> </ul>
     ical_sharing_modal:
       title: "Langgan kalendar"
       inital_setup_error_message: "Ralat berlaku ketika sedang mengambil data."
@@ -463,6 +463,7 @@ ms:
     label_menu_collapse: "sembunyikan"
     label_menu_expand: "kembangkan"
     label_more_than_ago: "lebih dari beberapa hari yang lalu"
+    label_moderate_comment: "Moderate comment"
     label_next: "Seterusnya"
     label_no_color: "Tiada warna"
     label_no_data: "Tiada data untuk dipaparkan"
@@ -631,9 +632,6 @@ ms:
         property_is: "is in %{difference_in_days}."
         property_was: "was %{difference_in_days} ago."
         property_is_deleted: "is deleted."
-        upsale:
-          title: "Peringatan tarikh"
-          description: "Dengan peringatan tarikh, anda akan dimaklumkan tentang tarikh mula dan akhir yang akan datang supaya anda tidak pernah terlepas atau lupa tarikh akhir yang penting."
       center:
         label_actor_and: "dan"
         and_more_users:
@@ -695,7 +693,6 @@ ms:
           date_alerts:
             title: "Peringatan tarikh"
             description: "Pemberitahuan secara automatik apabila tarikh penting menghampiri untuk pakej kerja terbuka yang anda terlibat (penerima tugasan, bertanggungjawab atau pemerhati)."
-            teaser_text: "Dengan peringatan tarikh, anda akan dimaklumkan tentang tarikh mula dan akhir yang akan datang supaya anda tidak pernah terlepas atau lupa tarikh akhir yang penting."
           overdue: Apabila tertunggak
         project_specific:
           title: "Tetapan pemberitahuan khusus projek"
@@ -798,6 +795,7 @@ ms:
       typeahead_placeholder: Cari pemerhati yang mungkin
     relation_labels:
       parent: "Induk"
+      child: "Child"
       children: "Anak"
       relates: "Berkaitan Dengan"
       duplicates: "Duplikasi"
@@ -827,7 +825,7 @@ ms:
       add_new_child: "Cipta anak baru"
       create_new: "Cipta baru"
       add_existing: "Tambah sedia ada"
-      add_existing_child: "Tambah anak sedia ada"
+      add_existing_child: "Add child"
       remove_child: "Padam anak"
       add_new_relation: "Cipta perhubungan baharu"
       add_existing_relation: "Tambah perhubungan sedia ada"
@@ -866,7 +864,7 @@ ms:
     tl_toolbar:
       zooms: "Tahap zum"
       outlines: "Tahap hierarki"
-    upsale:
+    upsell:
       ee_only: "Tambahan edisi Enterprise"
     wiki_formatting:
       strong: "Kuat"
@@ -1045,8 +1043,6 @@ ms:
       sharing:
         title: "Kongsi pakej kerja"
         show_all_users: "Paparkan kepada semua pengguna dengan siapa pakej kerja telah dikongsikan"
-        upsale:
-          description: "Kongsi pakej kerja dengan pengguna yang bukan ahli projek."
       table:
         configure_button: "Konfigurasi jadual pakej kerja"
         summary: "Jadual dengan baris pakej kerja dan kolum atribut pakej kerja."
@@ -1081,10 +1077,6 @@ ms:
           manually: "Secara manual"
           warning: "Anda akan hilang penyusunan sebelumnya apabila mengaktifkan mod penyusunan automatik."
         columns_help_text: "Guna ruang input diatas untuk tambah kolum ke paparan jadual anda. Anda boleh tarik dan lepas ke kolum untuk menyusun mereka semula."
-        upsale:
-          attribute_highlighting: "Perlukan pakej kerja tertentu yang menarik dari massa?"
-          relation_columns: "Perlu melihat hubungan dalam senarai pakej kerja?"
-          check_out_link: "Lihat edisi Enterprise."
         relation_filters:
           filter_work_packages_by_relation_type: "Saring pakej kerja mengikut jenis hubungan"
       tabs:
@@ -1295,9 +1287,7 @@ ms:
       clear: "Kosongkan"
       apply: "Gunakan"
       header_description: "Sorotkan perubahan yang dibuat ke senarai ini pada bila-bila masa lalu."
-      enterprise_header_description: "Sorotkan perubahan yang dibuat ke senarai ini pada bila-bila masa lalu dengan edisi Enterprise."
       show_changes_since: "Paparkan perubahan sejak"
-      baseline_comparison: "Perbandingan garis panduan asas"
       help_description: "Zon masa rujukan untuk garis panduan asas."
       time_description: "Dalam masa tempatan anda: %{datetime}"
       time: "Masa"

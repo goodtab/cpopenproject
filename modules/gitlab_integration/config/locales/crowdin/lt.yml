@@ -60,17 +60,23 @@ lt:
     merge_request_reopened_comment: >
       **MR Atidarytas iš naujo:** Suliejimo prašymą %{mr_number} [%{mr_title}](%{mr_url}) skirtą [%{repository}](%{repository_url}) iš naujo atidarė [%{gitlab_user}](%{gitlab_user_url}).
     note_commit_referenced_comment: >
-      **Paimnėtas pakeitime:** [%{gitlab_user}](%{gitlab_user_url}) paminėjo šį WP pakeitimo pastaboje [%{commit_id}](%{commit_url}) [%{repository}](%{repository_url}): %{commit_note}
+      **Paimnėtas pakeitime:** [%{gitlab_user}](%{gitlab_user_url}) paminėjo šį WP pakeitimo pastaboje [%{commit_id}](%{commit_url}) [%{repository}](%{repository_url}):
+      %{commit_note}
     note_mr_referenced_comment: >
-      **Paminėta MR:** [%{gitlab_user}](%{gitlab_user_url}) paminėjo šį WP suliejimo prašyme %{mr_number} [%{mr_title}](%{mr_url}) [%{repository}](%{repository_url}): %{mr_note}
+      **Paminėta MR:** [%{gitlab_user}](%{gitlab_user_url}) paminėjo šį WP suliejimo prašyme %{mr_number} [%{mr_title}](%{mr_url}) [%{repository}](%{repository_url}):
+      %{mr_note}
     note_mr_commented_comment: >
-      **Komentuota MR:** [%{gitlab_user}](%{gitlab_user_url}) komentavo šį WP suliejimo prašyme %{mr_number} [%{mr_title}](%{mr_url}) [%{repository}](%{repository_url}): %{mr_note}
+      **Komentuota MR:** [%{gitlab_user}](%{gitlab_user_url}) komentavo šį WP suliejimo prašyme %{mr_number} [%{mr_title}](%{mr_url}) [%{repository}](%{repository_url}):
+      %{mr_note}
     note_issue_referenced_comment: >
-      **Paminėjo problemoje:** [%{gitlab_user}](%{gitlab_user_url}) paminėjo šį WP problemoje %{issue_number} [%{issue_title}](%{issue_url}) [%{repository}](%{repository_url}): %{issue_note}
+      **Paminėjo problemoje:** [%{gitlab_user}](%{gitlab_user_url}) paminėjo šį WP problemoje %{issue_number} [%{issue_title}](%{issue_url}) [%{repository}](%{repository_url}):
+      %{issue_note}
     note_issue_commented_comment: >
-      **Komentavo problemoje:** [%{gitlab_user}](%{gitlab_user_url}) komentavo šį WP problemoje %{issue_number} [%{issue_title}](%{issue_url}) [%{repository}](%{repository_url}): %{issue_note}
+      **Komentavo problemoje:** [%{gitlab_user}](%{gitlab_user_url}) komentavo šį WP problemoje %{issue_number} [%{issue_title}](%{issue_url}) [%{repository}](%{repository_url}):
+      %{issue_note}
     note_snippet_referenced_comment: >
-      **Paminėjo gabaliuke:** [%{gitlab_user}](%{gitlab_user_url}) paminėjo šį WP gabaliuke %{snippet_number} [%{snippet_title}](%{snippet_url}) [%{repository}](%{repository_url}): %{snippet_note}
+      **Paminėjo gabaliuke:** [%{gitlab_user}](%{gitlab_user_url}) paminėjo šį WP gabaliuke %{snippet_number} [%{snippet_title}](%{snippet_url}) [%{repository}](%{repository_url}):
+      %{snippet_note}
     issue_opened_referenced_comment: >
       **Atverta problema:** Problemą %{issue_number} [%{issue_title}](%{issue_url}) skirtą [%{repository}](%{repository_url}) atidarė [%{gitlab_user}](%{gitlab_user_url}).
     issue_closed_referenced_comment: >
@@ -78,8 +84,11 @@ lt:
     issue_reopened_referenced_comment: >
       **Problema vėl atidaryta:** Problemą %{issue_number} [%{issue_title}](%{issue_url}) skirtą [%{repository}](%{repository_url}) vėl atidarė [%{gitlab_user}](%{gitlab_user_url}).
     push_single_commit_comment: >
-      **Pakeista MR'e:** [%{gitlab_user}](%{gitlab_user_url}) pakeitė [%{commit_number}](%{commit_url}) į [%{repository}](%{repository_url}) %{commit_timestamp}: %{commit_note}
+      **Pakeista MR'e:** [%{gitlab_user}](%{gitlab_user_url}) pakeitė [%{commit_number}](%{commit_url}) į [%{repository}](%{repository_url}) %{commit_timestamp}:
+      %{commit_note}
     push_single_commit_comment_with_ref: >
-      **Pushed in %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) pushed [%{commit_number}](%{commit_url}) to [%{repository}](%{repository_url}) at %{commit_timestamp}: %{commit_note}
+      **Pushed in %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) pushed [%{commit_number}](%{commit_url}) to [%{repository}](%{repository_url}) at %{commit_timestamp}:
+      %{commit_note}
     push_multiple_commits_comment: >
-      **Pakeitė MR'e:** [%{gitlab_user}](%{gitlab_user_url}) padarė kelis pakeitimus [%{commit_number}](%{commit_url}) skirtus [%{repository}](%{repository_url}) %{commit_timestamp}: %{commit_note}
+      **Pakeitė MR'e:** [%{gitlab_user}](%{gitlab_user_url}) padarė kelis pakeitimus [%{commit_number}](%{commit_url}) skirtus [%{repository}](%{repository_url}) %{commit_timestamp}:
+      %{commit_note}

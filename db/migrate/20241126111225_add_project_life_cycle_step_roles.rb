@@ -31,9 +31,9 @@ require Rails.root.join("db/migrate/migration_utils/permission_adder")
 class AddProjectLifeCycleStepRoles < ActiveRecord::Migration[7.1]
   def change
     ::Migration::MigrationUtils::PermissionAdder
-      .add(:view_project, :view_project_stages_and_gates)
+      .add(:view_project, :view_project_stages_and_gates, force: true)
 
     ::Migration::MigrationUtils::PermissionAdder
-      .add(:edit_project, :edit_project_stages_and_gates)
+      .add(:edit_project, :edit_project_stages_and_gates, force: true)
   end
 end

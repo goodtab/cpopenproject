@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -60,8 +60,9 @@ module TableHelpers
       end
 
       def parse_predecessors(predecessors)
-        relations = predecessors.map do |predecessor|
-          parse_predecessor(predecessor)
+        relations = predecessors.to_h do |predecessor|
+          relation = parse_predecessor(predecessor)
+          [relation[:with], relation]
         end
         { relations: }.compact_blank
       end

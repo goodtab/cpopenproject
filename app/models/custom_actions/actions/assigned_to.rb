@@ -33,6 +33,10 @@ class CustomActions::Actions::AssignedTo < CustomActions::Actions::Base
     :assigned_to
   end
 
+  def type
+    :user
+  end
+
   def available_principles
     principal_class
       .not_locked

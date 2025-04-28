@@ -29,8 +29,8 @@
 require "spec_helper"
 
 RSpec.describe "Wysiwyg linking", :js do
-  let(:user) { create(:admin) }
-  let(:project) { create(:project, enabled_module_names: %w[wiki work_package_tracking]) }
+  shared_let(:user) { create(:admin) }
+  shared_let(:project) { create(:project, enabled_module_names: %w[wiki work_package_tracking]) }
   let(:editor) { Components::WysiwygEditor.new }
 
   before do
@@ -57,7 +57,41 @@ RSpec.describe "Wysiwyg linking", :js do
         "[http://example.org/link with spaces](http://example.org/link%20with%20spaces)"
       )
 
-      expect(page).to have_css('a[href="http://example.org/link%20with%20spaces"]')
+      expect(page).to have_link(href: "http://example.org/link%20with%20spaces")
+    end
+  end
+
+  describe "linking in a wiki page with different protocols",
+           with_settings: { allowed_link_protocols: %w[data] } do
+    let(:wiki_page) { create(:wiki_page, wiki: project.wiki) }
+    let(:always_allowed_protocols) { Setting::AllowedLinkProtocols::ALWAYS_ALLOWED }
+
+    before do
+      visit edit_project_wiki_path(project, :wiki)
+    end
+
+    it "allows linking with the always allowed protocols" do
+      editor.insert_link "https://example.org/path"
+      click_on "Save"
+      expect_flash(message: "Successful update.")
+      expect(page).to have_link(href: "https://example.org/path")
+    end
+
+    it "allows linking the custom protocol" do
+      editor.insert_link "data:text/plain;base64,SGVsbG8sIFdvcmxkIQ=="
+      click_on "Save"
+      expect_flash(message: "Successful update.")
+      expect(page).to have_link(href: "data:text/plain;base64,SGVsbG8sIFdvcmxkIQ==")
+    end
+
+    it "prevents linking to a non-allowed custom protocol" do
+      editor.insert_link "ftp://example.org/path"
+      click_on "Save"
+      expect_flash(message: "Successful update.")
+      expect(page).to have_no_link(href: "ftp://example.org/path")
+
+      link = page.find("a", text: "ftp://example.org/path")
+      expect(link["href"]).to be_nil
     end
   end
 end

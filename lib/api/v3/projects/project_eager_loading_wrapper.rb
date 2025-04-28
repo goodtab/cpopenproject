@@ -51,16 +51,15 @@ module API
           end
 
           def ancestor_projects(projects)
-            ancestor_selector = projects[1..].inject(ancestor_project_select(projects[0])) do |select, project|
-              select.or(ancestor_project_select(project))
-            end
-            Project.where(ancestor_selector).to_a
+            projects[1..].inject(ancestor_projects_of(projects[0])) do |select, project|
+              select.or(ancestor_projects_of(project))
+            end.to_a
           end
 
-          def ancestor_project_select(project)
+          def ancestor_projects_of(project)
             projects_table = Project.arel_table
 
-            projects_table[:lft].lt(project.lft).and(projects_table[:rgt].gt(project.rgt))
+            Project.where(projects_table[:lft].lt(project.lft).and(projects_table[:rgt].gt(project.rgt)))
           end
 
           def custom_fields_from_projects

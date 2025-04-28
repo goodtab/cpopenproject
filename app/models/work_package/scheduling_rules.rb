@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -33,32 +35,49 @@ module WorkPackage::SchedulingRules
     !schedule_manually?
   end
 
-  # TODO: move into work package contract (possibly a module included into the contract)
-  # Calculates the minimum date that
-  # will not violate the precedes relations (max(finish date, start date) + relation lag)
-  # of this work package or its ancestors
-  # e.g.
-  # AP(due_date: 2017/07/25)-precedes(lag: 0)-A
-  #                                           |
-  #                                         parent
-  #                                           |
-  # BP(due_date: 2017/07/22)-precedes(lag: 2)-B
-  #                                           |
-  #                                         parent
-  #                                           |
-  # CP(due_date: 2017/07/25)-precedes(lag: 2)-C
+  # Calculates the minimum date that will not violate the precedes relations
+  # (max(finish date, start date) + relation lag) of this work package or its
+  # ancestors
   #
-  # Then soonest_start for:
-  #   C is 2017/07/28
-  #   B is 2017/07/26
-  #   A is 2017/07/26
-  def soonest_start
-    # eager load `to` and `from` to avoid n+1 on successor_soonest_start
-    @soonest_start ||=
+  # Lag is the number of non working days between 2 work packages of a
+  # follows/precedes relation.
+  #
+  # For instance:
+  #          AP -------------- precedes ----- A
+  # (due_date: 2017/07/25)     (lag: 0)       |
+  #                                         parent
+  #                                           |
+  #          BP -------------- precedes ----- B
+  # (due_date: 2017/07/22)     (lag: 2)       |
+  #                                         parent
+  #                                           |
+  #          CP -------------- precedes ----- C
+  # (due_date: 2017/07/25)     (lag: 2)
+  #
+  # Then successor_soonest_start for each relation is:
+  #   A is 2017/07/26 (AP due date: 25, no lag => 26)
+  #   B is 2017/07/27 (BP due date: 22, 23 and 24 are non-working days, 25 and 26 is the 2 days lag => 27)
+  #   C is 2017/07/28 (CP due date: 25, 26 and 27 is the 2 days lag => 28)
+  #
+  # The soonest start for this work package is the maximum of these values: 2017/07/28.
+  #
+  # @param working_days_from [WorkPackage, nil] the work package for which to
+  #   find the next working day after the soonest start given by the scheduling
+  #   relations. If nil, the work package itself is used. Useful for a work
+  #   package calculating the soonest start given by its parent as it may have a
+  #   different `ignore_working_days` value than its parent.
+  def soonest_start(working_days_from: nil)
+    @scheduling_relations_soonest_start ||=
       Relation
         .used_for_scheduling_of(self)
-        .includes(:to, :from)
+        .includes(:to) # eager load `to` to avoid n+1 in #successor_soonest_start
         .filter_map(&:successor_soonest_start)
         .max
+
+    # The final result should not be cached as it depends on
+    # ignore_non_working_days value, which can change between consecutive calls
+    # to #soonest_start
+    days = WorkPackages::Shared::Days.for(working_days_from || self)
+    days.soonest_working_day(@scheduling_relations_soonest_start)
   end
 end

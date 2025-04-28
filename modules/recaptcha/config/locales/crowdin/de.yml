@@ -22,4 +22,7 @@ de:
       type_hcaptcha: 'HCaptcha'
       type_turnstile: 'Cloudflare Turnstile™'
       captcha_description_html: >
-        reCAPTCHA ist ein kostenloser Dienst von Google, der für Ihre OpenProject Instanz aktiviert werden kann. Wenn aktiviert, wird bei Anmeldung ein Captcha-Formular für alle Benutzer gerendert, die noch kein Captcha verifiziert haben. <br/> Bitte sehen Sie den folgenden Link für weitere Details zu reCAPTCHA und deren Versionen, und wie die Webseite und die geheimen Schlüssel erstellt werden: %{recaptcha_link} <br/> HCaptcha ist eine Google-freie Alternative, die Sie verwenden können, wenn Sie reCAPTCHA nicht verwenden möchten. Siehe diesen Link für weitere Informationen: %{hcaptcha_link} <br/>Cloudflare Turnstile™ is eine weitere Alternative für Nutzer von CloudFlare. Sie diesen Link für weitere Informationen: %{turnstile_link}
+        reCAPTCHA ist ein kostenloser Dienst von Google, der für Ihre OpenProject Instanz aktiviert werden kann. Wenn aktiviert, wird bei Anmeldung ein Captcha-Formular für alle Benutzer gerendert, die noch kein Captcha verifiziert haben.
+        <br/> Bitte sehen Sie den folgenden Link für weitere Details zu reCAPTCHA und deren Versionen, und wie die Webseite und die geheimen Schlüssel erstellt werden: %{recaptcha_link}
+        <br/> HCaptcha ist eine Google-freie Alternative, die Sie verwenden können, wenn Sie reCAPTCHA nicht verwenden möchten. Siehe diesen Link für weitere Informationen: %{hcaptcha_link}
+        <br/>Cloudflare Turnstile™ is eine weitere Alternative für Nutzer von CloudFlare. Sie diesen Link für weitere Informationen: %{turnstile_link}

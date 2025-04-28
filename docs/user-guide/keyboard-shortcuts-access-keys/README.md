@@ -15,7 +15,7 @@ OpenProject (since version 3.0) offers useful keyboard shortcuts to  enhance you
 
 - Global Search: s
 - Project Search: p
-- Go to: My Page: g m
+- Go to: My page: g m
 - Open Help Page: –
 - Open regular shortcuts List: ?
 - Go to: Overview: g o
@@ -36,7 +36,7 @@ OpenProject (since version 3.0) offers useful keyboard shortcuts to  enhance you
 
 - Global Search: 4
 - Project Search: 5
-- Go to: My Page: –
+- Go to: My page: –
 - Open Help Page: 6
 - Open regular shortcuts List: –
 - Go to: Overview: –

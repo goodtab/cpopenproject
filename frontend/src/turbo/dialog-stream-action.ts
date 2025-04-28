@@ -3,9 +3,11 @@ import { StreamActions, StreamElement } from '@hotwired/turbo';
 export function registerDialogStreamAction() {
   StreamActions.closeDialog = function closeDialogStreamAction(this:StreamElement) {
     const dialog = document.querySelector(this.target) as HTMLDialogElement;
-    // distpatching with submitted: true to indicate that the behavior of a successful submission should
+    const additionalData = JSON.parse(this.getAttribute('additional') || '{}') as unknown;
+
+    // dispatching with submitted: true to indicate that the behavior of a successful submission should
     // be triggered (i.e. reloading the ui)
-    document.dispatchEvent(new CustomEvent('dialog:close', { detail: { dialog, submitted: true } }));
+    document.dispatchEvent(new CustomEvent('dialog:close', { detail: { dialog, submitted: true, additional: additionalData } }));
     dialog.close('close-event-already-dispatched');
   };
 
@@ -36,6 +38,6 @@ export function registerDialogStreamAction() {
     setTimeout(() => {
       const width = dialog.offsetWidth;
       dialog.style.width = `${width + 1}px`;
-    }, 100);
+    }, 250);
   };
 }

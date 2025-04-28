@@ -82,7 +82,7 @@ tr:
       text_2fa_enabled: "Her girişte bu kullanıcının varsayılan 2FA cihazından bir OTP belirtecini girmesi istenir."
       text_2fa_disabled: "Kullanıcı 'Hesabım sayfası' üzerinden bir 2FA cihazı ayarlamadı"
       only_sms_allowed: "Diğer kullanıcılar için yalnızca SMS gönderimi ayarlanabilir."
-    upsale:
+    upsell:
       title: "İki aşamalı kimlik doğrulama"
       description: "Tüm proje üyelerine iki faktörlü kimlik doğrulama sunarak (veya zorunlu kılarak) OpenProject bulut sunucunuzun güvenliğini güçlendirin."
     backup_codes:

@@ -16,7 +16,12 @@ With OpenProject 15.3.0, dynamic meetings can either be [one-time meetings](../o
 
 ## How long will the classic meetings be available?
 
-[Classic meetings](../classic-meetings) will be deprecated with one of the future releases after 15.3. We will communicate this in advance to ensure a smooth transition for all our users.
+[Classic meetings](../classic-meetings) will be deprecated with 16.0 release. 
+
+- All existing classic meetings will be converted into a one-time dynamic meetings. 
+- Agenda text will be converted to agenda items. 
+- Meeting minutes will be converted into meeting outcome. 
+- Author information will be saved in the respective presenter fields. 
 
 ## Can I add a meeting to a calendar?
 
@@ -24,4 +29,4 @@ Yes, you can [download a meeting as an iCalendar event](../one-time-meetings/#do
 
 ## Are the meetings shown in calendar widgets?
 
-Yes, the Calendar widget on the [project overview page](../../project-overview/#calendar-widget) and [My Page](../../../getting-started/my-page/#add-widgets) displays meetings. Meetings links in this widget are clickable and open the meeting directly.
+Yes, the Calendar widget on the [project overview page](../../project-overview/#calendar-widget) and [My page](../../../getting-started/my-page/#add-widgets) displays meetings. Meetings links in this widget are clickable and open the meeting directly.

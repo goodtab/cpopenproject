@@ -3,7 +3,7 @@ sidebar_navigation:
   title: Sign in
   priority: 997
 description: Sign in to your OpenProject Enterprise cloud edition.
-keywords: sign in, cloud, openproject enterpise 
+keywords: sign in, cloud, openproject enterprise 
 ---
 
 # Sign in to the OpenProject Enterprise cloud edition
@@ -18,7 +18,7 @@ In order to sign in to your OpenProject Enterprise cloud edition directly throug
 
 ![Sign-in button in the top right corner on the start page of OpenProject website](openproject_enterprise_guide_sign_in_button_website.png)
 
-Enter your OpenProject instance name. This is the name that appears in the first part of the URL, e.g. myneworganization.openproject.com.
+Enter your OpenProject instance name. This is the name that appears in the first part of the URL, e.g. `myneworganization.openproject.com`.
 
 Click the **Sign in** button to access your OpenProject installation.
 

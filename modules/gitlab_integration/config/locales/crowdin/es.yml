@@ -70,7 +70,8 @@ es:
     note_issue_commented_comment: >
       **Comentado en incidencia:** [%{gitlab_user}](%{gitlab_user_url}) comentó este WP en la Incidencia %{issue_number} [%{issue_title}](%{issue_url}) en [%{repository}](%{repository_url}): %{issue_note}
     note_snippet_referenced_comment: >
-      **Referenciado en fragmento de código:** [%{gitlab_user}](%{gitlab_user_url}) hizo referencia a este WP en el fragmento de código %{snippet_number} [%{snippet_title}](%{snippet_url}) en [%{repository}](%{repository_url}): %{snippet_note}
+      **Referenciado en fragmento de código:** [%{gitlab_user}](%{gitlab_user_url}) hizo referencia a este WP en el fragmento de código %{snippet_number} [%{snippet_title}](%{snippet_url}) en [%{repository}](%{repository_url}):
+      %{snippet_note}
     issue_opened_referenced_comment: >
       **Incidencia abierta:** La incidencia %{issue_number} [%{issue_title}](%{issue_url}) para [%{repository}](%{repository_url}) ha sido abierta por [%{gitlab_user}](%{gitlab_user_url}).
     issue_closed_referenced_comment: >
@@ -78,8 +79,11 @@ es:
     issue_reopened_referenced_comment: >
       **Incidencia reabierta:** La incidencia %{issue_number} [%{issue_title}](%{issue_url}) para [%{repository}](%{repository_url}) ha sido reabierta por [%{gitlab_user}](%{gitlab_user_url}).
     push_single_commit_comment: >
-      **Enviado en MR:** [%{gitlab_user}](%{gitlab_user_url}) envió [%{commit_number}](%{commit_url}) a [%{repository}](%{repository_url}) a las %{commit_timestamp}: %{commit_note}
+      **Enviado en MR:** [%{gitlab_user}](%{gitlab_user_url}) envió [%{commit_number}](%{commit_url}) a [%{repository}](%{repository_url}) a las %{commit_timestamp}:
+      %{commit_note}
     push_single_commit_comment_with_ref: >
-      **Enviado en %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) envió [%{commit_number}](%{commit_url}) a [%{repository}](%{repository_url}) a las %{commit_timestamp}: %{commit_note}
+      **Enviado en %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) envió [%{commit_number}](%{commit_url}) a [%{repository}](%{repository_url}) a las %{commit_timestamp}:
+      %{commit_note}
     push_multiple_commits_comment: >
-      **Enviado en MR:** [%{gitlab_user}](%{gitlab_user_url}) envió múltiples commits [%{commit_number}](%{commit_url}) a [%{repository}](%{repository_url}) a las %{commit_timestamp}: %{commit_note}
+      **Enviado en MR:** [%{gitlab_user}](%{gitlab_user_url}) envió múltiples commits [%{commit_number}](%{commit_url}) a [%{repository}](%{repository_url}) a las %{commit_timestamp}:
+      %{commit_note}

@@ -14,7 +14,7 @@ tr:
           oauth2_sso: Single-Sign-On through OpenID Connect Identity Provider
           oauth2_sso_with_two_way_oauth2_fallback: Single-Sign-On with Two-Way OAuth 2.0 as fallback
           two_way_oauth2: Two-way OAuth 2.0 authorization code flow
-        storage_audience: Storage Audience
+        storage_audience: Depolama Kitlesi
       storages/project_storage:
         project_folder: Proje klasörü
         project_folder_mode: Proje klasör modu
@@ -103,7 +103,7 @@ tr:
         remove_user_from_group: 'Remove User from Group:'
         rename_project_folder: 'Yönetilen proje klasörü isimlendirmesi:'
       one_drive_sync_service:
-        create_folder: 'Managed Project Folder Creation:'
+        create_folder: 'Yönetilen Proje Klasörü Oluşturma:'
         ensure_root_folder_permissions: 'Temel Klasör İzinlerini Ayarlayın:'
         hide_inactive_folders: 'Hide Inactive Folders Step:'
         remote_folders: 'Read contents of the group folder:'
@@ -142,7 +142,7 @@ tr:
               forbidden: OpenProject user does not have access to %{current_path} folder.
               not_found: "%{current_path} bulunamadı."
             set_folders_permissions:
-              permission_not_set: could not set permissions on %{path}.
+              permission_not_set: '%{path} üzerinde izinler ayarlanamadı.'
           error: An unexpected error occurred. Please ensure that your Nextcloud instance is reachable and check OpenProject worker logs for more information
           group_does_not_exist: "%{group} mevcut değil. Nextcloud yapılandırmanızı kontrol edin."
           insufficient_privileges: OpenProject does not have enough privileges to add %{user} to %{group}. Check you group settings in Nextcloud.
@@ -155,7 +155,7 @@ tr:
               conflict: The %{folder_name} already exists on %{parent_location}.
               not_found: "%{parent_location} bulunamadı."
             hide_inactive_folders:
-              permission_not_set: could not set permissions on %{path}.
+              permission_not_set: '%{path} üzerinde izinler ayarlanamadı.'
             remote_folders:
               request_error: OpenProject could not access your drive %{drive_id}. Please check if your storage configuration is correct.
             rename_project_folder:
@@ -163,7 +163,7 @@ tr:
               forbidden: OpenProject does not have access to %{current_path} in order to rename it.
               not_found: "%{current_path} bulunamadı."
             set_folders_permissions:
-              permission_not_set: could not set permissions on %{path}.
+              permission_not_set: '%{path} üzerinde izinler ayarlanamadı.'
           error: An unexpected error occurred. Please ensure that OneDrive/SharePoint is reachable and check OpenProject worker logs for more information
           not_allowed: OpenProject'in OneDrive sürücünüze erişmesine izin verilmedi. Lütfen Azure Uygulamasında ayarlanan izinleri kontrol edin.
           unauthorized: OpenProject OneDrive ile eşitlenemedi. Lütfen depolama alanınızı ve Azure Uygulaması yapılandırmanızı kontrol edin.
@@ -200,7 +200,7 @@ tr:
       storage_delete_result_3: In case this storage has automatically managed project folders, those and their contained files will be deleted forever.
     dependencies:
       nextcloud:
-        group_folders_app: Grup klasörleri
+        group_folders_app: Group Folders
         integration_app: OpenProject Bütünleşmesi
     enabled_in_projects:
       setup_incomplete_description: This storage has an incomplete setup. Please, complete the setup before enabling it in multiple projects.
@@ -230,39 +230,99 @@ tr:
       storage_oauth: Nextcloud OAuth
       storage_provider: Depolama sağlayıcısı
     health:
+      actions:
+        download_report: İndir
+        rerun_checks: Re-run all checks
+        run_checks: Run checks now
       checked: Son kontrol %{datetime}
+      checks:
+        ampf_configuration:
+          files_request: Fetching group folder files
+          group_folder_app: 'Dependency: Group Folders'
+          group_folder_contents: Group folder has expected content
+          group_folder_presence: Group folder exists
+          header: Automatically managed project folder configuration
+          userless_access: Server-side request authentication
+        authentication:
+          existing_token: User token
+          header: Kimlik doğrulaması
+          non_provisioned_user: User provisioned by IDP
+          provisioned_user_provider: User provisioned by OIDC
+          token_negotiable: User token capabilities
+          user_bound_request: User-based request authentication
+        base_configuration:
+          capabilities_request: Remote file storage capabilities
+          client_id: İstemci ID
+          client_secret: İstemci gizliliği
+          dependencies_check: Bağımlılıklar
+          dependencies_versions: Dependencies (version)
+          diagnostic_request: Diagnostic request
+          drive_id_format: Drive ID format
+          drive_id_not_found: Drive exists
+          header: Basic configuration
+          host_url_accessible: Host URL accessible
+          storage_configured: Configuration complete
+          tenant_id: Tenant ID
+        failures:
+          zero: All checks passed
+          one: "%{count} check failed"
+          other: "%{count} checks failed"
+        warnings:
+          one: "%{count} check returned a warning"
+          other: "%{count} checks returned a warning"
       connection_validation:
-        action: Bağlantıyı tekrar kontrol edin
-        app_version_mismatch: Entegrasyon OpenProject uygulama sürümü desteklenmiyor. Lütfen Nextcloud sunucunuzu güncelleyin.
         client_id_wrong: The configured OAuth 2 client id is invalid. Please check the configuration.
         client_secret_wrong: The configured OAuth 2 client secret is invalid. Please check the configuration.
+        dependency_version_mismatch: The %{dependency} app version is not supported. Please update your Nextcloud server.
         drive_id_wrong: The configured drive id could not be found. Please check the configuration.
         group_folder_not_found: The group folder could not be found.
         group_folder_version_mismatch: The Group Folder version is not supported. Please update your Nextcloud server.
         host_not_found: No Nextcloud server found at the configured host url. Please check the configuration.
         missing_dependencies: 'A required dependency is missing on the file storage. Please add the following dependency: %{dependency}.'
+        nextcloud:
+          oauth_request_not_found: OpenProject couldn't find the root folder of Nextcloud using the current logged-in user. Please check the server logs for further information.
+          oauth_request_unauthorized: The current user isn't authorized to see the main folder of Nextcloud or we couldn't acquire a token. Please check the server logs for further information.
+          oauth_token_missing: OpenProject cannot test the user level communication with Nextcloud as the user did not yet link their Nextcloud account.
+          unexpected_content: Unexpected content found in the managed group folder.
         not_configured: The connection could not be validated. Please finish configuration first.
         oidc_cant_acquire_token: Your OpenID Connect setup doesn't provide the necessary audience, nor provides token exchange capabilities. Please check out our documentation for more information.
         oidc_cant_exchange_token: There seems to be a problem with the Token Exchange setup on your OpenID Connect Provider. Please check its configuration and try again.
         oidc_cant_refresh_token: There was an error while trying to check your access to the storage. Please check the server logs for further information.
         oidc_non_oidc_user: The current user, while provisioned, wasn't provisioned by an OpenID Connect (OIDC) Identity Provider. Please re-run the check with an OIDC provisioned user.
         oidc_non_provisioned_user: The current user isn't provided by an OpenID Connect Identity Provider. Please re-run the check with a provided user.
+        one_drive:
+          client_cant_delete_folder: The client is having trouble deleting folders. Please check the setup documentation for your storage.
+          client_write_permission_missing: The client seems to have write permissions missing. Please check the setup documentation for your storage.
+          drive_id_not_found: The configured drive id could not be found. Please check the configuration.
+          drive_id_wrong: The configured drive id seems invalid. Please check the configuration.
+          existing_test_folder: The folder %{folder_name} needed for testing already exists. Please delete it and try again.
+          oauth_request_not_found: OpenProject couldn't find the root folder in the drive using the current logged-in user. Please check the server logs for further information.
+          oauth_request_unauthorized: The current user isn't authorized to see the root folder of OneDrive or we couldn't acquire a token. Please check the server logs for further information.
+          oauth_token_missing: OpenProject cannot test the user level communication with OneDrive/SharePoint as the user did not yet link their Microsoft account.
+          unexpected_content: Sürücüde beklenmeyen içerik bulundu.
         placeholder: Sunucuyla olan bağlantıyı kontrol edin.
         subtitle: Bağlantı doğrulaması
         tenant_id_wrong: The configured directory (tenant) id is invalid. Please check the configuration.
-        unexpected_content:
-          nextcloud: Unexpected content found in the managed group folder.
-          one_drive: Sürücüde beklenmeyen içerik bulundu.
         unknown_error: The connection could not be validated. An unknown error occurred. Please check the server logs for further information.
         userless_access_denied: The configured app password is invalid.
       label_error: Hata
+      label_failed: Failed
       label_healthy: Sağlıklı
+      label_passed: Passed
       label_pending: Bekliyor
+      label_skipped: Atlandı
       label_warning: Uyarı
+      no_report: No report available
+      no_report_description: Run the checks now for a full health status report for this file storage.
+      open_report: Open full health report
       project_folders:
         subtitle: Otomatik olarak yönetilen proje klasörleri
       since: '%{datetime} tarihinden beri'
-      title: Sağlık durumu
+      summary:
+        failure: Some checks failed and the system does not work as expected.
+        success: All connections and systems are working as expected.
+        warning: Some checks returned a warning. This can lead to unexpected behaviour.
+      title: Health status report
     health_email_notifications:
       description_subscribed: Tüm yöneticiler bu depolama alanı için sistem durumu e-posta bildirimleri alır.
       description_unsubscribed: Bu depolama alanı için sağlık durumu e-posta bildirimleri tüm yöneticiler için kapatıldı.
@@ -390,7 +450,7 @@ tr:
           OpenProject'in her proje için klasörleri otomatik olarak oluşturmasına izin verin. Bu, her ekip
           üyesinin her zaman doğru erişim izinlerine sahip olmasını sağladığı için önerilir.
         subtitle_short: OpenProject'in her proje için otomatik olarak klasör oluşturmasına izin verin.
-        title: Automatically managed project folders
+        title: Otomatik olarak yönetilen proje klasörleri
       project_settings:
         delete: Dosya depolama alanını sil
         edit: Edit the file storage to this project
@@ -426,7 +486,7 @@ tr:
       description: Onları burada görmek için bir depolama ekleyin.
       heading: Henüz hiç depolamanız yok.
     successful_storage_connection: Depolama başarıyla bağlandı! Kullanmak istediğiniz her proje için Projeler sekmesinde depolamayı etkinleştirmeyi unutmayın.
-    upsale:
+    upsell:
       description: |-
         OneDrive/SharePoint'inizi OpenProject ile bir dosya depolama alanı olarak entegre edin. Dosyaları yükleyin ve bunları doğrudan bir projedeki iş paketlerine bağlayın.
       title: OneDrive/SharePoint entegrasyonu

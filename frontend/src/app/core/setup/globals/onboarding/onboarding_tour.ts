@@ -15,6 +15,7 @@ import {
   teamPlannerTourSteps,
 } from 'core-app/core/setup/globals/onboarding/tours/team_planners_tour';
 import { ganttOnboardingTourSteps } from 'core-app/core/setup/globals/onboarding/tours/gantt_tour';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 require('core-vendor/enjoyhint');
 
@@ -76,12 +77,12 @@ function workPackageTour() {
   });
 }
 
-function ganttTour() {
+function ganttTour(configuration:ConfigurationService) {
   initializeTour('ganttTourFinished');
 
   const boardsDemoDataAvailable = jQuery('meta[name=boards_demo_data_available]').attr('content') === 'true';
   const teamPlannerDemoDataAvailable = jQuery('meta[name=demo_view_of_type_team_planner_seeded]').attr('content') === 'true';
-  const eeTokenAvailable = !jQuery('body').hasClass('ee-banners-visible');
+  const eeTokenAvailable = configuration.availableFeatures.includes('board_view');
 
   waitForElement('.work-package--results-tbody', '#content', () => {
     let steps:OnboardingStep[] = ganttOnboardingTourSteps();
@@ -106,11 +107,11 @@ function ganttTour() {
   });
 }
 
-function boardTour() {
+function boardTour(configuration:ConfigurationService) {
   initializeTour('boardsTourFinished');
 
   const teamPlannerDemoDataAvailable = jQuery('meta[name=demo_view_of_type_team_planner_seeded]').attr('content') === 'true';
-  const eeTokenAvailable = !jQuery('body').hasClass('ee-banners-visible');
+  const eeTokenAvailable = configuration.availableFeatures.includes('board_view');
 
   waitForElement('wp-single-card', '#content', () => {
     let steps:OnboardingStep[] = eeTokenAvailable ? boardTourSteps('enterprise') : boardTourSteps('basic');
@@ -137,7 +138,7 @@ function teamPlannerTour() {
   });
 }
 
-export function start(name:OnboardingTourNames):void {
+export function start(name:OnboardingTourNames, configuration:ConfigurationService):void {
   switch (name) {
     case 'homescreen':
       initializeTour('startProjectTour');
@@ -147,10 +148,10 @@ export function start(name:OnboardingTourNames):void {
       workPackageTour();
       break;
     case 'gantt':
-      ganttTour();
+      ganttTour(configuration);
       break;
     case 'boards':
-      boardTour();
+      boardTour(configuration);
       break;
     case 'teamPlanner':
       teamPlannerTour();

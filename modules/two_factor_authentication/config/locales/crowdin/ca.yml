@@ -81,7 +81,7 @@ ca:
       text_2fa_enabled: "Després de cada inici de sessió, es demanarà a aquest usuari que introdueixi un token OTP del seu dispositiu 2FA per defecte."
       text_2fa_disabled: "L'usuari no ha configurat cap dispositiu 2FA a través de la pàgina \"El meu compte\""
       only_sms_allowed: "Only SMS delivery can be set up for other users."
-    upsale:
+    upsell:
       title: "Autentificació en dos passos"
       description: "Enforteix la seguretat de la teva instància d'OpenProject oferint (o forçant) l'autentificació en dos passos per a tots els membres del projecte."
     backup_codes:

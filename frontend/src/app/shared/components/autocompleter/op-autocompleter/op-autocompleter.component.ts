@@ -343,25 +343,25 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
         });
     }
 
-    this.ngZone.runOutsideAngular(() => {
-      setTimeout(() => {
-        this.results$ = merge(
-          this.items$,
-          this.autocompleteInputStream(),
-        );
+    setTimeout(() => {
+      this.results$ = merge(
+        this.items$,
+        this.autocompleteInputStream(),
+      );
 
-        if (this.fetchDataDirectly) {
-          this.typeahead?.next('');
-        }
+      if (this.fetchDataDirectly) {
+        this.typeahead?.next('');
+      }
 
-        if (this.openDirectly) {
-          this.ngSelectInstance.open();
-          this.ngSelectInstance.focus();
-        } else if (this.focusDirectly) {
-          this.ngSelectInstance.focus();
-        }
-      }, 25);
-    });
+      if (this.openDirectly) {
+        this.ngSelectInstance.open();
+        this.ngSelectInstance.focus();
+      } else if (this.focusDirectly) {
+        this.ngSelectInstance.focus();
+      }
+
+      this.cdRef.detectChanges();
+    }, 25);
   }
 
   public get mappedInputValue():string|string[] {
@@ -370,7 +370,7 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
     }
 
     if (Array.isArray(this.model)) {
-      return this.model.map((el) => el[this.inputBindValue as 'id'] as string);
+      return this.model.map((el) => (_.isObject(el) ? el[this.inputBindValue as 'id'] : el) as string);
     }
 
     return this.model[this.inputBindValue as 'id'] as string;

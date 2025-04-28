@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -52,7 +54,7 @@ module Redmine
           add_at = nil
           add_to = nil
           del_at = nil
-          deleted = ""
+          deleted = +""
           diff.each do |change|
             pos = change[1]
             if change[0] == "+"

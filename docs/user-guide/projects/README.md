@@ -138,7 +138,7 @@ Under the **Copy options** section you can select what additional project data a
 ![Copy options when copying a project in OpenProject](project-settings-copy-project-copy-options.png)
 
 > [!NOTE]
-> The File storages options only apply if the template project had  [OneDrive/SharePoint](../../system-admin-guide/integrations/one-drive) with automatically managed folders activated.
+> The File storages options only apply if the template project had a file storage with automatically managed folders activated.
 
 If you select the **File Storages: Project folders** option, both the storage and the storage folders are copied into the new project if automatically managed project folders were selected for the original file storage. For storages with manually managed project folders setup the copied storage will be referencing the same folder as the original project.
 

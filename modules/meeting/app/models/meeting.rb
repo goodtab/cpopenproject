@@ -41,6 +41,8 @@ class Meeting < ApplicationRecord
   belongs_to :recurring_meeting, optional: true
   has_one :scheduled_meeting, inverse_of: :meeting
 
+  # Legacy association to minutes, agendas, contents
+  # to be removed in 17.0
   has_one :agenda, dependent: :destroy, class_name: "MeetingAgenda"
   has_one :minutes, dependent: :destroy, class_name: "MeetingMinutes"
   has_many :contents, -> { readonly }, class_name: "MeetingContent"
@@ -50,8 +52,10 @@ class Meeting < ApplicationRecord
            class_name: "MeetingParticipant",
            after_add: :send_participant_added_mail
 
-  has_many :sections, dependent: :destroy, class_name: "MeetingSection"
-  has_many :agenda_items, dependent: :destroy, class_name: "MeetingAgendaItem"
+  has_many :agenda_items, dependent: :destroy, class_name: "MeetingAgendaItem", inverse_of: :meeting
+  has_many :sections, dependent: :delete_all, class_name: "MeetingSection"
+
+  accepts_nested_attributes_for :agenda_items
 
   scope :templated, -> { where(template: true) }
   scope :not_templated, -> { where(template: false) }
@@ -91,12 +95,12 @@ class Meeting < ApplicationRecord
 
   acts_as_searchable columns: [
                        "#{table_name}.title",
-                       "#{MeetingContent.table_name}.text",
                        "#{MeetingAgendaItem.table_name}.title",
-                       "#{MeetingAgendaItem.table_name}.notes"
+                       "#{MeetingAgendaItem.table_name}.notes",
+                       "#{MeetingOutcome.table_name}.notes"
                      ],
-                     include: %i[contents project agenda_items],
-                     references: %i[meeting_contents agenda_items],
+                     include: [:project, { agenda_items: :outcomes }],
+                     references: %i[agenda_items outcomes],
                      date_column: "#{table_name}.created_at"
 
   include Meeting::Journalized
@@ -157,10 +161,6 @@ class Meeting < ApplicationRecord
     title
   end
 
-  def text
-    agenda.text if agenda.present?
-  end
-
   def templated?
     !!template
   end
@@ -207,28 +207,6 @@ class Meeting < ApplicationRecord
     by_start_year_month_date
   end
 
-  def close_agenda_and_copy_to_minutes!
-    Meeting.transaction do
-      agenda.lock!
-
-      attachments = agenda.attachments.map { |a| [a, a.copy] }
-      original_text = String(agenda.text)
-      minutes = create_minutes(text: original_text,
-                               journal_notes: I18n.t("events.meeting_minutes_created"),
-                               attachments: attachments.map(&:last))
-
-      # substitute attachment references in text to use the respective copied attachments
-      updated_text = original_text.gsub(/(?<=\(\/api\/v3\/attachments\/)\d+(?=\/content\))/) do |id|
-        old_id = id.to_i
-        new_id = attachments.select { |a, _| a.id == old_id }.map { |_, a| a.id }.first
-
-        new_id || -1
-      end
-
-      minutes.update text: updated_text if updated_text != original_text
-    end
-  end
-
   alias :original_participants_attributes= :participants_attributes=
 
   def participants_attributes=(attrs)
@@ -247,6 +225,55 @@ class Meeting < ApplicationRecord
 
     participants
       .where(user_id: available_members)
+  end
+
+  # triggered by MeetingAgendaItem#after_create/after_destroy/after_save
+  def calculate_agenda_item_time_slots
+    current_time = start_time
+    MeetingAgendaItem.transaction do
+      changed_items = agenda_items.includes(:meeting_section).order("meeting_sections.position", :position).map do |top|
+        start_time = current_time
+        current_time += top.duration_in_minutes&.minutes || 0.minutes
+        end_time = current_time
+        top.assign_attributes(start_time:, end_time:)
+        top
+      end
+
+      # Disable optimistic locking in order to avoid causing `StaleObjectError`.
+      MeetingAgendaItem.skip_optimistic_locking do
+        MeetingAgendaItem.import(
+          changed_items,
+          on_duplicate_key_update: {
+            conflict_target: [:id],
+            columns: %i[meeting_id
+                        author_id
+                        title
+                        notes
+                        position
+                        duration_in_minutes
+                        start_time
+                        end_time
+                        created_at
+                        updated_at
+                        work_package_id
+                        item_type
+                        lock_version]
+          }
+        )
+      end
+    end
+  end
+
+  def agenda_items_sum_duration_in_minutes
+    agenda_items.sum(:duration_in_minutes)
+  end
+
+  def duration_exceeded_by_agenda_items?
+    agenda_items_sum_duration_in_minutes > (duration * 60)
+  end
+
+  def duration_exceeded_by_agenda_items_in_minutes
+    agenda_items_sum_duration_in_minutes - (duration * 60)
   end
 
   private

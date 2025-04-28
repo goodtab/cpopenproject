@@ -103,8 +103,6 @@ module Admin
         @other_enumerations = enumeration_class.all - [@enumeration]
       end
 
-      def default_breadcrumb; end
-
       private
 
       def move_params

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -51,7 +52,7 @@ module Meetings
       end
 
       def create_meeting_template!(series, model_data)
-        template = StructuredMeeting.new(template_attributes(model_data))
+        template = Meeting.new(template_attributes(model_data))
         template.template = true
         template.recurring_meeting = series
 

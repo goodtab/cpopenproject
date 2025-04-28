@@ -7,26 +7,34 @@ keywords: project information
 ---
 # Manage project information
 
-Manage your project information in the Project settings: select a project and open the -> *Project Settings* -> *Information*.
+## Edit project information
 
-**To view all details about managing projects**, view our [projects section](../../).
+To edit your project information in OpenProject select a project from the **Select a project** drop-down menu. Then navigate to *Project settings → Information* in the project menu on the left.
 
-You will have the following options in the project settings.
+You can configure the following settings:
 
 1. Set a **name for your project**. The name will be displayed in the project list.
-2. Set **custom fields**, e.g. Responsible Department, Risk assessment, Project ID, Project accountable, etc. (if activated in the -> *Administration* -> *Custom fields* -> within the custom fields for projects). Find out more about project custom fields [here](../../../../system-admin-guide/custom-fields/custom-fields-projects/).
-3. Select the **parent project**.
-4. Add a project **description**.
-5. Display or edit the **project identifier**. This is the part of the project name shown in the URL, e.g. /demo-project.
-6. This check-box sets a project to **public**. This ways users will be able to access the project without being a member of it.
-7. Set a **project status**. The project status can be displayed in the [project overview](../../../project-overview). If you want to set additional or different status options you can create and use a [project custom field](../../../../system-admin-guide/custom-fields/custom-fields-projects).
-8. Add a **project status description**. The status description will be shown on the [project overview](../../../project-overview) page.
-9. Display the required disk storage information.
-10. **Save** your changes.
-11. **Create a new subproject** for this project with the green **+ Subproject** button.
-12. **Copy the project**. When [copying a project](../../#copy-a-project) you can choose which modules you'd like to copy.
-13. **Archive a project**. This way the [archived project](../../#archive-a-project) will not appear in the project selection anymore and cannot be accessed by team members. You can view archived projects in the view all project lists.
-14. **Set as template** or **Remove from templates**. By [setting a project as template](../../project-templates/#create-a-project-template) it can be copied multiple times to create similar projects.
-15. **Delete a project**. By [deleting a project](../../#delete-a-project) the whole project with all included information will be removed.
+2. Add a project **description**.
+3. This check-box sets a project to **public**. This ways users will be able to access the project without being a member of it.
+4. Set a **project status**. The project status can be displayed in the [project overview](../../../project-overview). If you want to set additional or different status options you can create and use a [project custom field](../../../../system-admin-guide/custom-fields/custom-fields-projects).
+5. Add a **project status description**. The status description will be shown on the [project overview](../../../project-overview) page.
+6. Select the **parent project**.
+7. Edit **project attributes**. 
+8. **Save** or **cancel** your changes.
 
-![project-information](image-20201010152113743.png)
+![project-information](openproject_user_guide_project_settings_information.png)
+
+Further, in the top right corner you can [add a subproject](../../#create-a-subproject) and edit the **project identifier**. This is the part of the project name shown in the URL, e.g. /demo-project.
+
+![Add a subproject or change a project identifier under project settings in OpenProject](openproject_user_guide_project_settings_information_subproject_and_identifier.png)
+
+If you click the **three dot** icon, you will see a dropdown menu with the following options: 
+
+- [Copy a project](../../#copy-a-project)
+- [Archive a project](../../#archive-a-project)
+- [Set a project as a template](../../project-templates) 
+- [Delete a project](../../#delete-a-project)
+
+![Copy, archive or delete a project in project settings in OpenProject](openproject_user_guide_project_settings_information_more_icon_menu.png)
+
+**To find out more about managing projects in OpenProject**, view the [projects section](../../).

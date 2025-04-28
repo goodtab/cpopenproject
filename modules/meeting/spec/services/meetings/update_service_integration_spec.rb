@@ -48,7 +48,7 @@ RSpec.describe Meetings::UpdateService, "integration", type: :model do
   context "when meeting is in a series and scheduled to the future" do
     shared_let(:recurring_meeting, refind: true) { create(:recurring_meeting, project:, frequency: "daily") }
     shared_let(:meeting, refind: true) do
-      create(:structured_meeting,
+      create(:meeting,
              recurring_meeting:,
              project:,
              start_time: Time.zone.today + 2.days + 10.hours)
@@ -140,7 +140,7 @@ RSpec.describe Meetings::UpdateService, "integration", type: :model do
 
     context "when previous schedule exists tomorrow at 10:00" do
       shared_let(:previous_meeting) do
-        create(:structured_meeting, recurring_meeting:, project:, start_time: Time.zone.tomorrow + 10.hours)
+        create(:meeting, recurring_meeting:, project:, start_time: Time.zone.tomorrow + 10.hours)
       end
       shared_let(:previous_schedule) do
         create(:scheduled_meeting,

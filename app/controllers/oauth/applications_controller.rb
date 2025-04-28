@@ -97,14 +97,6 @@ module OAuth
       redirect_to action: :index
     end
 
-    protected
-
-    def default_breadcrumb; end
-
-    def show_local_breadcrumb
-      false
-    end
-
     private
 
     def prevent_builtin_edits
@@ -115,8 +107,6 @@ module OAuth
 
     def find_app
       @application = ::Doorkeeper::Application.find(params[:id])
-    rescue ActiveRecord::RecordNotFound
-      render_404
     end
   end
 end

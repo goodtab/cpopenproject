@@ -309,8 +309,44 @@ RSpec.describe WorkPackagesController do
     requires_permission_in_project do
       it "render the journal/index template" do
         call_action
-
         expect(response).to render_template("journals/index")
+      end
+    end
+
+    context "when there are internal comments", with_flag: { internal_comments: true } do
+      render_views
+
+      let(:admin) { create(:admin) }
+      let(:project) do
+        create(:project, identifier: "test_project", public: false, enabled_internal_comments: true)
+      end
+
+      before do
+        work_package = create(:work_package, id: 5173, project:)
+        create(:work_package_journal,
+               journable: work_package,
+               user: admin,
+               notes: "internal comment",
+               internal: true,
+               version: 2)
+      end
+
+      context "and the user does not have permission to see such comments" do
+        it "does not include internal comments" do
+          get("show", params: { format: "atom", id: 5173 })
+          expect(response.body).not_to include("internal comment")
+        end
+      end
+
+      context "and the user has permission to see such comments" do
+        before do
+          login_as admin
+        end
+
+        it "includes internal comments" do
+          get("show", params: { format: "atom", id: 5173 })
+          expect(response.body).to include("internal comment")
+        end
       end
     end
   end

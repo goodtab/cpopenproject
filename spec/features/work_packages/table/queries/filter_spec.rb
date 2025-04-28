@@ -70,65 +70,110 @@ RSpec.describe "filter work packages", :js do
     end
   end
 
-  context "by version in project" do
-    let(:version) { create(:version, project:) }
-    let(:work_package_with_version) do
+  context "when filtering version" do
+    shared_let(:other_project) { create(:project) }
+    shared_let(:inaccessible_version) { create(:version, name: "Inaccessible Version", project: other_project) }
+    shared_let(:shared_version) { create(:version, name: "Shared Version", project: other_project, sharing: "system") }
+
+    let!(:version) { create(:version, project:) }
+    let!(:work_package_with_version) do
       create(:work_package, project:, subject: "With version", version:)
     end
-    let(:work_package_without_version) { create(:work_package, subject: "Without version", project:) }
+    let!(:work_package_without_version) { create(:work_package, subject: "Without version", project:) }
 
     before do
-      work_package_with_version
-      work_package_without_version
-
       wp_table.visit!
-    end
 
-    it "allows filtering, saving, retrieving and altering the saved filter" do
       filters.open
-
       # Expect filters to be grouped by project name
       filters.add_filter("Version")
+    end
 
-      expect_ng_option(
-        page.find_by_id("values-version"),
-        version,
-        grouping: project.name,
-        results_selector: "body"
-      )
+    context "in a project" do
+      let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
-      filters.remove_filter "version"
+      it "allows filtering, saving, retrieving and altering the saved filter" do
+        expect_ng_option(
+          page.find_by_id("values-version"),
+          version,
+          grouping: project.name,
+          results_selector: "body"
+        )
 
-      filters.add_filter_by("Version", "is (OR)", version.name)
+        expect_ng_option(
+          page.find_by_id("values-version"),
+          shared_version,
+          grouping: other_project.name,
+          results_selector: "body"
+        )
 
-      loading_indicator_saveguard
-      wp_table.expect_work_package_listed work_package_with_version
-      wp_table.ensure_work_package_not_listed! work_package_without_version
+        expect_no_ng_option(
+          page.find_by_id("values-version"),
+          inaccessible_version,
+          results_selector: "body"
+        )
 
-      wp_table.save_as("Some query name")
+        filters.remove_filter "version"
 
-      filters.remove_filter "version"
+        filters.add_filter_by("Version", "is (OR)", version.name)
 
-      loading_indicator_saveguard
-      wp_table.expect_work_package_listed work_package_with_version, work_package_without_version
+        loading_indicator_saveguard
+        wp_table.expect_work_package_listed work_package_with_version
+        wp_table.ensure_work_package_not_listed! work_package_without_version
 
-      last_query = Query.last
+        wp_table.save_as("Some query name")
 
-      wp_table.visit_query(last_query)
+        filters.remove_filter "version"
 
-      loading_indicator_saveguard
-      wp_table.expect_work_package_listed work_package_with_version
-      wp_table.ensure_work_package_not_listed! work_package_without_version
+        loading_indicator_saveguard
+        wp_table.expect_work_package_listed work_package_with_version, work_package_without_version
 
-      filters.open
+        last_query = Query.last
 
-      filters.expect_filter_by("Version", "is (OR)", version.name)
+        wp_table.visit_query(last_query)
 
-      filters.set_operator "Version", "is not"
+        loading_indicator_saveguard
+        wp_table.expect_work_package_listed work_package_with_version
+        wp_table.ensure_work_package_not_listed! work_package_without_version
 
-      loading_indicator_saveguard
-      wp_table.expect_work_package_listed work_package_without_version
-      wp_table.ensure_work_package_not_listed! work_package_with_version
+        filters.open
+
+        filters.expect_filter_by("Version", "is (OR)", version.name)
+
+        filters.set_operator "Version", "is not"
+
+        loading_indicator_saveguard
+        wp_table.expect_work_package_listed work_package_without_version
+        wp_table.ensure_work_package_not_listed! work_package_with_version
+      end
+    end
+
+    context "in the global page" do
+      shared_let(:user) { create(:user, preferences: { time_zone: "Etc/UTC" }) }
+      shared_let(:project) { create(:project, members: { user => role }) }
+      let(:wp_table) { Pages::WorkPackagesTable.new }
+
+      it "allows filtering, saving, retrieving and altering the saved filter" do
+        expect_ng_option(
+          page.find_by_id("values-version"),
+          version,
+          grouping: project.name,
+          results_selector: "body"
+        )
+
+        expect_ng_option(
+          page.find_by_id("values-version"),
+          shared_version,
+          grouping: "Project N/A",
+          results_selector: "body"
+        )
+
+        expect_no_ng_option(
+          page.find_by_id("values-version"),
+          inaccessible_version,
+          results_selector: "body"
+        )
+      end
     end
   end
 

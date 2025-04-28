@@ -28,9 +28,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.expand_path("#{File.dirname(__FILE__)}/../spec_helper.rb")
+require_relative "../spec_helper"
 
-RSpec.describe "time entry dialog", :js, with_flag: :track_start_and_end_times_for_time_entries do
+RSpec.describe "time entry dialog", :js do
   include Redmine::I18n
 
   shared_let(:project) { create(:project_with_types) }
@@ -80,7 +80,11 @@ RSpec.describe "time entry dialog", :js, with_flag: :track_start_and_end_times_f
     end
 
     context "when start and end time is enforced",
-            with_settings: { allow_tracking_start_and_end_times: true, enforce_tracking_start_and_end_times: true } do
+            with_ee: %i[time_entry_time_restrictions],
+            with_settings: {
+              allow_tracking_start_and_end_times: true,
+              enforce_tracking_start_and_end_times: true
+            } do
       it "shows fields to track start and end times" do
         time_logging_modal.shows_field("start_time", true)
         time_logging_modal.requires_field("start_time")

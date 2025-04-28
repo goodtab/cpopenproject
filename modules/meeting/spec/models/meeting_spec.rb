@@ -27,17 +27,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.dirname(__FILE__) + "/../spec_helper"
+require_relative "../spec_helper"
 
 RSpec.describe Meeting do
   shared_let (:user1) { create(:user) }
   shared_let (:user2) { create(:user) }
+
   let(:project) { create(:project, members: project_members) }
   let(:meeting) { create(:meeting, :author_participates, project:, author: user1) }
-  let(:agenda) do
-    meeting.create_agenda text: "Meeting Agenda text"
-    meeting.reload_agenda # avoiding stale object errors
-  end
   let(:project_members) { {} }
 
   let(:role) { create(:project_role, permissions: [:view_meetings]) }
@@ -152,22 +149,6 @@ RSpec.describe Meeting do
     it { expect(meeting.watchers.collect(&:user)).to contain_exactly(user1, user2) }
   end
 
-  describe "#close_agenda_and_copy_to_minutes" do
-    before do
-      agenda # creating it
-
-      meeting.close_agenda_and_copy_to_minutes!
-    end
-
-    it "creates a meeting with the agenda's text" do
-      expect(meeting.minutes.text).to eq(meeting.agenda.text)
-    end
-
-    it "closes the agenda" do
-      expect(meeting.agenda).to be_locked
-    end
-  end
-
   describe "Timezones" do
     shared_examples "uses that zone" do |zone|
       it do
@@ -202,10 +183,6 @@ RSpec.describe Meeting do
 
     it "uses the :view_meetings permission" do
       expect(described_class.acts_as_watchable_permission).to eq(:view_meetings)
-    end
-
-    it "uses the :view_meetings permission in STI classes" do
-      expect(StructuredMeeting.acts_as_watchable_permission).to eq(:view_meetings)
     end
   end
 

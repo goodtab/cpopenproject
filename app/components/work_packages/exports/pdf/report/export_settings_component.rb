@@ -35,13 +35,26 @@ module WorkPackages
         class ExportSettingsComponent < BaseExportSettingsComponent
           DESCRIPTION_CF = { id: "description", name: WorkPackage.human_attribute_name("description") }.freeze
 
+          def format
+            "pdf_report"
+          end
+
           def available_long_text_fields
             [DESCRIPTION_CF] + WorkPackageCustomField.where(field_format: "text")
                                                      .map { |cf| { id: cf.id, name: cf.name } }
           end
 
           def selected_long_text_fields
-            available_long_text_fields
+            default_long_text_fields = available_long_text_fields
+
+            saved_long_text_fields = if export_settings.settings.key?(:long_text_fields)
+                                       saved = export_settings.settings.fetch(:long_text_fields, "").split
+                                       default_long_text_fields.select do |cf|
+                                         saved.include?(cf[:id].to_s)
+                                       end
+                                     end
+
+            saved_long_text_fields || default_long_text_fields
           end
 
           def protected_long_text_fields

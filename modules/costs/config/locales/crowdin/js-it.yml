@@ -21,6 +21,9 @@
 #++
 it:
   js:
+    text_are_you_sure: "Sei sicuro/a?"
+    myTimeTracking:
+      noSpecificTime: "No specific time"
     work_packages:
       property_groups:
         costs: "Costi"

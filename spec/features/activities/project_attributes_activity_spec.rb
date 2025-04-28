@@ -88,96 +88,101 @@ RSpec.describe "Project attributes activity", :js do
     project.update!(new_project_attributes)
   end
 
-  it "tracks the projects activities" do
-    previous_project_attributes = project.attributes.dup
-    generate_trackable_activity_on_project(project)
+  describe "the project activities page" do
+    let(:activity_page) { Pages::Projects::Activity.new(project) }
 
-    visit project_activity_index_path(project)
+    let!(:project_was) { project.dup }
 
-    check "Project attributes"
+    before do
+      generate_trackable_activity_on_project(project)
+    end
 
-    click_on "Apply"
+    it "tracks the projects activities" do
+      activity_page.visit!
 
-    within("li.op-activity-list--item", match: :first) do
-      expect(page)
-        .to have_link("Project: #{project.name}")
+      activity_page.show_details
 
-      # own fields
-      expect(page).to have_css("li", text: "Name changed from #{previous_project_attributes['name']} to #{project.name}")
-      expect(page).to have_css("li", text: "Description set (Details)")
-      expect(page).to have_css("li", text: "Project status set to On track")
-      expect(page).to have_css("li", text: "Project status description set (Details)")
-      expect(page).to have_css("li", text: "Visibility set to public")
-      expect(page).to have_css("li", text: "No longer subproject of #{parent_project.name}")
-      expect(page).to have_css("li", text: "Project unarchived")
-      expect(page).to have_css("li", text: "Identifier changed from #{previous_project_attributes['identifier']} " \
-                                           "to #{project.identifier}")
-      expect(page).to have_css("li", text: "Project marked as template")
+      activity_page.within_journal(number: 1) do
+        activity_page.expect_link_to_project(project)
 
-      # custom fields
-      expect(page).to have_css("li", text: "#{list_project_custom_field.name} " \
-                                           "set to #{project.send(list_project_custom_field.attribute_getter)}")
-      expect(page).to have_css("li", text: "#{version_project_custom_field.name} " \
-                                           "set to #{old_version[project].name}, #{next_version[project].name}")
-      expect(page).to have_css("li", text: "#{bool_project_custom_field.name} set to Yes")
-      expect(page).to have_css("li", text: "#{user_project_custom_field.name} set to #{current_user.name}")
-      expect(page).to have_css("li", text: "#{int_project_custom_field.name} set to 42")
-      expect(page).to have_css("li", text: "#{float_project_custom_field.name} set to 3.14159")
-      expect(page).to have_css("li", text: "#{text_project_custom_field.name} set (Details)")
-      expect(page).to have_css("li", text: "#{string_project_custom_field.name} set to a new string CF value")
-      expect(page).to have_css("li", text: "#{date_project_custom_field.name} set to 01/31/2023")
+        # own fields
+        activity_page.expect_activity("Name changed from #{project_was.name} to #{project.name}")
+        activity_page.expect_activity("Description set (Details)")
+        activity_page.expect_activity("Project status set to On track")
+        activity_page.expect_activity("Project status description set (Details)")
+        activity_page.expect_activity("Visibility set to public")
+        activity_page.expect_activity("No longer subproject of #{parent_project.name}")
+        activity_page.expect_activity("Project unarchived")
+        activity_page.expect_activity("Identifier changed from #{project_was.identifier} " \
+                                      "to #{project.identifier}")
+        activity_page.expect_activity("Project marked as template")
+
+        # custom fields
+        activity_page.expect_activity("#{list_project_custom_field.name} " \
+                                      "set to #{project.send(list_project_custom_field.attribute_getter)}")
+        activity_page.expect_activity("#{version_project_custom_field.name} " \
+                                      "set to #{old_version[project].name}, #{next_version[project].name}")
+        activity_page.expect_activity("#{bool_project_custom_field.name} set to Yes")
+        activity_page.expect_activity("#{user_project_custom_field.name} set to #{current_user.name}")
+        activity_page.expect_activity("#{int_project_custom_field.name} set to 42")
+        activity_page.expect_activity("#{float_project_custom_field.name} set to 3.14159")
+        activity_page.expect_activity("#{text_project_custom_field.name} set (Details)")
+        activity_page.expect_activity("#{string_project_custom_field.name} set to a new string CF value")
+        activity_page.expect_activity("#{date_project_custom_field.name} set to 01/31/2023")
+      end
     end
   end
 
   describe "the general activities page" do
-    it "is expected to not show disabled attribute only on the project it was disabled on" do
-      previous_project_attributes = project.attributes.dup
+    let(:activity_page) { Pages::Activity.new }
+
+    let!(:project_was) { project.dup }
+
+    before do
       generate_trackable_activity_on_project(project)
       generate_trackable_activity_on_project(project2)
       # Disable all custom fields on the project
       project.project_custom_field_project_mappings.destroy_all
+    end
 
-      visit activity_index_path
+    it "is expected to not show disabled attribute only on the project it was disabled on" do
+      activity_page.visit!
 
-      check "Project attributes"
+      activity_page.show_details
 
-      click_on "Apply"
-
-      within("li.op-activity-list--item:nth-child(2)") do
-        expect(page)
-          .to have_link("Project: #{project.name}")
+      activity_page.within_journal(number: 2) do
+        activity_page.expect_link_to_project(project)
 
         # own fields
-        expect(page).to have_css("li", text: "Name changed from #{previous_project_attributes['name']} to #{project.name}")
-        expect(page).to have_css("li", text: "Description set (Details)")
-        expect(page).to have_css("li", text: "Project status set to On track")
-        expect(page).to have_css("li", text: "Project status description set (Details)")
-        expect(page).to have_css("li", text: "Visibility set to public")
-        expect(page).to have_css("li", text: "No longer subproject of #{parent_project.name}")
-        expect(page).to have_css("li", text: "Project unarchived")
-        expect(page).to have_css("li", text: "Identifier changed from #{previous_project_attributes['identifier']} " \
-                                             "to #{project.identifier}")
-        expect(page).to have_css("li", text: "Project marked as template")
+        activity_page.expect_activity("Name changed from #{project_was.name} to #{project.name}")
+        activity_page.expect_activity("Description set (Details)")
+        activity_page.expect_activity("Project status set to On track")
+        activity_page.expect_activity("Project status description set (Details)")
+        activity_page.expect_activity("Visibility set to public")
+        activity_page.expect_activity("No longer subproject of #{parent_project.name}")
+        activity_page.expect_activity("Project unarchived")
+        activity_page.expect_activity("Identifier changed from #{project_was.identifier} " \
+                                      "to #{project.identifier}")
+        activity_page.expect_activity("Project marked as template")
 
         # custom fields
-        expect(page).to have_no_css("li", text: "#{list_project_custom_field.name} " \
-                                                "set to #{project.send(list_project_custom_field.attribute_getter)}")
-        expect(page).to have_no_css("li", text: "#{version_project_custom_field.name} " \
-                                                "set to #{old_version[project].name}, #{next_version[project].name}")
-        expect(page).to have_no_css("li", text: "#{bool_project_custom_field.name} set to Yes")
-        expect(page).to have_no_css("li", text: "#{user_project_custom_field.name} set to #{current_user.name}")
-        expect(page).to have_no_css("li", text: "#{int_project_custom_field.name} set to 42")
-        expect(page).to have_no_css("li", text: "#{float_project_custom_field.name} set to 3.14159")
-        expect(page).to have_no_css("li", text: "#{text_project_custom_field.name} set to\na new text CF value")
-        expect(page).to have_no_css("li", text: "#{string_project_custom_field.name} set to a new string CF value")
-        expect(page).to have_no_css("li", text: "#{date_project_custom_field.name} set to 01/31/2023")
+        activity_page.expect_no_activity("#{list_project_custom_field.name} " \
+                                         "set to #{project.send(list_project_custom_field.attribute_getter)}")
+        activity_page.expect_no_activity("#{version_project_custom_field.name} " \
+                                         "set to #{old_version[project].name}, #{next_version[project].name}")
+        activity_page.expect_no_activity("#{bool_project_custom_field.name} set to Yes")
+        activity_page.expect_no_activity("#{user_project_custom_field.name} set to #{current_user.name}")
+        activity_page.expect_no_activity("#{int_project_custom_field.name} set to 42")
+        activity_page.expect_no_activity("#{float_project_custom_field.name} set to 3.14159")
+        activity_page.expect_no_activity("#{text_project_custom_field.name} set to\na new text CF value")
+        activity_page.expect_no_activity("#{string_project_custom_field.name} set to a new string CF value")
+        activity_page.expect_no_activity("#{date_project_custom_field.name} set to 01/31/2023")
       end
 
-      within("li.op-activity-list--item:nth-child(1)") do
-        expect(page)
-          .to have_link("Project: #{project2.name}")
+      activity_page.within_journal(number: 1) do
+        activity_page.expect_link_to_project(project2)
 
-        expect(page).to have_css("li", text: "#{int_project_custom_field.name} set to 42")
+        activity_page.expect_activity("#{int_project_custom_field.name} set to 42")
       end
     end
   end

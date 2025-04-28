@@ -61,12 +61,6 @@ class CustomFieldsController < ApplicationController
 
   protected
 
-  def default_breadcrumb; end
-
-  def show_local_breadcrumb
-    false
-  end
-
   def validate_enterprise_token
     if params.dig(:custom_field, :field_format) == "hierarchy" && !EnterpriseToken.allows_to?(:custom_field_hierarchies)
       render_403
@@ -75,8 +69,6 @@ class CustomFieldsController < ApplicationController
 
   def find_custom_field
     @custom_field = CustomField.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    render_404
   end
 
   def check_custom_field

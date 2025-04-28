@@ -32,9 +32,9 @@ RSpec.describe API::V3::WorkPackages::WorkPackagesByProjectAPI, content_type: :j
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
+  shared_let(:project) { create(:project_with_types, public: false) }
   let(:role) { create(:project_role, permissions:) }
   let(:permissions) { [:view_work_packages] }
-  let(:project) { create(:project_with_types, public: false) }
   let(:base_path) { api_v3_paths.work_packages_by_project project.id }
   let(:query) { {} }
   let(:path) { "#{base_path}?#{query.to_query}" }
@@ -210,11 +210,115 @@ RSpec.describe API::V3::WorkPackages::WorkPackagesByProjectAPI, content_type: :j
         laborCosts: "0.00 EUR",
         materialCosts: "0.00 EUR",
         overallCosts: "0.00 EUR",
+        percentageDone: nil,
         remainingTime: nil,
         storyPoints: nil
       }
 
       expect(subject.body).to be_json_eql(expected.to_json).at_path("totalSums")
+    end
+
+    describe "percentageDone/done_ratio sum" do
+      shared_let(:work_package) { create(:work_package, project:) }
+      shared_let(:work_packages) { [work_package] }
+
+      subject(:percentage_done_sum) { JSON.parse(last_response.body)["totalSums"]["percentageDone"] }
+
+      context "when work sum and remaining work sum are not set" do
+        it "is not set" do
+          expect(percentage_done_sum).to be_nil
+        end
+      end
+
+      context "when work sum and remaining work sum are set to valid values (W=10h, RW=4h)" do
+        before_all do
+          work_package.update_columns(estimated_hours: 10, remaining_hours: 4)
+        end
+
+        it "is calculated from them (60%)" do
+          expect(percentage_done_sum).to eq 60
+        end
+      end
+
+      context "when only work sum is set" do
+        before_all do
+          work_package.update_columns(estimated_hours: 10)
+        end
+
+        it "is not set" do
+          expect(percentage_done_sum).to be_nil
+        end
+      end
+
+      context "when only remaining work sum is set" do
+        before_all do
+          work_package.update_columns(remaining_hours: 4)
+        end
+
+        it "is not set" do
+          expect(percentage_done_sum).to be_nil
+        end
+      end
+
+      context "when work sum and remaining work sum are 0h" do
+        before_all do
+          work_package.update_columns(estimated_hours: 0, remaining_hours: 0)
+        end
+
+        it "is not set" do
+          expect(percentage_done_sum).to be_nil
+        end
+      end
+
+      context "when remaining work sum is greater than work sum (bad data, like W=10h RW=15h)" do
+        before_all do
+          work_package.update_columns(estimated_hours: 10, remaining_hours: 15)
+        end
+
+        it "is set to 0% (and not -50%)" do
+          expect(percentage_done_sum).to eq 0
+        end
+      end
+
+      context "when remaining work sum is 0h and work sum is positive" do
+        before_all do
+          work_package.update_columns(estimated_hours: 10, remaining_hours: 0)
+        end
+
+        it "is set to 100%" do
+          expect(percentage_done_sum).to eq 100
+        end
+      end
+
+      context "when calculated % complete sum is xx.5% (like 50.5% or 42.5%)" do
+        before_all do
+          work_package.update_columns(estimated_hours: 1000, remaining_hours: 495)
+        end
+
+        it "is rounded up (like 51% or 43%)" do
+          expect(percentage_done_sum).to eq 51
+        end
+      end
+
+      context "when calculated % complete sum is almost 0% (like 0.4% or 0.01%)" do
+        before_all do
+          work_package.update_columns(estimated_hours: 1000, remaining_hours: 999)
+        end
+
+        it "is rounded to 1% (because 0% would be wrong)" do
+          expect(percentage_done_sum).to eq 1
+        end
+      end
+
+      context "when % complete sum is almost 100% (like 99.5% or 99.99%)" do
+        before_all do
+          work_package.update_columns(estimated_hours: 1000, remaining_hours: 1)
+        end
+
+        it "is rounded to 99% (because 100% would be wrong)" do
+          expect(percentage_done_sum).to eq 99
+        end
+      end
     end
   end
 end

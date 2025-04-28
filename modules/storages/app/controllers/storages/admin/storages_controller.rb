@@ -79,7 +79,7 @@ class Storages::Admin::StoragesController < ApplicationController
     @target_step = @wizard.prepare_next_step
   end
 
-  def upsale; end
+  def upsell; end
 
   def create
     service_result = Storages::Storages::CreateService
@@ -213,12 +213,6 @@ class Storages::Admin::StoragesController < ApplicationController
     end
   end
 
-  def default_breadcrumb; end
-
-  def show_local_breadcrumb
-    false
-  end
-
   private
 
   def prepare_storage_for_access_management_form
@@ -274,7 +268,7 @@ class Storages::Admin::StoragesController < ApplicationController
 
   def require_ee_token_for_one_drive
     if ::Storages::Storage::one_drive_without_ee_token?(@provider_type)
-      redirect_to action: :upsale
+      redirect_to action: :upsell
     end
   end
 

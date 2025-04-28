@@ -91,7 +91,8 @@ el:
         name: Microsoft Entra
       custom:
         name: Custom
-      upsale:
+      upsell:
+        title: "Single Sign-On (SSO) with OpenID connect"
         description: Connect OpenProject to an OpenID connect identity provider
       label_add_new: Προσθήκη νέου παρόχου OpenID
       label_edit: Επεξεργασία παρόχου OpenID %{name}

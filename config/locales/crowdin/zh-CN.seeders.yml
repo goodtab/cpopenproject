@@ -34,16 +34,14 @@ zh-CN:
           name: 灰色（深）
         item_13:
           name: 黑色
-      life_cycle_colors:
+      project_phase_colors:
         item_0:
-          name: PM2 橙色
+          name: PM2 橙
         item_1:
-          name: PM2 紫色
+          name: PM2 红
         item_2:
-          name: PM2 红色
-        item_3:
           name: PM2 品红
-        item_4:
+        item_3:
           name: PM2 绿黄
       document_categories:
         item_0:
@@ -81,21 +79,18 @@ zh-CN:
         item_1:
           name: 默认全局角色
     standard:
-      life_cycles:
+      project_phases:
         item_0:
-          name: 正在启动
+          name: 启动中
         item_1:
-          name: 准备计划
-        item_2:
           name: 计划中
-        item_3:
-          name: 准备执行
-        item_4:
+          start_gate: 准备计划
+        item_2:
           name: 执行中
-        item_5:
-          name: 准备关闭
-        item_6:
+          start_gate: 准备执行
+        item_3:
           name: 关闭中
+          start_gate: 准备关闭
       priorities:
         item_0:
           name: 低
@@ -168,6 +163,7 @@ zh-CN:
 
                     可以在这里找到我们的 [用户指南](https://www.openproject.org/docs/user-guide/) 。
                     遇到任何问题或需要支持，请联系我们：[support@openproject.com](mailto:support@openproject.com)。
+
               item_5:
                 options:
                   name: 工作包
@@ -217,8 +213,8 @@ zh-CN:
             * 插入文本和图片，也可以从其他文档中复制和粘贴
             * 创建带父页面的页面层次结构
             * 在项目菜单中包含wiki页面
-            * 使用宏来包含，例如：目录、工作包列表或甘特图
-            * 在其他文本字段中包含wiki页面，例如：项目概览页面
+            * 使用宏来包含，例如：目录、工作包列表或甘特图 
+            * 在其他文本字段中包含wiki页面，例如：项目概览页面 
             * 包含指向其他文档的链接
             * 查看更改历史
             * 以 Markdown 格式查看
@@ -489,7 +485,7 @@ zh-CN:
         item_1:
           name: 里程碑
         item_2:
-          name: 阶段
+          name: 摘要任务
         item_3:
           name: 功能
         item_4:

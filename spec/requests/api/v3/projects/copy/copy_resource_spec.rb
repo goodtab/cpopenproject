@@ -138,7 +138,7 @@ RSpec.describe "API::V3::Projects::Copy::CopyAPI", content_type: :json, with_goo
       end
     end
 
-    describe "with restricted copying" do
+    describe "with internal copying" do
       let(:params) do
         { name: "My copied project",
           identifier: "my-copied-project",

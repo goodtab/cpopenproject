@@ -35,11 +35,20 @@ tr:
         label_sort_desc: "En üstte en yeni"
         label_type_to_comment: "Bir yorum ekleyin. Kişilere bildirmek için @ yazın."
         label_submit_comment: "Yorum gönder"
+        label_who: Kim?
         changed_on: "üzerinde değişti"
         created_on: "bunu oluşturdu"
         changed: "değişti"
         created: "oluşturuldu"
         commented: "yorumlandı"
+        internal_comment: Internal comment
+        internal_journal: Internal comments are visible to a limited group of members.
+        unsaved_changes_confirmation_message: You have unsaved changes. Are you sure you want to close the editor?
+        internal_comment_confirmation:
+          title: "Make this comment public?"
+          heading: "Make this comment public?"
+          description: "Your comment will be visible to anyone who can access this work package. Are you sure you want to do this?"
+          confirm_button_text: "Herkese aç"
   admin:
     plugins:
       no_results_title_text: Şu anda yüklü bir eklenti yok.
@@ -59,9 +68,6 @@ tr:
         main-menu-bg-selected-background: "Seçildiğinde ana menü"
         main-menu-bg-hover-background: "Fareyle üzerine gelindiğinde ana menü"
       custom_colors: "Özel renkler"
-      customize: "OpenProject kurulumunuzu kendi logonuz ve renklerinizle özelleştirin."
-      enterprise_notice: "OpenProject'in geliştirilmesine finansal destek verenlere özel olarak 'Teşekkür ederiz!'. Bu küçük özellik sadece Enterprise Sürüm alan destekçilerimize özeldir."
-      enterprise_more_info: "Not: Kullanılan logo herkese açık olacaktır."
       manage_colors: "Renk seçim seçeneklerini düzenle"
       instructions:
         primary-button-color: "Güçlü vurgu rengi, genellikle ekrandaki en önemli düğme için kullanılır."
@@ -171,7 +177,7 @@ tr:
       plain: "hiçbiri"
       simple_tls: "LDAPS"
       start_tls: "STARTTLS"
-      plain_description: "LDAP sunucusuna şifrelenmemiş bir bağlantı açar. Üretim için tavsiye edilmez."
+      plain_description: "LDAP sunucusuna şifrelenmemiş bir bağlantı açar. Canlı ortam için tavsiye edilmez."
       simple_tls_description: "LDAPS'yi kullanın. LDAP sunucusunda ayrı bir bağlantı noktası gerektirir. Bu mod genellikle kullanımdan kaldırılmıştır, mümkün olduğunda STARTTLS kullanmanızı öneririz."
       start_tls_description: "Standart LDAP bağlantı noktasına bağlandıktan sonra bir STARTTLS komutu gönderir. Şifreli bağlantılar için önerilir."
       section_more_info_link_html: >
@@ -211,9 +217,6 @@ tr:
     new: "Özel eylem ekle"
     edit: "Özel eylem %{name} Düzenle"
     execute: "%{name} yürütmek"
-    upsale:
-      title: "Özel eylemler"
-      description: "Özel eylemler, duruma, role, türe veya projeye göre belirli iş paketlerinde kullanıma sunabileceğiniz bir dizi önceden tanımlanmış eylemin tek tıkla kısayollarıdır."
   custom_fields:
     admin:
       custom_field_projects:
@@ -243,8 +246,6 @@ tr:
           zero: alt öğe yok
           one: 1 alt öğe
           other: "%{count} alt öğe"
-    upsale:
-      custom_field_format_hierarchy: "Need a hierarchy in your custom fields for work packages?"
     text_add_new_custom_field: >
       Bir projeye yeni özel alanlar eklemeden önce onları oluşturmalısınız.
     is_enabled_globally: "Genel için etkinleştirildi"
@@ -296,8 +297,9 @@ tr:
   global_search:
     placeholder: "%{app_title} içinde ara"
     overwritten_tabs:
-      wiki_pages: "Viki"
+      all: "Hepsi"
       messages: "Forum"
+      wiki_pages: "Viki"
   groups:
     index:
       no_results_title_text: Şu anda hiç grup bulunmamakta.
@@ -349,6 +351,18 @@ tr:
         heading: "Proje listesi silinsin mi?"
         text: "Bu eylem, listenin içerdiği hiçbir projeyi silmeyecektir. Bu proje listesini silmek istediğinizden emin misiniz?"
     settings:
+      public_warning: >
+        This project is public. Anyone who has access to this instance will be able to view and interact with this project depending on their role and associated permissions. Sub-projects are not affected and have their own settings.
+      public_confirmation:
+        checkbox: "I understand that this will make the previously private content public"
+        title: "Make this project public?"
+        description: >
+          Anyone who has access to this instance will be able to view and interact with this project depending on their role and authentication settings. Sub-projects are not affected and have their own settings.
+      private_confirmation:
+        checkbox: "I understand that this will make the previously public content private."
+        title: "Make this project private?"
+        description: >
+          The project will only be visible to project members depending on their role and associated permissions. Sub-projects are not affected and have their own settings.
       change_identifier: Tanımlayıcıyı değiştir
       actions:
         label_enable_all: "Tümünü etkinleştir"
@@ -365,14 +379,14 @@ tr:
         no_results_title_text: Şu anda kullanılabilir özel alan bulunmamakta.
       life_cycle:
         header:
-          title: "Proje yaşam döngüsü"
-          description_html: 'Proje yaşam döngüsündeki bu proje aşamaları ve kapıları <a href=%{overview_url} target="_blank">projeye genel bakış sayfası</a>nda görüntülenir ve kurulumun yöneticisi tarafından <a href=%{admin_settings_url} target="_blank">yönetim ayarları</a> içinde tanımlanır. Öznitelikleri tek tek etkinleştirebilir veya devre dışı bırakabilirsiniz.'
-        non_defined: "Şu anda ne aşamalar ne de kapılar tanımlanmıştır."
-        section_header: "Aşamalar ve kapılar"
+          title: "Project life cycle"
+          description_html: "The active project phases define this project's life cycle and are defined in the <a href=%{admin_settings_url} target=\"_blank\">administration settings</a>. Enabled phases will be displayed in your <a href=%{overview_url} target=\"_blank\">project overview</a>."
+        non_defined: "No phases are currently defined."
+        section_header: "Phases"
         step:
           use_in_project: "Use %{step} in this project"
         filter:
-          label: "Proje aşaması veya kapısı ara"
+          label: "Search project phase"
       project_custom_fields:
         header:
           title: "Proje öznitelikleri"
@@ -381,7 +395,7 @@ tr:
           label: "Proje özniteliğini ara"
         actions:
           label_enable_single: "Active in this project, click to disable"
-          label_disable_single: "Inactive in this project, click to enable"
+          label_disable_single: "Bu projede kapalı, açmak için tıklayın"
           remove_from_project: "Projeden kaldır"
         is_required_blank_slate:
           heading: Tüm projelerde zorunludur
@@ -397,20 +411,20 @@ tr:
         no_results_title_text: Bu proje tarafından tüketilen ek kayıtlı disk alanı yoktur.
       work_package_priorities:
         new_label: "Yeni öncelik"
-  project_stage:
+  project_phase:
     working_days_count:
-      one: "Duration: %{count} working day"
-      other: "Duration: %{count} working days"
+      one: "Süre: %{count} iş günü"
+      other: "Süre: %{count} iş günü"
   lists:
     create:
-      success: "The modified list has been saved as a new list"
-      failure: "The modified list cannot be saved: %{errors}"
+      success: "Değiştirilen liste yeni bir liste olarak kaydedildi"
+      failure: "Değiştirilen liste kaydedilemedi: %{errors}"
     update:
       success: "Değiştirilen liste kaydedildi"
-      failure: "The modified list cannot be saved: %{errors}"
+      failure: "Değiştirilen liste kaydedilemedi: %{errors}"
     publish:
       success: "Liste herkese açık hale getirildi"
-      failure: "The list cannot be made public: %{errors}"
+      failure: "Liste herkese açık yapılamadı: %{errors}"
     unpublish:
       success: "Liste gizli hale getirildi"
       failure: "The list cannot be made private: %{errors}"
@@ -540,10 +554,6 @@ tr:
         Yer tutucu kullanıcının adının geçtiği her şey (örn. devralan, sorumlu veya diğer kullanıcı değerleri) "Silinmiş Kullanıcı" olarak anılan bir hesaba atanacaktır. Silinmiş tüm hesapların bilgileri bu hesaba atandığından bu kullanıcının oluşturduğu veriler başka bir silinmiş hesap tarafından oluşturulmuş verilerden ayrılamaz.
       irreversible: "Bu işlem geri alınamaz"
       confirmation: "Silme işlemini onaylamak için yer tutucu %{name} ismini girin."
-    upsale:
-      title: Yer tutucu kullanıcı
-      description: >
-        Yer tutucu kullanıcılar, projenizin parçası olmayan kullanıcılara iş paketleri atamanın bir yoludur. Bir dizi senaryoda yararlı olabilirler; örneğin, henüz adlandırılmamış veya mevcut olmayan bir kaynak için görevleri izlemeniz gerekiyorsa veya o kişiye OpenProject'e erişim izni vermek istemiyorsanız ancak yine de kendilerine atanan görevleri izlemek istiyorsanız.
   prioritiies:
     edit:
       priority_color_text: |
@@ -599,8 +609,6 @@ tr:
     edit:
       form_configuration:
         tab: "Form yapılandırması"
-      more_info_text_html: >
-        Enterprise sürümü, form yapılandırmasını şu ek eklentilerle özelleştirmenize olanak tanır: <br> <ul class="%{list_styling_class}"> <li><b>Yeni özellik grupları ekleyin</b></li> <li> <b>Öznitelik gruplarını yeniden adlandırın</b></li> <li><b>İlgili iş paketleri tablosu ekleyin</b></li> </ul>
       projects:
         tab: "Projeler"
         enabled_projects: "Etkin projeler"
@@ -617,10 +625,14 @@ tr:
           caption: "İş paketi konularını otomatik olarak oluşturmak için başvurulan öznitelikleri ve metni kullanarak bir kalıp tanımlayın. Kullanıcılar konuları elle düzenleyemeyecektir."
         pattern:
           label: "Konu deseni"
-          caption: "Search for an attribute or add text. To create a space between elements add it as a text."
-          insert_as_text: "\"%{word}\" metni olarak ekle"
+          caption: "Add text or type / to search for an attribute. You can add spaces to separate them."
+          headings:
+            work_package: "İş paketi"
+            parent: "Üst"
+            project: "Proje"
+          insert_as_text: "No attributes found. Add as text: \"%{word}\""
       export_configuration:
-        tab: "PDF oluştur"
+        tab: "PDF oluşturma"
         intro: "Select which templates from those that are available you would like to enable for this type. The template determines the design and attributes visible in the exported PDF of a work package using this type. The first template on the list is selected by default."
         pdf_export_templates:
           label: "PDF Dışa Aktarma şablonları"
@@ -751,9 +763,9 @@ tr:
       follows_description: "Bu iş paketinin başlayabilmesi için ilgili iş paketinin mutlaka bitmesi gerekir"
       label_child_singular: "alt"
       label_child_plural: "alt"
-      new_child: "Yeni alt"
+      new_child: "Yeni alt birim oluştur"
       new_child_text: "Geçerli (ana) iş paketinin bir alt öğesi olarak ilgili bir iş paketi oluşturur"
-      existing_child: "Mevcut alt"
+      child: "Alt"
       child_description: "İlgili iş paketini geçerli (ana) iş paketinin bir alt öğesi yapar"
       label_closest: "En yakın"
       label_blocks_singular: "engelleyen"
@@ -945,17 +957,23 @@ tr:
       project_custom_field:
         is_required: "Tüm projelerde zorunludur"
         custom_field_section: Bölüm
-      project/life_cycle_step:
+      project/phase:
+        date_range: "Tarih aralığı"
         definition: "Tanım"
-      project/life_cycle_step_definition:
+      project/phase_definition:
         name: "İsim"
         color: "Renk"
+        start_gate: "Start phase gate"
+        start_gate_name: "Start phase gate name"
+        finish_gate: "Finish phase gate"
+        finish_gate_name: "Finish phase gate name"
       query:
         sums: "Toplam"
         columns: "Sütunlar"
         column_names: "Sütunlar"
         relations_to_type_column: "%{type} ile ilişkileri"
         relations_of_type_column: "%{type} ilişkiler"
+        child_work_packages: "Child work packages"
         group_by: "Sonuçları grupla"
         sort_by: "Sonuçları şuna göre sırala"
         filters: "Filtreler"
@@ -1034,6 +1052,7 @@ tr:
         consented_at: "Rızanın alınması"
       user_preference:
         comments_sorting: "Yorumları görüntüle"
+        dismissed_enterprise_banners: "Hidden enterprise banners"
         impaired: "Erişilebilirlik modu"
         auto_hide_popups: "Başarılı bildirimleri otomatik olarak gizle"
         warn_on_leaving_unsaved: "İş paketlerinden ayrılırken kaydedilmemiş değişiklik olduğunda beni uyar"
@@ -1050,7 +1069,9 @@ tr:
       wiki_page:
         parent_title: "Üst sayfa"
         redirect_existing_links: "Varolan bağlantıları yönlendirme"
+        text: "Page content"
       work_package:
+        ancestor: "Descendants of" #used for filtering of work packages that are descendants of a given work package
         begin_insertion: "Eklemeye başlama"
         begin_deletion: "Silme işleminin başlangıcı"
         children: "Alt öğeler"
@@ -1066,6 +1087,7 @@ tr:
           title: "İş Günleri"
           false: "Sadece iş günleri"
           true: "çalışılmayan günleri dahil et"
+        journal_internal: Internal Journal
         notify: "Bildirim" #used in custom actions
         parent: "Üst"
         parent_issue: "Üst"
@@ -1109,6 +1131,7 @@ tr:
         empty: "boş olamaz."
         even: "çift olmalı."
         exclusion: "ayrılmıştır."
+        feature_disabled: is not available.
         file_too_large: "çok büyük (en büyük boyut %{count} bayt)."
         filter_does_not_exist: "Filtre mevcut değil"
         format: "Beklenen biçim '%{expected}' ile eşleşmiyor."
@@ -1245,42 +1268,12 @@ tr:
           attributes:
             project_ids:
               blank: "Lütfen bir proje seçin."
-        project/life_cycle_step_definition:
-          attributes:
-            type:
-              must_be_a_stage_or_gate: "Project::StageDefinition veya Project::GateDefinition olmalıdır"
-              type_and_class_name_mismatch: "örneklenen sınıf adıyla eşleşmelidir"
-        project/gate_definition:
-          attributes:
-            type:
-              type_and_class_name_mismatch: "bir Project::GateDefinition olmalıdır"
-        project/stage_definition:
-          attributes:
-            type:
-              type_and_class_name_mismatch: "bir Project::StageDefinition olmalıdır"
-        project/life_cycle_step:
-          attributes:
-            type:
-              must_be_a_stage_or_gate: "Project::Stage veya Project::Gate olmalıdır"
-              must_be_a_stage: "bir Project::Stage olmalıdır"
-              must_be_a_gate: "bir Project::Gate olmalıdır"
-              type_and_class_name_mismatch: "örneklenen sınıf adıyla eşleşmelidir"
-        project/gate:
-          attributes:
-            base:
-              end_date_not_allowed: "Cannot assign end date to a Project::Gate"
-            type:
-              type_and_class_name_mismatch: "bir Project::Gate olmalıdır"
-            date:
-              non_continuous_dates: "can't be earlier than the previous %{step}'s end date."
-        project/stage:
+        project/phase:
           attributes:
             date_range:
-              start_date_must_be_before_end_date: "start date must be before the end date."
-              non_continuous_dates: "can't be earlier than the previous %{step}'s end date."
+              start_date_must_be_before_finish_date: "start date must be before the finish date."
+              non_continuous_dates: "can't be earlier than the previous phase's end date."
               incomplete: "tamamlanmamıştır."
-            type:
-              type_and_class_name_mismatch: "bir Project::Stage olmalıdır"
         query:
           attributes:
             project:
@@ -1315,6 +1308,10 @@ tr:
             values:
               inclusion: "filtrede geçersiz değerler var."
               format: "%{message}"
+        queries/principals/filters/internal_mentionable_on_work_package_filter:
+          attributes:
+            values:
+              single_value_requirement: "must be a single work package"
         relation:
           typed_dag:
             circular_dependency: "İlişki, bir ilişki çemberi oluşturur."
@@ -1511,8 +1508,6 @@ tr:
         other: "Bildirimler"
       placeholder_user: "Yer tutucu kullanıcı"
       project: "Proje"
-      project/gate_definition: "Kapı"
-      project/stage_definition: "Aşama"
       project_query:
         one: "Proje listesi"
         other: "Proje listesi"
@@ -1571,11 +1566,19 @@ tr:
       changeset: "Değişiklik listeleri"
       message: "Forumlar"
       news: "Haberler"
-      project_attribute: "Proje öznitelikleri"
+      project_details: "Proje detayları"
       subproject: "Alt projeleri dahil et"
       time_entry: "Harcanan zaman"
       wiki_edit: "Rehber"
       work_package: "İş paketleri"
+    project_phase:
+      activated: "etkinleştirildi"
+      deactivated: "devre dışı bırakmak"
+      added_date: "%{date} tarihine ayarlandı"
+      changed_date: "changed from %{from} to %{to}"
+      removed_date: "date deleted %{date}"
+      phase_and_one_gate: "%{phase_message}. %{gate_message}"
+      phase_and_both_gates: "%{phase_message}. %{start_gate_message}, and %{finish_gate_message}"
   #common attributes of all models
   attributes:
     active: "Aktif"
@@ -1817,7 +1820,8 @@ tr:
     text:
       failed: '"%{source_project_name}" project "%{target_project_name}" projesine kopyalanamadı.'
       succeeded: '"%{source_project_name}" projesini "%{target_project_name}" dosyasına kopyaladı.'
-  create_new_page: "Viki sayfası"
+  create_wiki_page: "Create new wiki page"
+  create_wiki_page_button: "Viki sayfası"
   date:
     abbr_day_names:
       - "Pzr"
@@ -1969,17 +1973,77 @@ tr:
   #Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
   direction: soldan sağa
   ee:
-    upsale:
+    features:
+      baseline_comparison: Baseline Comparisons
+      board_view: Advanced Boards
+      conditional_highlighting: Koşullu Vurgulama
+      internal_comments: Internal Comments
+      custom_actions: Özel Eylemler
+      custom_field_hierarchies: Custom fields of type hierarchy
+      customize_life_cycle: Yaşam Döngüsünü Özelleştir
+      date_alerts: Tarih Uyarıları
+      define_custom_style: Custom theme and logo
+      edit_attribute_groups: Özellik Grubunu Düzenleme
+      gantt_pdf_export: Gantt PDF Dışa Aktarma
+      grid_widget_wp_graph: İş Paketi Grafiği Bileşenleri
+      ldap_groups: LDAP users and group sync
+      one_drive_sharepoint_file_storage: OneDrive/SharePoint Dosya Depolama
+      placeholder_users: Yer Tutucu Kullanıcılar
+      project_list_sharing: Proje Listesi Paylaşımı
+      readonly_work_packages: Salt Okunur İş Paketleri
+      sso_auth_providers: Single sign-on
+      team_planner_view: Takım Planlayıcı Görünümü
+      two_factor_authentication: 2FA Authentication
+      virus_scanning: Antivirus Scanning
+      work_package_query_relation_columns: İş Paketi Sorgu İlişkisi Sütunları
+      work_package_sharing: Share work packages with external users
+      work_package_subject_generation: İş Paketi Konu Üretimi
+    upsell:
       title: "Kurumsal eklenti"
-      link_title: "Daha fazla bilgi"
-      automatic_subject_generation:
+      plan_title: "Enterprise %{plan} add-on"
+      plan_name: "%{plan} enterprise plan"
+      plan_text_html: "Available starting with the %{plan_name}."
+      hide_banner: "Hide this banner"
+      baseline_comparison:
+        description: Geçmişte herhangi bir noktadan bu yana bu listede yapılan değişiklikleri vurgulayın.
+      work_package_subject_generation:
         description: "Referens öznitelikleri ve metni kullanarak otomatik konular oluşturun."
       customize_life_cycle:
-        description: "PM2 proje döngüsü planlaması tarafından sağlananlardan farklı proje aşamaları ve kapıları oluşturun ve düzenleyin."
-      form_configuration:
-        description: "Bu ek eklentilerle form yapılandırmasını özelleştirin:"
-        add_groups: "Yeni öznitelik grubu ekleyin"
-        rename_groups: "Öznitelik grubunun adını değiştirin"
+        description: "Create and organize different project phases than the ones provided by PM2 project cycle planning."
+      conditional_highlighting:
+        description: "Need certain work packages to stand out from the mass? Use conditional highlighting in the work packages table."
+      work_package_query_relation_columns:
+        description: "Need to see relations or child elements in the work package list?"
+      edit_attribute_groups:
+        description: "Customize form configuration with these additional add-ons:"
+        features:
+          groups: "Yeni öznitelik grubu ekleyin"
+          rename: "Rename attribute groups"
+          related: "Add a table of related work packages"
+      readonly_work_packages:
+        description: "Mark work packages as read-only for specific statuses."
+      custom_field_hierarchies:
+        description: "Hierarchy custom fields allow organizing hierarchical structures in work packages by making use of multi-level select lists."
+      date_alerts:
+        description: "Tarih uyarıları ile yaklaşan başlangıç veya bitiş tarihleri hakkında bilgilendirileceksiniz, böylece önemli bir teslim tarihini asla kaçırmaz veya unutmazsınız."
+      work_package_sharing:
+        description: "İş paketlerini proje üyesi olmayan kullanıcılarla paylaşın."
+      define_custom_style:
+        title: "Custom color theme and logo"
+        more_info: "Not: Kullanılan logo herkese açık olacaktır."
+        description: OpenProject kurulumunuzu kendi logonuz ve renklerinizle özelleştirin.
+      custom_actions:
+        title: "Özel eylemler"
+        description: "Özel eylemler, duruma, role, türe veya projeye göre belirli iş paketlerinde kullanıma sunabileceğiniz bir dizi önceden tanımlanmış eylemin tek tıkla kısayollarıdır."
+      virus_scanning:
+        description: "OpenProject'te yüklenen dosyaların diğer kullanıcılar tarafından erişilmeden önce virüslere karşı tarandığından emin olun."
+      placeholder_users:
+        title: Yer tutucu kullanıcı
+        description: >
+          Yer tutucu kullanıcılar, projenizin parçası olmayan kullanıcılara iş paketleri atamanın bir yoludur. Bir dizi senaryoda yararlı olabilirler; örneğin, henüz adlandırılmamış veya mevcut olmayan bir kaynak için görevleri izlemeniz gerekiyorsa veya o kişiye OpenProject'e erişim izni vermek istemiyorsanız ancak yine de kendilerine atanan görevleri izlemek istiyorsanız.
+      internal_comments:
+        title: "For your eyes only"
+        description: "Internal comments allow an internal team to communicate amongst themselves privately. These are only visible to certain project roles and will never be visible publicly."
   enumeration_activities: "Zaman izleme faaliyetleri"
   enumeration_work_package_priorities: "İş paketi öncelikleri"
   enumeration_reported_project_statuses: "Bildirilen proje durumları"
@@ -2045,7 +2109,7 @@ tr:
     changeset: "Değişiklikler düzenlendi"
     message: Mesaj düzenlendi
     news: Haberler
-    project_attributes: "Proje öznitelikleri düzenlendi"
+    project_details: "Project details edited"
     project: "Proje düzenlendi"
     projects: "Proje düzenlendi"
     reply: Yanıtlandı
@@ -2061,6 +2125,8 @@ tr:
     dialog:
       title: "Dışarı aktar"
       submit: "Dışarı aktar"
+      save_export_settings:
+        label: "Save settings"
       format:
         label: "Dosya biçimi"
         options:
@@ -2124,6 +2190,8 @@ tr:
     your_work_packages_export: "İş paketleri dışa aktarılıyor"
     succeeded: "Dışa aktarma tamamlandı"
     failed: "İş paketlerini dışa aktarmaya çalışırken bir hata oluştu: %{message}"
+    errors:
+      embedded_table_with_too_many_columns: "This embedded work package table could not fit on the page, please reduce the number of columns."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -2152,7 +2220,7 @@ tr:
       label: "Sözleşme"
       caption: Standart Alman sözleşme formuna göre biçimlendirilmiş iş paketi ayrıntıları.
     dialog:
-      title: PDF Oluştur
+      title: PDF oluştur
       submit: İndir
       templates:
         label: "Şablon"
@@ -2168,6 +2236,12 @@ tr:
         caption: Daha iyi düzen ve hizalama için kelimeleri böl.
       hyphenation_language:
         label: Dil ve heceleme
+      page_orientation:
+        label: Page orientation
+        caption: Select the orientation of the pages in the PDF document.
+        options:
+          portrait: Portrait
+          landscape: Landscape
   extraction:
     available:
       pdftotext: "Pdftotext kullanılabilir (isteğe bağlı)"
@@ -2196,9 +2270,8 @@ tr:
       users: "Bu bölümdeki kaydolan en son kullanıcılar."
     blocks:
       community: "OpenProject topluluğu"
-      upsale:
+      upsell:
         title: "Enterprise sürümüne yükseltin"
-        more_info: "Daha fazla bilgi"
     links:
       upgrade_enterprise_edition: "Enterprise sürümüne yükseltin"
       postgres_migration: "Kurulumunuzu PostgreSQL'e taşıyın"
@@ -2675,6 +2748,7 @@ tr:
   label_modules: "Modüller"
   label_months_from: "aydan itibaren"
   label_more: "Diğer"
+  label_more_information: "Daha fazla bilgi"
   label_more_than_ago: "günler önce"
   label_move_column_left: "Sütunu sola taşı"
   label_move_column_right: "Sütunu sağa taşı"
@@ -2712,7 +2786,7 @@ tr:
   label_none_parentheses: "(yok)"
   label_not_contains: "içermiyor"
   label_not_equals: "değildir"
-  label_life_cycle_step_plural: "Proje yaşam döngüsü"
+  label_life_cycle_step_plural: "Project life cycle"
   label_on: "açık"
   label_operator_all: "boş değil"
   label_operator_none: "boş"
@@ -2774,7 +2848,7 @@ tr:
   label_project_new: "Yeni proje"
   label_project_plural: "Projeler"
   label_project_list_plural: "Proje listesi"
-  label_project_lifecycle: "Proje yaşam döngüsü"
+  label_project_life_cycle: "Project life cycle"
   label_project_attributes_plural: "Proje öznitelikleri"
   label_project_custom_field_plural: "Proje öznitelikleri"
   label_project_settings: "Proje ayarları"
@@ -3233,6 +3307,7 @@ tr:
   notice_successful_delete: "Silme başarılı."
   notice_successful_cancel: "Successful cancellation."
   notice_successful_update: "Güncelleme başarılı."
+  notice_unsuccessful_update: "Update failed."
   notice_successful_update_custom_fields_added_to_project: |
     Başarılı güncelleme. Etkinleştirilen türlerin özel alanları, iş paketi formunda otomatik olarak etkinleştirilir. <a href="%{url}" target="_blank">Daha fazlasını görün</a>.
   notice_to_many_principals_to_display: "Çok fazla sonuç var. Yeni üyenin (veya grubun) adını yazarak aramayı daraltın."
@@ -3267,15 +3342,16 @@ tr:
           tb: "TB"
   onboarding:
     heading_getting_started: "Genel görünümü al"
-    text_getting_started_description: "OpenProject ile proje yönetimi ve ekip işbirliği hakkında hızlı bir genel bakış elde edin. Bu videoyu yardım menüsünden yeniden başlatabilirsiniz."
+    text_getting_started_description: "OpenProject ile proje yönetimi ve ekip çalışması konusunda genel bir fikir edinin. Bu videoyu yardım menüsünden yeniden başlatabilirsiniz."
     welcome: "%{app_title}'e hoş geldiniz"
     select_language: "Lütfen dilinizi seçin"
-  permission_add_work_package_notes: "Yorum ekle"
+  permission_add_work_package_comments: "Yorum ekle"
   permission_add_work_packages: "İş paketi eklemek"
   permission_add_messages: "İleti göndermek"
   permission_add_project: "Proje oluşturma"
   permission_add_work_package_attachments: "Dosya Ekle"
   permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
+  permission_add_internal_comments: "Write internal comments"
   permission_archive_project: "Projeyi arşivle"
   permission_create_user: "Kullanıcı oluşturma"
   permission_manage_user: "Kullanıcı düzenleme"
@@ -3300,16 +3376,19 @@ tr:
   permission_delete_timelines: "Zaman akışını silmek"
   permission_delete_wiki_pages: "Wiki sayfalarını silmek"
   permission_delete_wiki_pages_attachments: "Ekleri silmek"
-  permission_edit_work_package_notes: "Yorumları denetle"
-  permission_edit_work_package_notes_explanation: "Caution: Users with this permission are able to edit anyone's comment."
+  permission_edit_work_package_comments: "Yorumları denetle"
+  permission_edit_work_package_comments_explanation: "Caution: Users with this permission are able to edit anyone's comment."
   permission_edit_work_packages: "İş paketlerini düzenlemek"
   permission_edit_messages: "İletileri düzenlemek"
-  permission_edit_own_work_package_notes: "Kendi notlarını düzenleme"
+  permission_edit_own_internal_comments: "Edit own internal comments"
+  permission_edit_own_work_package_comments: "Kendi notlarını düzenleme"
   permission_edit_own_messages: "Kendi iletilerini düzenlemek"
   permission_edit_own_time_entries: "Kendi zaman kayıtlarını düzenlemek"
+  permission_edit_others_internal_comments: "Moderate internal comments"
+  permission_edit_others_internal_comments_explanation: "Caution: Users with this permission are able to edit other users' internal comments."
   permission_edit_project: "Proje düzenleme"
   permission_edit_project_attributes: "Proje özniteliklerini düzenleme"
-  permission_edit_project_stages_and_gates: "Edit project stages and gates"
+  permission_edit_project_phases: "Edit project phases"
   permission_edit_reportings: "Raporlamayı düzenlemek"
   permission_edit_time_entries: "Diğer kullanıcılar için zaman günlüklerini düzenleyin"
   permission_edit_timelines: "Zaman akışını düzenlemek"
@@ -3339,14 +3418,15 @@ tr:
   permission_search_project: "Projeyi ara"
   permission_select_custom_fields: "Özel alanları seçin"
   permission_select_project_custom_fields: "Select project attributes"
-  permission_select_project_life_cycle: "Select project stages and gates"
-  permission_select_project_life_cycle_explanation: "Activate/Deactivate the stages and gates in a project. Enables the user to select the lifecycle appropriate for the project as inactive stages and gates will not be visible in the project overview page nor the project list."
+  permission_select_project_phases: "Select project phases"
+  permission_select_project_phases_explanation: "Activate/Deactivate the phases in a project. Enables the user to select the life cycle appropriate for the project as inactive phases will not be visible in the project overview page nor the project list."
   permission_select_project_modules: "Proje modülleri seçmek"
   permission_share_work_packages: "İş paketini paylaşma"
   permission_manage_types: "İş paketi türlerini seçmek"
   permission_manage_own_reminders: "Kendi hatırlatıcısını oluşturma"
   permission_view_project: "Projeleri görüntüleme"
   permission_view_changesets: "OpenProject'de depo revizyonlarını görüntüle"
+  permission_view_internal_comments: "View internal comments"
   permission_view_commit_author_statistics: "Yazar istatistiklerini inceleyin"
   permission_view_dashboards: "Gösterge panellerini gösterme"
   permission_view_work_package_watchers: "Takip eden listesini göster"
@@ -3365,7 +3445,7 @@ tr:
   permission_work_package_assigned_explanation: "İşpaketleri bağlı projedeki rollere göre kullanıcı ve gruplara atanabilir"
   permission_view_project_activity: "Proje faaliyetlerini görüntüleme"
   permission_view_project_attributes: "Proje özniteliklerini görüntüleme"
-  permission_view_project_stages_and_gates: "Proje aşamalarını ve kapılarını görüntüleyin"
+  permission_view_project_phases: "View project phases"
   permission_save_bcf_queries: "BCF sorgularını kaydetme"
   permission_manage_public_bcf_queries: "Genel BCF sorgularını yönetme"
   permission_edit_attribute_help_texts: "Öznitelik yardım metinlerini düzenleme"
@@ -3391,9 +3471,9 @@ tr:
       subprojects_confirmation: "Alt projeleri:% {value} de silinecek. %{value}"
       title: "% {Name} adlı projeyi sil %{name}"
     filters:
-      life_cycle_any: "Lifecycle: Any stage or gate"
-      life_cycle_stage: "Lifecycle stage: %{stage}"
-      life_cycle_gate: "Lifecycle gate: %{gate}"
+      project_phase: "Project phase: %{phase}"
+      project_phase_any: "Project phase: Any"
+      project_phase_gate: "Project phase gate: %{gate}"
     identifier:
       warning_one: Projenin üyeleri, projenin depoları yeniden yerleştirmek zorunda kalacaklardır.
       warning_two: Projeye mevcut bağlantılar artık çalışmayacaktır.
@@ -3538,6 +3618,9 @@ tr:
     manual: "Elle ayarla"
     automatic: "Otomatik ayarla"
   search_input_placeholder: "Ara ..."
+  setting_allowed_link_protocols: "Allowed link protocols"
+  setting_allowed_link_protocols_text_html: >-
+    Allow these protocols to be rendered as links in work package descriptions, long text fields and comments. For example, %{tel_code} or %{element_code}. Enter one protocol per line. <br/> Protocols %{http_code}, %{https_code}, and %{mailto_code} are always allowed.
   setting_after_first_login_redirect_url: "İlk giriş yönlendirmesi"
   setting_after_first_login_redirect_url_text_html: >
     Set a path to redirect users after their first login. If empty, redirects to the home page for the onboarding tour. <br/> Example: <code>/my/page</code>
@@ -3674,6 +3757,8 @@ tr:
   setting_repository_truncate_at: "Depo tarayıcıda görüntülenen dosya sayısı üst sınırı"
   setting_rest_api_enabled: "REST web hizmetini etkinleştir"
   setting_self_registration: "Kendi kendine kayıt"
+  setting_self_registration_warning: >
+    The user will be able to activate their own accounts. Please note that this will give them access to all public projects and their content. Please make sure that no sensitive or private data is exposed in public projects.
   setting_session_ttl: "Hareketsizlikten sonra oturum son kullanma süresi"
   setting_session_ttl_hint: "5'in altındaki değer, devre dışı gibi"
   setting_session_ttl_enabled: "Oturum sona eriyor"
@@ -3718,8 +3803,6 @@ tr:
         Remaining files have been scanned. There are %{file_count} in quarantine. You are being redirected to the quarantine page. Use this page to delete or override quarantined files.
       remaining_rescanned_files: >
         Virüs taraması başarıyla etkinleştirildi. Daha önce yüklenen ve hala taranması gereken %{file_count} var. Bu işlem arka planda zamanlandı. Dosyalar tarama sırasında erişilebilir kalacaktır.
-      upsale:
-        description: "OpenProject'te yüklenen dosyaların diğer kullanıcılar tarafından erişilmeden önce virüslere karşı tarandığından emin olun."
       actions:
         delete: "Dosya sil"
         quarantine: "Dosyayı karantinaya al"
@@ -3770,27 +3853,27 @@ tr:
       new:
         heading: "Yeni öznitelik"
         description: "Changes to this project attribute will be reflected in all projects where it is enabled. Required attributes cannot be disabled on a per-project basis."
-    project_life_cycle_step_definitions:
-      heading: "Proje yaşam döngüsü"
-      heading_description: "Proje yaşam döngüsü, projelerinizi yapılandıran aşamalardan ve kapılardan oluşur. Bunlar bir projenin genel bakış sayfasında görünecek ve projeler listesinde bulunacaktır. Bir projeyi özelleştirmek için tek tek aşamalar ve kapılar seçilebilir, ancak proje düzeyinde yeniden sıralama mümkün değildir."
+    project_phase_definitions:
+      heading: "Project life cycle"
+      heading_description: "Project life cycle define the project phases that can be used for your project planning and will appear in the overview page of each project. These attributes can be enabled or disabled but not re-ordered at a project level."
       label_add: "Ekle"
-      label_add_description: "Yaşam döngüsü tanımı ekleyin"
-      label_add_stage: "Aşama"
-      label_add_gate: "Kapı"
+      label_add_description: "Add project phase definition"
       filter:
-        label: "Proje aşaması veya kapısı ara"
-      section_header: "Aşamalar ve kapılar"
-      non_defined: "Şu anda ne aşamalar ne de kapılar tanımlanmıştır."
+        label: "Search project phase"
+      section_header: "Phases"
+      non_defined: "No phases are currently defined."
+      phase_gates: "Phase gates"
       new:
-        description: "Bu proje adımında yapılan değişiklikler, etkin olduğu tüm projelere yansıtılacaktır."
-      new_stage:
-        heading: "Yeni aşama"
-      new_gate:
-        heading: "Yeni kapı"
-      edit_stage:
-        heading: "Aşamayı düzenle"
-      edit_gate:
-        heading: "Kapıyı düzenle"
+        description: "Changes to this project phase will be reflected in all projects where it is enabled."
+        heading: "New Phase"
+      edit:
+        heading: "Edit Phase"
+      both_gate: "Start and finish gate"
+      no_gate: "No gate"
+      start_gate: "Start gate"
+      start_gate_caption: "Add a gate with the start date of the phase"
+      finish_gate: "Finish gate"
+      finish_gate_caption: "Add a gate with the end date of the phase"
     projects:
       missing_dependencies: "%{dependencies} bağımlılıkları olan %{module} proje modülü kontrol edildi. Bu bağımlılıkları da kontrol etmeniz gerekir."
       section_new_projects: "Yeni projeler için ayarlar"
@@ -3804,10 +3887,10 @@ tr:
       section_work_week: "Çalışma Haftası"
       section_holidays_and_closures: "Tatiller ve kapanışlar"
     work_packages:
-      categories_tab: "Categories"
-      custom_fields_tab: "Custom Fields"
-      types_tab: "Types"
       not_allowed_text: "You do not have the necessary permissions to view this page."
+      activities:
+        enable_internal_comments: "Enable internal comments"
+        helper_text: "Internal comments allow an internal team to communicate amongst themselves privately. These are only visible to selected roles that have the necessary permissions and will not be visible publicly. %{link}"
   text_formatting:
     markdown: "Markdown"
     plain: "Düz yazı"
@@ -3829,7 +3912,7 @@ tr:
   text_are_you_sure_continue: "Devam etmek istediğinize emin misiniz?"
   text_are_you_sure_with_children: "Sil iş paketi ve tüm alt çalışma paketlerini?"
   text_are_you_sure_with_project_custom_fields: "Deleting this attribute will also delete its values in all projects. Are you sure you want to do this?"
-  text_are_you_sure_with_project_life_cycle_step: "Deleting this step will also delete its usages in all projects. Are you sure you want to do this?"
+  text_are_you_sure_with_project_life_cycle_step: "Deleting this phase will also delete its usages in all projects. Are you sure you want to do this?"
   text_assign_to_project: "Projeye ata"
   text_form_configuration: >
     İş paketi formunda görüntülenecek alanları özelleştirebilirsiniz. Tüm işlerinizde kullanabileceğiniz şekilde bunları gruplayabilirsiniz.
@@ -3843,8 +3926,6 @@ tr:
     Özel alanları kullanırken: Özel alanların her proje için aktif yapılması gerektiğini unutmayın.
   text_custom_field_hint_activate_per_project_and_type: >
     Özel alanların iş paketi türü ve proje bazında aktive edilmesi gerekiyor.
-  text_wp_status_read_only_html: >
-    Enterprise sürümü, iş paketlerinin durum alanları için şunlaru ekleyecektir: <br> <ul> <li><b>İş paketlerini belirli durumlar için salt okunur olarak işaretlemeye izin verin</b></li> </ul>
   text_project_custom_field_html: >
     Enterprise sürümü, projelerin özel alanları için şu ek eklentileri ekleyecektir: <br> <ul> <li><b>Bir proje portföy görünümü oluşturmak için Projeler için özel alanları Proje listenize ekleyin</b></li > </ul>
   text_custom_logo_instructions: >
@@ -3907,7 +3988,7 @@ tr:
   text_no_notes: "Bu çalışma paketi için bir yorum bulunmuyor."
   text_notice_too_many_values_are_inperformant: "Not: Her sayfada 100'den fazla öğe gösterildiğinde, sayfa yükleme süresi artabilir."
   text_notice_security_badge_displayed_html: >
-    Not: Etkinleştirildiğinde, bu,  <a href="%{information_panel_path}">%{information_panel_label}</a> yönetim panelinde ve giriş sayfasında yükleme durumunuzla birlikte bir rozet görüntüler. Sadece yöneticilere gösterilir. <br/> Rozet, mevcut OpenProject sürümünüzü resmi OpenProject sürüm veritabanına karşı kontrol eder ve sizi herhangi bir güncelleme veya bilinen güvenlik açığı hakkında uyarır. Çekin sağladığı, mevcut güncellemeleri sağlamak için hangi verilerin gerekli olduğu ve bu kontrolün nasıl devre dışı bırakılacağı hakkında daha fazla bilgi için lütfen <a href="%{more_info_url}"> yapılandırma belgelerini </a> ziyaret edin.
+    Not: Etkinleştirildiğinde, bu, <a href="%{information_panel_path}">%{information_panel_label}</a> yönetim panelinde ve giriş sayfasında yükleme durumunuzla birlikte bir rozet görüntüler. Sadece yöneticilere gösterilir. <br/> Rozet, mevcut OpenProject sürümünüzü resmi OpenProject sürüm veritabanına karşı kontrol eder ve sizi herhangi bir güncelleme veya bilinen güvenlik açığı hakkında uyarır. Çekin sağladığı, mevcut güncellemeleri sağlamak için hangi verilerin gerekli olduğu ve bu kontrolün nasıl devre dışı bırakılacağı hakkında daha fazla bilgi için lütfen <a href="%{more_info_url}">yapılandırma belgelerini</a> ziyaret edin.
   text_own_membership_delete_confirmation: "İzinlerinizden bazılarını veya tümünü kaldırmak üzeresiniz ve bundan sonra bu projeyi düzenleyemeyebilirsiniz. Devam etmek istediğine emin misin?"
   text_permanent_delete_confirmation_checkbox_label: "Bu silme işleminin geri alınamayacağını anlıyorum"
   text_plugin_assets_writable: "Plugin assets dizini yazılabilir"
@@ -4157,7 +4238,7 @@ tr:
         view_description: "Proje listesini görüntüleyebilir."
         edit: "Düzenle"
         edit_description: "Proje listesini görüntüleyebilir, paylaşabilir ve düzenleyebilir."
-      upsale:
+      upsell:
         message: "Proje listelerini bireysel kullanıcılarla paylaşmak kurumsal bir eklentidir."
   working_days:
     info: >
@@ -4388,27 +4469,3 @@ tr:
     description: "OmniAuth SAML sağlayıcısını OpenProject'e ekler"
   enterprise_plans:
     legacy_enterprise: "Kurumsal Plan"
-  enterprise_features:
-    baseline_comparison: Temel Karşılaştırma
-    board_view: Pano Görünümü
-    conditional_highlighting: Koşullu Vurgulama
-    custom_actions: Özel Eylemler
-    custom_field_hierarchies: Özel Alan Hiyerarşisi
-    customize_life_cycle: Yaşam Döngüsünü Özelleştir
-    date_alerts: Tarih Uyarıları
-    define_custom_style: Özel Biçim Tanımla
-    edit_attribute_groups: Özellik Grubunu Düzenleme
-    gantt_pdf_export: Gantt PDF Dışa Aktarma
-    grid_widget_wp_graph: İş Paketi Grafiği Bileşenleri
-    ldap_groups: LDAP Grupları
-    one_drive_sharepoint_file_storage: OneDrive/SharePoint Dosya Depolama
-    placeholder_users: Yer Tutucu Kullanıcılar
-    project_list_sharing: Proje Listesi Paylaşımı
-    readonly_work_packages: Salt Okunur İş Paketleri
-    sso_auth_providers: SSO Kimlik Doğrulama Sağlayıcıları
-    team_planner_view: Takım Planlayıcı Görünümü
-    two_factor_authentication: İki Adımlı Kimlik Doğrulama
-    virus_scanning: Ek Virüs Taraması
-    work_package_query_relation_columns: İş Paketi Sorgu İlişkisi Sütunları
-    work_package_sharing: İş Paketi Paylaşımı
-    work_package_subject_generation: İş Paketi Konu Üretimi

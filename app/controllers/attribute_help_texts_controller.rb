@@ -85,12 +85,6 @@ class AttributeHelpTextsController < ApplicationController
 
   protected
 
-  def default_breadcrumb; end
-
-  def show_local_breadcrumb
-    false
-  end
-
   private
 
   def permitted_params_with_attachments
@@ -109,8 +103,6 @@ class AttributeHelpTextsController < ApplicationController
 
   def find_entry
     @attribute_help_text = AttributeHelpText.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    render_404
   end
 
   def find_type_scope

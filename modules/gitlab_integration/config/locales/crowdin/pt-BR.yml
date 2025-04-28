@@ -60,17 +60,23 @@ pt-BR:
     merge_request_reopened_comment: >
       **SC Reaberta:** Solicitação de combinação %{mr_number} [%{mr_title}](%{mr_url}) para [%{repository}](%{repository_url}) foi reaberta por [%{gitlab_user}](%{gitlab_user_url}).
     note_commit_referenced_comment: >
-      **Referenciado em Confirmação:** [%{gitlab_user}](%{gitlab_user_url}) referenciou este WP em uma Nota de Confirmação %{commit_id}](%{commit_url}) em [%{repository}](%{repository_url}): %{commit_note}
+      **Referenciado em Confirmação:** [%{gitlab_user}](%{gitlab_user_url}) referenciou este WP em uma Nota de Confirmação %{commit_id}](%{commit_url}) em [%{repository}](%{repository_url}):
+      %{commit_note}
     note_mr_referenced_comment: >
-      **Referenciado na SC:** [%{gitlab_user}](%{gitlab_user_url}) referenciou este WP em Solicitação de Combinação %{mr_number} [%{mr_title}](%{mr_url}) em [%{repository}](%{repository_url}): %{mr_note}
+      **Referenciado na SC:** [%{gitlab_user}](%{gitlab_user_url}) referenciou este WP em Solicitação de Combinação %{mr_number} [%{mr_title}](%{mr_url}) em [%{repository}](%{repository_url}):
+      %{mr_note}
     note_mr_commented_comment: >
-      **Comentado na SC:** [%{gitlab_user}](%{gitlab_user_url}) comentado este WP em Solicitação de Combinação %{mr_number} [%{mr_title}](%{mr_url}) em [%{repository}](%{repository_url}): %{mr_note}
+      **Comentado na SC:** [%{gitlab_user}](%{gitlab_user_url}) comentado este WP em Solicitação de Combinação %{mr_number} [%{mr_title}](%{mr_url}) em [%{repository}](%{repository_url}):
+      %{mr_note}
     note_issue_referenced_comment: >
-      **Referenciado em Problema:** [%{gitlab_user}](%{gitlab_user_url}) referenciou este WP em Problema %{issue_number} [%{issue_title}](%{issue_url}) em [%{repository}](%{repository_url}): %{issue_note}
+      **Referenciado em Problema:** [%{gitlab_user}](%{gitlab_user_url}) referenciou este WP em Problema %{issue_number} [%{issue_title}](%{issue_url}) em [%{repository}](%{repository_url}):
+      %{issue_note}
     note_issue_commented_comment: >
-      **Comentou em Problema:** [%{gitlab_user}](%{gitlab_user_url}) comentou este WP em Problema %{issue_number} [%{issue_title}](%{issue_url}) em [%{repository}](%{repository_url}): %{issue_note}
+      **Comentou em Problema:** [%{gitlab_user}](%{gitlab_user_url}) comentou este WP em Problema %{issue_number} [%{issue_title}](%{issue_url}) em [%{repository}](%{repository_url}):
+      %{issue_note}
     note_snippet_referenced_comment: >
-      **Referenciou em Snippet:** [%{gitlab_user}](%{gitlab_user_url}) referenciou este WP no Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) em [%{repository}](%{repository_url}): %{snippet_note}
+      **Referenciou em Snippet:** [%{gitlab_user}](%{gitlab_user_url}) referenciou este WP no Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) em [%{repository}](%{repository_url}):
+      %{snippet_note}
     issue_opened_referenced_comment: >
       **Problema Aberto:** Problema %{issue_number} [%{issue_title}](%{issue_url}) para [%{repository}](%{repository_url}) foi aberto por [%{gitlab_user}](%{gitlab_user_url}).
     issue_closed_referenced_comment: >
@@ -78,8 +84,11 @@ pt-BR:
     issue_reopened_referenced_comment: >
       **Problema Reaberto:** Problema %{issue_number} [%{issue_title}](%{issue_url}) para [%{repository}](%{repository_url}) foi reaberto por [%{gitlab_user}](%{gitlab_user_url}).
     push_single_commit_comment: >
-      **Submetido em SC:** [%{gitlab_user}](%{gitlab_user_url}) submeteu [%{commit_number}](%{commit_url}) a [%{repository}](%{repository_url}) em %{commit_timestamp}: %{commit_note}
+      **Submetido em SC:** [%{gitlab_user}](%{gitlab_user_url}) submeteu [%{commit_number}](%{commit_url}) a [%{repository}](%{repository_url}) em %{commit_timestamp}:
+      %{commit_note}
     push_single_commit_comment_with_ref: >
-      **Submetido em %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) submeteu [%{commit_number}](%{commit_url}) a [%{repository}](%{repository_url}) em %{commit_timestamp}: %{commit_note}
+      **Submetido em %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) submeteu [%{commit_number}](%{commit_url}) a [%{repository}](%{repository_url}) em %{commit_timestamp}:
+      %{commit_note}
     push_multiple_commits_comment: >
-      **Submetido em SC:** [%{gitlab_user}](%{gitlab_user_url}) submeteu várias confirmações [%{commit_number}](%{commit_url}) a [%{repository}](%{repository_url}) em %{commit_timestamp}: %{commit_note}
+      **Submetido em SC:** [%{gitlab_user}](%{gitlab_user_url}) submeteu várias confirmações [%{commit_number}](%{commit_url}) a [%{repository}](%{repository_url}) em %{commit_timestamp}:
+      %{commit_note}

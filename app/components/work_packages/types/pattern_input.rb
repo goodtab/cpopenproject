@@ -43,9 +43,14 @@ module WorkPackages
       end
 
       def suggestions_for_stimulus
-        @suggestions_for_stimulus ||= @suggestions
-                                        .transform_keys { |key| key.to_s.humanize }
-                                        .to_json
+        @suggestions_for_stimulus ||= @suggestions.to_json
+      end
+
+      def heading_locales
+        @suggestions.keys.reduce({}) do |acc, key|
+          acc[key] = I18n.t("types.edit.subject_configuration.pattern.headings.#{key}")
+          acc
+        end.to_json
       end
 
       def suggestions_list_component

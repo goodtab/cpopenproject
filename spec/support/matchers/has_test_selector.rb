@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -29,15 +31,44 @@ RSpec::Matchers.define :have_test_selector do |expected, **args|
   include TestSelectorFinders
 
   match do |page|
-    page.has_selector?(test_selector(expected), **args)
+    @actual_args = args.dup
+    @selector_name = test_selector(expected)
+    page.has_selector?(@selector_name, **args)
   end
 
   match_when_negated do |page|
-    page.has_no_selector?(test_selector(expected), **args)
+    @actual_args = args.dup
+    @selector_name = test_selector(expected)
+    page.has_no_selector?(@selector_name, **args)
   end
 
-  failure_message do
-    "expected page to have test selector #{expected}"
+  failure_message do |page|
+    message = "expected page to have test selector #{expected}"
+
+    if @actual_args.key?(:text)
+      message << " with text #{@actual_args[:text].to_s.inspect}"
+    end
+
+    # Try to find the actual element without text filter to provide more context
+    found_elements = []
+    begin
+      args_without_text = @actual_args.dup
+      args_without_text.delete(:text)
+
+      # Only search for visible elements with a short timeout
+      search_args = args_without_text.merge(visible: true, wait: 0)
+      page.all(@selector_name, **search_args).each do |element| # rubocop:disable Rails/FindEach
+        found_elements << element.text.to_s.strip
+      end
+
+      if found_elements.any?
+        message << ". Also found: #{found_elements.map(&:inspect).join(', ')}, which matched the selector but not all filters."
+      end
+    rescue StandardError
+      # Ignore errors during the additional context gathering
+    end
+
+    message
   end
 
   failure_message_when_negated do

@@ -138,6 +138,10 @@ module OpPrimer
       nil
     end
 
+    def action_row_header_content
+      nil
+    end
+
     def footer
       raise ArgumentError, "Need to provide footer content"
     end

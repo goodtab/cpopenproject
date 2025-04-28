@@ -31,15 +31,15 @@ Work package relations indicate that work packages address a similar topic or cr
 4. Enter a description of the relation. It will be visible for both of the related work packages.
 5. Press the Enter key and click the **Save** button.
 
-![autocompletion](openproject_user_guide_wp_add_relations_button.png)
+!["Add relations" button under Relations tab in an OpenProject work package](openproject_user_guide_wp_add_relations_button.png)
 
 ![Add a related work package in OpenProject](openproject_user_guide_wp_add_relations_form.png)
 
 You can select one of the following relations:
 
-- **New child** - This option lets you create a new package and automatically adds it as a child to the current (parent) work package. 
+- **Create new child** - This option lets you create a new package and automatically adds it as a child to the current (parent) work package.
 
-- **Existing child** - This option allows you to add an existing work package as a child to the current (parent) work package.
+- **Child** - This option allows you to add an existing work package as a child to the current (parent) work package.
 
 - **Related to** - This option adds a link from the work package A to work package B, so that project members can immediately see the connection, even if the work packages are not members of the same hierarchy.
 
@@ -51,7 +51,7 @@ You can select one of the following relations:
 - **Blocks / Blocked by** - This option defines status change restrictions between two work packages. If you set a work package A to be blocking work package B, the status of work package B cannot be set to closed or resolved until the work package A is closed.
 
 - **Predecessor (before)/ Successor (after)** - Defines a chronological relation between two work packages. For example, if you set a work package A to precede a work package B, the start date of B has to be at least a day after the finish date of A.
-  Please note: If work package B is in [manual scheduling mode](../../gantt-chart/scheduling/#manual-scheduling-mode), changing the finish date of work package A will have no effect on work package B.
+  Please note: If work package B is in [manual scheduling mode](../../gantt-chart/scheduling/#manual-scheduling), changing the finish date of work package A will have no effect on work package B.
 
 > [!TIP]
 > Prior to 15.1, *Predecessor (before)* was called *Precedes*, and *Successor (after)* was called *Follows*.
@@ -67,7 +67,7 @@ For the relations of type Predecessor/Successor, you can also define **Lag**, wh
 > [!TIP]
 > The selected relation status will be automatically displayed in the work package that you enter. For example if you select "Blocks" in the current work package A and specify work package B, work package B will automatically show that it is "Blocked by" A.
 
-
+After adding related work packages, they are listed in the Relations tab. Related work packages are grouped by the type of relation into corresponding sections. The order of the sections matches the order of relation types in the drop-down menu of the +Relation button (i.e., relates to, predecessors, successors, etc.). The Children section is listed last. Within each section, the related work packages are ordered chronologically, based on when the relations were added.
 
 ### Moving related work packages
 
@@ -115,7 +115,7 @@ There are **four ways to add or create a child work package**:
 
 ### Add a child in the *Relations* tab in a work package's details view
 
-Open a work package and select the tab *Relations*. Here you can click on *+ Relation* button, and select either *New child* or *Existing child* option to add a new or an existing work package as a child to the current one.
+Open a work package and select the tab *Relations*. Here you can click on *+ Relation* button, and select either *Create new child* or *Child* option to add a new or an existing work package as a child to the current one.
 
 ![Add a child to a work package in OpenProject](openproject_user_guide_wp_add_child.png)
 
@@ -173,3 +173,5 @@ You can also add a column with information about parent work packages:
 3. Now the column with the information about a parent relation is displayed in the work package table.
 
 ![Select parent as column in OpenProject work package tables](openproject_user_guide_wp_table_show_parent.png)
+
+*Parent* column displays all direct children work packages. If you want to include all deeper hierarchy levels, i.e. include grandchildren and so on, use the **Descendants of** filter. Learn more about [filtering for descendants](../work-package-table-configuration/#filter-for-descendants-of-a-work-package).

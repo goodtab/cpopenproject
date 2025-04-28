@@ -46,7 +46,7 @@ RSpec.describe WorkPackages::UpdateContract do
       add_work_package_watchers
       delete_work_package_watchers
       manage_work_package_relations
-      add_work_package_notes
+      add_work_package_comments
     ]
   end
   let(:role) { create(:project_role, permissions:) }

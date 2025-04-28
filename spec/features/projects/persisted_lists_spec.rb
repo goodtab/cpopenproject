@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # -- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -39,6 +41,7 @@ RSpec.describe "Persisted lists on projects index page",
 
   shared_let(:custom_field) { create(:text_project_custom_field) }
   shared_let(:invisible_custom_field) { create(:project_custom_field, admin_only: true) }
+  shared_let(:list_custom_field) { create(:list_project_custom_field) }
 
   shared_let(:project) do
     create(:project,
@@ -52,7 +55,8 @@ RSpec.describe "Persisted lists on projects index page",
                      public: true)
     project.custom_field_values = {
       invisible_custom_field.id => "Secret CF",
-      custom_field.id => "Visible CF"
+      custom_field.id => "Visible CF",
+      list_custom_field.id => list_custom_field.possible_values.first.id
     }
     project.save
     project
@@ -450,7 +454,6 @@ RSpec.describe "Persisted lists on projects index page",
 
     it "keep the query active when applying orders, page and column changes" do
       projects_page.visit!
-
       # The user can select the list but cannot see another user's list
       projects_page.set_sidebar_filter(my_projects_list.name)
       projects_page.expect_no_sidebar_filter(another_users_projects_list.name)
@@ -549,6 +552,32 @@ RSpec.describe "Persisted lists on projects index page",
                                            public_project) # Because it is now in the filter set
       projects_page.expect_projects_not_listed(another_project, # Because it is on the second page
                                                development_project) # Because it is on the second page
+    end
+
+    it "shows the saved filter values in the filter section" do
+      my_projects_list.where("project_status_code", "=", Project.status_codes["on_track"])
+      my_projects_list.save!
+
+      projects_page.visit!
+      projects_page.set_sidebar_filter(my_projects_list.name)
+      projects_page.expect_filter_set("project_status_code", value: "On track")
+
+      projects_page.open_filters
+      projects_page.set_filter(list_custom_field.column_name,
+                               list_custom_field.name,
+                               "is (OR)",
+                               [list_custom_field.possible_values.first.value])
+
+      wait_for_reload
+      projects_page.save_query
+
+      projects_page.set_sidebar_filter(my_projects_list.name)
+      projects_page.expect_filter_set("project_status_code", value: "On track")
+
+      projects_page.expect_filter_set(
+        list_custom_field.column_name,
+        value: list_custom_field.possible_values.first.value
+      )
     end
 
     it "cannot access another user`s list" do

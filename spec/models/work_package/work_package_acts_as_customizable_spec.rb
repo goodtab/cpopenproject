@@ -165,7 +165,7 @@ RSpec.describe WorkPackage, "acts_as_customizable" do
 
       # set that custom field with a value, should be fine
       work_package.custom_field_values = { cf1.id => "test" }
-      work_package.save!
+      work_package.save!(context: :saving_custom_fields)
       work_package.reload
 
       # now give the work_package another required custom field, but don't assign a value
@@ -173,7 +173,7 @@ RSpec.describe WorkPackage, "acts_as_customizable" do
       work_package.custom_field_values # #custom_field_values needs to be touched
 
       # that should not be valid
-      expect(work_package).not_to be_valid
+      expect(work_package).not_to be_valid(:saving_custom_fields)
 
       # assert that there is only one error
       expect(work_package.errors.size).to eq 1

@@ -4,5 +4,5 @@ ro:
     calendar:
       create_new: 'Creează un calendar nou'
       title: 'Calendar'
-      too_many: 'Există %{count} pachete de lucru în total, dar numai %{max} poate fi afișat.'
+      too_many: 'Există %{count} pachete de lucru în total, dar numai %{max} pot fi afișate.'
       unsaved_title: 'Calendar fără nume'

@@ -53,7 +53,7 @@ RSpec.describe EmojiReactions::BaseContract do
 
       before do
         mock_permissions_for(user) do |mock|
-          mock.allow_in_project(:add_work_package_notes, project: emoji_reaction.reactable.project)
+          mock.allow_in_project(:add_work_package_comments, project: emoji_reaction.reactable.project)
         end
       end
 

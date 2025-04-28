@@ -50,12 +50,6 @@ module FormFields
         field_container.find(".ng-clear-wrapper", visible: :all).click
       end
 
-      def wait_for_autocompleter_options_to_be_loaded
-        if has_css?(".ng-spinner-loader", wait: 0.1)
-          expect(page).to have_no_css(".ng-spinner-loader")
-        end
-      end
-
       ### expectations
 
       def expect_selected(*values)

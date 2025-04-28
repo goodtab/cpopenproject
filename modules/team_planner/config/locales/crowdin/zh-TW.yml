@@ -6,12 +6,16 @@ zh-TW:
   permission_view_team_planner: "查看團隊規劃"
   permission_manage_team_planner: "管理「團隊規劃」"
   project_module_team_planner_view: "查看團隊規劃"
+  ee:
+    feature_names:
+      team_planner_view: "團隊規劃"
+    upsell:
+      team_planner_view:
+        title: "團隊規劃"
+        description: "使用「團隊規劃器」全面掌握團隊的規劃狀況。您可以延長、縮短或拖放工作項目，以修改日期、移動位置或變更指派對象。"
   team_planner:
     label_team_planner: "團隊規劃"
     label_new_team_planner: "新團隊規劃"
     label_create_new_team_planner: "建立新的團隊規劃"
     label_team_planner_plural: "團隊規劃"
     label_assignees: "執行者"
-    upsale:
-      title: "團隊規劃"
-      description: "使用「團隊規劃」全面閱覽了解您的小組工作內容。 縮放、拖曳工作項目以便調整日期、移動日期或更改執行者。"

@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.expand_path(File.dirname(__FILE__) + "/../../spec_helper.rb")
+require_relative "../../spec_helper"
 
 RSpec.describe "adding a new budget", :js do
   let(:project) { create(:project_with_types, members: project_members) }

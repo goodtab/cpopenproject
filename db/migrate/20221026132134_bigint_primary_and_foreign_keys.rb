@@ -78,7 +78,7 @@ class BigintPrimaryAndForeignKeys < ActiveRecord::Migration[7.0]
     LdapGroups::SynchronizedGroup => %i[id group_id auth_source_id],
     MaterialBudgetItem => %i[id budget_id cost_type_id],
     Journal::MeetingContentJournal => %i[id meeting_id author_id],
-    MeetingContent => %i[id meeting_id author_id],
+    :meeting_contents => %i[id meeting_id author_id],
     Journal::MeetingJournal => %i[id project_id author_id],
     MeetingParticipant => %i[id user_id meeting_id],
     Meeting => %i[id author_id project_id],

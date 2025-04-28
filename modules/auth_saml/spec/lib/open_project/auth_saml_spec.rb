@@ -1,4 +1,6 @@
-require "#{File.dirname(__FILE__)}/../../spec_helper"
+# frozen_string_literal: true
+
+require_relative "../../spec_helper"
 require "open_project/auth_saml"
 
 RSpec.describe OpenProject::AuthSaml do

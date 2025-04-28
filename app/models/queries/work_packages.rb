@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -28,6 +30,7 @@
 
 module Queries::WorkPackages
   ::Queries::Register.register(Query) do
+    filter Filter::AncestorFilter
     filter Filter::AssignedToFilter
     filter Filter::AssigneeOrGroupFilter
     filter Filter::AttachmentContentFilter
@@ -84,6 +87,7 @@ module Queries::WorkPackages
     select Selects::CustomFieldSelect
     select Selects::RelationToTypeSelect
     select Selects::RelationOfTypeSelect
+    select Selects::RelationChildSelect
     select Selects::ManualSortingSelect
     select Selects::TypeaheadSelect
   end

@@ -58,17 +58,15 @@ module Pages
         end
 
         def filter_with(string)
-          fill_in I18n.t("settings.project_life_cycle_step_definitions.filter.label"), with: string
+          fill_in I18n.t("settings.project_phase_definitions.filter.label"), with: string
         end
 
         def clear_filter
           find("button[aria-label=Clear]").click
         end
 
-        def add(name)
-          menu = page.find("action-menu", text: "Add")
-          menu.click_on("Add")
-          menu.click_on(name)
+        def add
+          page.click_on("Add")
         end
 
         def click_definition(name)

@@ -69,11 +69,9 @@ vi:
         invalid_time_format: "không phải giờ hợp lệ. Yêu cầu định dạng: HH:MM"
     models:
       recurring_meeting: "Họp định kỳ"
-      structured_meeting: "Họp đột xuất"
-      meeting: "Cuộc họp"
+      meeting: "Họp đột xuất"
       meeting_agenda_item: "Mục chương trình nghị sự"
       meeting_agenda: "Các ý chính"
-      meeting_minutes: "Phút"
       meeting_section: "Phần"
   activity:
     filter:
@@ -132,11 +130,11 @@ vi:
   label_recurring_meeting_restore: "Khôi phục lại lần họp này"
   label_recurring_meeting_schedule: "Lên lịch"
   label_recurring_meeting_next_occurrence: "Lần họp tới"
-  label_recurring_meeting_more: "Còn %{count} cuộc họp được lên lịch nữa (%{schedule})."
   label_recurring_meeting_no_end_date: "Còn nhiều lịch họp (%{schedule})."
-  label_recurring_meeting_more_singular: "Còn %{count} cuộc họp được lên lịch nữa (%{schedule})."
-  label_recurring_meeting_more_past: "Còn %{count} cuộc họp trước đó."
-  label_recurring_meeting_more_past_singular: "Còn %{count} cuộc họp trước đó."
+  label_recurring_meeting_more:
+    other: "Còn %{count} cuộc họp được lên lịch nữa (%{schedule})."
+  label_recurring_meeting_more_past:
+    other: "Còn %{count} cuộc họp trước đó."
   label_recurring_meeting_show_more: "Xem thêm"
   label_recurring_meeting_series_create: "Tạo chuỗi các cuộc họp"
   label_recurring_meeting_series_edit: "Sửa chuỗi các cuộc họp"
@@ -213,9 +211,6 @@ vi:
         new_date_time: "Ngày/giờ mới"
     label_mail_all_participants: "Gửi email đến tất cả người tham gia"
     types:
-      classic: "Cổ điển"
-      classic_text: "Tổ chức cuộc họp của bạn như một chương trình nghị sự đơn và biên bản định dạng văn bản."
-      structured: "Đã cấu trúc"
       one_time: "Một lần"
       recurring: "Định kỳ"
       recurring_text: "Tạo chuỗi họp với mẫu động cho mỗi lần họp."
@@ -387,9 +382,7 @@ vi:
   label_meeting_details_edit: "Chỉnh sửa chi tiết cuộc họp"
   label_meeting_state: "Trạng thái cuộc họp"
   label_meeting_state_open: "Mở"
-  label_meeting_state_open_html: "<i>Mở</i>"
   label_meeting_state_closed: "Đã đóng"
-  label_meeting_state_closed_html: "<i>Đã đóng</i>"
   label_meeting_state_agenda_created: "Agenda đã tạo"
   label_meeting_state_planned: "Dự kiến"
   label_meeting_state_cancelled: "Đã hủy"
@@ -397,7 +390,7 @@ vi:
   label_meeting_state_in_progress: "Đang xử lý"
   label_meeting_reopen_action: "Mở lại cuộc họp"
   label_meeting_close_action: "Đóng cuộc họp"
-  label_meeting_in_progress_action: "Mark as in progress"
+  label_meeting_in_progress_action: "Start meeting"
   text_meeting_open_description: "This meeting is open. You can add/remove agenda items and edit them as you please. Once the agenda is ready, mark it as in progress to document outcomes."
   text_meeting_closed_description: "Cuộc họp này đã đóng. Bạn không thể thêm/xóa các mục chương trình nghị sự nữa."
   text_meeting_in_progress_description: "This meeting is in progress. You can document outcomes for each agenda item, re-arrange them, and even add new ones. Once the meeting is complete, you can mark it as closed to lock it."

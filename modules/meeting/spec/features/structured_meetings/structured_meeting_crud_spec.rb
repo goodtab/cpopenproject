@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -29,11 +30,10 @@
 
 require "spec_helper"
 
-require_relative "../../support/pages/meetings/new"
-require_relative "../../support/pages/structured_meeting/show"
+require_relative "../../support/pages/meetings/show"
 require_relative "../../support/pages/meetings/index"
 
-RSpec.describe "Structured meetings CRUD",
+RSpec.describe "Meetings CRUD",
                :js do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
 
@@ -62,9 +62,8 @@ RSpec.describe "Structured meetings CRUD",
   end
 
   let(:current_user) { user }
-  let(:new_page) { Pages::Meetings::New.new(project) }
-  let(:meeting) { StructuredMeeting.last }
-  let(:show_page) { Pages::StructuredMeeting::Show.new(meeting) }
+  let(:meeting) { Meeting.last }
+  let(:show_page) { Pages::Meetings::Show.new(meeting) }
   let(:meetings_page) { Pages::Meetings::Index.new(project:) }
 
   before do |test|
@@ -87,8 +86,8 @@ RSpec.describe "Structured meetings CRUD",
     meetings_page.click_create
   end
 
-  it "can create a structured meeting and add agenda items" do
-    expect_flash(type: :success, message: "Successful creation")
+  it "can create a meeting and add agenda items" do
+    expect_and_dismiss_flash(type: :success, message: "Successful creation")
 
     # Does not send invitation mails by default
     perform_enqueued_jobs
@@ -177,6 +176,7 @@ RSpec.describe "Structured meetings CRUD",
     end
 
     show_page.select_action(item, I18n.t(:label_sort_lowest))
+    show_page.assert_agenda_order! "Important task", "Updated title"
 
     show_page.add_agenda_item do
       fill_in "Title", with: "My agenda item"
@@ -310,7 +310,7 @@ RSpec.describe "Structured meetings CRUD",
     fill_in "Title", with: "Some title"
     click_on "Create meeting"
 
-    new_meeting = StructuredMeeting.last
+    new_meeting = Meeting.last
     expect(page).to have_current_path "/projects/#{project.identifier}/meetings/#{new_meeting.id}"
 
     # check for copied agenda items
@@ -328,13 +328,13 @@ RSpec.describe "Structured meetings CRUD",
   end
 
   context "with a work package reference to another" do
-    let!(:meeting) { create(:structured_meeting, project:, author: current_user) }
+    let!(:meeting) { create(:meeting, project:, author: current_user) }
     let!(:other_project) { create(:project) }
     let!(:other_wp) { create(:work_package, project: other_project, author: current_user, subject: "Private task") }
     let!(:role) { create(:project_role, permissions: %w[view_work_packages]) }
     let!(:membership) { create(:member, principal: user, project: other_project, roles: [role]) }
     let!(:agenda_item) { create(:wp_meeting_agenda_item, meeting:, author: current_user, work_package: other_wp) }
-    let(:show_page) { Pages::StructuredMeeting::Show.new(meeting) }
+    let(:show_page) { Pages::Meetings::Show.new(meeting) }
 
     it "shows correctly for author, but returns an unresolved reference for the second user" do
       show_page.visit!
@@ -350,8 +350,8 @@ RSpec.describe "Structured meetings CRUD",
   end
 
   context "with sections" do
-    let!(:meeting) { create(:structured_meeting, project:, author: current_user) }
-    let(:show_page) { Pages::StructuredMeeting::Show.new(meeting) }
+    let!(:meeting) { create(:meeting, project:, author: current_user) }
+    let(:show_page) { Pages::Meetings::Show.new(meeting) }
 
     context "when starting with empty sections" do
       it "can add, edit and delete sections" do

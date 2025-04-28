@@ -69,11 +69,9 @@ ko:
         invalid_time_format: "은(는) 유효한 시간이 아닙니다. 필요한 형식: HH:MM"
     models:
       recurring_meeting: "반복 미팅"
-      structured_meeting: "일회성 미팅"
-      meeting: "미팅"
+      meeting: "일회성 미팅"
       meeting_agenda_item: "의제 항목"
       meeting_agenda: "의제"
-      meeting_minutes: "의사록"
       meeting_section: "섹션"
   activity:
     filter:
@@ -132,11 +130,11 @@ ko:
   label_recurring_meeting_restore: "이 항목 복원"
   label_recurring_meeting_schedule: "스케줄"
   label_recurring_meeting_next_occurrence: "다음 항목"
-  label_recurring_meeting_more: "예정된 미팅(%{schedule})이 %{count}개 더 있습니다."
   label_recurring_meeting_no_end_date: "예정된 미팅(%{schedule})이 더 있습니다."
-  label_recurring_meeting_more_singular: "예정된 미팅(%{schedule})이 %{count}개 더 있습니다."
-  label_recurring_meeting_more_past: "지난 미팅이 %{count}개 더 있습니다."
-  label_recurring_meeting_more_past_singular: "지난 미팅이 %{count}개 더 있습니다."
+  label_recurring_meeting_more:
+    other: "예정된 미팅(%{schedule})이 %{count}개 더 있습니다."
+  label_recurring_meeting_more_past:
+    other: "지난 미팅이 %{count}개 더 있습니다."
   label_recurring_meeting_show_more: "자세히 표시"
   label_recurring_meeting_series_create: "미팅 시리즈 만들기"
   label_recurring_meeting_series_edit: "미팅 시리즈 편집"
@@ -213,9 +211,6 @@ ko:
         new_date_time: "새로운 날짜/시간"
     label_mail_all_participants: "모든 참가자에게 이메일 보내기"
     types:
-      classic: "클래식"
-      classic_text: "서식 지정 가능한 단일 텍스트 의제 및 프로토콜로 미팅을 구성하세요."
-      structured: "구조화됨"
       one_time: "일회성"
       recurring: "반복"
       recurring_text: "각 항목에 대해 다이내믹 템플릿을 사용하여 미팅 시리즈를 만듭니다."
@@ -387,9 +382,7 @@ ko:
   label_meeting_details_edit: "미팅 세부 정보 편집"
   label_meeting_state: "미팅 상태"
   label_meeting_state_open: "열기"
-  label_meeting_state_open_html: "<i>열림</i>"
   label_meeting_state_closed: "닫음"
-  label_meeting_state_closed_html: "<i>닫힘</i>"
   label_meeting_state_agenda_created: "의제 생성됨"
   label_meeting_state_planned: "계획됨"
   label_meeting_state_cancelled: "취소됨"
@@ -397,7 +390,7 @@ ko:
   label_meeting_state_in_progress: "진행 중"
   label_meeting_reopen_action: "미팅 다시 열기"
   label_meeting_close_action: "미팅 닫기"
-  label_meeting_in_progress_action: "진행 중으로 표시"
+  label_meeting_in_progress_action: "미팅 시작"
   text_meeting_open_description: "이 미팅은 오픈 상태입니다. 의제 항목을 추가/제거하고 원하는 대로 편집할 수 있습니다. 의제가 준비되면 진행 중으로 표시하여 결과를 문서화하세요."
   text_meeting_closed_description: "이 미팅은 종료되었습니다. 더 이상 의제 항목을 추가/제거할 수 없습니다."
   text_meeting_in_progress_description: "이 미팅은 진행 중입니다. 각 의제 항목에 대한 결과를 문서화하고, 재정렬하고, 새로운 항목을 추가할 수도 있습니다. 미팅이 완료되면 닫힘으로 표시하여 잠글 수 있습니다."
@@ -420,6 +413,6 @@ ko:
   text_agenda_item_move_next_meeting: "이 미팅을 %{date} %{time}의 다음 미팅으로 이동하시겠습니까?"
   text_agenda_item_moved_to_next_meeting: "의제 항목이 %{date}의 다음 미팅으로 이동되었습니다."
   text_work_package_has_no_upcoming_meeting_agenda_items: "이 작업 패키지는 향후 미팅 의제에서 아직 예약되지 않았습니다."
-  text_agenda_item_move_next_meeting_cancelled: "Unable to move to the next meeting since it has been cancelled."
+  text_agenda_item_move_next_meeting_cancelled: "취소되었으므로 다음 미팅으로 이동할 수 없습니다."
   text_work_package_add_to_meeting_hint: '이 작업 패키지를 향후 미팅에 추가하려면 "미팅에 추가" 버튼을 사용하세요.'
   text_work_package_has_no_past_meeting_agenda_items: "이 작업 패키지는 과거 미팅에서 멘션되지 않았습니다."

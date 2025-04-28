@@ -55,25 +55,14 @@ export default class PreviewController extends DialogPreviewController {
     super.disconnect();
   }
 
+  // Must be true to avoid adding the unit to the active input field value while
+  // typing a duration or pressing backspace.
+  ignoreActiveValueWhenMorphing():boolean {
+    return true;
+  }
+
   afterRendering():void {
     // Do nothing;
-  }
-
-  // Ensures that on create forms, there is an "id" for the un-persisted
-  // work package when sending requests to the edit action for previews.
-  ensureValidPathname(formAction:string):string {
-    const wpPath = new URL(formAction);
-
-    if (wpPath.pathname.endsWith('/work_packages/progress')) {
-      // Replace /work_packages/progress with /work_packages/new/progress
-      wpPath.pathname = wpPath.pathname.replace('/work_packages/progress', '/work_packages/new/progress');
-    }
-
-    return wpPath.toString();
-  }
-
-  ensureValidWpAction(wpPath:string):string {
-    return wpPath.endsWith('/work_packages/new/progress') ? 'new' : 'edit';
   }
 
   markFieldAsTouched(event:{ target:HTMLInputElement }) {

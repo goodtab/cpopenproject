@@ -93,7 +93,9 @@ fr:
       button: "Exporter la feuille de temps PDF"
       timesheet: "Feuille de temps"
       time: "Temps"
-      sum_hours: Total
+      sums_hours: Total 
+      overview_per_user_total: "Overview: Total hours per user"
+      overview_per_user_day: "Overview: Hours per user per day"
     cost_reports:
       title: "Exportation XLS de vos rapports de coûts"
       start_time: "Heure de début"

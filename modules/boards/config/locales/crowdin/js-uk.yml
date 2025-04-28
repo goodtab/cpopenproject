@@ -1,14 +1,15 @@
 #English strings go here
 uk:
+  ee:
+    upsell:
+      board_view:
+        description: 'Хочете автоматизувати робочі процеси за допомогою Дощок? Поліпшені дошки – це доповнення версії Enterprise. Перейдіть на платний план.'
   js:
     boards:
       create_new: 'Створити нову дошку'
       label_unnamed_board: 'Дошка без назви'
       label_unnamed_list: 'Список без назви'
       label_board_type: 'Тип дошки'
-      upsale:
-        teaser_text: 'Хочете автоматизувати робочі процеси за допомогою дощок? Поліпшені дошки – це доповнення версії Enterprise. Перейдіть на платний план.'
-        upgrade: 'Купити зараз'
       lists:
         delete: 'Вилучити список'
       version:

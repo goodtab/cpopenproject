@@ -81,7 +81,7 @@ module DevelopmentData
           reference: :save_gotham,
           description: "Gotham is in trouble. It's your job to save it!",
           status: seed_data.find_reference(:default_status_new),
-          type: seed_data.find_reference(:default_type_epic, :default_type_phase),
+          type: seed_data.find_reference(:default_type_epic, :default_type_summary_task),
           priority: seed_data.find_reference(:default_priority_immediate, :default_priority_high)
         },
         {

@@ -92,8 +92,8 @@ RSpec.describe "Wiki menu items",
     visit project_wiki_path(project, wiki_page)
 
     # creating the menu item with the pages name for the menu item
-    click_link_or_button "More"
-    click_link_or_button "Configure menu item"
+    page.find_test_selector("wiki-more-dropdown-menu").click
+    page.find_test_selector("wiki-configure-menu-action-menu-item").click
 
     choose "Show as menu item in project navigation"
 
@@ -108,15 +108,14 @@ RSpec.describe "Wiki menu items",
       .to have_css(".main-item-wrapper", text: wiki_page.title)
 
     # clicking the menu item leads to the page
-    click_link_or_button wiki_page.title
-
+    find(".wiki-menu--main-item", text: wiki_page.title).click
     expect(page)
       .to have_current_path(project_wiki_path(project, wiki_page))
 
     # modifying the menu item to a different name and to be a subpage
 
-    click_link_or_button "More"
-    click_link_or_button "Configure menu item"
+    page.find_test_selector("wiki-more-dropdown-menu").click
+    page.find_test_selector("wiki-configure-menu-action-menu-item").click
     wait_for_network_idle
 
     fill_in "Name of menu item", with: "Custom page name"
@@ -134,7 +133,7 @@ RSpec.describe "Wiki menu items",
     expect(page)
       .to have_css(".wiki-menu--sub-item", text: "Custom page name")
 
-    click_link_or_button "Custom page name"
+    find(".wiki-menu--sub-item", text: "Custom page name").click
     wait_for_network_idle
 
     expect(page)
@@ -149,9 +148,9 @@ RSpec.describe "Wiki menu items",
     # deleting the page will remove the menu item
     visit project_wiki_path(project, wiki_page)
 
-    click_link_or_button "More"
+    page.find_test_selector("wiki-more-dropdown-menu").click
     accept_alert do
-      click_link_or_button "Delete"
+      page.find_test_selector("wiki-delete-action-menu-item").click
     end
 
     within "#menu-sidebar" do
@@ -163,8 +162,8 @@ RSpec.describe "Wiki menu items",
     MenuItems::WikiMenuItem.where(navigatable_id: project.wiki.id, name: "wiki").delete_all
     visit project_wiki_path(project, other_wiki_page)
 
-    click_link_or_button "More"
-    click_link_or_button "Configure menu item"
+    page.find_test_selector("wiki-more-dropdown-menu").click
+    page.find_test_selector("wiki-configure-menu-action-menu-item").click
 
     choose "Do not show this wikipage in project navigation"
 

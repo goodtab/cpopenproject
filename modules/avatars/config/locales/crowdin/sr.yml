@@ -25,7 +25,7 @@ sr:
       Sledeća slika prikazuje tekući avatar.
     text_upload_instructions: |
       Postavite svoj lični avatar, dimenzije: 128x128 piksela. Veće datoteke će biti isečene na traženu dimenziju.
-      Avatar će vam biti prikazan, pre postavljanja, onda kada budete izabrali željenu sliku.
+      Avatar će vam biti prikazan, pre postavljanja, onda kada budete izabrali željenu sliku. 
     text_change_gravatar_html: 'Za dodavanje Gravatar-a adrese vaše elektronske pošte idite na %{gravatar_url}.'
     text_your_local_avatar: |
       OpenProject ti dozvoljava da postaviš lični avatar prilagođen sebi.

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -43,7 +45,7 @@ module TableHelpers
         attributes = columns.reduce({}) do |attrs, column|
           attrs.merge!(column.attributes_for_work_package(work_package))
         end
-        row = columns.to_h { [_1.title, nil] }
+        row = columns.to_h { [it.title, nil] }
         identifier = to_identifier(work_package.subject)
         {
           attributes:,
@@ -87,7 +89,7 @@ module TableHelpers
       ordered_identifiers = other_table.work_package_identifiers
       extra_identifiers = work_package_identifiers - ordered_identifiers
       @work_packages_data = work_packages_data
-        .index_by { _1[:identifier] }
+        .index_by { it[:identifier] }
         .values_at(*(ordered_identifiers + extra_identifiers))
         .compact
     end
@@ -178,7 +180,7 @@ module TableHelpers
       end
 
       def work_package_relations(identifier)
-        work_package_data(identifier)[:relations] || []
+        work_package_data(identifier)[:relations]&.values || []
       end
     end
   end

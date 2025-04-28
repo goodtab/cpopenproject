@@ -24,7 +24,7 @@ Here you will learn about the **first steps with OpenProject**. If you need more
 | [Gantt chart](gantt-chart-introduction)                 | Find out how to create a project plan.                       |
 | [Boards](boards-introduction)                           | How to work with agile boards.                               |
 | [Account settings](account-settings)                    | How to configure personal account settings.                  |
-| [My page](my-page)                                      | Find out more about a personal my page dashboard.            |
+| [My page](my-page)                                      | Find out more about a personal My page dashboard.            |
 
 ## 6 steps to get started
 

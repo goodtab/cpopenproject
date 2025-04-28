@@ -59,7 +59,7 @@ See COPYRIGHT and LICENSE files for more details.
 <% end %>
 
 <% @grouped.keys.sort.each do |group| %>
-  <%= augmented_collapsible_section title: group do %>
+  <%= augmented_collapsible_section(title: group.name) do %>
     <div class="document-category--inner-section">
       <div class="form--field document-category-elements">
         <%= render partial: "documents/document", collection: @grouped[group] %>

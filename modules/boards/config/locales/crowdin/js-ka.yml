@@ -1,14 +1,15 @@
 #English strings go here
 ka:
+  ee:
+    upsell:
+      board_view:
+        description: 'გნებავთ თქვენი საწარმოო პროცესების ავტომატიზაცია Boards-ით? დამატებითი დაფები საწარმოო ვერსიის მოდულია. გადადით ფასიან ვერსიაზე.'
   js:
     boards:
       create_new: 'Create new board'
       label_unnamed_board: 'უსახელო დაფა'
       label_unnamed_list: 'უსახელო სია'
       label_board_type: 'დაფის ტიპი'
-      upsale:
-        teaser_text: 'გნებავთ თქვენი საწარმოო პროცესების ავტომატიზაცია Boards-ით? დამატებითი დაფები საწარმოო ვერსიის მოდულია. გადადით ფასიან ვერსიაზე.'
-        upgrade: 'ახლავე განაახლე'
       lists:
         delete: 'სიის წაშლა'
       version:

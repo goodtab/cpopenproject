@@ -266,7 +266,7 @@ RSpec.describe "Admin Create a new file storage",
   end
 
   context "with OneDrive Storage and enterprise token missing", with_ee: false do
-    it "renders enterprise icon and redirects to upsale", :webmock do
+    it "renders enterprise icon and redirects to upsell", :webmock do
       visit admin_settings_storages_path
 
       within(".SubHeader") do
@@ -278,7 +278,7 @@ RSpec.describe "Admin Create a new file storage",
         end
       end
 
-      expect(page).to have_current_path(upsale_admin_settings_storages_path)
+      expect(page).to have_current_path(upsell_admin_settings_storages_path)
       wait_for { page }.to have_text("OneDrive/SharePoint integration")
     end
   end

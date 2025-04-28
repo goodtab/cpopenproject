@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 #-- copyright
-# OpenProject is a project management system.
+# OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -26,7 +26,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# +
+#++
 
 module OpenProject::OpenIDConnect
   module Hooks
@@ -65,10 +65,19 @@ module OpenProject::OpenIDConnect
         if OpenIDConnect::Provider.exists?(slug: context.dig(:auth_hash, :provider))
           session["omniauth.oidc_access_token"] = context.dig(:auth_hash, :credentials, :token)
           session["omniauth.oidc_refresh_token"] = context.dig(:auth_hash, :credentials, :refresh_token)
-          session["omniauth.oidc_expires_in"] = context.dig(:auth_hash, :credentials, :expires_in)
+          session["omniauth.oidc_expires_in"] = parse_expires_in(context.dig(:auth_hash, :credentials, :expires_in))
         end
 
         nil
+      end
+
+      private
+
+      def parse_expires_in(expires_in)
+        expires_in = expires_in.to_i
+        return nil if expires_in.zero?
+
+        expires_in
       end
     end
   end

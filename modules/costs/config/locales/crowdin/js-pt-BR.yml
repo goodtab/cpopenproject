@@ -21,6 +21,9 @@
 #++
 pt-BR:
   js:
+    text_are_you_sure: "Você tem certeza?"
+    myTimeTracking:
+      noSpecificTime: "No specific time"
     work_packages:
       property_groups:
         costs: "Custos"

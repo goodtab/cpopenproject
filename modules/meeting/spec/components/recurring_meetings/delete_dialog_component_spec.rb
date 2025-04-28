@@ -35,7 +35,7 @@ RSpec.describe RecurringMeetings::DeleteDialogComponent, type: :component do
 
   let(:project) { build_stubbed(:project) }
   let(:recurring_meeting) { build_stubbed(:recurring_meeting, project:, end_after: :iterations, iterations: 6) }
-  let(:meeting) { build_stubbed(:structured_meeting_template, recurring_meeting:) }
+  let(:meeting) { build_stubbed(:meeting_template, recurring_meeting:) }
   let(:user) { build_stubbed(:user) }
 
   subject do

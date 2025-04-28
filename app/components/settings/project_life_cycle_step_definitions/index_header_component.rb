@@ -35,7 +35,7 @@ module Settings
         [
           { href: admin_index_path, text: t("label_administration") },
           { href: admin_settings_project_custom_fields_path, text: t("label_project_plural") },
-          t("settings.project_life_cycle_step_definitions.heading")
+          t("settings.project_phase_definitions.heading")
         ]
       end
     end

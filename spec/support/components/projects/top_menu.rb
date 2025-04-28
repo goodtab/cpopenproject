@@ -56,6 +56,11 @@ module Components
         end
       end
 
+      def expect_current_mode(mode)
+        expect(page).to have_css('[data-test-selector="spot-toggle--option"][data-qa-active-toggle="true"]',
+                                 text: mode)
+      end
+
       def expect_current_project(name)
         page.find_by_id("projects-menu", text: name)
       end

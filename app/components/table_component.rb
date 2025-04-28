@@ -31,8 +31,8 @@
 ##
 # Abstract view component. Subclass this for a concrete table.
 class TableComponent < ApplicationComponent
-  def initialize(rows: [], **options)
-    super(rows, **options)
+  def initialize(rows: [], **)
+    super(rows, **)
   end
 
   class << self
@@ -107,7 +107,7 @@ class TableComponent < ApplicationComponent
   end
 
   def sortable_columns_correlation
-    sortable_columns.to_h { [_1.to_s, _1.to_s] }
+    sortable_columns.to_h { [it.to_s, it.to_s] }
                     .with_indifferent_access
   end
 
@@ -153,20 +153,22 @@ class TableComponent < ApplicationComponent
     model
   end
 
-  def row_class
-    self.class.row_class
-  end
+  delegate :row_class, to: :class
 
   def container_class
     nil
   end
 
+  def container_id
+    nil
+  end
+
   def columns
-    self.class.columns
+    self.class.columns.reject { skip_column?(it) }
   end
 
   def sortable_columns
-    self.class.sortable_columns
+    self.class.sortable_columns.reject { skip_column?(it) }
   end
 
   def render_collection(rows)
@@ -191,6 +193,10 @@ class TableComponent < ApplicationComponent
 
   def sortable?
     true
+  end
+
+  def skip_column?(_column)
+    false
   end
 
   def sortable_column?(column)

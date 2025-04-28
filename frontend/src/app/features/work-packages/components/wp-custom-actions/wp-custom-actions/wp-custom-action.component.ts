@@ -74,6 +74,7 @@ export class WpCustomActionComponent extends UntilDestroyedMixin implements OnIn
         this.untilDestroyed(),
       )
       .subscribe(() => this.cdRef.detectChanges());
+    this.fetchAction();
   }
 
   private fetchAction() {
@@ -84,6 +85,10 @@ export class WpCustomActionComponent extends UntilDestroyedMixin implements OnIn
       .subscribe((action) => {
         this.action = action;
       });
+  }
+
+  public get title():string {
+    return this.action.description || this.action.name;
   }
 
   public get change():ResourceChangeset<WorkPackageResource> {

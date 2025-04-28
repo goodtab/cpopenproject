@@ -50,13 +50,19 @@ ja:
         project: プロジェクト
         user: ユーザー
         work_package: ワークパッケージ
+        subject: タイトル
         hours: ' 時間'
         comments: コメント
         activity: 活動
         spent_on: 日付
         start_time: 開始時間
         end_time: 終了時間
+        time: 時間
     models:
+      time_entry:
+        other: "Time entries"
+      cost_entry:
+        other: "Cost entries"
       cost_type:
         other: "コスト種類"
       time_entry_activity:
@@ -142,12 +148,28 @@ ja:
   label_cost: "Cost"
   label_costs: "コスト"
   label_mandatory_fields: "Mandatory fields"
+  label_my_time_tracking: "My time tracking"
+  label_no_time: "No time tracked"
+  label_next_day: "Next day"
+  label_next_week: "次の週"
+  label_next_month: "Next month"
+  label_previous_day: "Previous day"
+  label_previous_week: "先週"
+  label_previous_month: "Previous month"
+  label_specific_day: "Day %{day}"
+  label_specific_week: "Calendar week %{week}"
+  label_specific_month: "Month %{month}"
+  label_list: "リスト"
+  label_month: "月"
+  label_day: "日"
+  label_today_capitalized: "今日"
   placeholder_activity_select_work_package_first: まずワークパッケージを選択してください。
   notice_something_wrong: "エラーが発生しました。再試行してください。"
   notice_successful_restore: "復元処理が成功します。"
   notice_successful_lock: "ロックに成功しました。"
   notice_cost_logged_successfully: "単価が正常に記録されました。"
   notice_different_time_zones: "このユーザーは異なるタイムゾーン(%{tz})を使用しています。時間は異なるタイムゾーンで記録されます。"
+  notice_time_entry_update_failed: "Failed to update time entry. Errors: %{errors}"
   permission_edit_cost_entries: "予約単価の編集"
   permission_edit_own_cost_entries: "自分が予約した単価の編集"
   permission_edit_hourly_rates: "時給の編集"
@@ -173,9 +195,17 @@ ja:
   text_reassign_time_and_cost_entries: "報告された時間とコストをこの作業項目に再割り当てください。"
   text_warning_hidden_elements: "いくつかのエントリは、集計から除外されている可能性があります。"
   week: "週間"
-  js:
-    text_are_you_sure: "よろしいですか？"
+  total_times:
+    week: "Week Total: %{hours}"
+    month: "Month Total: %{hours}"
+    day: "Day Total: %{hours}"
   api_v3:
     errors:
       validation:
         start_time_different_date: "Date part of startTime (%{start_time}) must be the same as the spentOn (%{spent_on}) date."
+  ee:
+    features:
+      time_entry_time_restrictions: Require exact time tracking
+    upsell:
+      time_entry_time_restrictions:
+        description: "Improve your time tracking by requiring exact start and finish times when logging time."

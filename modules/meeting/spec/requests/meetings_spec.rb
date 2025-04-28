@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -34,7 +35,7 @@ RSpec.describe "Meeting requests",
                type: :rails_request do
   shared_let(:project) { create(:project, enabled_module_names: %i[meetings]) }
   shared_let(:user) { create(:user, member_with_permissions: { project => %i[view_meetings create_meetings edit_meetings] }) }
-  shared_let(:meeting) { create(:structured_meeting, project:, author: user) }
+  shared_let(:meeting) { create(:meeting, project:, author: user) }
 
   before do
     meeting.participants.delete_all
@@ -51,55 +52,6 @@ RSpec.describe "Meeting requests",
     end
   end
 
-  describe "update with a new particpant" do
-    let(:other_user) { create(:user, member_with_permissions: { project => %i[view_meetings] }) }
-    let(:params) do
-      {
-        send_notifications:,
-        title: "Updated meeting",
-        meeting: {
-          participants_attributes: [
-            { user_id: user.id, invited: true },
-            { user_id: other_user.id, invited: true }
-          ]
-        }
-
-      }
-    end
-
-    subject do
-      meeting.reload
-    end
-
-    context "with send_notifications" do
-      let(:send_notifications) { "1" }
-
-      it "sends an invitation mail to the invited users" do
-        patch(project_meeting_path(project, meeting), params:)
-
-        expect(subject.participants.count).to eq(2)
-
-        perform_enqueued_jobs
-
-        expect(ActionMailer::Base.deliveries.size).to eq(2)
-      end
-    end
-
-    context "with send_notifications false" do
-      let(:send_notifications) { "0" }
-
-      it "sends an invitation mail to the invited users" do
-        patch(project_meeting_path(project, meeting), params:)
-
-        expect(subject.participants.count).to eq(2)
-
-        perform_enqueued_jobs
-
-        expect(ActionMailer::Base.deliveries.size).to eq(0)
-      end
-    end
-  end
-
   describe "copy" do
     let(:base_params) do
       {
@@ -107,7 +59,7 @@ RSpec.describe "Meeting requests",
         project_id: project.id,
         meeting: {
           title: "Copied meeting",
-          type: "StructuredMeeting"
+          type: "Meeting"
         }
       }
     end

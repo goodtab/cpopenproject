@@ -37,10 +37,6 @@ module Admin::Settings
       respond_to :html
     end
 
-    def show_local_breadcrumb
-      false
-    end
-
     def settings_params
       super.tap do |settings|
         if settings["consent_required"] == "1" && params["toggle_consent_time"] == "1"

@@ -70,8 +70,23 @@ module WorkPackage::PDFExport::Common::Attachments
     resize_image(local_file.path)
   end
 
-  def attachment_by_api_content_src(work_package, src)
-    # find attachment by api-path
-    work_package.attachments.find { |a| api_url_helpers.attachment_content(a.id) == src }
+  def attachment_by_api_content_src(_work_package, src)
+    attachment_regex = %r{/attachments/(\d+)/content}
+    return nil unless src&.match?(attachment_regex)
+
+    attachments_id = src.scan(attachment_regex).first.first
+
+    # return nil if the src is not an attachment url
+    return nil unless api_url_helpers.attachment_content(attachments_id) == src
+
+    attachment = Attachment.find_by(id: attachments_id.to_i)
+    return nil if attachment.nil?
+    return nil unless attachment.visible?
+
+    attachment
+  rescue StandardError
+    # if the attachment is not found or the id is invalid, we return nil
+    Rails.logger.error "Failed to access attachment #{src}"
+    nil
   end
 end

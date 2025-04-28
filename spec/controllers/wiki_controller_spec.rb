@@ -1072,7 +1072,7 @@ RSpec.describe WikiController do
           get "index", params: { id: @wiki_menu_item.name, project_id: project.id }
 
           expect(response).to be_successful
-          assert_select "#content h2", text: "Table of Contents"
+          assert_select '[data-test-selector="wiki-toc-page-header-title"]', text: "Table of Contents"
           assert_select "#main-menu a.#{@wiki_menu_item.menu_identifier}-menu-item.selected"
         end
       end
@@ -1230,9 +1230,7 @@ RSpec.describe WikiController do
               get "show", params: { project_id: project.id }
 
               expect(response).to be_successful
-
-              assert_select ".toolbar-items a[href='#{new_child_project_wiki_path(project_id: project, id: 'wiki')}']",
-                            "Wiki page"
+              assert_select '[data-test-selector="wiki-new-child-button"]', "Wiki page"
             end
           end
 

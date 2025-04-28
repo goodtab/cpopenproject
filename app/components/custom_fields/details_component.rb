@@ -30,6 +30,7 @@
 #
 module CustomFields
   class DetailsComponent < ApplicationComponent
+    include ApplicationHelper
     include OpPrimer::ComponentHelpers
     include OpTurbo::Streamable
 

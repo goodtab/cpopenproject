@@ -28,4 +28,24 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 <%= render Projects::Settings::IndexPageHeaderComponent.new(project: @project) %>
 
-<%= angular_component_tag "opce-project-settings" %>
+<%=
+  if @project.public?
+    render Primer::Alpha::Banner.new(
+      scheme: :warning,
+      icon: :alert,
+      mb: 2,
+      test_selector: "op-projects-public-warning"
+    ) do |banner|
+      banner.with_action_button(
+        tag: :a,
+        href: toggle_public_dialog_project_settings_general_path(@project),
+        data: { turbo_stream: true },
+        size: :medium,
+      ) { @project.public? ? t(:button_unpublish) : t(:button_publish) }
+
+      I18n.t("projects.settings.public_warning")
+    end
+  end
+%>
+
+<%= render Projects::Settings::General::ShowComponent.new(project: @project) %>

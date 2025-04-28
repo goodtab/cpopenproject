@@ -1,6 +1,7 @@
 <%=
   render(Primer::Alpha::Layout.new) do |component|
-    component.with_main do
+    # The border is only for visualization in the preview
+    component.with_main(border: true, p: 6) do
       "Main content"
     end
     component.with_sidebar(row_placement: :start, col_placement: :end) do

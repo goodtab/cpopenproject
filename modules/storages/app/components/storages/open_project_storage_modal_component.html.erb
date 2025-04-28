@@ -10,6 +10,6 @@
         <%= render(self.class::Body.new(@state)) %>
     <% end %>
     <% dialog.with_footer do %>
-      <%= render(Primer::ButtonComponent.new(data: { "close-dialog-id": self.class.dialog_id })) { I18n.t("button_close") } %>
+      <%= render(Primer::Beta::Button.new(data: { "close-dialog-id": self.class.dialog_id })) { I18n.t("button_close") } %>
     <% end %>
 <% end %>

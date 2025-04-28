@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,11 +28,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 
 require "spec_helper"
+require "contracts/shared/model_contract_shared_context"
 
 RSpec.describe WorkPackages::CreateNoteContract do
+  include_context "ModelContract shared context"
+
+  let(:project) { build_stubbed(:project) }
   let(:work_package) do
     # As we only want to test the contract, we mock checking whether the work_package is valid
-    wp = build_stubbed(:work_package)
+    wp = build_stubbed(:work_package, project:)
     # we need to clear the changes information because otherwise the
     # contract will complain about all the changes to read_only attributes
     wp.send(:clear_changes_information)
@@ -39,57 +45,105 @@ RSpec.describe WorkPackages::CreateNoteContract do
     wp
   end
   let(:user) { build_stubbed(:user) }
-  let(:policy_instance) { double("WorkPackagePolicyInstance") }
+  let(:permissions) { %i[add_work_package_comments add_internal_comments] }
+
+  before do
+    mock_permissions_for(user) do |mock|
+      mock.allow_in_project(*permissions, project:)
+    end
+  end
 
   subject(:contract) do
-    contract = described_class.new(work_package, user)
-
-    contract.send(:"policy=", policy_instance)
-
-    contract
+    described_class.new(work_package, user)
   end
 
-  describe "note" do
-    before do
-      work_package.journal_notes = "blubs"
-    end
-
-    context "if the user has the permissions" do
+  describe "validations" do
+    describe "journal_notes" do
       before do
-        allow(policy_instance).to receive(:allowed?).with(work_package, :comment).and_return true
-
-        contract.validate
+        work_package.journal_notes = "blubs"
       end
 
-      it("is valid") { expect(contract.errors).to be_empty }
+      context "if the user has only the add_work_package_comments permission" do
+        let(:permissions) { %i[add_work_package_comments] }
+
+        it_behaves_like "contract is valid"
+      end
+
+      context "if the user has only the edit_work_packages permission" do
+        let(:permissions) { %i[edit_work_packages] }
+
+        it_behaves_like "contract is valid"
+      end
+
+      context "if the user lacks the permissions" do
+        let(:permissions) { [] }
+
+        it_behaves_like "contract is invalid", journal_notes: :error_unauthorized
+      end
     end
 
-    context "if the user lacks the permissions" do
+    describe "journal_internal" do
       before do
-        allow(policy_instance).to receive(:allowed?).with(work_package, :comment).and_return false
-
-        contract.validate
+        # Setting the journal_notes to not trigger a :blank error
+        work_package.journal_notes = "blubs"
       end
 
-      it "is invalid" do
-        expect(contract.errors.symbols_for(:journal_notes))
-          .to contain_exactly(:error_unauthorized)
+      context "and journal_internal is true, and internal_comments_active? is disabled",
+              with_flag: { internal_comments_active: false } do
+        before do
+          work_package.journal_internal = true
+        end
+
+        it_behaves_like "contract is invalid", journal_internal: :feature_disabled
+      end
+
+      context "and journal_internal is true, and internal_comments_active? is enabled",
+              with_flag: { internal_comments_active: true } do
+        before do
+          work_package.journal_internal = true
+        end
+
+        it_behaves_like "contract is valid"
+      end
+
+      context "and journal_internal is false, and internal_comments_active? is disabled",
+              with_flag: { internal_comments_active: false } do
+        before do
+          work_package.journal_internal = false
+        end
+
+        it_behaves_like "contract is valid"
+      end
+
+      context "with journal_internal is true, internal_comments_active? is active but lacking permissions",
+              with_flag: { internal_comments_active: true } do
+        let(:permissions) { super() - [:add_internal_comments] }
+
+        before do
+          work_package.journal_internal = true
+        end
+
+        it_behaves_like "contract is invalid", journal_internal: :error_unauthorized
+      end
+
+      context "with journal_internal is false, internal_comments_active? is active and lacking permissions",
+              with_flag: { internal_comments_active: true } do
+        let(:permissions) { super() - [:add_internal_comments] }
+
+        before do
+          work_package.journal_internal = false
+        end
+
+        it_behaves_like "contract is valid"
       end
     end
-  end
 
-  describe "subject" do
-    before do
-      work_package.subject = "blubs"
+    describe "another attribute of work package" do
+      before do
+        work_package.subject = "blubs"
+      end
 
-      allow(policy_instance).to receive(:allowed?).and_return true
-
-      contract.validate
-    end
-
-    it "is invalid" do
-      expect(contract.errors.symbols_for(:subject))
-        .to contain_exactly(:error_readonly)
+      it_behaves_like "contract is invalid", subject: :error_readonly
     end
   end
 end

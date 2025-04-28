@@ -91,7 +91,8 @@ uk:
         name: Microsoft Entra
       custom:
         name: Власний
-      upsale:
+      upsell:
+        title: "Єдиний вхід (SSO) з OpenID Connect"
         description: Підключіть OpenProject до постачальника ідентифікаційних даних OpenID
       label_add_new: Додати нового постачальника OpenID
       label_edit: Редагувати OpenID провайдера %{name}

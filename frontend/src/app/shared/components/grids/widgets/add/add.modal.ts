@@ -23,10 +23,7 @@ export class AddGridWidgetModalComponent extends OpModalComponent implements OnI
   text = {
     title: this.i18n.t('js.grid.add_widget'),
     close_popup: this.i18n.t('js.button_close'),
-    upsale_link: this.i18n.t('js.grid.upsale.link'),
-    upsale_text: this.i18n.t('js.grid.upsale.text'),
     cancel_button: this.i18n.t('js.button_cancel'),
-    more_info_link: enterpriseDocsUrl.graphWidgets,
   };
 
   public chosenWidget:WidgetRegistration;
@@ -49,7 +46,6 @@ export class AddGridWidgetModalComponent extends OpModalComponent implements OnI
 
   ngOnInit() {
     super.ngOnInit();
-    this.eeShowBanners = this.bannerService.eeShowBanners;
     this.fetchSchema();
   }
 

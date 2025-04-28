@@ -44,10 +44,10 @@ module Settings
             text: t("label_project_plural")
           },
           {
-            href: admin_settings_project_life_cycle_step_definitions_path,
-            text: t("settings.project_life_cycle_step_definitions.heading")
+            href: admin_settings_project_phase_definitions_path,
+            text: t("settings.project_phase_definitions.heading")
           },
-          t("settings.project_life_cycle_step_definitions.#{heading_scope}.heading")
+          t("settings.project_phase_definitions.#{heading_scope}.heading")
         ]
       end
     end

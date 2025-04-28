@@ -36,7 +36,7 @@ RSpec.describe WorkPackageRelationsController do
   shared_let(:work_package) { create(:work_package, project:) }
   shared_let(:related_work_package) { create(:work_package, project:) }
   shared_let(:unrelated_work_package) { create(:work_package, project:) }
-  shared_let(:relation) do
+  shared_let(:relation, refind: true) do
     create(:relation,
            from: work_package,
            to: related_work_package,
@@ -125,7 +125,7 @@ RSpec.describe WorkPackageRelationsController do
 
   describe "PATCH /work_packages/:work_package_id/relations/:id" do
     before do
-      relation.update!(description: "Old relation description")
+      relation.update_column(:description, "Old relation description")
       allow(WorkPackageRelationsTab::IndexComponent).to receive(:new).and_call_original
       allow(controller).to receive(:replace_via_turbo_stream).and_call_original
     end
@@ -164,6 +164,19 @@ RSpec.describe WorkPackageRelationsController do
       expect(controller).to have_received(:replace_via_turbo_stream)
         .with(component: an_instance_of(WorkPackageRelationsTab::IndexComponent))
       expect { relation.reload }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+
+    it "does nothing if the given relation does not exist" do
+      deleted_relation_id = relation.id
+      relation.destroy
+      delete("destroy", params: { work_package_id: work_package.id, id: deleted_relation_id }, as: :turbo_stream)
+
+      expect(response).to be_successful
+
+      expect(WorkPackageRelationsTab::IndexComponent).to have_received(:new)
+        .with(work_package:)
+      expect(controller).to have_received(:replace_via_turbo_stream)
+        .with(component: an_instance_of(WorkPackageRelationsTab::IndexComponent))
     end
   end
 end

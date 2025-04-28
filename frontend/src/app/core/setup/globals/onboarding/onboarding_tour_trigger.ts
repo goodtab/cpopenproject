@@ -9,8 +9,15 @@ import { debugLog } from 'core-app/shared/helpers/debug_output';
 
 async function triggerTour(name:OnboardingTourNames):Promise<void> {
   debugLog(`Loading and triggering onboarding tour ${name}`);
+
+  const pluginContext = await window.OpenProject.getPluginContext();
+  const configuration = pluginContext.services.configurationService;
+
+  // Wait for configuration to be loaded
+  await configuration.initialize();
+
   await import(/* webpackChunkName: "onboarding-tour" */ './onboarding_tour').then((tour) => {
-    tour.start(name);
+    tour.start(name, configuration);
   });
 }
 

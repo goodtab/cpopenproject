@@ -1,4 +1,4 @@
-@mixin activities-tab-component($breakpoint, $input-container-padding-right: 10px)
+@mixin activities-tab-component($breakpoint)
     overflow-y: hidden
     &--content-container
         row-gap: var(--Layout-row-gap)
@@ -39,7 +39,6 @@
             right: 0
             border-radius: 0px
             border-top: var(--borderWidth-thin, 1px) solid var(--borderColor-default)
-            padding-right: $input-container-padding-right !important
             margin-bottom: 0 !important
 
         &_sort-desc
@@ -52,7 +51,7 @@
 
 .work-packages-activities-tab-index-component--within-notification-center
     .work-packages-activities-tab-index-component
-        @include activities-tab-component($breakpoint-lg, 15px)
+        @include activities-tab-component($breakpoint-lg)
 
 .work-packages-activities-tab-index-component--within-split-screen
     .work-packages-activities-tab-index-component

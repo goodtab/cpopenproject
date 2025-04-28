@@ -28,7 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%=
-  primer_form_with(**form_options) do |f|
+  admin_settings_primer_form_with(**form_options) do |f|
     render(WorkPackages::Types::SettingsForm.new(f))
   end
 %>

@@ -1,4 +1,9 @@
 cs:
+  ee:
+    upsell:
+      ldap_groups:
+        title: 'Synchronizace skupiny LDAP'
+        description: 'Synchronize LDAP groups with OpenProject groups to manage users, change their permissions and facilitate user management across groups.'
   plugin_openproject_ldap_groups:
     name: "OpenProject LDAP skupiny"
     description: "Synchronizace členství ve skupině LDAP."
@@ -71,5 +76,5 @@ cs:
           Pokud povolíte tuto možnost, nalezení uživatelé budou také automaticky vytvořena v OpenProject. Bez něho, pouze existující účty budou v OpenProject přidány do skupin.
         dn_text: 'Zadejte celé DN skupiny v LDAP'
         group_text: 'Vyberte existující OpenProject skupinu, se kterou budou členové LDAP synchronizovat'
-      upsale:
+      upsell:
         description: 'Využijte synchronizované skupiny LDAP pro správu uživatelů, změnu jejich oprávnění a usnadnění správy uživatelů napříč skupinami.'

@@ -30,27 +30,51 @@ See COPYRIGHT and LICENSE files for more details.
 <%=
   component_wrapper do
     flex_layout do |container|
-      container.with_row(test_selector: "validation-result--subtitle") do
-        render(Primer::Beta::Text.new(font_weight: :bold)) { I18n.t("storages.health.connection_validation.subtitle") }
-      end
+      if @result.present?
+        container.with_row do
+          header = summary_header
 
-      if @result.validation_result_exists?
-        container.with_row(mt: 2) do
-          status = status_indicator
-
-          concat(render(Primer::Beta::Text.new(pr: 2, test_selector: "validation-result--timestamp")) do
-            I18n.t('storages.health.checked', datetime: helpers.format_time(@result.timestamp))
-          end)
-          concat(render(Primer::Beta::Label.new(scheme: status[:scheme])) { status[:label] })
+          concat(render(Primer::Beta::Octicon.new(icon: header[:icon], color: header[:icon_color], mr: 2)))
+          concat(render(Primer::Beta::Text.new(font_weight: :bold)) { header[:text] })
         end
-      end
-
-      if @result.description.present?
-        prefix = @result.error_code? ? "#{@result.error_code.upcase}: " : ""
 
         container.with_row(mt: 2) do
-          render(Primer::Beta::Text.new(color: :muted, test_selector: "validation-result--description")) do
-            prefix + @result.description
+          render(Primer::Beta::Text.new(color: :muted)) { summary_description }
+        end
+
+        container.with_row(mt: 2) do
+          render(
+            Primer::Beta::Button.new(
+              scheme: :link,
+              color: :default,
+              font_weight: :bold,
+              tag: :a,
+              href: admin_settings_storage_health_status_report_path(model)
+            )
+          ) do |button|
+            button.with_leading_visual_icon(icon: :meter)
+            I18n.t("storages.health.open_report")
+          end
+        end
+      else
+        container.with_row do
+          primer_form_with(
+            model:,
+            url: create_health_status_report_admin_settings_storage_health_status_report_path(model),
+            method: :post,
+            data: { turbo: true }
+          ) do
+            render(
+              Primer::Beta::Button.new(
+                scheme: :link,
+                color: :default,
+                font_weight: :bold,
+                type: :submit
+              )
+            ) do |button|
+              button.with_leading_visual_icon(icon: :meter)
+              I18n.t("storages.health.actions.run_checks")
+            end
           end
         end
       end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -362,7 +364,7 @@ module OpenProject
             elsif (parsing_descr == 1) && line.chomp.to_s == ""
               parsing_descr = 2
             elsif parsing_descr == 1
-              changeset[:description] << line[4..-1]
+              changeset[:description] += line[4..-1]
             end
           end
 
@@ -392,8 +394,8 @@ module OpenProject
           args << "--all" if options[:all]
           args << "-n" << options[:limit].to_i.to_s if options[:limit]
           from_to = ""
-          from_to << "#{identifier_from}.." if identifier_from
-          from_to << identifier_to.to_s if identifier_to
+          from_to += "#{identifier_from}.." if identifier_from
+          from_to += identifier_to.to_s if identifier_to
           args << from_to if from_to.present?
           args << "--since=#{options[:since].strftime('%Y-%m-%d %H:%M:%S')}" if options[:since]
           args << "--" << scm_encode(@path_encoding, "UTF-8", path) if path.present?

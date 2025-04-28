@@ -26,91 +26,67 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-RSpec.shared_context "with seeded projects and stages and gates" do
+RSpec.shared_context "with seeded projects and phases" do
   shared_let(:project) { create(:project, name: "Foo project", identifier: "foo-project") }
   shared_let(:standard) { create(:standard_global_role) }
   shared_let(:admin) { create(:admin) }
 
   shared_let(:life_cycle_initiating_definition) do
-    create :project_stage_definition, name: "Initiating"
-  end
-  shared_let(:life_cycle_ready_for_planning_definition) do
-    create :project_gate_definition, name: "Ready for Planning"
+    create :project_phase_definition, name: "Initiating"
   end
   shared_let(:life_cycle_planning_definition) do
-    create :project_stage_definition, name: "Planning"
-  end
-  shared_let(:life_cycle_ready_for_executing_definition) do
-    create :project_gate_definition, name: "Ready for Executing"
+    create :project_phase_definition, :with_gates, name: "Planning"
   end
   shared_let(:life_cycle_executing_definition) do
-    create :project_stage_definition, name: "Executing"
-  end
-  shared_let(:life_cycle_ready_for_closing_definition) do
-    create :project_gate_definition, name: "Ready for Closing"
+    create :project_phase_definition, :with_gates, name: "Executing"
   end
   shared_let(:life_cycle_closing_definition) do
-    create :project_stage_definition, name: "Closing"
+    create :project_phase_definition, name: "Closing"
   end
 
   let(:start_date) { Time.zone.today.next_week }
 
   let(:life_cycle_initiating) do
-    create :project_stage,
+    create :project_phase,
            definition: life_cycle_initiating_definition,
            start_date:,
-           end_date: start_date + 1.day,
-           project:
-  end
-  let(:life_cycle_ready_for_planning) do
-    create :project_gate,
-           definition: life_cycle_ready_for_planning_definition,
-           date: start_date + 2.days,
+           finish_date: start_date + 1.day,
            project:
   end
   let(:life_cycle_planning) do
-    create :project_stage,
+    create :project_phase,
            definition: life_cycle_planning_definition,
            start_date: start_date + 4.days,
-           end_date: start_date + 7.days,
-           project:
-  end
-  let(:life_cycle_ready_for_executing) do
-    create :project_gate,
-           definition: life_cycle_ready_for_executing_definition,
-           date: start_date + 8.days,
+           finish_date: start_date + 7.days,
            project:
   end
   let(:life_cycle_executing) do
-    create :project_stage,
+    create :project_phase,
            definition: life_cycle_executing_definition,
            start_date: start_date + 9.days,
-           end_date: start_date + 10.days,
-           project:
-  end
-  let(:life_cycle_ready_for_closing) do
-    create :project_gate,
-           definition: life_cycle_ready_for_closing_definition,
-           date: start_date + 11.days,
+           finish_date: start_date + 10.days,
            project:
   end
   let(:life_cycle_closing) do
-    create :project_stage,
+    create :project_phase,
            definition: life_cycle_closing_definition,
            start_date: start_date + 14.days,
-           end_date: start_date + 18.days,
+           finish_date: start_date + 18.days,
            project:
   end
 
   let!(:project_life_cycles) do
     [
       life_cycle_initiating,
-      life_cycle_ready_for_planning,
       life_cycle_planning,
-      life_cycle_ready_for_executing,
       life_cycle_executing,
-      life_cycle_ready_for_closing,
       life_cycle_closing
     ]
+  end
+
+  before do
+    project.add_journal(user: SystemUser.first)
+
+    project.save_journals
   end
 end

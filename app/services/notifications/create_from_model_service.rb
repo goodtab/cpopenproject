@@ -31,18 +31,18 @@
 class Notifications::CreateFromModelService
   MENTION_USER_TAG_ID_PATTERN =
     '<mention[^>]*(?:data-type="user"[^>]*data-id="(\d+)")|(?:data-id="(\d+)"[^>]*data-type="user")[^>]*>'
-      .freeze
+
   MENTION_USER_HASH_ID_PATTERN =
     '\buser#(\d+)\b'
-      .freeze
+
   MENTION_USER_LOGIN_PATTERN =
-    '\buser:"(.+?)"'.freeze
+    '\buser:"(.+?)"'
   MENTION_GROUP_TAG_ID_PATTERN =
     '<mention[^>]*(?:data-type="group"[^>]*data-id="(\d+)")|(?:data-id="(\d+)"[^>]*data-type="group")[^>]*>'
-      .freeze
+
   MENTION_GROUP_HASH_ID_PATTERN =
     '\bgroup#(\d+)\b'
-      .freeze
+
   COMBINED_MENTION_PATTERN =
     [MENTION_USER_TAG_ID_PATTERN,
      MENTION_USER_HASH_ID_PATTERN,
@@ -247,7 +247,7 @@ class Notifications::CreateFromModelService
   def settings_for_allowed_users(user_scope, reason)
     NotificationSetting
       .where(reason => true)
-      .where(user: user_scope.where(id: User.allowed(strategy.permission, project)))
+      .where(user: user_scope.where(id: User.allowed(strategy.permission(journal, reason), project)))
   end
 
   # Returns the text of the model (currently suited to work package description and subject) eligible

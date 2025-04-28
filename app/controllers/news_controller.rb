@@ -118,13 +118,9 @@ class NewsController < ApplicationController
 
   def find_news_object
     @news = @object = News.find(params[:id].to_i)
-  rescue ActiveRecord::RecordNotFound
-    render_404
   end
 
   def find_project
     @project = Project.find(params[:project_id])
-  rescue ActiveRecord::RecordNotFound
-    render_404
   end
 end

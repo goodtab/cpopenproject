@@ -27,7 +27,7 @@ fa:
       budget:
         author: "نویسنده"
         available: "در دسترس"
-        budget: "Planned"
+        budget: "برنامه‌ریزی شده"
         budget_ratio: "Spent (ratio)"
         description: "توضیحات"
         spent: "صرف شده"
@@ -37,7 +37,7 @@ fa:
         labor_budget: "Planned labor costs"
         material_budget: "Planned unit costs"
       work_package:
-        budget_subject: "Budget title"
+        budget_subject: "عنوان بودجه"
     models:
       budget: "بودجه"
       material_budget_item: "واحد"
@@ -46,9 +46,9 @@ fa:
       budget: "بودجه ها"
   attributes:
     budget: "بودجه"
-  button_add_budget_item: "Add planned costs"
+  button_add_budget_item: "افزودن هزینه برنامه‌ریزی شده"
   button_add_budget: "اضافه کردن بودجه"
-  button_add_cost_type: "Add cost type"
+  button_add_cost_type: "افزودن نوع هزینه"
   button_cancel_edit_budget: "Cancel editing budget"
   button_cancel_edit_costs: "Cancel editing costs"
   caption_labor: "کار"

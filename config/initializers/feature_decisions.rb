@@ -49,7 +49,7 @@ OpenProject::FeatureDecisions.add :generate_work_package_subjects,
                                                "automatically generated work package subjects."
 
 OpenProject::FeatureDecisions.add :stages_and_gates,
-                                  description: "Enables the under construction feature of stages and gates."
+                                  description: "Enables the under construction feature of phases."
 
 OpenProject::FeatureDecisions.add :oidc_token_exchange,
                                   description: "Enables the under construction OAuth2 token exchange, allowing " \
@@ -60,3 +60,7 @@ OpenProject::FeatureDecisions.add :work_package_comment_id_url,
                                   description: "Introduced a new WP comment URL identifier structure " \
                                                "`#comment-<journal-id>` replacing the old " \
                                                "`#activity-<journal-sequence_number>`."
+
+OpenProject::FeatureDecisions.add :internal_comments,
+                                  description: "Enables submitting comments that are internal" \
+                                               "and only a subset of users can see"

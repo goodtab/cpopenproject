@@ -8,9 +8,9 @@
                    size: :medium,
                    input_width: :small
                  )) do |component|
-            selected = entry[:options].find { |e| e[:default] }[:value]
-            entry[:options].each do |entry|
-              component.option(label: entry[:label], value: entry[:value], selected: selected == entry[:value])
+            selected = find_selected_option(entry)
+            entry[:options].each do |e|
+              component.option(label: e[:label], value: e[:value], selected: selected[:value] == e[:value])
             end
           end %>
     <% end %>

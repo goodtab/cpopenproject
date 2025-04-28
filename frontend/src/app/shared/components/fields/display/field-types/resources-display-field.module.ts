@@ -72,7 +72,7 @@ export class ResourcesDisplayField extends DisplayField {
     content.appendChild(abridged);
 
     if (values.length > 2) {
-      const badge = this.optionDiv(values.length.toString(), 'badge', '-secondary');
+      const badge = this.optionDiv(values.length.toString(), 'badge');
       content.appendChild(badge);
     }
 

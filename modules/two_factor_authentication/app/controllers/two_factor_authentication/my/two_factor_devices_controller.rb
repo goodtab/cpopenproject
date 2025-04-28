@@ -112,10 +112,6 @@ module ::TwoFactorAuthentication
         url_for action: :index
       end
 
-      def show_local_breadcrumb
-        false
-      end
-
       def registration_success_path
         url_for(action: :index)
       end

@@ -56,14 +56,9 @@ See COPYRIGHT and LICENSE files for more details.
                    "admin--custom-fields-target": "format"
                  } %>
     <div class="form--field-extra-actions" <%= format_dependent.attributes(:enterpriseBanner) %>>
-      <%= angular_component_tag "opce-enterprise-banner",
-                                inputs: {
-                                  collapsible: true,
-                                  topMargin: true,
-                                  opReferrer: "custom-field-hierarchy",
-                                  textMessage: I18n.t("custom_fields.upsale.custom_field_format_hierarchy"),
-                                  moreInfoLink: OpenProject::Static::Links.links[:enterprise_docs][:boards][:href]
-                                } %>
+      <%=
+        render(EnterpriseEdition::BannerComponent.new(:custom_field_hierarchies, mt: 2))
+      %>
     </div>
   </div>
 

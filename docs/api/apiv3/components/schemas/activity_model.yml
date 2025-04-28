@@ -2,38 +2,173 @@
 ---
 type: object
 properties:
+  _type:
+    type: string
+    enum:
+      - "Activity::Comment"
   id:
     type: integer
     description: Activity id
-    readOnly: true
-    exclusiveMinimum: 0
+    minimum: 1
   version:
     type: integer
     description: Activity version
-    readOnly: true
-    exclusiveMinimum: 0
+    minimum: 1
   comment:
-    allOf:
-    - "$ref": "./formattable.yml"
-    - {}
+    $ref: './formattable.yml'
   details:
     type: array
-    readOnly: true
     items:
-      allOf:
-      - "$ref": "./formattable.yml"
+      $ref: './formattable.yml'
   createdAt:
     type: string
     format: date-time
     description: Time of creation
-    readOnly: true
   updatedAt:
     type: string
     format: date-time
     description: Time of update
-    readOnly: true
+  _embedded:
+    type: object
+    properties:
+      attachments:
+        allOf:
+          - $ref: './attachments_model.yml'
+          - description: Collection of attachments for this activity
+      workPackage:
+        allOf:
+          - $ref: './work_package_model.yml'
+          - description: |-
+              The work package this activity belongs to
+              
+              # Conditions
+              
+              Only embedded when the `journable` of the activity is a work package
+  _links:
+    type: object
+    properties:
+      self:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              This activity
+
+              **Resource**: Activity
+      workPackage:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The work package this activity belongs to
+
+              **Resource**: WorkPackage
+      user:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The user who created this activity
+
+              **Resource**: Principal
+      update:
+        allOf:
+          - $ref: './link.yml'
+          - description: Update this activity
+      attachments:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The attachment collection of this activity
+
+              **Resource**: Attachments
+      addAttachment:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              Attach a file to the activity
+
+              # Conditions
+
+              **Permissions**: 
+              - `add_work_package_comments`
+              - for internal comments: `add_internal_comments`
 example:
+  id: 1
   _type: Activity::Comment
+  _embedded:
+    attachments:
+      _type: Collection
+      total: 1
+      count: 1
+      _embedded:
+        elements:
+          - _type: Attachment
+            id: 30388
+            fileName: "Task_Ensure_financing___4___OpenProject_DEV.jpeg"
+            fileSize: 540992
+            description:
+              format: plain
+              raw: ""
+              html: ""
+            status: "uploaded"
+            contentType: "image/jpeg"
+            digest:
+              algorithm: "md5"
+              hash: "d02d312b25383b595a9fa10f1a8999fe"
+            createdAt: "2025-04-08T15:37:19.275Z"
+            _links:
+              self:
+                href: "/api/v3/attachments/30388"
+                title: "Task_Ensure_financing___4___OpenProject_DEV.jpeg"
+              author:
+                href: "/api/v3/users/435"
+                title: "Firstname"
+              container:
+                href: "/api/v3/activities/79090"
+              staticDownloadLocation:
+                href: "/api/v3/attachments/30388/content"
+              downloadLocation:
+                href: "/api/v3/attachments/30388/content"
+              delete:
+                href: "/api/v3/attachments/30388"
+                method: "delete"
+      _links:
+        self:
+          href: "/api/v3/activities/79090/attachments"
+    workPackage:
+      _type: WorkPackage
+      id: 10403
+      lockVersion: 2
+      subject: "Ensure financing"
+      description:
+        format: "markdown"
+        raw: Lorem ipsum dolor sit amet.
+        html: "<p>Lorem ipsum dolor sit amet.</p>"
+      scheduleManually: true
+      startDate: null
+      dueDate: null
+      derivedStartDate: null
+      derivedDueDate: null
+      estimatedTime: null
+      derivedEstimatedTime: null
+      derivedRemainingTime: null
+      duration: null
+      ignoreNonWorkingDays: false
+      percentageDone: null
+      derivedPercentageDone: null
+      createdAt: "2025-03-24T13:11:09.480Z"
+      updatedAt: "2025-04-14T11:00:02.411Z"
+      _links:
+        self:
+          href: "/api/v3/work_packages/10403"
+          title: "Ensure financing"
+        type:
+          href: "/api/v3/types/1"
+          title: "Task"
+        status:
+          href: "/api/v3/statuses/1"
+          title: "New"
+        project:
+          href: "/api/v3/projects/918"
+          title: "RVC Test"
   _links:
     self:
       href: "/api/v3/activity/1"
@@ -44,11 +179,18 @@ example:
     user:
       href: "/api/v3/users/1"
       title: John Sheppard - admin
-  id: 1
+    attachments:
+      href: "/api/v3/activities/1/attachments"
+    addAttachment:
+      href: "/api/v3/activities/1/attachments"
+      method: post
+    update:
+      href: "/api/v3/activities/1"
+      method: "patch"
   details:
-  - format: markdown
-    raw: Lorem ipsum dolor sit amet.
-    html: "<p>Lorem ipsum dolor sit amet.</p>"
+    - format: markdown
+      raw: Lorem ipsum dolor sit amet.
+      html: "<p>Lorem ipsum dolor sit amet.</p>"
   comment:
     format: markdown
     raw: Lorem ipsum dolor sit amet.

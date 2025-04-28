@@ -39,25 +39,14 @@ See COPYRIGHT and LICENSE files for more details.
           )
         end
       end
-      title_container.with_column(classes: "ellipsis", test_selector: "project-life-cycle-step-definition-name") do
-        render(
-          if allowed_to_customize_life_cycle?
-            Primer::Beta::Link.new(
-              classes: "filter-target-visible-text",
-              href: edit_admin_settings_project_life_cycle_step_definition_path(definition),
-              font_weight: :bold
-            )
-          else
-            Primer::Beta::Text.new(
-              font_weight: :bold
-            )
-          end
-        ) do
-          definition.name
-        end
-      end
       title_container.with_column do
-        render(Projects::LifeCycleTypeComponent.new(definition))
+        render(
+          Projects::PhaseDefinitionComponent.new(
+            definition,
+            edit_link: allowed_to_customize_life_cycle?,
+            phase_text_options: { classes: "filter-target-visible-text" }
+          )
+        )
       end
       title_container.with_column(classes: "no-wrap") do
         render(Primer::Beta::Text.new) { t("project.count", count: definition.project_count) }
@@ -71,7 +60,7 @@ See COPYRIGHT and LICENSE files for more details.
 
           menu.with_item(
             label: t(:label_edit),
-            href: edit_admin_settings_project_life_cycle_step_definition_path(definition)
+            href: edit_admin_settings_project_phase_definition_path(definition)
           ) do |item|
             item.with_leading_visual_icon(icon: :pencil)
           end
@@ -88,7 +77,7 @@ See COPYRIGHT and LICENSE files for more details.
           menu.with_item(
             label: t(:text_destroy),
             scheme: :danger,
-            href: admin_settings_project_life_cycle_step_definition_path(definition),
+            href: admin_settings_project_phase_definition_path(definition),
             form_arguments: {
               method: :delete,
               data: {

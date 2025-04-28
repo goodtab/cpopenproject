@@ -53,7 +53,7 @@ export class FreeTrialButtonComponent implements OnInit {
   email = '';
 
   public text = {
-    button_trial: this.I18n.t('js.admin.enterprise.upsale.button_start_trial'),
+    button_trial: this.I18n.t('js.admin.enterprise.upsell.button_start_trial'),
     confirmation_info: (date:string, email:string):string => this.I18n.t('js.admin.enterprise.trial.confirmation_info', {
       date,
       email,

@@ -46,11 +46,10 @@ RSpec.describe Users::HoverCardComponent, type: :component do
     groups
     login_as(current_user)
     render_inline(subject)
-    page.extend TestSelectorFinders
   end
 
   it "renders successfully" do
-    page.find_test_selector("user-hover-card-name", text: user.name)
+    find_test_selector("user-hover-card-name", text: user.name)
   end
 
   context "when the user does not exist" do
@@ -71,14 +70,14 @@ RSpec.describe Users::HoverCardComponent, type: :component do
       let(:current_user) { build(:admin) }
 
       it "shows the email address of a user" do
-        page.find_test_selector("user-hover-card-email", text: user.mail)
+        find_test_selector("user-hover-card-email", text: user.mail)
       end
     end
   end
 
   context "when showing the group summary" do
     it "shows a no results text for users without group memberships" do
-      g = page.find_test_selector("user-hover-card-groups")
+      g = find_test_selector("user-hover-card-groups")
       expect(g).to have_text(I18n.t("users.groups.no_results_title_text"))
     end
 
@@ -88,7 +87,7 @@ RSpec.describe Users::HoverCardComponent, type: :component do
       end
 
       it "lists the group names for a user" do
-        g = page.find_test_selector("user-hover-card-groups")
+        g = find_test_selector("user-hover-card-groups")
 
         expect(g).to have_text("Member of #{groups.first.lastname}, #{groups.last.lastname}.")
       end
@@ -98,7 +97,7 @@ RSpec.describe Users::HoverCardComponent, type: :component do
         let(:another_user) { create(:user) }
 
         it "does not show groups" do
-          g = page.find_test_selector("user-hover-card-groups")
+          g = find_test_selector("user-hover-card-groups")
 
           expect(g).to have_text(I18n.t("users.groups.no_results_title_text"))
         end
@@ -111,7 +110,7 @@ RSpec.describe Users::HoverCardComponent, type: :component do
       end
 
       it "lists some group names with truncation" do
-        g = page.find_test_selector("user-hover-card-groups")
+        g = find_test_selector("user-hover-card-groups")
 
         expect(g).to have_text("Member of #{groups.slice(0, 4).map(&:lastname).join(', ')} and 4 more.")
       end
@@ -120,7 +119,7 @@ RSpec.describe Users::HoverCardComponent, type: :component do
 
   context "when clicking on the Open Profile button" do
     it "leads to the users profile" do
-      b = page.find_test_selector("user-hover-card-profile-btn")
+      b = find_test_selector("user-hover-card-profile-btn")
 
       expect(b).to have_text(I18n.t("users.open_profile"))
       expect(b["href"]).to eq(user_path(user))
@@ -130,7 +129,7 @@ RSpec.describe Users::HoverCardComponent, type: :component do
       let(:current_user) { build(:admin) }
 
       it "leads to editing the users profile" do
-        b = page.find_test_selector("user-hover-card-profile-btn")
+        b = find_test_selector("user-hover-card-profile-btn")
 
         expect(b).to have_text(I18n.t("users.open_profile"))
         expect(b["href"]).to eq(edit_user_path(user))

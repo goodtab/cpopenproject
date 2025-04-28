@@ -64,7 +64,8 @@ ms:
         Medan berikut mengawal atribut yang disediakan oleh pembekal identiti SAML digunakan untuk menyediakan atribut pengguna dalam OpenProject
       metadata:
         dialog: "Ini ialah URL tempat metadata SAML OpenProject tersedia. Gunakan pilihan ini untuk mengkonfigurasi pembekal identiti anda:"
-      upsale:
+      upsell:
+        title: "Single Sign-On (SSO) with SAML"
         description: Sambungkan OpenProject kepada pembekal identiti SAML
       request_attributes:
         title: 'Atribut yang diminta'

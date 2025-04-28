@@ -251,27 +251,39 @@ RSpec.describe "Projects lists columns", :js, with_settings: { login_required?: 
   end
 
   context "with life cycle columns" do
-    shared_let(:life_cycle_gate) { create(:project_gate, project:, date: Date.new(2024, 12, 13)) }
-    shared_let(:life_cycle_stage) do
-      create(:project_stage,
+    shared_let(:project_phase_with_gates) do
+      create(:project_phase,
+             :with_gated_definition,
              project: development_project,
              start_date: Date.new(2024, 12, 1),
-             end_date: Date.new(2024, 12, 13))
+             finish_date: Date.new(2024, 12, 13))
     end
-    shared_let(:inactive_life_cycle_gate) { create(:project_gate, project:, active: false) }
-    shared_let(:inactive_life_cycle_stage) { create(:project_stage, project: development_project, active: false) }
+    shared_let(:project_phase) do
+      create(:project_phase,
+             project:,
+             start_date: Date.new(2024, 12, 1),
+             finish_date: Date.new(2024, 12, 13))
+    end
+    shared_let(:inactive_project_phase_with_gates) do
+      create(:project_phase,
+             :with_gated_definition,
+             project: development_project,
+             active: false)
+    end
+    shared_let(:inactive_project_phase) { create(:project_phase, project: development_project, active: false) }
 
     context "with the feature flag disabled", with_flag: { stages_and_gates: false } do
-      specify "life cycle columns cannot be configured to show up" do
+      specify "project phase columns cannot be configured to show up" do
         login_as(admin)
         projects_page.visit!
 
         element_selector = "#columns-select_autocompleter ng-select.op-draggable-autocomplete--input"
         results_selector = "#columns-select_autocompleter ng-dropdown-panel .ng-dropdown-panel-items"
-        projects_page.expect_no_config_columns(life_cycle_gate.name,
-                                               life_cycle_stage.name,
-                                               inactive_life_cycle_gate.name,
-                                               inactive_life_cycle_stage.name,
+        projects_page.expect_no_config_columns(project_phase_with_gates.start_gate_name,
+                                               project_phase_with_gates.finish_gate_name,
+                                               project_phase.name,
+                                               inactive_project_phase_with_gates.name,
+                                               inactive_project_phase.name,
                                                element_selector:,
                                                results_selector:)
       end
@@ -284,52 +296,58 @@ RSpec.describe "Projects lists columns", :js, with_settings: { login_required?: 
           projects_page.visit!
         end
 
-        specify "configuring life cycle column display" do
-          # life cycle columns do not show up by default
-          expect(page).to have_no_text(life_cycle_gate.name.upcase)
-          expect(page).to have_no_text(life_cycle_stage.name.upcase)
-          expect(page).to have_no_text(inactive_life_cycle_gate.name.upcase)
-          expect(page).to have_no_text(inactive_life_cycle_stage.name.upcase)
-
-          # life cycle columns show up when configured to do so
+        specify "configuring project phase column display" do
+          # project phase columns do not show up by default
           projects_page.expect_columns("Name")
-          projects_page.set_columns(life_cycle_gate.name)
+          projects_page.expect_no_columns(project_phase_with_gates.finish_gate_name,
+                                          project_phase_with_gates.start_gate_name,
+                                          project_phase_with_gates.name,
+                                          project_phase.name,
+                                          inactive_project_phase.name)
 
-          expect(page).to have_text(life_cycle_gate.name.upcase)
+          # project phase columns show up when configured to do so
+          # Configuring columns specifically for gates is not supported.
+          # Phases inactive or not in a single project, can be added.
+          projects_page.set_columns(project_phase.name,
+                                    project_phase_with_gates.name,
+                                    inactive_project_phase.name)
+
+          projects_page.expect_columns("Name",
+                                       project_phase_with_gates.name,
+                                       project_phase.name,
+                                       inactive_project_phase.name)
         end
 
-        specify "inactive life cycle columns have no cell content" do
-          col_names = [life_cycle_gate, life_cycle_stage,
-                       inactive_life_cycle_gate,
-                       inactive_life_cycle_stage].collect(&:name)
+        specify "inactive project phase columns have no cell content" do
+          col_names = [project_phase_with_gates,
+                       project_phase,
+                       inactive_project_phase_with_gates,
+                       inactive_project_phase].collect(&:name)
 
           projects_page.set_columns(*col_names)
           # Inactive columns are still displayed in the header:
           projects_page.expect_columns("Name", *col_names)
 
-          gate_project = life_cycle_gate.project
-          projects_page.within_row(gate_project) do
-            expect(page).to have_css(".name", text: gate_project.name)
-            expect(page).to have_css(".lcsd_#{life_cycle_gate.definition_id}", text: "12/13/2024")
-            # life cycle assigned to other project, no text here
-            expect(page).to have_css(".lcsd_#{life_cycle_stage.definition_id}", text: "")
-            # inactive life cycles, no text here
-            expect(page).to have_css(".lcsd_#{inactive_life_cycle_stage.definition_id}", text: "")
-            expect(page).to have_css(".lcsd_#{inactive_life_cycle_gate.definition_id}", text: "")
+          projects_page.within_row(development_project) do
+            expect(page).to have_css(".name", text: development_project.name)
+            expect(page).to have_css(".project_phase_#{project_phase_with_gates.definition_id}",
+                                     text: "12/01/2024\n-\n12/13/2024")
+            # project phase assigned to other project, no text here
+            expect(page).to have_css(".project_phase_#{project_phase.definition_id}", text: "")
+            # inactive project phases, no text here
+            expect(page).to have_css(".project_phase_#{inactive_project_phase.definition_id}", text: "")
+            expect(page).to have_css(".project_phase_#{inactive_project_phase_with_gates.definition_id}", text: "")
           end
 
-          stage_project = life_cycle_stage.project
-          projects_page.within_row(stage_project) do
-            expect(page).to have_css(".name", text: stage_project.name)
-            expect(page).to have_css(".lcsd_#{life_cycle_stage.definition_id}", text: "12/01/2024 - 12/13/2024")
-            # life cycle assigned to other project, no text here
-            expect(page).to have_css(".lcsd_#{life_cycle_gate.definition_id}", text: "")
-          end
-
-          # Inactive life cycle steps never show their date values
-          other_proj = inactive_life_cycle_stage.project
-          projects_page.within_row(other_proj) do
-            expect(page).to have_css(".lcsd_#{inactive_life_cycle_stage.definition_id}", text: "")
+          projects_page.within_row(project) do
+            expect(page).to have_css(".name", text: project.name)
+            expect(page).to have_css(".project_phase_#{project_phase.definition_id}",
+                                     text: "12/01/2024\n-\n12/13/2024")
+            # project phase assigned to other project, no text here
+            expect(page).to have_css(".project_phase_#{project_phase_with_gates.definition_id}", text: "")
+            # inactive project phases, no text here
+            expect(page).to have_css(".project_phase_#{inactive_project_phase.definition_id}", text: "")
+            expect(page).to have_css(".project_phase_#{inactive_project_phase_with_gates.definition_id}", text: "")
           end
         end
       end
@@ -337,8 +355,8 @@ RSpec.describe "Projects lists columns", :js, with_settings: { login_required?: 
       context "with a user" do
         let(:permissions) { %i(view_project) }
         let(:user) do
-          create(:user, member_with_permissions: { project => permissions,
-                                                   development_project => %i(view_project) })
+          create(:user, member_with_permissions: { development_project => permissions,
+                                                   project => %i(view_project) })
         end
 
         before do
@@ -346,53 +364,53 @@ RSpec.describe "Projects lists columns", :js, with_settings: { login_required?: 
           projects_page.visit!
         end
 
-        context "for users without view_project_stages_and_gates permission" do
-          specify "life cycle columns cannot be configured to show up" do
+        context "for users without view_project_phases permission" do
+          specify "project phase columns cannot be configured to show up" do
             element_selector = "#columns-select_autocompleter ng-select.op-draggable-autocomplete--input"
             results_selector = "#columns-select_autocompleter ng-dropdown-panel .ng-dropdown-panel-items"
-            projects_page.expect_no_config_columns(life_cycle_gate.name,
-                                                   life_cycle_stage.name,
-                                                   inactive_life_cycle_gate.name,
-                                                   inactive_life_cycle_stage.name,
+            projects_page.expect_no_config_columns(project_phase_with_gates.name,
+                                                   project_phase.name,
+                                                   inactive_project_phase_with_gates.name,
+                                                   inactive_project_phase.name,
                                                    element_selector:,
                                                    results_selector:)
           end
         end
 
-        context "for users with view_project_stages_and_gates permission" do
-          let(:permissions) { %i(view_project view_project_stages_and_gates) }
+        context "for users with view_project_phases permission" do
+          let(:permissions) { %i(view_project view_project_phases) }
 
-          specify "life cycle columns show up when configured to do so" do
+          specify "project phase columns show up when configured to do so" do
             projects_page.expect_columns("Name")
-            projects_page.set_columns(life_cycle_gate.name)
+            projects_page.set_columns(project_phase_with_gates.name)
 
-            expect(page).to have_text(life_cycle_gate.name.upcase)
+            expect(page).to have_text(project_phase_with_gates.name.upcase)
           end
 
-          specify "not permitted life cycle columns have no cell content" do
-            col_names = [life_cycle_gate, life_cycle_stage,
-                         inactive_life_cycle_gate,
-                         inactive_life_cycle_stage].collect(&:name)
+          specify "not permitted project phase columns have no cell content" do
+            col_names = [project_phase_with_gates,
+                         project_phase,
+                         inactive_project_phase_with_gates,
+                         inactive_project_phase].collect(&:name)
 
             projects_page.set_columns(*col_names)
             # Inactive columns are still displayed in the header:
             projects_page.expect_columns("Name", *col_names)
 
-            permitted_project = project
-            projects_page.within_row(permitted_project) do
-              expect(page).to have_css(".name", text: permitted_project.name)
-              expect(page).to have_css(".lcsd_#{life_cycle_gate.definition_id}", text: "12/13/2024")
-              # life cycle assigned to other project, no text here
-              expect(page).to have_css(".lcsd_#{life_cycle_stage.definition_id}", text: "")
-              # inactive life cycles, no text here
-              expect(page).to have_css(".lcsd_#{inactive_life_cycle_stage.definition_id}", text: "")
-              expect(page).to have_css(".lcsd_#{inactive_life_cycle_gate.definition_id}", text: "")
+            projects_page.within_row(development_project) do
+              expect(page).to have_css(".name", text: development_project.name)
+              expect(page).to have_css(".project_phase_#{project_phase_with_gates.definition_id}",
+                                       text: "12/01/2024\n-\n12/13/2024")
+              # project phase assigned to other project, no text here
+              expect(page).to have_css(".project_phase_#{project_phase.definition_id}", text: "")
+              # inactive project phases, no text here
+              expect(page).to have_css(".project_phase_#{inactive_project_phase.definition_id}", text: "")
+              expect(page).to have_css(".project_phase_#{inactive_project_phase_with_gates.definition_id}", text: "")
             end
 
-            # Not permitted life cycle steps never show their date values
-            not_permitted_project = development_project
-            projects_page.within_row(not_permitted_project) do
-              expect(page).to have_css(".lcsd_#{life_cycle_stage.definition_id}", text: "")
+            # Not permitted project phase steps never show their date values
+            projects_page.within_row(project) do
+              expect(page).to have_css(".project_phase_#{project_phase.definition_id}", text: "")
             end
           end
         end

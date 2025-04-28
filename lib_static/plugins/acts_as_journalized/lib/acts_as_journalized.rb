@@ -52,7 +52,7 @@ require "cause_of_change"
 module Acts
 end
 
-Dir[File.expand_path("acts/journalized/*.rb", __dir__)].sort.each { |f| require f }
+Dir[File.expand_path("acts/journalized/{,*/}*.rb", __dir__)].each { |f| require f }
 
 module Acts
   module Journalized
@@ -72,11 +72,13 @@ module Acts
 
         include_aaj_modules
 
+        journals_association_extension = options.delete(:journals_association_extension) || proc {}
+
         prepare_journaled_options(options)
 
-        has_many :journals, -> {
+        has_many(:journals, -> {
           order("#{Journal.table_name}.version ASC")
-        }, **has_many_journals_options
+        }, **has_many_journals_options, &journals_association_extension)
       end
 
       private

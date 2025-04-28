@@ -81,7 +81,7 @@ zh-TW:
       text_2fa_enabled: "每次登入時，該使用者都會被要求從預設的 2FA 裝置輸入 OTP 密碼。"
       text_2fa_disabled: "使用者沒有透過「我的帳戶頁面」設定 2FA 裝置"
       only_sms_allowed: "只能為其他用戶設置短信發送。"
-    upsale:
+    upsell:
       title: "雙因素驗證"
       description: "向所有專案成員提供(或強制執行) 兩階段驗證，以加強 OpenProject 實例的安全性。"
     backup_codes:

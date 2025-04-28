@@ -40,9 +40,7 @@ module API
             query_params = "sortBy=#{to_query [%i(semver_name asc)]}&pageSize=-1"
 
             if filter.project.nil?
-              filter_params = [{ sharing: { operator: "=", values: ["system"] } }]
-
-              "#{api_v3_paths.versions}?filters=#{to_query filter_params}&#{query_params}"
+              "#{api_v3_paths.versions}?#{query_params}"
             else
               "#{api_v3_paths.versions_by_project(filter.project.id)}?#{query_params}"
             end

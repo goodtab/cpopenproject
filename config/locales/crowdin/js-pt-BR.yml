@@ -238,7 +238,7 @@ pt-BR:
           status_waiting: "e-mail enviado - aguardando confirmação"
           test_ee: "Teste a edição Enterprise gratuitamente por 14 dias"
           quick_overview: "Obtenha uma visão geral da gestão de projetos e colaboração entre equipes com o OpenProject edição Enterprise."
-        upsale:
+        upsell:
           become_hero: "Torne-se um herói!"
           enterprise_info_html: "%{feature_title} é um complemento do <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> Enterprise."
           upgrade_info: "Faça o upgrade para um plano pago para ativar e começar a usá-lo em sua equipe."
@@ -357,10 +357,10 @@ pt-BR:
           learn_about: "Saiba mais sobre os novos recursos"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "15_4":
+          "15_5":
             standard:
               new_features_html: >
-                A versão traz diversos recursos e melhorias para você, por exemplo: <br> <ul class="%{list_styling_class}"> <li>Ativar o modo de agendamento automático.</li> <li>Definir os resultados dos itens da pauta para reuniões.</li> <li>Gerar documentos em PDF a partir da descrição de um pacote de trabalho.</li> <li>Gerenciar melhor um grande número de projetos com uma visualização aprimorada da lista de projetos.</li> <li>Usar @menção de usuário ao responder com citação a um comentário.</li> </ul>
+                A nova versão traz várias funcionalidades e melhorias para você, por ex.: <br> <ul class="%{list_styling_class}"> <li>Filtro para descendentes (filhos e netos) de pacotes de trabalho.</li> <li>Aproveite a acessibilidade avançada no seletor de datas.</li> <li>Veja a % de Conclusão incluída nas somas da tabela de pacotes de trabalho.</li> <li>Inclua uma coluna para filhos nas tabelas de pacotes de trabalho.</li> <li>Melhor uso do seletor de datas em telas móveis.</li> <li>Exportações em PDF com o layout do formulário configurado.</li> </ul>
     ical_sharing_modal:
       title: "Assinar calendário"
       inital_setup_error_message: "Ocorreu um erro ao buscar dados."
@@ -462,6 +462,7 @@ pt-BR:
     label_menu_collapse: "recolher"
     label_menu_expand: "expandir"
     label_more_than_ago: "mais do que dias atrás"
+    label_moderate_comment: "Moderate comment"
     label_next: "Próximo"
     label_no_color: "Sem cor"
     label_no_data: "Sem dados para exibir"
@@ -630,9 +631,6 @@ pt-BR:
         property_is: "está em %{difference_in_days}."
         property_was: "há %{difference_in_days}."
         property_is_deleted: "foi excluído."
-        upsale:
-          title: "Alertas de data"
-          description: "Com os alertas de data, você receberá uma notificação das futuras datas de início e conclusão, assim você nunca perderá ou esquecerá prazos importante. "
       center:
         label_actor_and: "e"
         and_more_users:
@@ -695,7 +693,6 @@ pt-BR:
           date_alerts:
             title: "Alertas de data"
             description: "Notificações automáticas quando datas importantes estiverem se aproximando para pacotes de trabalho abertos que você esteja envolvido (cessionário, responsável ou observador)."
-            teaser_text: "Com os alertas de data, você receberá uma notificação das futuras datas de início e conclusão, assim você nunca perderá ou esquecerá prazos importante. "
           overdue: Quando vencido
         project_specific:
           title: "Configurações de notificação específicas de projetos"
@@ -798,6 +795,7 @@ pt-BR:
       typeahead_placeholder: Procurar possíveis observadores
     relation_labels:
       parent: "Pai"
+      child: "Filho"
       children: "Filhos"
       relates: "Relacionado a"
       duplicates: "Duplicados"
@@ -827,7 +825,7 @@ pt-BR:
       add_new_child: "Criar novo filho"
       create_new: "Criar novo"
       add_existing: "Adicionar existente"
-      add_existing_child: "Adicionar filho existente"
+      add_existing_child: "Adicionar filho"
       remove_child: "Remover filho"
       add_new_relation: "Criar nova relação"
       add_existing_relation: "Adicionar relação existente"
@@ -866,7 +864,7 @@ pt-BR:
     tl_toolbar:
       zooms: "Nível de zoom"
       outlines: "Nível de hierarquia"
-    upsale:
+    upsell:
       ee_only: "Complemento da edição Enterprise"
     wiki_formatting:
       strong: "Negrito"
@@ -1045,8 +1043,6 @@ pt-BR:
       sharing:
         title: "Compartilhar pacote de trabalho"
         show_all_users: "Exibir todos os usuários com quem o pacote de trabalho foi compartilhado"
-        upsale:
-          description: "Compartilhe pacotes de trabalho com usuários que não são membros do projeto."
       table:
         configure_button: "Configurar a tabela de pacote de trabalho"
         summary: "Tabela com linhas de pacote de trabalho e colunas com atributos do pacote de trabalho."
@@ -1081,10 +1077,6 @@ pt-BR:
           manually: "Manualmente"
           warning: "Você perderá sua ordenação anterior quando ativar o modo de ordenação automática."
         columns_help_text: "Utilize o campo de entrada acima para adicionar colunas à sua visualização de tabela. Você pode arrastar e soltar as colunas para reorganizá-las."
-        upsale:
-          attribute_highlighting: "Precisa de certos pacotes de trabalho para se destacar da massa?"
-          relation_columns: "Precisa ver as relações na lista de pacotes de trabalho?"
-          check_out_link: "Confira a edição Enterprise."
         relation_filters:
           filter_work_packages_by_relation_type: "Filtrar pacotes de trabalho por tipo de relação"
       tabs:
@@ -1298,9 +1290,7 @@ pt-BR:
       clear: "Remover"
       apply: "Aplicar"
       header_description: "Destaque as alterações realizadas nesta lista desde qualquer ponto no passado."
-      enterprise_header_description: "Destaque as alterações realizadas nesta lista desde qualquer ponto no passado com a edição Enterprise."
       show_changes_since: "Exibir alterações desde"
-      baseline_comparison: "Comparação de linha base"
       help_description: "Fuso horário de referência para a linha base."
       time_description: "Em seu horário local: %{datetime}"
       time: "Hora"

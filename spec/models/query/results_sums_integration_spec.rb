@@ -44,6 +44,7 @@ RSpec.describe Query::Results, "sums" do
   let(:labor_costs_column) { query.displayable_columns.detect { |c| c.name.to_s == "labor_costs" } }
   let(:overall_costs_column) { query.displayable_columns.detect { |c| c.name.to_s == "overall_costs" } }
   let(:remaining_hours_column) { query.displayable_columns.detect { |c| c.name.to_s == "remaining_hours" } }
+  let(:done_ratio_column) { query.displayable_columns.detect { |c| c.name.to_s == "done_ratio" } }
   let(:story_points_column) { query.displayable_columns.detect { |c| c.name.to_s == "story_points" } }
   let(:other_project) do
     create(:project) do |p|
@@ -132,13 +133,14 @@ RSpec.describe Query::Results, "sums" do
     create(:type) do |t|
       t.custom_fields << int_cf
       t.custom_fields << float_cf
+      project.types << t
     end
   end
   let(:current_user) do
     create(:user, member_with_permissions: { project => permissions })
   end
   let(:permissions) do
-    %i[view_work_packages view_cost_entries view_time_entries view_cost_rates view_hourly_rates select_custom_fields]
+    %i[view_work_packages view_cost_entries view_time_entries view_cost_rates view_hourly_rates]
   end
   let(:group_by) { nil }
   let(:query) do
@@ -157,14 +159,15 @@ RSpec.describe Query::Results, "sums" do
   describe "#all_total_sums" do
     it "is a hash of all summable columns" do
       expect(query_results.all_total_sums)
-        .to eql(estimated_hours_column => 20.0,
-                int_cf_column => 30,
-                float_cf_column => 10.24,
-                material_costs_column => 400.0,
-                labor_costs_column => 600.0,
-                overall_costs_column => 1000.0,
-                remaining_hours_column => 14.0,
-                story_points_column => 21)
+        .to eq(estimated_hours_column => 20.0,
+               int_cf_column => 30,
+               float_cf_column => 10.24,
+               material_costs_column => 400.0,
+               labor_costs_column => 600.0,
+               overall_costs_column => 1000.0,
+               remaining_hours_column => 14.0,
+               done_ratio_column => 30,
+               story_points_column => 21)
     end
 
     context "when filtering" do
@@ -174,14 +177,15 @@ RSpec.describe Query::Results, "sums" do
 
       it "is a hash of all summable columns and includes only the work packages matching the filter" do
         expect(query_results.all_total_sums)
-          .to eql(estimated_hours_column => 10.0,
-                  int_cf_column => 20,
-                  float_cf_column => 6.83,
-                  material_costs_column => 200.0,
-                  labor_costs_column => 300.0,
-                  overall_costs_column => 500.0,
-                  remaining_hours_column => 5.0,
-                  story_points_column => 14)
+          .to eq(estimated_hours_column => 10.0,
+                 int_cf_column => 20,
+                 float_cf_column => 6.83,
+                 material_costs_column => 200.0,
+                 labor_costs_column => 300.0,
+                 overall_costs_column => 500.0,
+                 remaining_hours_column => 5.0,
+                 done_ratio_column => 50,
+                 story_points_column => 14)
       end
     end
   end
@@ -191,23 +195,27 @@ RSpec.describe Query::Results, "sums" do
       let(:group_by) { :assigned_to }
 
       it "is a hash of sums grouped by user values (and nil) and grouped columns" do
-        expect(query_results.all_group_sums)
-          .to eql(current_user => { estimated_hours_column => 10.0,
-                                    int_cf_column => 20,
-                                    float_cf_column => 6.83,
-                                    material_costs_column => 200.0,
-                                    labor_costs_column => 300.0,
-                                    overall_costs_column => 500.0,
-                                    remaining_hours_column => 5.0,
-                                    story_points_column => 14 },
-                  nil => { estimated_hours_column => 10.0,
-                           int_cf_column => 10,
-                           float_cf_column => 3.41,
-                           material_costs_column => 200.0,
-                           labor_costs_column => 300.0,
-                           overall_costs_column => 500.0,
-                           remaining_hours_column => 9.0,
-                           story_points_column => 7 })
+        expect(query_results.all_group_sums.keys).to contain_exactly(current_user, nil)
+        expect(query_results.all_group_sums[current_user])
+          .to eq(estimated_hours_column => 10.0,
+                 int_cf_column => 20,
+                 float_cf_column => 6.83,
+                 material_costs_column => 200.0,
+                 labor_costs_column => 300.0,
+                 overall_costs_column => 500.0,
+                 remaining_hours_column => 5.0,
+                 done_ratio_column => 50,
+                 story_points_column => 14)
+        expect(query_results.all_group_sums[nil])
+          .to eq(estimated_hours_column => 10.0,
+                 int_cf_column => 10,
+                 float_cf_column => 3.41,
+                 material_costs_column => 200.0,
+                 labor_costs_column => 300.0,
+                 overall_costs_column => 500.0,
+                 remaining_hours_column => 9.0,
+                 done_ratio_column => 10,
+                 story_points_column => 7)
       end
 
       context "when filtering" do
@@ -216,15 +224,17 @@ RSpec.describe Query::Results, "sums" do
         end
 
         it "is a hash of sums grouped by user values and grouped columns" do
-          expect(query_results.all_group_sums)
-            .to eql(current_user => { estimated_hours_column => 5.0,
-                                      int_cf_column => 10,
-                                      float_cf_column => 3.41,
-                                      material_costs_column => 0.0,
-                                      labor_costs_column => 0.0,
-                                      overall_costs_column => 0.0,
-                                      story_points_column => 7,
-                                      remaining_hours_column => 2.5 })
+          expect(query_results.all_group_sums.keys).to contain_exactly(current_user)
+          expect(query_results.all_group_sums[current_user])
+            .to eq(estimated_hours_column => 5.0,
+                   int_cf_column => 10,
+                   float_cf_column => 3.41,
+                   material_costs_column => 0.0,
+                   labor_costs_column => 0.0,
+                   overall_costs_column => 0.0,
+                   remaining_hours_column => 2.5,
+                   done_ratio_column => 50,
+                   story_points_column => 7)
         end
       end
     end
@@ -233,23 +243,27 @@ RSpec.describe Query::Results, "sums" do
       let(:group_by) { :done_ratio }
 
       it "is a hash of sums grouped by done_ratio values and grouped columns" do
-        expect(query_results.all_group_sums)
-          .to eql(50 => { estimated_hours_column => 10.0,
-                          int_cf_column => 20,
-                          float_cf_column => 6.83,
-                          material_costs_column => 200.0,
-                          labor_costs_column => 300.0,
-                          overall_costs_column => 500.0,
-                          remaining_hours_column => 5.0,
-                          story_points_column => 14 },
-                  10 => { estimated_hours_column => 10.0,
-                          int_cf_column => 10,
-                          float_cf_column => 3.41,
-                          material_costs_column => 200.0,
-                          labor_costs_column => 300.0,
-                          overall_costs_column => 500.0,
-                          remaining_hours_column => 9.0,
-                          story_points_column => 7 })
+        expect(query_results.all_group_sums.keys).to contain_exactly(50, 10)
+        expect(query_results.all_group_sums[50])
+          .to eq(estimated_hours_column => 10.0,
+                 int_cf_column => 20,
+                 float_cf_column => 6.83,
+                 material_costs_column => 200.0,
+                 labor_costs_column => 300.0,
+                 overall_costs_column => 500.0,
+                 remaining_hours_column => 5.0,
+                 done_ratio_column => 50,
+                 story_points_column => 14)
+        expect(query_results.all_group_sums[10])
+           .to eq(estimated_hours_column => 10.0,
+                  int_cf_column => 10,
+                  float_cf_column => 3.41,
+                  material_costs_column => 200.0,
+                  labor_costs_column => 300.0,
+                  overall_costs_column => 500.0,
+                  remaining_hours_column => 9.0,
+                  done_ratio_column => 10,
+                  story_points_column => 7)
       end
 
       context "when filtering" do
@@ -258,15 +272,17 @@ RSpec.describe Query::Results, "sums" do
         end
 
         it "is a hash of sums grouped by done_ratio values and grouped columns" do
-          expect(query_results.all_group_sums)
-            .to eql(50 => { estimated_hours_column => 5.0,
-                            int_cf_column => 10,
-                            float_cf_column => 3.41,
-                            material_costs_column => 0.0,
-                            labor_costs_column => 0.0,
-                            overall_costs_column => 0.0,
-                            story_points_column => 7,
-                            remaining_hours_column => 2.5 })
+          expect(query_results.all_group_sums.keys).to contain_exactly(50)
+          expect(query_results.all_group_sums[50])
+            .to eq(estimated_hours_column => 5.0,
+                   int_cf_column => 10,
+                   float_cf_column => 3.41,
+                   material_costs_column => 0.0,
+                   labor_costs_column => 0.0,
+                   overall_costs_column => 0.0,
+                   remaining_hours_column => 2.5,
+                   done_ratio_column => 50,
+                   story_points_column => 7)
         end
       end
     end

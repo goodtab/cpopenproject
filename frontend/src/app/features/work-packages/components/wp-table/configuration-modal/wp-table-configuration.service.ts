@@ -3,7 +3,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WpTableConfigurationDisplaySettingsTabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/display-settings-tab.component';
 import { TabInterface } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet';
 import { WpTableConfigurationColumnsTabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/columns-tab.component';
-import { WpTableConfigurationFiltersTab } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/filters-tab.component';
+import { WpTableConfigurationFiltersTabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/filters-tab.component';
 import { WpTableConfigurationSortByTabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/sort-by-tab.component';
 import { WpTableConfigurationTimelinesTabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/timelines-tab.component';
 import { WpTableConfigurationHighlightingTabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/highlighting-tab.component';
@@ -21,7 +21,7 @@ export class WpTableConfigurationService {
     {
       id: 'filters',
       name: this.I18n.t('js.work_packages.query.filters'),
-      componentClass: WpTableConfigurationFiltersTab,
+      componentClass: WpTableConfigurationFiltersTabComponent,
     },
     {
       id: 'sort-by',

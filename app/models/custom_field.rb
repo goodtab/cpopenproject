@@ -137,12 +137,12 @@ class CustomField < ApplicationRecord
     is_required?
   end
 
-  def possible_values_options(obj = nil)
+  def possible_values_options(obj = nil, options: {})
     case field_format
     when "user"
       possible_user_values_options(obj)
     when "version"
-      possible_version_values_options(obj)
+      possible_version_values_options(obj, options:)
     when "list"
       possible_list_values_options
     else
@@ -318,13 +318,13 @@ class CustomField < ApplicationRecord
 
   private
 
-  def possible_versions(obj)
+  def possible_versions(obj, options: {})
     project = deduce_project(obj)
-    deduce_versions(project)
+    deduce_versions(project, options:)
   end
 
-  def possible_version_values_options(obj)
-    possible_versions(obj).references(:project)
+  def possible_version_values_options(obj, options: {})
+    possible_versions(obj, options:).references(:project)
                           .sort
                           .map { |u| [u.name, u.id.to_s, u.project.name] }
   end
@@ -369,9 +369,11 @@ class CustomField < ApplicationRecord
     end
   end
 
-  def deduce_versions(project)
+  def deduce_versions(project, options: {})
     if project&.persisted?
       project.shared_versions
+    elsif options[:scope] == :visible
+      Version.visible
     else
       Version.systemwide
     end

@@ -5,6 +5,7 @@
     (initializeDone)="setup($event)"
     (contentChanged)="syncToTextarea()"
     (saveRequested)="saveForm()"
+    (editorEscape)="editorEscape.emit()"
     (editorKeyup)="editorKeyup.emit()"
     (editorBlur)="editorBlur.emit()"
     (editorFocus)="editorFocus.emit()"

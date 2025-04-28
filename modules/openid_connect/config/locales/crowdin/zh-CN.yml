@@ -91,7 +91,8 @@ zh-CN:
         name: 微软 Entra
       custom:
         name: 自定义
-      upsale:
+      upsell:
+        title: "与 OpenID 连接的单点登录 (SSO)"
         description: 将 OpenProject 连接到 OpenID connect 身份提供商
       label_add_new: 添加一个新的 OpenID 提供商
       label_edit: 编辑 OpenID 提供商 %{name}

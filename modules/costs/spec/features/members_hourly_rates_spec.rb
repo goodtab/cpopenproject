@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.expand_path(File.dirname(__FILE__) + "/../spec_helper.rb")
+require_relative "../spec_helper"
 
 RSpec.describe "hourly rates on a member", :js do
   let(:project) { build(:project) }

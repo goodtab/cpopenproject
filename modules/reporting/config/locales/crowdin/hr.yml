@@ -93,7 +93,9 @@ hr:
       button: "Export PDF timesheet"
       timesheet: "Timesheet"
       time: "Vrijeme"
-      sum_hours: Zbroj
+      sums_hours: Sums
+      overview_per_user_total: "Overview: Total hours per user"
+      overview_per_user_day: "Overview: Hours per user per day"
     cost_reports:
       title: "Your Cost Reports XLS export"
       start_time: "Start time"

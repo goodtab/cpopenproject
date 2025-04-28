@@ -164,12 +164,12 @@ RSpec.describe DemoData::ProjectSeeder do
         types:
           - :default_type_task
           - :default_type_milestone
-          - :default_type_phase
+          - :default_type_summary_task
         queries:
           - name: Project plan
             type:
               - :default_type_milestone
-              - :default_type_phase
+              - :default_type_summary_task
           - name: Milestones
             type: :default_type_milestone
       PROJECT_SEEDING_DATA_YAML
@@ -187,7 +187,7 @@ RSpec.describe DemoData::ProjectSeeder do
       project_seeder.seed!
       query = Query.find_by(name: "Project plan")
       milestone_type = seed_data.find_reference(:default_type_milestone)
-      phase_type = seed_data.find_reference(:default_type_phase)
+      phase_type = seed_data.find_reference(:default_type_summary_task)
       expect(query.filters)
         .to include(a_filter(Queries::WorkPackages::Filter::TypeFilter,
                              values: contain_exactly(milestone_type.id.to_s, phase_type.id.to_s)))

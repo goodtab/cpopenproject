@@ -5,6 +5,7 @@
               controller: "work-packages--date-picker--preview",
               "work-packages--date-picker--preview-date-mode-value": date_mode,
               "work-packages--date-picker--preview-triggering-field-value": triggering_field,
+              "work-packages--date-picker--preview-schedule-manually-value": schedule_manually,
               test_selector: "op-datepicker-modal" },
       class: "wp-datepicker-dialog--content"
     ) do
@@ -48,40 +49,22 @@
                 tab_content.with_panel(m: 3, classes: "wp-datepicker-dialog--content-tab--relation-tab") do
                   if relation_group.any?
                     render(border_box_container(padding: :condensed)) do |box|
-                      relation_group.visible_relations.each do |relation|
+                      relation_group.all_relation_items.each do |relation_item|
                         box.with_row(scheme: :default) do
                           render(
                             WorkPackageRelationsTab::RelationComponent.new(
-                              work_package:,
-                              relation: (relation unless relation_group.type.children?),
-                              visibility: :visible,
-                              child: (relation if relation_group.type.children?),
-                              editable: false,
-                              closest: relation_group.closest_relation?(relation)
-                            )
-                          )
-                        end
-                      end
-                      relation_group.ghost_relations.each do |relation|
-                        box.with_row(scheme: :default) do
-                          render(
-                            WorkPackageRelationsTab::RelationComponent.new(
-                              work_package:,
-                              relation: (relation unless relation_group.type.children?),
-                              visibility: :ghost,
-                              child: (relation if relation_group.type.children?),
-                              editable: false,
-                              closest: relation_group.closest_relation?(relation)
+                              relation_item:,
+                              editable: false
                             )
                           )
                         end
                       end
                     end
                   else
-                    render(Primer::Beta::Blankslate.new(border: true)) do |component|
-                      component.with_visual_icon(icon: :book, size: :medium)
-                      component.with_heading(tag: :h2) { I18n.t("work_packages.datepicker_modal.tabs.blankslate.#{tab.key}.title") }
-                      component.with_description { I18n.t("work_packages.datepicker_modal.tabs.blankslate.#{tab.key}.description") }
+                    render(Primer::Beta::Blankslate.new(border: true)) do |blankslate|
+                      blankslate.with_visual_icon(icon: :book, size: :medium)
+                      blankslate.with_heading(tag: :h2) { I18n.t("work_packages.datepicker_modal.tabs.blankslate.#{tab.key}.title") }
+                      blankslate.with_description { I18n.t("work_packages.datepicker_modal.tabs.blankslate.#{tab.key}.description") }
                     end
                   end
                 end
@@ -93,7 +76,7 @@
         collection.with_component(Primer::Alpha::Dialog::Footer.new) do
           component_collection do |footer|
             footer.with_component(
-              Primer::ButtonComponent.new(
+              Primer::Beta::Button.new(
                 data: { action: "work-packages--date-picker--preview#cancel" },
                 test_selector: "op-datepicker-modal--action"
               )
@@ -102,7 +85,7 @@
             end
 
             footer.with_component(
-              Primer::ButtonComponent.new(
+              Primer::Beta::Button.new(
                 scheme: :primary,
                 type: :submit,
                 form: DIALOG_FORM_ID,

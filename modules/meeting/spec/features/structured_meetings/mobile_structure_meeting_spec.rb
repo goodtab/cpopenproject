@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -29,9 +30,9 @@
 
 require "spec_helper"
 
-require_relative "../../support/pages/structured_meeting//mobile/show"
+require_relative "../../support/pages/meetings/mobile/show"
 
-RSpec.describe "Structured meetings CRUD",
+RSpec.describe "Meetings CRUD",
                :js do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
 
@@ -57,14 +58,14 @@ RSpec.describe "Structured meetings CRUD",
   end
 
   shared_let(:meeting) do
-    create(:structured_meeting,
+    create(:meeting,
            :author_participates,
            project:,
            author: user)
   end
 
   let(:current_user) { user }
-  let(:show_page) { Pages::StructuredMeeting::Mobile::Show.new(StructuredMeeting.last) }
+  let(:show_page) { Pages::Meetings::Mobile::Show.new(Meeting.last) }
 
   include_context "with mobile screen size"
 
@@ -73,7 +74,7 @@ RSpec.describe "Structured meetings CRUD",
     show_page.visit!
   end
 
-  it "can edit participants of a structured meeting" do
+  it "can edit participants of a meeting" do
     expect(page).to have_current_path(show_page.path)
     show_page.expect_participants(count: 1)
 

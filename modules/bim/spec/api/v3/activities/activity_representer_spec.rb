@@ -55,7 +55,7 @@ RSpec.describe API::V3::Activities::ActivityRepresenter do
     end
   end
   let(:changes) { { subject: ["first subject", "second subject"] } }
-  let(:permissions) { %i(edit_work_package_notes view_linked_issues) }
+  let(:permissions) { %i(edit_work_package_comments view_linked_issues) }
   let(:representer) { described_class.new(journal, current_user: user) }
 
   let(:user) { build_stubbed(:user) }

@@ -48,7 +48,7 @@ module ::Query::Results::Sums
   private
 
   def sums_by_group_id
-    sums_select(true).inject({}) do |result, group_sum|
+    sums_select(grouped: true).inject({}) do |result, group_sum|
       result[group_sum["group_id"]] = {}
 
       query.summed_up_columns.each do |column|
@@ -59,7 +59,7 @@ module ::Query::Results::Sums
     end
   end
 
-  def sums_select(grouped = false)
+  def sums_select(grouped: false)
     select = if grouped
                ["work_packages.group_id"]
              else

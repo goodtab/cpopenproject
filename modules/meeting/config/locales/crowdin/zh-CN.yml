@@ -69,11 +69,9 @@ zh-CN:
         invalid_time_format: "不是有效时间。所需格式：HH:MM"
     models:
       recurring_meeting: "定期会议"
-      structured_meeting: "动态会议"
-      meeting: "会议"
+      meeting: "一次性会议"
       meeting_agenda_item: "议程项目"
       meeting_agenda: "议程"
-      meeting_minutes: "会议记录"
       meeting_section: "节"
   activity:
     filter:
@@ -132,11 +130,11 @@ zh-CN:
   label_recurring_meeting_restore: "恢复此事件"
   label_recurring_meeting_schedule: "日程"
   label_recurring_meeting_next_occurrence: "下一个事件"
-  label_recurring_meeting_more: "还有至少 %{count} 个预定会议 (%{schedule})。"
   label_recurring_meeting_no_end_date: "还有更多预定会议 (%{schedule})。"
-  label_recurring_meeting_more_singular: "还有至少 %{count} 个预定会议 (%{schedule})。"
-  label_recurring_meeting_more_past: "有至少 %{count} 个过往会议。"
-  label_recurring_meeting_more_past_singular: "有至少 %{count} 个过往会议。"
+  label_recurring_meeting_more:
+    other: "还有 %{count} 个已安排的会议 (%{schedule}）。"
+  label_recurring_meeting_more_past:
+    other: "还有 %{count} 次过往会议。"
   label_recurring_meeting_show_more: "显示更多"
   label_recurring_meeting_series_create: "创建会议系列"
   label_recurring_meeting_series_edit: "编辑会议系列"
@@ -213,9 +211,6 @@ zh-CN:
         new_date_time: "新日期/时间"
     label_mail_all_participants: "发送电子邮件给所有参与者"
     types:
-      classic: "经典"
-      classic_text: "将您的会议组织成一个单一格式的文本议程和协议。"
-      structured: "结构化"
       one_time: "动态"
       recurring: "定期"
       recurring_text: "为每次事件创建带有动态模板的会议系列。"
@@ -387,9 +382,7 @@ zh-CN:
   label_meeting_details_edit: "编辑会议详情"
   label_meeting_state: "会议状态"
   label_meeting_state_open: "开放"
-  label_meeting_state_open_html: "<i>开放</i>"
   label_meeting_state_closed: "已关闭"
-  label_meeting_state_closed_html: "<i>关闭</i>"
   label_meeting_state_agenda_created: "议程已创建"
   label_meeting_state_planned: "已计划"
   label_meeting_state_cancelled: "已取消"
@@ -397,7 +390,7 @@ zh-CN:
   label_meeting_state_in_progress: "进行中"
   label_meeting_reopen_action: "重新开放会议"
   label_meeting_close_action: "关闭会议"
-  label_meeting_in_progress_action: "标记为进行中"
+  label_meeting_in_progress_action: "开始会议"
   text_meeting_open_description: "本次会议已打开。您可以添加/删除议程项目并随时编辑。 一旦议程就绪，就将其记载为正在取得的成果。"
   text_meeting_closed_description: "此会议已关闭。您不能再添加/移除议程项目。"
   text_meeting_in_progress_description: "本次会议正在进行中。您可以记录每个议程项目的结果，重新排列，甚至添加新的项目。 一旦会议完成，您可以将其标记为关闭以便锁定。"

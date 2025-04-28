@@ -44,19 +44,21 @@ import { HalResourceService } from 'core-app/features/hal/services/hal-resource.
 import { WorkPackageViewBaseService } from './wp-view-base.service';
 import { WorkPackageViewColumnsService } from './wp-view-columns.service';
 
-export type RelationColumnType = 'toType'|'ofType';
+export type RelationColumnType = 'toType'|'ofType'|'children';
 
 @Injectable()
 export class WorkPackageViewRelationColumnsService extends WorkPackageViewBaseService<WorkPackageViewRelationColumns> {
-  constructor(public querySpace:IsolatedQuerySpace,
+  constructor(
+public querySpace:IsolatedQuerySpace,
     public wpTableColumns:WorkPackageViewColumnsService,
     public halResourceService:HalResourceService,
     public apiV3Service:ApiV3Service,
-    public wpRelations:WorkPackageRelationsService) {
+    public wpRelations:WorkPackageRelationsService,
+) {
     super(querySpace);
   }
 
-  public valueFromQuery(query:QueryResource):WorkPackageViewRelationColumns {
+  public valueFromQuery(_query:QueryResource):WorkPackageViewRelationColumns {
     // Take over current expanded values
     // which are not yet saved
     return this.current;
@@ -68,9 +70,11 @@ export class WorkPackageViewRelationColumnsService extends WorkPackageViewBaseSe
    * @param workPackage
    * @param relation
    */
-  public relationsToExtendFor(workPackage:WorkPackageResource,
+  public relationsToExtendFor(
+workPackage:WorkPackageResource,
     relations:RelationsStateValue|undefined,
-    eachCallback:(relation:RelationResource, column:QueryColumn, type:RelationColumnType) => void) {
+    eachCallback:(relation:RelationResource, column:QueryColumn, type:RelationColumnType) => void,
+) {
     // Only if any relation columns or stored expansion state exist
     if (!(this.wpTableColumns.hasRelationColumns() && this.lastUpdatedState.hasValue())) {
       return;
@@ -91,8 +95,10 @@ export class WorkPackageViewRelationColumnsService extends WorkPackageViewBaseSe
     const type = this.relationColumnType(column);
 
     if (type !== null) {
-      _.each(this.relationsForColumn(workPackage, relations, column),
-        (relation) => eachCallback(relation, column, type));
+      _.each(
+this.relationsForColumn(workPackage, relations, column),
+        (relation) => eachCallback(relation, column, type),
+);
     }
   }
 

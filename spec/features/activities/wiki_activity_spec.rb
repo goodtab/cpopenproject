@@ -82,7 +82,7 @@ RSpec.describe "Wiki Activity", :js do
 
     within("li.op-activity-list--item", match: :first) do
       expect(page)
-        .to have_css("li", text: "Text changed (Details)")
+        .to have_css("li", text: "Page content changed (Details)")
       expect(page)
         .to have_link("Details")
     end

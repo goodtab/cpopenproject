@@ -60,17 +60,23 @@ vi:
     merge_request_reopened_comment: >
       **MR Được Mở Lại:** Yêu cầu kéo %{mr_number} [%{mr_title}](%{mr_url}) cho [%{repository}](%{repository_url}) đã được mở lại bởi [%{gitlab_user}](%{gitlab_user_url}).
     note_commit_referenced_comment: >
-      **Tham Chiếu Trong Commit:** [%{gitlab_user}](%{gitlab_user_url}) đã tham chiếu WP này trong Ghi chú Commit [%{commit_id}](%{commit_url}) trên [%{repository}](%{repository_url}): %{commit_note}
+      **Tham Chiếu Trong Commit:** [%{gitlab_user}](%{gitlab_user_url}) đã tham chiếu WP này trong Ghi chú Commit [%{commit_id}](%{commit_url}) trên [%{repository}](%{repository_url}):
+      %{commit_note}
     note_mr_referenced_comment: >
-      **Tham Chiếu Trong MR:** [%{gitlab_user}](%{gitlab_user_url}) đã tham chiếu WP này trong Yêu cầu kéo %{mr_number} [%{mr_title}](%{mr_url}) trên [%{repository}](%{repository_url}): %{mr_note}
+      **Tham Chiếu Trong MR:** [%{gitlab_user}](%{gitlab_user_url}) đã tham chiếu WP này trong Yêu cầu kéo %{mr_number} [%{mr_title}](%{mr_url}) trên [%{repository}](%{repository_url}):
+      %{mr_note}
     note_mr_commented_comment: >
-      **Bình Luận Trong MR:** [%{gitlab_user}](%{gitlab_user_url}) đã bình luận về WP này trong Yêu cầu kéo %{mr_number} [%{mr_title}](%{mr_url}) trên [%{repository}](%{repository_url}): %{mr_note}
+      **Bình Luận Trong MR:** [%{gitlab_user}](%{gitlab_user_url}) đã bình luận về WP này trong Yêu cầu kéo %{mr_number} [%{mr_title}](%{mr_url}) trên [%{repository}](%{repository_url}):
+      %{mr_note}
     note_issue_referenced_comment: >
-      **Tham Chiếu Trong Vấn Đề:** [%{gitlab_user}](%{gitlab_user_url}) đã tham chiếu WP này trong Vấn đề %{issue_number} [%{issue_title}](%{issue_url}) trên [%{repository}](%{repository_url}): %{issue_note}
+      **Tham Chiếu Trong Vấn Đề:** [%{gitlab_user}](%{gitlab_user_url}) đã tham chiếu WP này trong Vấn đề %{issue_number} [%{issue_title}](%{issue_url}) trên [%{repository}](%{repository_url}):
+      %{issue_note}
     note_issue_commented_comment: >
-      **Bình Luận Trong Vấn Đề:** [%{gitlab_user}](%{gitlab_user_url}) đã bình luận về WP này trong Vấn đề %{issue_number} [%{issue_title}](%{issue_url}) trên [%{repository}](%{repository_url}): %{issue_note}
+      **Bình Luận Trong Vấn Đề:** [%{gitlab_user}](%{gitlab_user_url}) đã bình luận về WP này trong Vấn đề %{issue_number} [%{issue_title}](%{issue_url}) trên [%{repository}](%{repository_url}):
+      %{issue_note}
     note_snippet_referenced_comment: >
-      **Tham Chiếu Trong Đoạn Mã:** [%{gitlab_user}](%{gitlab_user_url}) đã tham chiếu WP này trong Đoạn mã %{snippet_number} [%{snippet_title}](%{snippet_url}) trên [%{repository}](%{repository_url}): %{snippet_note}
+      **Tham Chiếu Trong Đoạn Mã:** [%{gitlab_user}](%{gitlab_user_url}) đã tham chiếu WP này trong Đoạn mã %{snippet_number} [%{snippet_title}](%{snippet_url}) trên [%{repository}](%{repository_url}):
+      %{snippet_note}
     issue_opened_referenced_comment: >
       **Vấn Đề Được Mở:** Vấn đề %{issue_number} [%{issue_title}](%{issue_url}) cho [%{repository}](%{repository_url}) đã được mở bởi [%{gitlab_user}](%{gitlab_user_url}).
     issue_closed_referenced_comment: >
@@ -78,8 +84,11 @@ vi:
     issue_reopened_referenced_comment: >
       **Vấn Đề Được Mở Lại:** Vấn đề %{issue_number} [%{issue_title}](%{issue_url}) cho [%{repository}](%{repository_url}) đã được mở lại bởi [%{gitlab_user}](%{gitlab_user_url}).
     push_single_commit_comment: >
-      **Đã Đẩy Trong MR:** [%{gitlab_user}](%{gitlab_user_url}) đã đẩy [%{commit_number}](%{commit_url}) lên [%{repository}](%{repository_url}) vào %{commit_timestamp}: %{commit_note}
+      **Đã Đẩy Trong MR:** [%{gitlab_user}](%{gitlab_user_url}) đã đẩy [%{commit_number}](%{commit_url}) lên [%{repository}](%{repository_url}) vào %{commit_timestamp}:
+      %{commit_note}
     push_single_commit_comment_with_ref: >
-      **Đã đẩy vào %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) đã đẩy [%{commit_number}](%{commit_url}) vào [%{repository}](%{repository_url}) tại %{commit_timestamp}: %{commit_note}
+      **Đã đẩy vào %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) đã đẩy [%{commit_number}](%{commit_url}) vào [%{repository}](%{repository_url}) tại %{commit_timestamp}:
+      %{commit_note}
     push_multiple_commits_comment: >
-      **Đã Đẩy Trong MR:** [%{gitlab_user}](%{gitlab_user_url}) đã đẩy nhiều commit [%{commit_number}](%{commit_url}) lên [%{repository}](%{repository_url}) vào %{commit_timestamp}: %{commit_note}
+      **Đã Đẩy Trong MR:** [%{gitlab_user}](%{gitlab_user_url}) đã đẩy nhiều commit [%{commit_number}](%{commit_url}) lên [%{repository}](%{repository_url}) vào %{commit_timestamp}:
+      %{commit_note}

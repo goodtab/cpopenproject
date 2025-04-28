@@ -1,22 +1,73 @@
 <%=
-  grid_layout("op-ee-banner", **@system_arguments) do |grid|
-    grid.with_area(:"icon-container") do
-      content_tag :div, class: "op-ee-banner--shield" do
-        render(
-          Primer::Beta::Octicon.new(
-            icon: "op-enterprise-addons",
-            size: :medium,
-            classes: "op-ee-banner--icon"
-          )
-        )
+  component_wrapper(tag: "turbo-frame") do
+    grid_layout("op-enterprise-banner",
+                **@system_arguments) do |grid|
+
+      if inline?
+        grid.with_area(:visual) do
+          render(Primer::Beta::Octicon.new(icon: :"op-enterprise-addons", classes: "op-enterprise-banner--icon"))
+        end
       end
-    end
-    grid.with_area(:"title-container") { render(Primer::Beta::Text.new) { title } }
-    grid.with_area(:"description-container") { render(Primer::Beta::Text.new) { description } }
-    grid.with_area(:"link-container") do
-      render(Primer::Beta::Link.new(href: href)) do |link|
-        link.with_trailing_visual_icon(icon: "link-external")
-        link_title
+
+      grid.with_area(:content) do
+        flex_layout do |flex|
+          flex.with_row do
+            if medium?
+              flex_layout(align_items: :center, mb: 3) do |title_flex|
+                title_flex.with_column do
+                  render(Primer::Beta::Octicon.new(icon: :"op-enterprise-addons",
+                                                   size: :medium,
+                                                   classes: "upsell-colored"))
+                end
+
+                title_flex.with_column(ml: 2) do
+                  render(Primer::Beta::Heading.new(tag: :h2)) { title }
+                end
+              end
+            else
+              render(Primer::Beta::Text.new(font_weight: :bold)) { title }
+            end
+          end
+
+          flex.with_row(classes: "op-enterprise-banner--description") do
+            concat render(Primer::Beta::Text.new(tag: :p)) { description }
+            concat render(Primer::Beta::Text.new(tag: :p)) { plan_text }
+          end
+
+          if features.present?
+            flex.with_row do
+              content_tag(:ul) { safe_join features.map { |text| render(Primer::Beta::Text.new(tag: :li)) { text } } }
+            end
+          end
+
+          flex.with_row(mt: 1) do
+            render EnterpriseEdition::UpsellButtonsComponent.new(feature_key)
+          end
+        end
+      end
+
+      if medium?
+        grid.with_area(:graphic) do
+          image_tag @image,
+                    class: "op-enterprise-banner--image"
+        end
+      end
+
+      if @dismissable
+        grid.with_area(:dismiss) do
+          classes = medium? ? "op-enterprise-banner--close-icon_hovering" : ""
+          render(
+            Primer::Beta::IconButton.new(
+              classes: class_names("op-enterprise-banner--close-icon", classes),
+              scheme: :invisible,
+              tag: :a,
+              href: dismiss_enterprise_banner_path(feature_key: @dismiss_key),
+              data: { turbo_stream: true, turbo_method: :post },
+              icon: :x,
+              aria: { label: t("ee.upsell.hide_banner") }
+            )
+          )
+        end
       end
     end
   end

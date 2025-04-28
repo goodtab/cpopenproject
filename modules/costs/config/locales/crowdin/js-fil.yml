@@ -21,6 +21,9 @@
 #++
 fil:
   js:
+    text_are_you_sure: "Sigurado ka ba?"
+    myTimeTracking:
+      noSpecificTime: "No specific time"
     work_packages:
       property_groups:
         costs: "Costs"

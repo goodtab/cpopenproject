@@ -53,6 +53,12 @@ RSpec.describe Principals::ReplaceReferencesService, "#call", type: :model do
                     :presenter_id
   end
 
+  context "with MeetingOutcome" do
+    it_behaves_like "rewritten record",
+                    :meeting_outcome,
+                    :author_id
+  end
+
   context "with Journal::MeetingAgendaItemJournal" do
     it_behaves_like "rewritten record",
                     :journal_meeting_agenda_item_journal,

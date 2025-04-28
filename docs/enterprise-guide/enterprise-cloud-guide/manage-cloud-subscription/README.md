@@ -40,7 +40,7 @@ To upgrade or downgrade your Enterprise cloud subscription, follow the steps des
 
 Alternatively, you can navigate to *Administration -> Subscription* and click the **Upgrade subscription** button directly.
 
-![Upgrade subscription button in OpenProject adminsitration](openproject_enterprise_guide_upgrade_subscription_button.png)
+![Upgrade subscription button in OpenProject administration](openproject_enterprise_guide_upgrade_subscription_button.png)
 
 
 

@@ -60,17 +60,23 @@ uk:
     merge_request_reopened_comment: >
       **Повторно відкрито MR:** запит на злиття %{mr_number} [%{mr_title}](%{mr_url}) для [%{repository}](%{repository_url}) повторно відкрито користувачем [%{gitlab_user}](%{gitlab_user_url}).
     note_commit_referenced_comment: >
-      **Додано посилання в коміті:** користувач [%{gitlab_user}](%{gitlab_user_url}) додав посилання на WP у примітці до коміта [%{commit_id}](%{commit_url}) у [%{repository}](%{repository_url}): %{commit_note}
+      **Додано посилання в коміті:** користувач [%{gitlab_user}](%{gitlab_user_url}) додав посилання на WP у примітці до коміта [%{commit_id}](%{commit_url}) у [%{repository}](%{repository_url}):
+      %{commit_note}
     note_mr_referenced_comment: >
-      **Додано посилання в MR:** користувач [%{gitlab_user}](%{gitlab_user_url}) додав посилання на WP у запиті на злиття %{mr_number} [%{mr_title}](%{mr_url}) у [%{repository}](%{repository_url}): %{mr_note}
+      **Додано посилання в MR:** користувач [%{gitlab_user}](%{gitlab_user_url}) додав посилання на WP у запиті на злиття %{mr_number} [%{mr_title}](%{mr_url}) у [%{repository}](%{repository_url}):
+      %{mr_note}
     note_mr_commented_comment: >
-      **Додано коментар у MR:** користувач [%{gitlab_user}](%{gitlab_user_url}) додав коментар до WP в запиті на злиття %{mr_number} [%{mr_title}](%{mr_url}) у [%{repository}](%{repository_url}): %{mr_note}
+      **Додано коментар у MR:** користувач [%{gitlab_user}](%{gitlab_user_url}) додав коментар до WP в запиті на злиття %{mr_number} [%{mr_title}](%{mr_url}) у [%{repository}](%{repository_url}):
+      %{mr_note}
     note_issue_referenced_comment: >
-      **Додано посилання на задачу:** користувач [%{gitlab_user}](%{gitlab_user_url}) додав посилання на WP в задачі %{issue_number} [%{issue_title}](%{issue_url}) у [%{repository}](%{repository_url}): %{issue_note}
+      **Додано посилання на задачу:** користувач [%{gitlab_user}](%{gitlab_user_url}) додав посилання на WP в задачі %{issue_number} [%{issue_title}](%{issue_url}) у [%{repository}](%{repository_url}):
+      %{issue_note}
     note_issue_commented_comment: >
-      **Додано посилання в задачі:** користувач [%{gitlab_user}](%{gitlab_user_url}) додав коментар до WP у задачі %{issue_number} [%{issue_title}](%{issue_url}) у [%{repository}](%{repository_url}): %{issue_note}
+      **Додано посилання в задачі:** користувач [%{gitlab_user}](%{gitlab_user_url}) додав коментар до WP у задачі %{issue_number} [%{issue_title}](%{issue_url}) у [%{repository}](%{repository_url}):
+      %{issue_note}
     note_snippet_referenced_comment: >
-      **Додано посилання у фрагменті:** користувач [%{gitlab_user}](%{gitlab_user_url}) додав посилання на WP у фрагменті %{snippet_number} [%{snippet_title}](%{snippet_url}) у [%{repository}](%{repository_url}): %{snippet_note}
+      **Додано посилання у фрагменті:** користувач [%{gitlab_user}](%{gitlab_user_url}) додав посилання на WP у фрагменті %{snippet_number} [%{snippet_title}](%{snippet_url}) у [%{repository}](%{repository_url}):
+      %{snippet_note}
     issue_opened_referenced_comment: >
       **Відкрито задачу:** задачу %{issue_number} [%{issue_title}](%{issue_url}) для [%{repository}](%{repository_url}) відкрито користувачем [%{gitlab_user}](%{gitlab_user_url}).
     issue_closed_referenced_comment: >
@@ -78,8 +84,11 @@ uk:
     issue_reopened_referenced_comment: >
       **Повторно відкрито задачу:** задачу %{issue_number} [%{issue_title}](%{issue_url}) для [%{repository}](%{repository_url}) повторно відкрито користувачем [%{gitlab_user}](%{gitlab_user_url}).
     push_single_commit_comment: >
-      **Внесено дані в MR:** користувач [%{gitlab_user}](%{gitlab_user_url}) вніс дані [%{commit_number}](%{commit_url}) в [%{repository}](%{repository_url}) о %{commit_timestamp}: %{commit_note}
+      **Внесено дані в MR:** користувач [%{gitlab_user}](%{gitlab_user_url}) вніс дані [%{commit_number}](%{commit_url}) в [%{repository}](%{repository_url}) о %{commit_timestamp}:
+      %{commit_note}
     push_single_commit_comment_with_ref: >
-      **Внесено дані в %{reference}:** користувач [%{gitlab_user}](%{gitlab_user_url}) вніс дані [%{commit_number}](%{commit_url}) в [%{repository}](%{repository_url}) о %{commit_timestamp}: %{commit_note}
+      **Внесено дані в %{reference}:** користувач [%{gitlab_user}](%{gitlab_user_url}) вніс дані [%{commit_number}](%{commit_url}) в [%{repository}](%{repository_url}) о %{commit_timestamp}:
+      %{commit_note}
     push_multiple_commits_comment: >
-      **Внесено дані в MR:** користувач [%{gitlab_user}](%{gitlab_user_url}) вніс кілька комітів [%{commit_number}](%{commit_url}) в [%{repository}](%{repository_url}) о %{commit_timestamp}: %{commit_note}
+      **Внесено дані в MR:** користувач [%{gitlab_user}](%{gitlab_user_url}) вніс кілька комітів [%{commit_number}](%{commit_url}) в [%{repository}](%{repository_url}) о %{commit_timestamp}:
+      %{commit_note}

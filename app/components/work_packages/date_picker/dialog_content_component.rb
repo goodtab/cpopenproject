@@ -82,9 +82,9 @@ module WorkPackages
       def additional_tabs
         mediator = WorkPackageRelationsTab::RelationsMediator.new(work_package:)
         [
-          Tab.new("predecessors", mediator.relation_group("follows")),
-          Tab.new("successors", mediator.relation_group("precedes")),
-          Tab.new("children", mediator.relation_group("children"))
+          Tab.new("predecessors", mediator.relation_group(Relation::TYPE_FOLLOWS)),
+          Tab.new("successors", mediator.relation_group(Relation::TYPE_PRECEDES)),
+          Tab.new("children", mediator.relation_group(Relation::TYPE_CHILD))
         ]
       end
 

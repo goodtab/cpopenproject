@@ -114,9 +114,6 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
     startDate: this.I18n.t('js.work_packages.properties.startDate'),
     dueDate: this.I18n.t('js.work_packages.properties.dueDate'),
     overdue: this.I18n.t('js.notifications.settings.global.overdue'),
-    teaser_text: this.I18n.t('js.notifications.settings.global.date_alerts.teaser_text'),
-    upgrade_to_ee_text: this.I18n.t('js.boards.upsale.upgrade'),
-    more_info_link: enterpriseDocsUrl.website,
   };
 
   dateAlertsStatuses = {
@@ -140,7 +137,7 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
 
   ngOnInit():void {
     this.form.disable();
-    this.eeShowBanners = this.bannersService.eeShowBanners;
+    this.eeShowBanners = this.bannersService.showBannerFor('date_alerts');
 
     this
       .currentUserService

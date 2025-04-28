@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe "I18n" do
+RSpec.describe I18n do
   before(:all) do # rubocop:disable RSpec/BeforeAfterAll
     # lazy-load i18n-tasks to save 150ms spec boot time
     require "i18n/tasks"

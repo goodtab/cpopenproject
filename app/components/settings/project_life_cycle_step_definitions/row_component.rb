@@ -44,7 +44,7 @@ module Settings
       def move_action(menu:, move_to:, label:, icon:)
         menu.with_item(
           label:,
-          href: move_admin_settings_project_life_cycle_step_definition_path(definition, move_to:),
+          href: move_admin_settings_project_phase_definition_path(definition, move_to:),
           form_arguments: {
             method: :patch
           },

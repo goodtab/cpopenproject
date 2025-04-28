@@ -31,7 +31,8 @@
 require "spec_helper"
 
 RSpec.describe "index users", :js do
-  shared_let(:current_user) { create(:admin, firstname: "admin", lastname: "admin", created_at: 1.hour.ago) }
+  shared_let(:admin) { create(:admin, firstname: "admin", lastname: "admin", created_at: 1.hour.ago) }
+  let(:current_user) { admin }
   let(:index_page) { Pages::Admin::Users::Index.new }
 
   before do
@@ -154,7 +155,7 @@ RSpec.describe "index users", :js do
 
       it "can too visit the page" do
         index_page.visit!
-        index_page.expect_listed(current_user, active_user, registered_user, invited_user)
+        index_page.expect_listed(admin, current_user, active_user, registered_user, invited_user)
       end
     end
   end

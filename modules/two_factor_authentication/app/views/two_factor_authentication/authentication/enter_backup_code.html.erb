@@ -1,5 +1,4 @@
 <% html_title t(:field_otp) %>
-<% breadcrumb_paths(t(:field_otp)) %>
 <div id="login-form" class="form -bordered">
   <%= styled_form_tag({ action: :verify_backup_code }, { autocomplete: "off", id: "submit_backup_code" }) do %>
     <h2><%= t "two_factor_authentication.login.enter_backup_code_title" %></h2>

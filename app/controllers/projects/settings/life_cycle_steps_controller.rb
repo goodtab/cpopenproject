@@ -38,7 +38,7 @@ class Projects::Settings::LifeCycleStepsController < Projects::SettingsControlle
   def index; end
 
   def toggle
-    definition = Project::LifeCycleStepDefinition.where(id: params[:id])
+    definition = Project::PhaseDefinition.where(id: params[:id])
 
     upsert_steps(definition, active: params["value"])
   end
@@ -58,7 +58,7 @@ class Projects::Settings::LifeCycleStepsController < Projects::SettingsControlle
   private
 
   def load_life_cycle_definitions
-    @life_cycle_definitions = Project::LifeCycleStepDefinition.order(position: :asc)
+    @life_cycle_definitions = Project::PhaseDefinition.order(position: :asc)
   end
 
   def deny_access_on_feature_flag
@@ -66,16 +66,17 @@ class Projects::Settings::LifeCycleStepsController < Projects::SettingsControlle
   end
 
   def upsert_steps(definitions, active:)
-    Project::LifeCycleStep.upsert_all(
+    Project::Phase.upsert_all(
       definitions.map do |definition|
         {
           project_id: @project.id,
           definition_id: definition.id,
-          active:,
-          type: definition.step_class
+          active:
         }
       end,
       unique_by: %i[project_id definition_id]
     )
+
+    @project.touch_and_save_journals
   end
 end

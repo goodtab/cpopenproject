@@ -1,4 +1,9 @@
 ja:
+  ee:
+    upsell:
+      ldap_groups:
+        title: 'LDAP グループの同期'
+        description: 'Synchronize LDAP groups with OpenProject groups to manage users, change their permissions and facilitate user management across groups.'
   plugin_openproject_ldap_groups:
     name: "OpenProject LDAP グループ"
     description: "LDAP グループメンバシップの同期。"
@@ -71,5 +76,5 @@ ja:
           このオプションを有効にすると、検索されたユーザーも自動的に OpenProject に作成されます。 これがなければ、OpenProject 内の既存のアカウントのみがグループに追加されます。
         dn_text: 'グループの完全な DN をLDAP に入力します。'
         group_text: 'LDAP グループのメンバーを同期する既存の OpenProject グループを選択'
-      upsale:
+      upsell:
         description: '同期化された LDAP グループを活用して、ユーザの管理、権限の変更、グループ間のユーザ管理を容易にします。'

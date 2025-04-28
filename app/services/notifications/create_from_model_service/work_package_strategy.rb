@@ -31,8 +31,14 @@ module Notifications::CreateFromModelService::WorkPackageStrategy
     %i(mentioned assigned responsible watched commented created processed prioritized scheduled shared)
   end
 
-  def self.permission
-    :view_work_packages
+  def self.permission(journal, _reason)
+    if journal&.internal?
+      # we assume that if a journal is internal it is a comment and respects the
+      # view internal comments permissions
+      :view_internal_comments
+    else
+      :view_work_packages
+    end
   end
 
   def self.supports_ian?(_reason)

@@ -33,14 +33,15 @@ module WorkPackages
     class ColumnSelectionComponent < ApplicationComponent
       include WorkPackagesHelper
 
-      attr_reader :query, :id, :caption, :label
+      attr_reader :export_settings, :query, :id, :caption, :label
 
-      def initialize(query, id, caption,
+      def initialize(export_settings, id, caption,
                      label = I18n.t(:"queries.configure_view.columns.input_label"),
                      required: true)
         super()
 
-        @query = query
+        @export_settings = export_settings
+        @query = @export_settings.query
         @id = id
         @caption = caption
         @label = label
@@ -59,9 +60,21 @@ module WorkPackages
       end
 
       def selected_columns
+        return columns_from_saved_export_settings if export_settings.settings.key?(:columns)
+
         query
           .columns
           .map { |column| { id: column.name.to_s, name: column.caption } }
+      end
+
+      private
+
+      def columns_from_saved_export_settings
+        saved_cols = export_settings.settings[:columns]
+        # Restore the saved columns, retaining the saved order
+        saved_cols.filter_map do |col|
+          available_columns.find { |c| c[:id] == col }
+        end
       end
     end
   end

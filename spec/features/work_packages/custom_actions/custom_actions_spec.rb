@@ -312,9 +312,8 @@ RSpec.describe "Custom actions", :js, with_ee: %i[custom_actions] do
 
     within(".custom-actions") do
       # When hovering over the button, the description is displayed
-      button = find(".custom-action--button", text: "Unassign")
-      expect(button["title"])
-        .to eql "Removes the assignee"
+      expect(page)
+        .to have_button("Unassign", title: "Removes the assignee")
     end
 
     wp_page.click_custom_action("Unassign")
@@ -456,6 +455,31 @@ RSpec.describe "Custom actions", :js, with_ee: %i[custom_actions] do
 
     index_ca_page.edit("Current date")
     expect(page).to have_select("custom_action_actions_date", selected: "Current date")
+  end
+
+  it "editing a status custom action (Regression #61888)" do
+    # create custom action 'Unassign'
+    index_ca_page.visit!
+
+    new_ca_page = index_ca_page.new
+
+    new_ca_page.set_name("Status")
+    new_ca_page.set_description("Sets some status")
+    new_ca_page.add_action("Status", "Close")
+
+    new_ca_page.create
+
+    index_ca_page.expect_current_path
+    index_ca_page.expect_listed("Status")
+
+    date_action = CustomAction.last
+    expect(date_action.actions.length).to eq(1)
+    expect(date_action.actions.first.value_objects).to contain_exactly(label: "Closed", value: closed_status.id)
+
+    edit_page = index_ca_page.edit("Status")
+    page.within "#custom-actions-form--actions" do
+      edit_page.expect_selected_option "Close"
+    end
   end
 
   it "disables the custom action button and editing other fields when submiting the custom action" do

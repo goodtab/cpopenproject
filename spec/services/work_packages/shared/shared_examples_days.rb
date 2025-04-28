@@ -71,6 +71,15 @@ RSpec.shared_examples "it returns duration" do |expected_duration, start_date, d
   end
 end
 
+RSpec.shared_examples "it adds lag" do |date:, lag:, expected_result:|
+  it "from date #{date.to_fs(:wday_date)} " \
+     "with lag #{lag} " \
+     "=> #{expected_result.to_fs(:wday_date)}" \
+  do
+    expect(subject.add_lag(date, lag)).to eq(expected_result)
+  end
+end
+
 RSpec.shared_examples "it returns lag" do |expected_lag, predecessor_date, successor_date|
   from_date_format = "%a %-d"
   from_date_format += " %b" if [predecessor_date.month, predecessor_date.year] != [successor_date.month, successor_date.year]
@@ -99,12 +108,6 @@ end
 RSpec.shared_examples "soonest working day" do |date:, expected:|
   it "soonest_working_day(#{date.to_fs(:wday_date)}) => #{expected.to_fs(:wday_date)}" do
     expect(subject.soonest_working_day(date)).to eq(expected)
-  end
-end
-
-RSpec.shared_examples "soonest working day with lag" do |date:, lag:, expected:|
-  it "soonest_working_day(#{date.to_fs(:wday_date)}, lag: #{lag.inspect}) => #{expected.to_fs(:wday_date)}" do
-    expect(subject.soonest_working_day(date, lag:)).to eq(expected)
   end
 end
 
@@ -167,6 +170,68 @@ RSpec.shared_examples "lag computation excluding non-working days" do
     context "without successor date" do
       it "returns nil" do
         expect(subject.lag(sunday_2022_07_31, nil)).to be_nil
+      end
+    end
+  end
+end
+
+RSpec.shared_examples "add lag to a date" do
+  describe "#add_lag" do
+    saturday_2022_07_30 = Date.new(2022, 7, 30)
+    sunday_2022_07_31 = Date.new(2022, 7, 31)
+    monday_2022_08_01 = Date.new(2022, 8, 1)
+
+    it "returns the soonest date after the given date where the number of working days in between equals the given lag" do
+      expect(subject.add_lag(sunday_2022_07_31, 0)).to eq(monday_2022_08_01)
+      expect(subject.add_lag(sunday_2022_07_31, 1)).to eq(Date.new(2022, 8, 2))
+      expect(subject.add_lag(sunday_2022_07_31, 5)).to eq(Date.new(2022, 8, 6))
+      expect(subject.add_lag(sunday_2022_07_31, 6)).to eq(Date.new(2022, 8, 7))
+    end
+
+    it "returns the day after the given date when lag is negative (like lag = 0)" do
+      expect(subject.add_lag(sunday_2022_07_31, -100)).to eq(monday_2022_08_01)
+      expect(subject.add_lag(sunday_2022_07_31, -1)).to eq(monday_2022_08_01)
+      expect(subject.add_lag(sunday_2022_07_31, 0)).to eq(monday_2022_08_01)
+    end
+
+    it "works with big lag value like 100_000" do
+      # Ensure implementation is not recursive and won't fail with SystemStackError: stack level too deep
+      expect { subject.add_lag(sunday_2022_07_31, 100_000) }
+        .not_to raise_error
+    end
+
+    context "with weekend days (Saturday and Sunday)", :weekend_saturday_sunday do
+      include_examples "it adds lag", date: saturday_2022_07_30, lag: 0, expected_result: sunday_2022_07_31
+      include_examples "it adds lag", date: saturday_2022_07_30, lag: 1, expected_result: Date.new(2022, 8, 2)
+
+      include_examples "it adds lag", date: sunday_2022_07_31, lag: 0, expected_result: monday_2022_08_01
+      include_examples "it adds lag", date: sunday_2022_07_31, lag: 1, expected_result: Date.new(2022, 8, 2)
+      include_examples "it adds lag", date: sunday_2022_07_31, lag: 4, expected_result: Date.new(2022, 8, 5) # Friday
+      include_examples "it adds lag", date: sunday_2022_07_31, lag: 5, expected_result: Date.new(2022, 8, 6) # Saturday
+      include_examples "it adds lag", date: sunday_2022_07_31, lag: 6, expected_result: Date.new(2022, 8, 9) # Tuesday
+
+      include_examples "it adds lag", date: monday_2022_08_01, lag: 3, expected_result: Date.new(2022, 8, 5) # Friday
+      include_examples "it adds lag", date: monday_2022_08_01, lag: 4, expected_result: Date.new(2022, 8, 6) # Saturday
+      include_examples "it adds lag", date: monday_2022_08_01, lag: 5, expected_result: Date.new(2022, 8, 9) # Tuesday
+    end
+
+    context "with some non working days (Christmas 2022-12-25 and new year's day 2023-01-01)", :christmas_2022_new_year_2023 do
+      include_examples "it adds lag", date: Date.new(2022, 12, 24), lag: 0, expected_result: Date.new(2022, 12, 25)
+      include_examples "it adds lag", date: Date.new(2022, 12, 24), lag: 1, expected_result: Date.new(2022, 12, 27)
+      include_examples "it adds lag", date: Date.new(2022, 12, 24), lag: 6, expected_result: Date.new(2023, 1, 1)
+      include_examples "it adds lag", date: Date.new(2022, 12, 24), lag: 7, expected_result: Date.new(2023, 1, 3)
+    end
+
+    context "with nil date" do
+      it "returns nil" do
+        expect(subject.add_lag(nil, 5)).to be_nil
+      end
+    end
+
+    context "with nil lag" do
+      it "returns the day after the given date when lag is nil (like lag = 0)" do
+        expect(subject.add_lag(sunday_2022_07_31, nil)).to eq(monday_2022_08_01)
+        expect(subject.add_lag(sunday_2022_07_31, 0)).to eq(monday_2022_08_01)
       end
     end
   end

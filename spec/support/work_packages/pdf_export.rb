@@ -3,7 +3,7 @@ require "pdf/inspector"
 
 module PDFExportSpecUtils
   def column_title(column_name)
-    label_title(column_name).upcase
+    label_title(column_name)
   end
 
   def label_title(column_name)

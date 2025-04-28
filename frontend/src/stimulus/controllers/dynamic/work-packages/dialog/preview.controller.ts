@@ -76,7 +76,7 @@ export abstract class DialogPreviewController extends Controller {
     this.frameMorphRenderer = (event:CustomEvent<TurboBeforeFrameRenderEventDetail>) => {
       event.detail.render = (currentElement:HTMLElement, newElement:HTMLElement) => {
         Idiomorph.morph(currentElement, newElement, {
-          ignoreActiveValue: true,
+          ignoreActiveValue: this.ignoreActiveValueWhenMorphing(),
           callbacks: {
             beforeNodeMorphed: (oldNode:Element) => {
               // In case the element is an OpenProject custom dom element, morphing is prevented.
@@ -134,15 +134,18 @@ export abstract class DialogPreviewController extends Controller {
       });
     }
 
-    const wpPath = this.ensureValidPathname(form.action);
-    const wpAction = this.ensureValidWpAction(wpPath);
-
-    const editUrl = `${wpPath}/${wpAction}?${new URLSearchParams(wpParams).toString()}`;
+    const wpAction = this.isUpdatingWorkPackage(form.action) ? 'edit' : 'new';
+    const previewUrl = `${form.action}/${wpAction}?${new URLSearchParams(wpParams).toString()}`;
     const turboFrame = this.formTarget.closest('turbo-frame') as HTMLTurboFrameElement;
 
     if (turboFrame) {
-      turboFrame.src = editUrl;
+      turboFrame.src = previewUrl;
     }
+  }
+
+  private isUpdatingWorkPackage(formPath:string):boolean {
+    const workPackagePathRegex = /\/work_packages\/\d+\//;
+    return workPackagePathRegex.test(formPath);
   }
 
   protected focusAndSetCursorPositionToEndOfInput(field:HTMLInputElement) {
@@ -155,11 +158,10 @@ export abstract class DialogPreviewController extends Controller {
     }
   }
 
-  abstract ensureValidPathname(formAction:string):string;
-
-  abstract ensureValidWpAction(path:string):string;
-
   abstract afterRendering():void;
+
+  // Whether to ignore the active element value when morphing.
+  abstract ignoreActiveValueWhenMorphing():boolean;
 
   protected isBeingEdited(fieldName:string) {
     return fieldName === this.targetFieldName;

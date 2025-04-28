@@ -45,9 +45,6 @@ RSpec.describe MeetingMailer do
            author:,
            project:)
   end
-  let(:meeting_agenda) do
-    create(:meeting_agenda, meeting:)
-  end
   let(:tokyo_offset) { "UTC#{ActiveSupport::TimeZone['Asia/Tokyo'].now.formatted_offset}" }
   let(:berlin_offset) { "UTC#{ActiveSupport::TimeZone['Europe/Berlin'].now.formatted_offset}" }
 

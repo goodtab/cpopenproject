@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -29,10 +30,9 @@
 
 require "spec_helper"
 
-require_relative "../../support/pages/meetings/new"
-require_relative "../../support/pages/structured_meeting/show"
+require_relative "../../support/pages/meetings/show"
 
-RSpec.describe "Structured meetings links caught by turbo",
+RSpec.describe "Meetings links caught by turbo",
                :js do
   include Rails.application.routes.url_helpers
 
@@ -47,8 +47,8 @@ RSpec.describe "Structured meetings links caught by turbo",
       u.save!
     end
   end
-  shared_let(:meeting1) { create(:structured_meeting, title: "First meeting", project:) }
-  shared_let(:meeting2) { create(:structured_meeting, title: "Other meeting", project:) }
+  shared_let(:meeting1) { create(:meeting, title: "First meeting", project:) }
+  shared_let(:meeting2) { create(:meeting, title: "Other meeting", project:) }
 
   let(:notes) do
     <<~NOTES
@@ -56,7 +56,7 @@ RSpec.describe "Structured meetings links caught by turbo",
     NOTES
   end
   let!(:agenda_item) { create(:meeting_agenda_item, meeting: meeting1, notes:) }
-  let(:show_page) { Pages::StructuredMeeting::Show.new(meeting1) }
+  let(:show_page) { Pages::Meetings::Show.new(meeting1) }
 
   before do
     login_as user

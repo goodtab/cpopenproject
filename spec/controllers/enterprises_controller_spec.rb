@@ -36,6 +36,7 @@ RSpec.describe EnterprisesController do
       subscriber: "Foobar",
       mail: "foo@example.org",
       starts_at: Date.today,
+      version: "1",
       expires_at: nil
     }
   end
@@ -119,7 +120,7 @@ RSpec.describe EnterprisesController do
 
         it "still renders #show with form" do
           expect(response).not_to render_template partial: "enterprises/_current"
-          expect(response.body).to have_css ".upsale-benefits"
+          expect(response.body).to have_css ".upsell-benefits"
         end
       end
     end

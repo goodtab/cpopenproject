@@ -31,7 +31,7 @@ module Notifications::CreateFromModelService::WikiPageStrategy
     %i(watched subscribed)
   end
 
-  def self.permission
+  def self.permission(*)
     :view_wiki_pages
   end
 

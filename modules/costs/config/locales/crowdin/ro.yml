@@ -50,13 +50,23 @@ ro:
         project: Proiect
         user: Utilizator
         work_package: Pachet de lucru
+        subject: Subiect
         hours: Ore
         comments: Comentariu
         activity: Activitate
         spent_on: Dată
-        start_time: Start time
-        end_time: Finish time
+        start_time: Dată început
+        end_time: Dată finalizare
+        time: Timp
     models:
+      time_entry:
+        one: "Înregistrarea timpului"
+        few: "Time entries"
+        other: "Time entries"
+      cost_entry:
+        one: "Poziție cost"
+        few: "Cost entries"
+        other: "Cost entries"
       cost_type:
         one: "Tipul de cost"
         few: "Tipuri de costuri"
@@ -85,7 +95,7 @@ ro:
     fixed_date: "Dată fixă"
   button_add_rate: "Adaugă preț"
   button_log_costs: "Costurile unitare ale buștenilor"
-  button_log_time: "Log"
+  button_log_time: "Jurnal"
   button_add_activity: "Activitate"
   caption_booked_on_project: "Rezervat pe proiect"
   caption_default: "Implicit"
@@ -98,7 +108,7 @@ ro:
   caption_save_rate: "Salvează tarif"
   caption_set_rate: "Setează tarif curent"
   caption_show_locked: "Afișați tipurile blocate"
-  caption_log_time_dialog: "Consum timp"
+  caption_log_time_dialog: "Registru timp"
   description_date_for_new_rate: "Dată pentru noul tarif"
   description_costs_settings: "Define the desired format for the costs in all projects."
   description_time_settings: "Define which fields are mandatory to fill when logging time in all projects."
@@ -146,12 +156,28 @@ ro:
   label_cost: "Cost"
   label_costs: "Costuri"
   label_mandatory_fields: "Mandatory fields"
+  label_my_time_tracking: "My time tracking"
+  label_no_time: "No time tracked"
+  label_next_day: "Next day"
+  label_next_week: "Săptămâna viitoare"
+  label_next_month: "Next month"
+  label_previous_day: "Previous day"
+  label_previous_week: "Săptămâna trecută"
+  label_previous_month: "Previous month"
+  label_specific_day: "Day %{day}"
+  label_specific_week: "Calendar week %{week}"
+  label_specific_month: "Month %{month}"
+  label_list: "Listă"
+  label_month: "Luna"
+  label_day: "Zi"
+  label_today_capitalized: "Azi"
   placeholder_activity_select_work_package_first: Work package selection is required first
   notice_something_wrong: "Ceva n-a mers bine. Vă rugăm să încercați din nou."
   notice_successful_restore: "Restaurare reușită."
   notice_successful_lock: "Blocat cu succes."
   notice_cost_logged_successfully: "Costul unitar a fost înregistrat cu succes."
   notice_different_time_zones: "This user has a different time zone (%{tz}). Time will be logged using their time zone."
+  notice_time_entry_update_failed: "Failed to update time entry. Errors: %{errors}"
   permission_edit_cost_entries: "Editarea costurilor unitare înregistrate"
   permission_edit_own_cost_entries: "Editați propriile costuri unitare contabilizate"
   permission_edit_hourly_rates: "Editați tarifele orare"
@@ -177,9 +203,17 @@ ro:
   text_reassign_time_and_cost_entries: "Reatribuiți orele și costurile raportate la acest pachet de lucru:"
   text_warning_hidden_elements: "Este posibil ca unele intrări să fi fost excluse din agregare."
   week: "săptămână"
-  js:
-    text_are_you_sure: "Ești sigur?"
+  total_times:
+    week: "Week Total: %{hours}"
+    month: "Month Total: %{hours}"
+    day: "Day Total: %{hours}"
   api_v3:
     errors:
       validation:
         start_time_different_date: "Date part of startTime (%{start_time}) must be the same as the spentOn (%{spent_on}) date."
+  ee:
+    features:
+      time_entry_time_restrictions: Require exact time tracking
+    upsell:
+      time_entry_time_restrictions:
+        description: "Improve your time tracking by requiring exact start and finish times when logging time."

@@ -105,8 +105,6 @@ module ::TwoFactorAuthentication
 
       def find_user
         @user = User.find(params[:id])
-      rescue ActiveRecord::RecordNotFound
-        render_404
       end
 
       def target_user

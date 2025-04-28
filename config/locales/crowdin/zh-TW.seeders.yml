@@ -34,16 +34,14 @@ zh-TW:
           name: 灰色 (深)
         item_13:
           name: 黑色
-      life_cycle_colors:
+      project_phase_colors:
         item_0:
           name: PM2 橙色
         item_1:
-          name: PM2 紫色
-        item_2:
           name: PM2 紅色
-        item_3:
+        item_2:
           name: PM2 紅紫色
-        item_4:
+        item_3:
           name: PM2 黃綠色
       document_categories:
         item_0:
@@ -81,21 +79,18 @@ zh-TW:
         item_1:
           name: 標準全域角色
     standard:
-      life_cycles:
+      project_phases:
         item_0:
           name: 初始化中
         item_1:
-          name: 準備規劃
-        item_2:
           name: 計劃中
+          start_gate: 準備規劃
+        item_2:
+          name: 執行中
+          start_gate: 準備執行
         item_3:
-          name: 準備執行
-        item_4:
-          name: 執行
-        item_5:
-          name: 準備關閉
-        item_6:
           name: 正在關閉
+          start_gate: 準備關閉
       priorities:
         item_0:
           name: 低
@@ -488,7 +483,7 @@ zh-TW:
         item_1:
           name: 里程碑
         item_2:
-          name: 階段
+          name: 摘要工作
         item_3:
           name: 功能
         item_4:

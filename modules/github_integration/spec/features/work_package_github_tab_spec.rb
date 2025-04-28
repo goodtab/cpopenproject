@@ -37,7 +37,7 @@ RSpec.describe "Open the GitHub tab", :js do
   let(:role) do
     create(:project_role,
            permissions: %i(view_work_packages
-                           add_work_package_notes
+                           add_work_package_comments
                            show_github_content))
   end
   let(:project) { create(:project) }
@@ -102,7 +102,7 @@ RSpec.describe "Open the GitHub tab", :js do
       let(:role) do
         create(:project_role,
                permissions: %i(view_work_packages
-                               add_work_package_notes))
+                               add_work_package_comments))
       end
 
       it "does not show the github tab" do

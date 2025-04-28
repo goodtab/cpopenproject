@@ -32,7 +32,5 @@ module RecurringMeetings
         .require(:meeting)
         .permit(:start_date, :start_time_hour, :frequency, :interval)
     end
-
-    def default_breadcrumb; end
   end
 end

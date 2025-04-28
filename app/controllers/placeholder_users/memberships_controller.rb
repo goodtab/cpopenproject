@@ -35,8 +35,6 @@ class PlaceholderUsers::MembershipsController < ApplicationController
 
   def find_individual_principal
     @individual_principal = PlaceholderUser.find(params[:placeholder_user_id])
-  rescue ActiveRecord::RecordNotFound
-    render_404
   end
 
   def redirected_to_tab(_membership)

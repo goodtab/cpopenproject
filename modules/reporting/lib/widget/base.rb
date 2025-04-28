@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -55,7 +57,7 @@ module ::Widget
     ##
     # Write a string to the canvas.
     def write(str)
-      @output ||= "".html_safe
+      @output ||= (+"").html_safe
       @output << str
       str
     end

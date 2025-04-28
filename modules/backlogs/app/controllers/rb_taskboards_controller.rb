@@ -38,8 +38,4 @@ class RbTaskboardsController < RbApplicationController
                         .order(Arel.sql("updated_at DESC"))
                         .first
   end
-
-  def default_breadcrumb
-    I18n.t(:label_backlogs)
-  end
 end

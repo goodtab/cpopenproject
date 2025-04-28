@@ -70,11 +70,9 @@ it:
         invalid_time_format: "non è un tempo valido. Formato richiesto: HH: mm"
     models:
       recurring_meeting: "Riunione ricorrente"
-      structured_meeting: "Riunione una tantum"
-      meeting: "Riunione"
+      meeting: "Riunione una tantum"
       meeting_agenda_item: "Attività"
       meeting_agenda: "Ordine del giorno"
-      meeting_minutes: "Verbali"
       meeting_section: "Sezione"
   activity:
     filter:
@@ -133,11 +131,13 @@ it:
   label_recurring_meeting_restore: "Ripristina questa ricorrenza"
   label_recurring_meeting_schedule: "Programma"
   label_recurring_meeting_next_occurrence: "Occorrenza successiva"
-  label_recurring_meeting_more: "Ci sono altre %{count} riunioni programmate (%{schedule})."
   label_recurring_meeting_no_end_date: "Ci sono altre riunioni programmate (%{schedule})."
-  label_recurring_meeting_more_singular: "C'è %{count} altra riunione programmata (%{schedule})."
-  label_recurring_meeting_more_past: "Ci sono altre %{count} riunioni passate."
-  label_recurring_meeting_more_past_singular: "C'è %{count} altra riunione passata."
+  label_recurring_meeting_more:
+    one: "C'è un'altra riunione programmata (%{schedule})."
+    other: "Ci sono altre %{count} riunioni programmate (%{schedule})."
+  label_recurring_meeting_more_past:
+    one: "C'è un'altra riunione passata."
+    other: "Ci sono altre %{count} riunioni passate."
   label_recurring_meeting_show_more: "Mostra di più"
   label_recurring_meeting_series_create: "Crea serie di riunioni"
   label_recurring_meeting_series_edit: "Modifica serie di riunioni"
@@ -215,9 +215,6 @@ it:
         new_date_time: "Nuova data/ora"
     label_mail_all_participants: "Invia e-mail a tutti i partecipanti"
     types:
-      classic: "Classica"
-      classic_text: "Organizza la tua riunione con un unico ordine del giorno e protocollo di testo formattabile."
-      structured: "Strutturato"
       one_time: "Una tantum"
       recurring: "Ricorrente"
       recurring_text: "Crea una serie di riunioni con modello dinamico per ogni ricorrenza."
@@ -290,7 +287,7 @@ it:
       full_past: "%{base} alle ore %{time}, finita alle ore %{end_date}"
       never_ending: "%{base} alle ore %{time}"
     open:
-      title: "Agenda opened"
+      title: "Ordine del giorno aperto"
       subtitle: >
         Le riunioni aperte hanno ordini del giorno che possono essere modificati e vengono visualizzate nella sezione "Le mie riunioni" dei singoli utenti. Le modifiche al modello della serie di riunioni non influiscono sulle occorrenze delle riunioni già aperte.
       blankslate:
@@ -391,9 +388,7 @@ it:
   label_meeting_details_edit: "Modifica dettagli riunione"
   label_meeting_state: "Stato della riunione"
   label_meeting_state_open: "Aperti"
-  label_meeting_state_open_html: "<i>Aperta</i>"
   label_meeting_state_closed: "Chiuso"
-  label_meeting_state_closed_html: "<i>Chiusa</i>"
   label_meeting_state_agenda_created: "Ordine del giorno creato"
   label_meeting_state_planned: "Pianificata"
   label_meeting_state_cancelled: "Annullato"
@@ -401,7 +396,7 @@ it:
   label_meeting_state_in_progress: "In corso"
   label_meeting_reopen_action: "Riapri la riunione"
   label_meeting_close_action: "Chiudi riunione"
-  label_meeting_in_progress_action: "Segna come in corso"
+  label_meeting_in_progress_action: "Inizia riunione"
   text_meeting_open_description: "Questa riunione è aperta. Puoi aggiungere/rimuovere i punti all'ordine del giorno e modificarli come vuoi. Una volta che l'ordine del giorno è pronto, contrassegna come in corso per documentare i risultati."
   text_meeting_closed_description: "Questa riunione è chiusa. Non puoi più aggiungere/rimuovere i punti all'ordine del giorno."
   text_meeting_in_progress_description: "Questa riunione è in corso. È possibile documentare i risultati per ogni punto all'ordine del giorno, riorganizzarli, e anche aggiungerne di nuovi. Una volta completata la riunione, è possibile contrassegnarla come chiusa per bloccarla."
@@ -424,6 +419,6 @@ it:
   text_agenda_item_move_next_meeting: "Vuoi davvero spostarlo alla prossima riunione il giorno %{date} alle ore %{time}?"
   text_agenda_item_moved_to_next_meeting: "Punto all'ordine del giorno spostato alla prossima riunione, il giorno %{date}"
   text_work_package_has_no_upcoming_meeting_agenda_items: "Questa macro-attività non è ancora programmata in un prossimo ordine del giorno di riunione."
-  text_agenda_item_move_next_meeting_cancelled: "Unable to move to the next meeting since it has been cancelled."
+  text_agenda_item_move_next_meeting_cancelled: "Impossibile passare alla riunione successiva perché è stata annullata."
   text_work_package_add_to_meeting_hint: 'Utilizzare il pulsante "Aggiungi alla riunione" per aggiungere questa macro-attività a una riunione imminente.'
   text_work_package_has_no_past_meeting_agenda_items: "Questa macro-attività non è stato menzionata in una riunione precedente."

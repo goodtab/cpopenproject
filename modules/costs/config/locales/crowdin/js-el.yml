@@ -21,6 +21,9 @@
 #++
 el:
   js:
+    text_are_you_sure: "Είστε σίγουρος/η;"
+    myTimeTracking:
+      noSpecificTime: "No specific time"
     work_packages:
       property_groups:
         costs: "Κόστος"

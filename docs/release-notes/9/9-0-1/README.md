@@ -18,7 +18,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: Row highlighted by 'Type' makes table text unreadable [[#30298](https://community.openproject.org/wp/30298)]
 - Fixed: Cannot copy projects & wrong error message [[#30309](https://community.openproject.org/wp/30309)]
 - Fixed: Dark background for getting started tour does not cover entire page [[#30314](https://community.openproject.org/wp/30314)]
-- Fixed: JavaScript error when clicking on a link in My Page [[#30343](https://community.openproject.org/wp/30343)]
+- Fixed: JavaScript error when clicking on a link in My page [[#30343](https://community.openproject.org/wp/30343)]
 - Fixed: Highlighting for add relation in Gantt chart not applied properly [[#30354](https://community.openproject.org/wp/30354)]
 - Changed: Styled scrollbars in WP views [[#30304](https://community.openproject.org/wp/30304)]
 - Changed: Improve print view of cost report via CSS [[#30305](https://community.openproject.org/wp/30305)]

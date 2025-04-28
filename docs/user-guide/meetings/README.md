@@ -18,7 +18,8 @@ Meetings in OpenProject allow you to manage and document your project meetings, 
 > [!IMPORTANT]
 > With OpenProject 13.1 we introduced dynamic meetings alongside [classic meetings](classic-meetings). 
 > With OpenProject 15.3 dynamic meetings are replaced by [one-time meetings](one-time-meetings) and [recurring meetings](recurring-meetings) to further improve meeting management.
-> Please keep in mind that the ability to create classic meetings will eventually be removed from OpenProject.
+> Please keep in mind that the ability to create classic meetings will be removed from OpenProject with OpenProject 16.0.
+
 
 
 | Topic                                               | Content                                                   |

@@ -53,6 +53,7 @@ class Version < ApplicationRecord
   scope :visible, ->(*args) {
     joins(:project)
       .merge(Project.allowed_to(args.first || User.current, :view_work_packages))
+      .or(Version.systemwide)
   }
 
   scope :systemwide, -> { where(sharing: "system") }

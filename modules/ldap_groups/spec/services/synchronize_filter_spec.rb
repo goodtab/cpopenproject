@@ -1,4 +1,6 @@
-require File.dirname(__FILE__) + "/../spec_helper"
+# frozen_string_literal: true
+
+require_relative "../spec_helper"
 require "ladle"
 
 RSpec.describe LdapGroups::SynchronizeFilterService, with_ee: %i[ldap_groups] do

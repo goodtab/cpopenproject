@@ -30,7 +30,7 @@
 
 require "spec_helper"
 require_relative "../../support/pages/work_package_meetings_tab"
-require_relative "../../support/pages/structured_meeting/show"
+require_relative "../../support/pages/meetings/show"
 
 RSpec.describe "Open the Meetings tab",
                :js do
@@ -98,8 +98,8 @@ RSpec.describe "Open the Meetings tab",
 
     context "when the user has the permission to see the tab, but the work package is linked in two projects" do
       let(:other_project) { create(:project, enabled_module_names: %w[meetings]) }
-      let!(:visible_meeting) { create(:structured_meeting, project:) }
-      let!(:invisible_meeting) { create(:structured_meeting, project: other_project) }
+      let!(:visible_meeting) { create(:meeting, project:) }
+      let!(:invisible_meeting) { create(:meeting, project: other_project) }
 
       let!(:meeting_agenda_item_of_visible_meeting) do
         create(:meeting_agenda_item, meeting: visible_meeting, work_package:, notes: "Public note!")
@@ -131,7 +131,7 @@ RSpec.describe "Open the Meetings tab",
       end
 
       context "with another past meeting" do
-        let!(:past_meeting) { create(:structured_meeting, project:, start_time: 1.week.ago) }
+        let!(:past_meeting) { create(:meeting, project:, start_time: 1.week.ago) }
 
         let!(:past_agenda_item) do
           create(:meeting_agenda_item, meeting: past_meeting, work_package:, notes: "Public note!")
@@ -225,8 +225,8 @@ RSpec.describe "Open the Meetings tab",
     end
 
     context "when the work_package is already referenced in upcoming meetings" do
-      let!(:first_meeting) { create(:structured_meeting, project:) }
-      let!(:second_meeting) { create(:structured_meeting, project:) }
+      let!(:first_meeting) { create(:meeting, project:) }
+      let!(:second_meeting) { create(:meeting, project:) }
 
       let!(:first_meeting_agenda_item_of_first_meeting) do
         create(:meeting_agenda_item, meeting: first_meeting, work_package:, notes: "A very important note in first meeting!")
@@ -267,7 +267,7 @@ RSpec.describe "Open the Meetings tab",
     end
 
     context "when the work_package is referenced and has an outcome" do
-      let!(:meeting) { create(:structured_meeting, project:) }
+      let!(:meeting) { create(:meeting, project:) }
 
       let!(:meeting_agenda_item) do
         create(:meeting_agenda_item, meeting:, work_package:, notes: "A very important note in first meeting!")
@@ -291,8 +291,8 @@ RSpec.describe "Open the Meetings tab",
     end
 
     context "when the work_package was already referenced in past meetings" do
-      let!(:first_past_meeting) { create(:structured_meeting, project:, start_time: Date.yesterday - 11.hours) }
-      let!(:second_past_meeting) { create(:structured_meeting, project:, start_time: Date.yesterday - 10.hours) }
+      let!(:first_past_meeting) { create(:meeting, project:, start_time: Date.yesterday - 11.hours) }
+      let!(:second_past_meeting) { create(:meeting, project:, start_time: Date.yesterday - 10.hours) }
 
       let!(:first_meeting_agenda_item_of_first_past_meeting) do
         create(:meeting_agenda_item, meeting: first_past_meeting, work_package:, notes: "A very important note in first meeting!")
@@ -347,15 +347,15 @@ RSpec.describe "Open the Meetings tab",
       end
 
       context "when open, upcoming meetings are visible for the user" do
-        shared_let(:past_meeting) { create(:structured_meeting, project:, start_time: Date.yesterday - 10.hours) }
-        shared_let(:first_upcoming_meeting) { create(:structured_meeting, project:) }
-        shared_let(:second_upcoming_meeting) { create(:structured_meeting, project:) }
-        shared_let(:closed_upcoming_meeting) { create(:structured_meeting, project:, state: :closed) }
+        shared_let(:past_meeting) { create(:meeting, project:, start_time: Date.yesterday - 10.hours) }
+        shared_let(:first_upcoming_meeting) { create(:meeting, project:) }
+        shared_let(:second_upcoming_meeting) { create(:meeting, project:) }
+        shared_let(:closed_upcoming_meeting) { create(:meeting, project:, state: :closed) }
         shared_let(:ongoing_meeting) do
-          create(:structured_meeting, title: "Ongoing", project:, start_time: 1.hour.ago, duration: 4.0)
+          create(:meeting, title: "Ongoing", project:, start_time: 1.hour.ago, duration: 4.0)
         end
 
-        let(:meeting_page) { Pages::StructuredMeeting::Show.new(first_upcoming_meeting) }
+        let(:meeting_page) { Pages::Meetings::Show.new(first_upcoming_meeting) }
 
         it "enables the user to add the work package to multiple open, upcoming meetings" do
           work_package_page.visit!

@@ -30,7 +30,7 @@ Click the green **+ Type** button to add a new work package type in the system, 
 4. You can enter a **default text for the work package description field**, which always be shown when creating new work package from this type. This way, you can easily create work package templates, e.g. for risk management or bug tracking which already contain certain required information in the description.
 5. Choose whether the type should be a **milestone**, e.g. displayed as a milestone in the Gantt chart with the same start and finish date.
 6. Choose whether the type should be displayed in the [roadmap](../../../user-guide/roadmap/) by default.
-7. Select if the work package type should be **active in new projects by default**. This way work package types will not need to be [activated in the project settings](../../../user-guide/projects/project-settings/work-package-types/) but will be available for every project.
+7. Select if the work package type should be **active in new projects by default**. This way work package types will not need to be [activated in the project settings](../../../user-guide/projects/project-settings/work-packages/#work-package-types) but will be available for every project.
 8. Click the **Save** button to add the new type.
 
 ![Create a new work package type in OpenProject administration](openproject_system_guide_new_work_package_typ.png)

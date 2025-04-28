@@ -129,6 +129,8 @@ class RecurringMeeting < ApplicationRecord
   end
 
   def weekday
+    return I18n.t(:label_empty_element) if start_time.blank?
+
     I18n.l(start_time, format: "%A")
   end
 

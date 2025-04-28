@@ -23,7 +23,7 @@ et:
       other: '%{count} BCF issues'
     bcf_xml:
       xml_file: 'BCF XML File'
-      import_title: 'Import'
+      import_title: 'Impordi'
       export: 'Ekspordi'
       import_update_comment: '(Updated in BCF import)'
       import_failed: 'Cannot import BCF file: %{error}'
@@ -127,7 +127,7 @@ et:
       label: 'Processing?'
       pending: 'Ootel'
       processing: 'Töötlemine'
-      completed: 'Completed'
+      completed: 'Lõpetatud'
       error: 'Tõrge'
     processing_notice:
       processing_default: 'The following default IFC models are still being processed and are thus not available, yet:'

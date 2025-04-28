@@ -1,4 +1,9 @@
 vi:
+  ee:
+    upsell:
+      ldap_groups:
+        title: 'Đồng bộ hóa nhóm LDAP'
+        description: 'Synchronize LDAP groups with OpenProject groups to manage users, change their permissions and facilitate user management across groups.'
   plugin_openproject_ldap_groups:
     name: "Nhóm LDAP OpenProject"
     description: "Đồng bộ hóa các thành viên nhóm LDAP."
@@ -71,5 +76,5 @@ vi:
           Nếu bạn kích hoạt tùy chọn này, các người dùng được tìm thấy cũng sẽ được tạo tự động trong OpenProject. Nếu không, chỉ các tài khoản hiện có trong OpenProject sẽ được thêm vào các nhóm.
         dn_text: 'Nhập DN đầy đủ của nhóm trong LDAP'
         group_text: 'Chọn một nhóm OpenProject hiện có mà các thành viên của nhóm LDAP sẽ được đồng bộ hóa với'
-      upsale:
+      upsell:
         description: 'Hãy tận dụng các nhóm LDAP đã đồng bộ để quản lý người dùng, thay đổi quyền hạn của họ và tạo điều kiện quản lý người dùng qua các nhóm.'

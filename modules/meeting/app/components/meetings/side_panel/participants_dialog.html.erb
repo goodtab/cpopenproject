@@ -135,11 +135,11 @@
     if @meeting.editable?
       d.with_footer do
         component_collection do |footer|
-          footer.with_component(Primer::ButtonComponent.new(data: { "close-dialog-id": "edit-participants-dialog" })) do
+          footer.with_component(Primer::Beta::Button.new(data: { "close-dialog-id": "edit-participants-dialog" })) do
             t("button_cancel")
           end
           footer.with_component(
-            Primer::ButtonComponent.new(
+            Primer::Beta::Button.new(
               scheme: :primary,
               form: "edit_participants_form",
               data: { turbo: true },

@@ -106,8 +106,6 @@ module ::Calendar
       @view = Query
                 .visible(current_user)
                 .find(params[:id])
-    rescue ActiveRecord::RecordNotFound
-      render_404
     end
   end
 end

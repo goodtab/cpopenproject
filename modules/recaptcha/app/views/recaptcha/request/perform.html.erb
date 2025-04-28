@@ -1,5 +1,4 @@
 <% html_title t("recaptcha.label_recaptcha") %>
-<% breadcrumb_paths(t("recaptcha.label_recaptcha")) %>
 <div id="login-form" class="form -bordered">
   <h2 class="mb-3"><%= t "recaptcha.verify_account" %></h2>
   <%= styled_form_tag({ action: :verify }, { autocomplete: "off", id: "submit_captcha" }) do %>

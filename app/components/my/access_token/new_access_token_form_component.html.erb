@@ -62,11 +62,11 @@ See COPYRIGHT and LICENSE files for more details.
 
         collection.with_component(Primer::Alpha::Dialog::Footer.new) do
           component_collection do |footer|
-            footer.with_component(Primer::ButtonComponent.new(data: { "close-dialog-id": "new-access-token-dialog" })) do
+            footer.with_component(Primer::Beta::Button.new(data: { "close-dialog-id": "new-access-token-dialog" })) do
               I18n.t("button_cancel")
             end
 
-            footer.with_component(Primer::ButtonComponent.new(scheme: :primary, type: :submit, test_selector: "create-api-token-button")) do
+            footer.with_component(Primer::Beta::Button.new(scheme: :primary, type: :submit, test_selector: "create-api-token-button")) do
               I18n.t("my.access_token.new_access_token_dialog_submit_button_text")
             end
           end

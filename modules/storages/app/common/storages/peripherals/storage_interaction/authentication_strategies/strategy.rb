@@ -56,6 +56,14 @@ module Storages
             @token = token
             self
           end
+
+          def ==(other)
+            @key == other.key && @use_cache == other.use_cache && @user == other.user && @token == other.token
+          end
+
+          def hash
+            [@key, @use_cache, @user, @token].hash
+          end
         end
       end
     end

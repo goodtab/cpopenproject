@@ -36,7 +36,7 @@ RSpec.describe "Open the Gitlab tab", :js do
   let(:role) do
     create(:project_role,
            permissions: %i(view_work_packages
-                           add_work_package_notes
+                           add_work_package_comments
                            show_gitlab_content))
   end
 
@@ -148,7 +148,7 @@ RSpec.describe "Open the Gitlab tab", :js do
       let(:role) do
         create(:project_role,
                permissions: %i(view_work_packages
-                               add_work_package_notes))
+                               add_work_package_comments))
       end
 
       it "does not show the gitlab tab" do

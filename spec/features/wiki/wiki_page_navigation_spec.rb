@@ -53,7 +53,7 @@ RSpec.describe "Wiki page navigation spec", :js do
 
     expect(page).to have_css("div.wiki-content")
 
-    expect(page).to have_css(".title-container h2", text: "Wiki Page No. 55")
+    expect(page).to have_test_selector("wiki-page-header-title", text: "Wiki Page No. 55")
 
     # Expect scrolled to menu node
     expect_element_in_view page.find(".tree-menu--item.-selected", text: "Wiki Page No. 55")

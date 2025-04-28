@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -267,8 +269,8 @@ RSpec.describe Repository::Subversion do
       context "with windows-1252 encoding",
               with_settings: { commit_logs_encoding: %w(windows-1252) } do
         it "logs encoding ignore setting" do
-          s1 = "\xC2\x80"
-          s2 = "\xc3\x82\xc2\x80"
+          s1 = +"\xC2\x80"
+          s2 = +"\xc3\x82\xc2\x80"
           if s1.respond_to?(:force_encoding)
             s1.force_encoding("ISO-8859-1")
             s2.force_encoding("UTF-8")

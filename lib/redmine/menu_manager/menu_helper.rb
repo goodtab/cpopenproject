@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -229,7 +231,7 @@ module Redmine::MenuManager::MenuHelper
     link_text = "".html_safe
 
     if item.icon(project).present?
-      link_text << render(Primer::Beta::Octicon.new(
+      link_text += render(Primer::Beta::Octicon.new(
                             icon: item.icon,
                             mr: shown_in_main_menu ? 3 : 0,
                             size: shown_in_main_menu ? :small : :medium
@@ -238,20 +240,20 @@ module Redmine::MenuManager::MenuHelper
 
     badge_class = item.badge(project:).present? ? " #{menu_class}--item-title_has-badge" : ""
 
-    link_text << content_tag(:span,
+    link_text += content_tag(:span,
                              class: "#{menu_class}--item-title#{badge_class}",
                              lang: menu_item_locale(item)) do
       title_text = "".html_safe + content_tag(:span, caption, class: "ellipsis") + badge_for(item)
       if item.enterprise_feature.present? && !EnterpriseToken.allows_to?(item.enterprise_feature)
-        title_text << ("".html_safe + render(Primer::Beta::Octicon.new(icon: "op-enterprise-addons",
-                                                                       classes: "upsale-colored",
+        title_text += ("".html_safe + render(Primer::Beta::Octicon.new(icon: "op-enterprise-addons",
+                                                                       classes: "upsell-colored",
                                                                        ml: 2)))
       end
       title_text
     end
 
     if item.icon_after.present?
-      link_text << ("".html_safe + render(Primer::Beta::Octicon.new(icon: item.icon_after, classes: "trailing-icon")))
+      link_text += ("".html_safe + render(Primer::Beta::Octicon.new(icon: item.icon_after, classes: "trailing-icon")))
     end
 
     html_options = item.html_options(selected:)
@@ -295,7 +297,7 @@ module Redmine::MenuManager::MenuHelper
   def render_unattached_children_menu(node, project)
     return nil unless node.child_menus
 
-    "".tap do |child_html|
+    (+"").tap do |child_html|
       unattached_children = node.child_menus.call(project)
       # Tree nodes support #each so we need to do object detection
       if unattached_children.is_a? Array

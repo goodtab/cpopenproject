@@ -281,7 +281,7 @@ class RecurringMeetingsController < ApplicationController
   end
 
   def set_direction
-    @direction = params[:direction]
+    @direction = params.fetch(:direction, "upcoming")
   end
 
   def build_meeting_limits
@@ -310,14 +310,10 @@ class RecurringMeetingsController < ApplicationController
 
   def find_optional_project
     @project = Project.find(params[:project_id]) if params[:project_id].present?
-  rescue ActiveRecord::RecordNotFound
-    render_404
   end
 
   def find_meeting
     @recurring_meeting = RecurringMeeting.visible.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    render_404
   end
 
   def convert_params
@@ -341,14 +337,12 @@ class RecurringMeetingsController < ApplicationController
     return unless copied_from_meeting_id
 
     @copy_from = Meeting.visible.find(copied_from_meeting_id)
-  rescue ActiveRecord::RecordNotFound
-    render_404
   end
 
   def structured_meeting_params
-    if params[:structured_meeting].present?
+    if params[:meeting].present?
       params
-        .require(:structured_meeting)
+        .require(:meeting)
     end
   end
 

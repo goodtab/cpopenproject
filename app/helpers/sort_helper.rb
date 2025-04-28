@@ -379,9 +379,6 @@ module SortHelper
   def find_filter_for_column(column, filter_mapping)
     col = column.to_s
 
-    # Temporarily disabled filters for stages and gates columns for now. Remove this line for #59183
-    return nil if column.start_with?("lcsd_")
-
     filter_mapping.fetch(col, col)
   end
 
@@ -500,7 +497,7 @@ module SortHelper
   def add_and_remove_column_actions(menu, column, selected_columns, content_args:, allowed_params: nil, **html_options)
     config_view_modal_link = configure_view_modal_project_queries_path(projects_query_params)
 
-    all_columns_except_this = selected_columns.reject { _1 == column }
+    all_columns_except_this = selected_columns.reject { it == column }
     rm_column_link = build_columns_link(all_columns_except_this, allowed_params:, **html_options)
 
     menu.with_item(**menu_options(label: t(:label_add_column),

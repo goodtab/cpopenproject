@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -47,7 +49,7 @@ class Widget::Filters::Heavy < Widget::Filters::Base
                           class: "advanced-filters--select filter-value",
                           "data-filter-name": filter_class.underscore_name }
       box = content_tag :select, select_options do
-        render_widget Widget::Filters::Option, filter, to: "", content: opts
+        render_widget Widget::Filters::Option, filter, content: opts
       end
       box
     end

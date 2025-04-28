@@ -63,7 +63,8 @@ module ::TypesHelper
         name: "subject_configuration",
         path: edit_tab_type_path(id: @type.id, tab: :subject_configuration),
         label: "types.edit.subject_configuration.tab",
-        view_component: WorkPackages::Types::SubjectConfigurationComponent
+        view_component: WorkPackages::Types::SubjectConfigurationComponent,
+        enterprise_feature: :work_package_subject_generation
       }
 
       tabs.insert(2, subject_configuration_tab)

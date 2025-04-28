@@ -182,8 +182,10 @@ export function initializeUiRouterListeners(injector:Injector) {
     openprojectBaseApp = document.querySelector(appBaseSelector);
     uiRouter.urlService.sync();
 
-    // Re-apply the body classes
-    bodyClass(_.get(uiRouter.globals.current, 'data.bodyClasses'), 'add');
+    // Re-apply the body classes if the turbo load event is on the same page (e.g. when creating a child from the relations tab)
+    if (stateService.href(uiRouter.globals.current) === window.location.pathname + window.location.search) {
+      bodyClass(_.get(uiRouter.globals.current, 'data.bodyClasses'), 'add');
+    }
   });
 
   // Uncomment to trace route changes

@@ -125,8 +125,6 @@ module CustomFields
 
       def find_custom_option
         @custom_option = CustomOption.find params[:option_id]
-      rescue ActiveRecord::RecordNotFound
-        render_404
       end
 
       def delete_custom_values!(custom_option)

@@ -32,7 +32,12 @@ RSpec::Matchers.define :have_enterprise_banner do |**args|
   include TestSelectorFinders
 
   match do |page|
-    page.has_selector?(test_selector("op-enterprise-banner"), **args)
+    if args[:plan]
+      expected_text = I18n.t("ee.upsell.plan_text_html", plan: args[:plan].capitalize)
+      page.find(test_selector("op-enterprise-banner"), **args, text: expected_text)
+    else
+      page.find(test_selector("op-enterprise-banner"), **args)
+    end
   end
 
   match_when_negated do |page|
@@ -40,10 +45,18 @@ RSpec::Matchers.define :have_enterprise_banner do |**args|
   end
 
   failure_message do
-    "expected page to have Enterprise edition banner"
+    <<~MESSAGE
+      Expected page to have Enterprise banner, but it is absent or invisible.
+    MESSAGE
   end
 
   failure_message_when_negated do
-    "expected page not to have Enterprise edition banner"
+    puts Capybara::Screenshot.screenshot_and_save_page
+    banner_text = page.find(test_selector("op-enterprise-banner")).text
+    <<~MESSAGE
+      Expected page not to have Enterprise banner, but it is present and visible.
+      Enterprise banner text:
+        #{banner_text.gsub("\n", "\n  ")}
+    MESSAGE
   end
 end

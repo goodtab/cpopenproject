@@ -28,21 +28,10 @@
 module Projects::LifeCycles
   class Form < ApplicationForm
     form do |f|
-      life_cycle_input(f)
+      multi_value_life_cycle_input(f)
     end
 
     private
-
-    def life_cycle_input(form)
-      case model
-      when Project::Stage
-        multi_value_life_cycle_input(form)
-      when Project::Gate
-        single_value_life_cycle_input(form)
-      else
-        raise NotImplementedError, "Unknown life cycle definition type #{model.class.name}"
-      end
-    end
 
     def qa_field_name
       "life-cycle-step-#{model.id}"
@@ -53,7 +42,7 @@ module Projects::LifeCycles
         label:,
         leading_visual: { icon: :calendar },
         datepicker_options: {
-          inDialog: ProjectLifeCycles::Sections::EditDialogComponent::DIALOG_ID,
+          inDialog: Overviews::ProjectPhases::EditDialogComponent::DIALOG_ID,
           data: { action: "change->overview--project-life-cycles-form#previewForm" }
         },
         wrapper_data_attributes: {
@@ -62,19 +51,13 @@ module Projects::LifeCycles
       }
     end
 
-    def single_value_life_cycle_input(form)
-      input_attributes = { name: :date, value: model.date }
-
-      form.single_date_picker **base_input_attributes, **input_attributes
-    end
-
     def multi_value_life_cycle_input(form)
-      value = [model.start_date, model.end_date].compact.join(" - ")
+      value = [model.start_date, model.finish_date].compact.join(" - ")
 
       input_attributes = { name: :date_range, value: }
       if model.working_days_count
         input_attributes[:caption] =
-          I18n.t("project_stage.working_days_count", count: model.working_days_count)
+          I18n.t("project_phase.working_days_count", count: model.working_days_count)
       end
 
       form.range_date_picker **base_input_attributes, **input_attributes
@@ -85,20 +68,11 @@ module Projects::LifeCycles
     end
 
     def icon
-      icon_name = case model
-                  when Project::Stage
-                    :"git-commit"
-                  when Project::Gate
-                    :diamond
-                  else
-                    raise NotImplementedError, "Unknown model #{model.class} to render a LifeCycleForm with"
-                  end
-
-      render Primer::Beta::Octicon.new(icon: icon_name, classes: icon_color_class)
+      render Primer::Beta::Octicon.new(icon: :"op-phase", classes: icon_color_class)
     end
 
     def icon_color_class
-      helpers.hl_inline_class("life_cycle_step_definition", model.definition)
+      helpers.hl_inline_class("project_phase_definition", model.definition)
     end
   end
 end

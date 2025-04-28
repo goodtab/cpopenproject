@@ -32,6 +32,7 @@ module Queries::Principals
     filter Filters::TypeFilter
     filter Filters::MemberFilter
     filter Filters::MentionableOnWorkPackageFilter
+    filter Filters::InternalMentionableOnWorkPackageFilter
     filter Filters::StatusFilter
     filter Filters::NameFilter
     filter Filters::AnyNameAttributeFilter

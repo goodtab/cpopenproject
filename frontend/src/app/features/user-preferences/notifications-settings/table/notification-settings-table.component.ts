@@ -81,7 +81,7 @@ export class NotificationSettingsTableComponent implements OnInit {
   ) {}
 
   ngOnInit():void {
-    this.eeShowBanners = this.bannersService.eeShowBanners;
+    this.eeShowBanners = this.bannersService.showBannerFor('date_alerts');
   }
 
   projectLink(href:string) {

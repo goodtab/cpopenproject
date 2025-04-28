@@ -15,7 +15,7 @@ ro:
   avatar_deleted: "Avatar șters cu succes."
   unable_to_delete_avatar: "Avatarul nu a putut fi șters."
   wrong_file_format: "Formatele permise sunt jpg, png, gif"
-  empty_file_error: "Vă rugăm să încărcați o imagine validă (jpg, png, gif)"
+  empty_file_error: "Te rog să încarci o imagine validă (jpg, png, gif)"
   avatars:
     label_avatar: "Avatar"
     label_gravatar: 'Gravatar'

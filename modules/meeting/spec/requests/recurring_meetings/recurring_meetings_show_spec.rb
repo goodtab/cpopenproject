@@ -94,7 +94,7 @@ RSpec.describe "Recurring meetings show",
   end
 
   describe "past quick filter" do
-    let!(:past_instance) { create(:structured_meeting, recurring_meeting:, start_time: 1.day.ago + 10.hours) }
+    let!(:past_instance) { create(:meeting, recurring_meeting:, start_time: 1.day.ago + 10.hours) }
     let!(:past_schedule) do
       create :scheduled_meeting,
              meeting: past_instance,
@@ -131,7 +131,7 @@ RSpec.describe "Recurring meetings show",
 
   describe "upcoming tab" do
     let!(:upcoming_open_meeting) do
-      create(:structured_meeting, recurring_meeting:, start_time: Time.zone.today + 1.day + 10.hours, state: :open)
+      create(:meeting, recurring_meeting:, start_time: Time.zone.today + 1.day + 10.hours, state: :open)
     end
     let!(:open_meeting) do
       create :scheduled_meeting,
@@ -179,7 +179,7 @@ RSpec.describe "Recurring meetings show",
     end
 
     let!(:ongoing_meeting) do
-      create(:structured_meeting, recurring_meeting:, start_time: Time.zone.today + 10.hours, state: :open)
+      create(:meeting, recurring_meeting:, start_time: Time.zone.today + 10.hours, state: :open)
     end
     let!(:ongoing_schedule) do
       create :scheduled_meeting,
@@ -210,7 +210,7 @@ RSpec.describe "Recurring meetings show",
   describe "upcoming quick filter" do
     context "with a rescheduled meeting" do
       let!(:rescheduled_instance) do
-        create :structured_meeting,
+        create :meeting,
                recurring_meeting:,
                start_time: Time.zone.today + 2.days + 10.hours
       end
@@ -242,7 +242,7 @@ RSpec.describe "Recurring meetings show",
                iterations: 2
       end
       let!(:first_instance) do
-        create :structured_meeting,
+        create :meeting,
                recurring_meeting:,
                start_time: Time.zone.today + 2.days + 10.hours,
                state: :open
@@ -254,7 +254,7 @@ RSpec.describe "Recurring meetings show",
                start_time: Time.zone.today + 2.days + 10.hours
       end
       let!(:second_instance) do
-        create :structured_meeting,
+        create :meeting,
                recurring_meeting:,
                start_time: Time.zone.today + 3.days + 10.hours,
                state: :open
@@ -323,7 +323,7 @@ RSpec.describe "Recurring meetings show",
              iterations: 5
     end
     let!(:ongoing_instance) do
-      create :structured_meeting,
+      create :meeting,
              recurring_meeting:,
              start_time: Time.zone.today + 10.hours - 10.minutes
     end

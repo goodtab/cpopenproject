@@ -1,4 +1,9 @@
 hu:
+  ee:
+    upsell:
+      ldap_groups:
+        title: 'LDAP csoport szinkronizálása'
+        description: 'Synchronize LDAP groups with OpenProject groups to manage users, change their permissions and facilitate user management across groups.'
   plugin_openproject_ldap_groups:
     name: "OpenProject LDAP groups"
     description: "Synchronization of LDAP group memberships."
@@ -71,5 +76,5 @@ hu:
           Ha engedélyezi ezt az opciót, a talált felhasználók automatikusan létrejönnek az OpenProject alkalmazásban. Enélkül csak az OpenProject meglévő fiókjai kerülnek hozzáadásra a csoportokhoz.
         dn_text: "Adja meg a csoport teljes DN -jét az LDAP -ban\n"
         group_text: 'Válasszon egy meglévő OpenProject csoportot, amellyel az LDAP csoport tagjait szinkronizálni kell'
-      upsale:
+      upsell:
         description: 'Használja ki a szinkronizált LDAP-csoportok előnyeit a felhasználók kezeléséhez, az engedélyeik módosításához és a csoportok közötti felhasználói kezelés megkönnyítéséhez.'

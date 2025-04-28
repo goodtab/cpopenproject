@@ -34,7 +34,7 @@ RSpec.describe Query,
                with_ee: %i[baseline_comparison conditional_highlighting work_package_query_relation_columns] do
   let(:query) { build(:query) }
   let(:project) { create(:project) }
-  let(:user_cf) { create(:user, member_with_permissions: { project => [:select_custom_fields] }) }
+  let(:project_member) { create(:user, member_with_permissions: { project => [:view_project] }) }
   let(:user_restricted) { create(:user) }
 
   describe ".new_default" do
@@ -477,17 +477,20 @@ RSpec.describe Query,
   end
 
   describe ".available_columns" do
-    let(:custom_field) { create(:list_wp_custom_field) }
     let(:type) { create(:type) }
+    let(:custom_field) { create(:list_wp_custom_field, types: [type], projects: [project]) }
 
     before do
+      custom_field
+      project.types << type
+
       stub_const("Relation::TYPES",
                  relation1: { name: :label_relates_to, sym_name: :label_relates_to, order: 1, sym: :relation1 },
                  relation2: { name: :label_duplicates, sym_name: :label_duplicated_by, order: 2, sym: :relation2 })
     end
 
     context "with the enterprise token allowing relation columns" do
-      current_user { user_cf }
+      current_user { project_member }
 
       it "has all static columns, cf columns and relation columns" do
         expected_columns = %i(id project assigned_to author
@@ -502,7 +505,7 @@ RSpec.describe Query,
         expect(described_class.available_columns.map(&:name)).to include *expected_columns
       end
 
-      context "when the user does not have the necessary custom field permissions" do
+      context "when the user cannot see the project" do
         current_user { user_restricted }
 
         it "does not list custom field columns" do
@@ -518,7 +521,7 @@ RSpec.describe Query,
     end
 
     context "with the enterprise token disallowing relation columns", with_ee: false do
-      current_user { user_cf }
+      current_user { project_member }
 
       it "has all static columns, cf columns but no relation columns" do
         expected_columns = %i(id project assigned_to author

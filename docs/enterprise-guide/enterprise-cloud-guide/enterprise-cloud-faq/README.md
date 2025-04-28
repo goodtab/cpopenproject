@@ -14,6 +14,10 @@ keywords: Enterprise cloud, FAQ, cloud edition, hosted by OpenProject
 
 Simply create a 14 days free trial on: [start.openproject.com](https://start.openproject.com/). Enter your organization name in small letters, without spaces (e.g. openproject) and press the blue Start Free Trial button.
 
+### I am currently on a lower Enterprise cloud plan. How can I test the Enterprise add-ons of the higher plans?
+
+If you are currently on a lower plan for the Enterprise cloud and want to test any of the Enterprise add-ons from a higher plan, please [create a new Cloud trial](https://start.openproject.com/) in order to test the features.
+
 ### Can I get a custom domain name instead of example.openproject.com?
 
 Yes, you can create your custom domain name. For this service we charge €100 per month. Please contact us via email (sales@openproject.com) if you are interested.

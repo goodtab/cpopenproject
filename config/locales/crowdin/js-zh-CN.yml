@@ -239,7 +239,7 @@ zh-CN:
           status_waiting: "电子邮件已发送 - 等待确认"
           test_ee: "免费体验企业版 14 天"
           quick_overview: "用 OpenProject 企业版，快速了解项目管理和团队协作的概况。"
-        upsale:
+        upsell:
           become_hero: "成为英雄！"
           enterprise_info_html: "%{feature_title} 是一个企业版<span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span>的附加功能。"
           upgrade_info: "请升级到付费方案，以激活并开始在您的团队中使用该功能。"
@@ -357,10 +357,10 @@ zh-CN:
           learn_about: "详细了解新功能"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "15_4":
+          "15_5":
             standard:
               new_features_html: >
-                此次发布为您带来了各种功能和改进，例如：<br> <ul class="%{list_styling_class}"> <li>启用自动调度模式。</li> <li>为会议设置议程条目结果。</li> <li>从工作包描述生成 PDF 文档。</li> <li>借助增强的项目列表视图更好地管理大量项目。</li> <li>引用回复评论时使用 @ 提及用户。</li></ul>
+                该版本为您带来了多项功能与改进，例如：<br> <ul class="%{list_styling_class}"> <li>筛选工作包后代（子级和孙级）。</li> <li>日期选择器支持高级无障碍功能。</li> <li>工作包表格汇总中显示完成百分比。</li> <li>工作包表格新增子级列。</li> <li>优化移动端屏幕的日期选择器使用体验。</li> <li>PDF 导出与配置的表单布局保持一致。</li> </ul>
     ical_sharing_modal:
       title: "订阅日历"
       inital_setup_error_message: "获取数据时发生错误。"
@@ -462,6 +462,7 @@ zh-CN:
     label_menu_collapse: "折叠"
     label_menu_expand: "展开"
     label_more_than_ago: "更多天前"
+    label_moderate_comment: "审核评论"
     label_next: "下一个"
     label_no_color: "无颜色"
     label_no_data: "没有要显示的数据"
@@ -630,9 +631,6 @@ zh-CN:
         property_is: "%{difference_in_days}后。"
         property_was: "%{difference_in_days}前。"
         property_is_deleted: "已删除。"
-        upsale:
-          title: "日期提醒"
-          description: "借助日期提醒，您将收到即将到来的开始或结束日期的通知，以免错过或忘记重要截止日期。"
       center:
         label_actor_and: "和"
         and_more_users:
@@ -694,7 +692,6 @@ zh-CN:
           date_alerts:
             title: "日期提醒"
             description: "当你参与的开放工作包（作为受理人、负责人或关注者）的重要日期临近时，自动发送通知。"
-            teaser_text: "借助日期提醒，您将收到即将到来的开始或结束日期的通知，以免错过或忘记重要截止日期。"
           overdue: 逾期时
         project_specific:
           title: "项目特定通知设置"
@@ -797,6 +794,7 @@ zh-CN:
       typeahead_placeholder: 查找可能的关注者
     relation_labels:
       parent: "父级"
+      child: "子级"
       children: "子任务"
       relates: "关于"
       duplicates: "重复项"
@@ -865,7 +863,7 @@ zh-CN:
     tl_toolbar:
       zooms: "缩放级别"
       outlines: "层次结构级别"
-    upsale:
+    upsell:
       ee_only: "企业版附加组件"
     wiki_formatting:
       strong: "加强"
@@ -973,7 +971,7 @@ zh-CN:
         percentageDone: "完成百分比"
         priority: "优先级"
         projectName: "项目"
-        remainingWork: "剩余工作"
+        remainingWork: "剩余工时"
         remainingWorkAlternative: "剩余小时数"
         responsible: "责任人"
         startDate: "开始日期"
@@ -985,7 +983,7 @@ zh-CN:
         updatedAt: "更新时间"
         versionName: "版本"
         version: "版本"
-        work: "工作"
+        work: "工时"
         workAlternative: "估算工时"
         remainingTime: "剩余的工作"
       default_queries:
@@ -1044,8 +1042,6 @@ zh-CN:
       sharing:
         title: "共享工作包"
         show_all_users: "显示与之共享工作包的所有用户"
-        upsale:
-          description: "与非此项目成员的用户共享工作包。"
       table:
         configure_button: "配置工作包表"
         summary: "行为工作包且列为工作包属性的表格。"
@@ -1080,10 +1076,6 @@ zh-CN:
           manually: "手动"
           warning: "激活自动排序模式时，您将丢失以前的排序结果。"
         columns_help_text: "使用上面的输入字段向表视图中添加列。您可以拖放列来将它们重新排序。"
-        upsale:
-          attribute_highlighting: "需要特定的工作包以脱颖而出？"
-          relation_columns: "需要查看工作包列表中的关系吗？"
-          check_out_link: "退出企业版。"
         relation_filters:
           filter_work_packages_by_relation_type: "按关系类型筛选工作包"
       tabs:
@@ -1294,9 +1286,7 @@ zh-CN:
       clear: "清除"
       apply: "应用"
       header_description: "高亮显示过去对该清单所作的修改。"
-      enterprise_header_description: "高亮显示过去企业版对该清单所作的修改。"
       show_changes_since: "显示更改自"
-      baseline_comparison: "基线比较"
       help_description: "基准参考时区。"
       time_description: "在您的本地时间: %{datetime}"
       time: "时间"

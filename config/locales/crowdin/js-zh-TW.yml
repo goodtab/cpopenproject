@@ -238,7 +238,7 @@ zh-TW:
           status_waiting: "電子郵件已寄發-等待確認"
           test_ee: "免費體驗企業版 14 天"
           quick_overview: "用 OpenProject 企業版，快速瞭解項目管理和團隊協作的概況。"
-        upsale:
+        upsell:
           become_hero: "成為英雄!"
           enterprise_info_html: "%{feature_title} 是一個企業版<span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span>的附加功能。"
           upgrade_info: "請升級到付費版以啟用此功能"
@@ -253,7 +253,7 @@ zh-TW:
             professional_support: "專業支援"
             professional_support_text: "從高級支持工程師那裡獲得可靠的個性化支持，這些工程師擁有在業務關鍵型環境中運行 OpenProject 的專業知識。"
           button_start_trial: "開始免費試用"
-          button_upgrade: "立即更新"
+          button_upgrade: "立即升級"
           button_contact_us: "聯絡我們取得試用"
           button_book_now: "立即預約"
           confidence: >
@@ -356,10 +356,10 @@ zh-TW:
           learn_about: "瞭解更多新功能的資訊"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "15_4":
+          "15_5":
             standard:
               new_features_html: >
-                本次版本更新帶來多項新功能與改進，例如：<br> <ul class="%{list_styling_class}"> <li>啟用自動排程模式。</li> <li>為會議議程項目設定結果。</li> <li>從工作項目描述中生成 PDF 文件。</li> <li>透過強化的專案清單視圖，更有效管理大量專案。</li> <li>在引用回覆留言時，可使用 @ 提及用戶。</li> </ul>
+                本次更新為您帶來多項新功能與改進，例如：<br><ul class="%{list_styling_class}"> <li>子工作項目與孫工作項目的篩選功能</li> <li>日期選擇器強化無障礙輔助功能</li> <li>工作項目表格總計顯示完成百分比（% Complete）</li> <li>工作項目表格新增子工作項專用欄位</li> <li>行動裝置日期選擇器操作體驗優化</li> <li>PDF 匯出格式支援自訂表單版面配置</li> </ul>
     ical_sharing_modal:
       title: "訂閱日曆"
       inital_setup_error_message: "更新資料時發生錯誤"
@@ -461,6 +461,7 @@ zh-TW:
     label_menu_collapse: "收合"
     label_menu_expand: "展開"
     label_more_than_ago: "超過幾天"
+    label_moderate_comment: "審閱留言"
     label_next: "下一個"
     label_no_color: "無顏色"
     label_no_data: "沒有資料可顯示"
@@ -629,9 +630,6 @@ zh-TW:
         property_is: "在 %{difference_in_days}中。"
         property_was: " %{difference_in_days}天前"
         property_is_deleted: "已刪除"
-        upsale:
-          title: "日期提醒"
-          description: "透過日期提醒，您將收到相關通知，這樣您就不會錯過或忘記重要的日期。"
       center:
         label_actor_and: "和"
         and_more_users:
@@ -693,7 +691,6 @@ zh-TW:
           date_alerts:
             title: "日期提醒"
             description: "當「執行者、負責人或監看者」之開啟的工作項目，其重要日期臨近時，自動發出通知。"
-            teaser_text: "透過日期提醒，您將收到即將到來的開始或結束日期的通知，這樣您就不會錯過或忘記重要的截止日期。"
           overdue: 逾期
         project_specific:
           title: "特定專案通知設定"
@@ -796,6 +793,7 @@ zh-TW:
       typeahead_placeholder: 尋找可能的監看者
     relation_labels:
       parent: "上層目錄："
+      child: "子項目"
       children: "子項目"
       relates: "關聯"
       duplicates: "重複"
@@ -825,7 +823,7 @@ zh-TW:
       add_new_child: "建立子工作項目"
       create_new: "新增"
       add_existing: "添加現有的"
-      add_existing_child: "加入現有子項目"
+      add_existing_child: "增加子項目"
       remove_child: "移除子項目"
       add_new_relation: "建立新關聯"
       add_existing_relation: "增加現有關系"
@@ -864,7 +862,7 @@ zh-TW:
     tl_toolbar:
       zooms: "縮放等級"
       outlines: "層次結構級別"
-    upsale:
+    upsell:
       ee_only: "企業版"
     wiki_formatting:
       strong: "粗體"
@@ -1043,8 +1041,6 @@ zh-TW:
       sharing:
         title: "參與工作項目"
         show_all_users: "顯示與之共同參與工作項目的所有用戶"
-        upsale:
-          description: "與不是專案成員的使用者共同參與工作項目。"
       table:
         configure_button: "設定工作項目"
         summary: "由工作項目和工作項目屬性列組成的表格。"
@@ -1079,10 +1075,6 @@ zh-TW:
           manually: "手動"
           warning: "啟動自動排序模式時，將清除先前的設定。"
         columns_help_text: "使用上面的輸入字段向表視圖中添加列。您可以拖放列來將它們重新排序。"
-        upsale:
-          attribute_highlighting: "需要強調某些工作項目嗎？"
-          relation_columns: "需要檢視工作項目清單的關係嗎"
-          check_out_link: "請查閱企業版"
         relation_filters:
           filter_work_packages_by_relation_type: "依關聯類型過濾工作項目"
       tabs:
@@ -1293,9 +1285,7 @@ zh-TW:
       clear: "清除"
       apply: "套用"
       header_description: "從設定的差異點開始，將標示出修改過地方"
-      enterprise_header_description: "從設定的差異點開始，將標示出修改過地方(企業版功能)"
       show_changes_since: "差異起始"
-      baseline_comparison: "比較差異"
       help_description: "差異線參考時區。"
       time_description: "當地時間： %{datetime}"
       time: "時間"

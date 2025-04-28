@@ -27,8 +27,8 @@
 #++
 
 require "spec_helper"
-require File.join(File.dirname(__FILE__), "..", "support", "custom_field_filter")
-require File.join(File.dirname(__FILE__), "..", "support", "configuration_helper")
+require_relative "../support/custom_field_filter"
+require_relative "../support/configuration_helper"
 
 RSpec.describe "Custom field filter and group by caching" do
   include OpenProject::Reporting::SpecHelper::CustomFieldFilterHelper

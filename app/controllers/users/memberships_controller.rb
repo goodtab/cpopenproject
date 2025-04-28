@@ -35,8 +35,6 @@ class Users::MembershipsController < ApplicationController
 
   def find_individual_principal
     @individual_principal = User.find(params[:user_id])
-  rescue ActiveRecord::RecordNotFound
-    render_404
   end
 
   def redirected_to_tab(membership)

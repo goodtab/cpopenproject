@@ -63,8 +63,8 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
     unnamedBoard: this.I18n.t('js.boards.label_unnamed_board'),
     loadingError: 'No such board found',
     addList: this.I18n.t('js.boards.add_list'),
-    upsaleBoards: this.I18n.t('js.boards.upsale.teaser_text'),
-    upsaleCheckOutLink: this.I18n.t('js.work_packages.table_configuration.upsale.check_out_link'),
+    upsellBoards: this.I18n.t('js.boards.upsell.teaser_text'),
+    upsellCheckOutLink: this.I18n.t('js.work_packages.table_configuration.upsell.check_out_link'),
     unnamed_list: this.I18n.t('js.boards.label_unnamed_list'),
   };
 

@@ -31,9 +31,10 @@
 require "spec_helper"
 
 RSpec.describe "Projects life cycle settings", :js, with_flag: { stages_and_gates: true } do
-  shared_let(:initiating_stage) { create(:project_stage_definition, name: "Initiating") }
-  shared_let(:ready_to_execute_gate) { create(:project_gate_definition, name: "Ready to Execute") }
-  shared_let(:executing_stage) { create(:project_stage_definition, name: "Executing") }
+  shared_let(:initiating_stage) { create(:project_phase_definition, name: "Initiating") }
+  shared_let(:executing_stage) do
+    create(:project_phase_definition, name: "Executing", start_gate: true, start_gate_name: "Ready to Execute")
+  end
 
   let(:definitions_page) { Pages::Admin::Settings::ProjectLifeCycleStepDefinitions.new }
 
@@ -55,7 +56,7 @@ RSpec.describe "Projects life cycle settings", :js, with_flag: { stages_and_gate
     it "allows viewing definitions" do
       definitions_page.visit!
 
-      definitions_page.expect_listed(["Initiating", "Ready to Execute", "Executing"])
+      definitions_page.expect_listed(["Initiating", "Executing"])
 
       definitions_page.expect_no_controls
     end
@@ -86,72 +87,72 @@ RSpec.describe "Projects life cycle settings", :js, with_flag: { stages_and_gate
 
     it "allows managing definitions" do
       definitions_page.visit!
-      definitions_page.expect_listed(["Initiating", "Ready to Execute", "Executing"])
+      definitions_page.expect_listed(["Initiating", "Executing"])
 
       # filtering
-      definitions_page.filter_with("ing")
-      definitions_page.expect_listed(["Initiating", "Executing"])
+      definitions_page.filter_with("e")
+      definitions_page.expect_listed(["Executing"])
 
       definitions_page.expect_no_ordering_controls
 
       definitions_page.clear_filter
-      definitions_page.expect_listed(["Initiating", "Ready to Execute", "Executing"])
+      definitions_page.expect_listed(["Initiating", "Executing"])
 
       # editing steps
-      definitions_page.click_definition("Ready to Execute")
-      fill_in "Name", with: "Ready to Process"
+      definitions_page.click_definition("Initiating")
+      fill_in "Name", with: "Starting"
       click_on "Update"
 
       definitions_page.click_definition_action("Executing", action: "Edit")
       fill_in "Name", with: "Processing"
       click_on "Update"
 
-      definitions_page.expect_listed(["Initiating", "Ready to Process", "Processing"])
+      definitions_page.expect_listed(["Starting", "Processing"])
 
       # creating steps
-      definitions_page.add("Stage")
+      definitions_page.add
       fill_in "Name", with: "Imagining"
       definitions_page.select_color("Azure")
       click_on "Create"
 
-      definitions_page.add("Gate")
-      fill_in "Name", with: "Ready to Initiate"
+      definitions_page.add
+      fill_in "Name", with: "Initiating"
       definitions_page.select_color("Gold")
       click_on "Create"
 
-      definitions_page.expect_listed(["Initiating", "Ready to Process", "Processing", "Imagining", "Ready to Initiate"])
+      definitions_page.expect_listed(["Starting", "Processing", "Imagining", "Initiating"])
 
       # moving
       definitions_page.click_definition_action("Processing", action: "Move to bottom")
       wait_for_network_idle
-      definitions_page.expect_listed(["Initiating", "Ready to Process", "Imagining", "Ready to Initiate", "Processing"])
+      definitions_page.expect_listed(["Starting", "Imagining", "Initiating", "Processing"])
 
-      definitions_page.click_definition_action("Imagining", action: "Move to top")
+      definitions_page.click_definition_action("Initiating", action: "Move to top")
       wait_for_network_idle
-      definitions_page.expect_listed(["Imagining", "Initiating", "Ready to Process", "Ready to Initiate", "Processing"])
+      definitions_page.expect_listed(["Initiating", "Starting", "Imagining", "Processing"])
 
-      definitions_page.click_definition_action("Ready to Process", action: "Move down")
+      definitions_page.click_definition_action("Starting", action: "Move down")
       wait_for_network_idle
-      definitions_page.expect_listed(["Imagining", "Initiating", "Ready to Initiate", "Ready to Process", "Processing"])
+      definitions_page.expect_listed(["Initiating", "Imagining", "Starting", "Processing"])
 
-      definitions_page.click_definition_action("Ready to Initiate", action: "Move up")
+      definitions_page.click_definition_action("Starting", action: "Move up")
       wait_for_network_idle
-      definitions_page.expect_listed(["Imagining", "Ready to Initiate", "Initiating", "Ready to Process", "Processing"])
+      definitions_page.expect_listed(["Initiating", "Starting", "Imagining", "Processing"])
 
-      definitions_page.drag_and_drop_list(from: 0, to: 4,
+      definitions_page.drag_and_drop_list(from: 0, to: 3,
                                           elements: "[data-test-selector=project-life-cycle-step-definition]",
                                           handler: ".DragHandle")
       wait_for_network_idle
-      definitions_page.expect_listed(["Ready to Initiate", "Initiating", "Ready to Process", "Processing", "Imagining"])
+      definitions_page.expect_listed(["Starting", "Imagining", "Processing", "Initiating"])
 
       definitions_page.reload!
-      definitions_page.expect_listed(["Ready to Initiate", "Initiating", "Ready to Process", "Processing", "Imagining"])
+      definitions_page.expect_listed(["Starting", "Imagining", "Processing", "Initiating"])
 
       # deleting
       accept_confirm I18n.t(:text_are_you_sure_with_project_life_cycle_step) do
-        definitions_page.click_definition_action("Initiating", action: "Delete")
+        definitions_page.click_definition_action("Imagining", action: "Delete")
       end
-      definitions_page.expect_listed(["Ready to Initiate", "Ready to Process", "Processing", "Imagining"])
+      definitions_page.expect_listed(["Starting", "Processing", "Initiating"])
     end
   end
 end

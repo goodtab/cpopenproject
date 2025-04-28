@@ -21,6 +21,9 @@
 #++
 lv:
   js:
+    text_are_you_sure: "Vai esat pārliecināts?"
+    myTimeTracking:
+      noSpecificTime: "No specific time"
     work_packages:
       property_groups:
         costs: "Izmaksas"

@@ -1,4 +1,6 @@
-#-- copyright
+# frozen_string_literal: true
+
+# -- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -24,7 +26,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
 require "spec_helper"
 
@@ -43,8 +45,7 @@ RSpec.describe OpenProject::FormTagHelper, type: :helper do
     it "outputs element" do
       expect(output).to be_html_eql(%{
         <form accept-charset="UTF-8" action="/feedback" class="form"
-          method="post"><input name="utf8"
-          type="hidden" value="&#x2713;" autocomplete="off" /><p>Form content</p></form>
+          method="post"><p>Form content</p></form>
       })
     end
   end

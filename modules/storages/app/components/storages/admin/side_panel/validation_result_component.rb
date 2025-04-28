@@ -31,28 +31,47 @@
 module Storages
   module Admin
     module SidePanel
-      class ValidationResultComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+      class ValidationResultComponent < ApplicationComponent
         include OpPrimer::ComponentHelpers
         include OpTurbo::Streamable
 
-        def initialize(result:)
-          super(result)
+        def initialize(storage:, result:)
+          super(storage)
           @result = result
         end
 
         private
 
-        def status_indicator
-          case @result.type
-          when :healthy
-            { scheme: :success, label: I18n.t("storages.health.label_healthy") }
-          when :warning
-            { scheme: :attention, label: I18n.t("storages.health.label_warning") }
-          when :error
-            { scheme: :danger, label: I18n.t("storages.health.label_error") }
+        def summary_header
+          tally = @result.tally
+          case tally
+          in { failure: 1.. }
+            {
+              icon: :alert,
+              icon_color: :danger,
+              text: I18n.t("storages.health.checks.failures", count: tally[:failure])
+            }
+          in { warning: 1.. }
+            {
+              icon: :alert,
+              icon_color: :attention,
+              text: I18n.t("storages.health.checks.warnings", count: tally[:warning])
+            }
           else
-            raise ArgumentError, "Unknown validation result type for status indicator: #{@result.type}"
+            { icon: :"check-circle", icon_color: :success, text: I18n.t("storages.health.checks.failures", count: 0) }
           end
+        end
+
+        def summary_description
+          text = if @result.healthy?
+                   I18n.t("storages.health.summary.success")
+                 elsif @result.unhealthy?
+                   I18n.t("storages.health.summary.failure")
+                 else
+                   I18n.t("storages.health.summary.warning")
+                 end
+
+          "#{text} #{I18n.t('storages.health.checked', datetime: helpers.format_time(@result.latest_timestamp))}"
         end
       end
     end

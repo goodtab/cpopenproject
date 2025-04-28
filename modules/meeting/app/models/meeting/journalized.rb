@@ -54,10 +54,5 @@ module Meeting::Journalized
     register_journal_formatted_fields /agenda_items_\d+_duration_in_minutes/, formatter_key: :agenda_item_duration
     register_journal_formatted_fields "position", formatter_key: :agenda_item_position
     register_journal_formatted_fields /agenda_items_\d+_work_package_id/, formatter_key: :meeting_work_package_id
-
-    def touch_and_save_journals
-      update_column(:updated_at, Time.current)
-      save_journals
-    end
   end
 end

@@ -34,16 +34,14 @@ ru:
           name: Темно-серый
         item_13:
           name: Чёрный
-      life_cycle_colors:
+      project_phase_colors:
         item_0:
           name: PM2 Оранжевый
         item_1:
-          name: PM2 Фиолетовый
-        item_2:
           name: PM2 Красный
-        item_3:
+        item_2:
           name: PM2 Пурпурный
-        item_4:
+        item_3:
           name: PM2 Зелено-жёлтый
       document_categories:
         item_0:
@@ -81,21 +79,18 @@ ru:
         item_1:
           name: Стандартная глобальная роль
     standard:
-      life_cycles:
+      project_phases:
         item_0:
           name: Запуск
         item_1:
-          name: Готов к планированию
-        item_2:
           name: Планирование
-        item_3:
-          name: Готово к выполнению
-        item_4:
+          start_gate: Готово к планированию
+        item_2:
           name: Выполнение
-        item_5:
-          name: Готов к закрытию
-        item_6:
-          name: Закрытие
+          start_gate: Готово к выполнению
+        item_3:
+          name: Завершение
+          start_gate: Готово к завершению
       priorities:
         item_0:
           name: Низкий
@@ -490,7 +485,7 @@ ru:
         item_1:
           name: Веха
         item_2:
-          name: Фаза
+          name: Сводка задачи
         item_3:
           name: Функция
         item_4:

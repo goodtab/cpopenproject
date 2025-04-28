@@ -94,14 +94,33 @@ RSpec.describe "projects/:project_id/project_storages/:id/open" do
               context "when error code is unauthorized" do
                 let(:code) { :unauthorized }
 
-                it "redirects to ensure_connection url with current request url as a destination_url" do
-                  get route, {}, { "HTTP_ACCEPT" => "text/html" }
+                context "when user authenticates at storage via SSO" do
+                  shared_let(:storage) { create(:nextcloud_storage, :oidc_sso_enabled) }
+                  let(:provider) { create(:oidc_provider) }
 
-                  expect(last_response).to have_http_status(:found)
-                  expect(last_response.headers["Location"])
-                    .to eq("http://#{Setting.host_name}/oauth_clients/#{storage.oauth_client.client_id}/ensure_connection?" \
-                           "destination_url=http%3A%2F%2F#{CGI.escape(Setting.host_name)}%2Fprojects%2F#{project.identifier}" \
-                           "%2Fproject_storages%2F#{project_storage.id}%2Fopen&storage_id=#{storage.id}")
+                  current_user do
+                    create(:user, identity_url: "#{provider.slug}:cheese", member_with_permissions: { project => permissions })
+                  end
+
+                  it "redirects to the storage directly" do
+                    get route, {}, { "HTTP_ACCEPT" => "text/html" }
+
+                    expect(last_response).to have_http_status(:found)
+                    expect(last_response.headers["Location"])
+                      .to eq("#{storage.host}index.php/f/123?openfile=1")
+                  end
+                end
+
+                context "when user authenticates at storage via oauth2" do
+                  it "redirects to ensure_connection url with current request url as a destination_url" do
+                    get route, {}, { "HTTP_ACCEPT" => "text/html" }
+
+                    expect(last_response).to have_http_status(:found)
+                    expect(last_response.headers["Location"])
+                      .to eq("http://#{Setting.host_name}/oauth_clients/#{storage.oauth_client.client_id}/ensure_connection?" \
+                             "destination_url=http%3A%2F%2F#{CGI.escape(Setting.host_name)}%2Fprojects%2F#{project.identifier}" \
+                             "%2Fproject_storages%2F#{project_storage.id}%2Fopen&storage_id=#{storage.id}")
+                  end
                 end
               end
 

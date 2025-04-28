@@ -1,12 +1,10 @@
-$table-row-relations-row-background-color: rgba(220, 235, 244, 0.6)
-
 body
-  .wp-table--relations-aditional-row,
+  .wp-table--relations-additional-row,
   .wp-table--relation-cell-td.-expanded
-    background: $table-row-relations-row-background-color
+    background: var(--bgColor-neutral-muted)
 
   .wp-table--relation-cell-td.-expanded
-    border-bottom: 1px solid $table-row-relations-row-background-color
+    border-bottom: 1px solid var(--borderColor-neutral-muted) !important
 
 
 // Show the correct icon for the current expansion state
@@ -20,9 +18,8 @@ body
     @extend .icon-arrow-up1
 
 // Add some margin between badge and indicator
-.wp-table--relation-count.-border-only
+.wp-table--relation-count
   margin-right: 5px
-  background: white
 
 // Override default left-align of cells
 .wp-table--relation-cell-td
@@ -35,12 +32,8 @@ body
 
 // Style the relation label
 .relation-row--type-label
-  background: white
-  padding: 2px
-  border: 1px solid var(--gray)
   border-radius: 5px
   margin-right: 5px
-  font-size: 0.7rem
 
 .relation-row--type
   @include unset-button-styles

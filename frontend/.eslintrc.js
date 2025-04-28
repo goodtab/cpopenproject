@@ -147,6 +147,8 @@ module.exports = {
 
         "import/prefer-default-export": "off",
 
+        "import/no-cycle": "off",
+
         // HAL has a lot of dangling properties, so allow
         // usage in properties but not in all other places
         "no-underscore-dangle": [

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -32,7 +34,7 @@ module SearchHelper
 
     return nil unless split_text.length > 1 || text_on_not_found
 
-    result = ""
+    result = +""
     split_text.each_with_index do |words, i|
       if result.length > 1200
         # maximum length of the preview reached

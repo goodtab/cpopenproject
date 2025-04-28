@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 
 ENV["RAILS_ENV"] ||= "test"
-require File.expand_path("../config/environment", __dir__)
+require_relative "../config/environment"
 require "factory_bot"
 require "factory_bot_rails"
 require "rspec/rails"

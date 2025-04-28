@@ -64,7 +64,8 @@ da:
         Flg. felter kontrollerer, hvilke af SAML-identitetsudbyderens leverede attributter, som bruges til at angive brugerattributter i OpenProject
       metadata:
         dialog: "Dette er URL'en, hvor OpenProject SAML-metadataene er tilgængelige. Brug den evt. til opsætning af identitetsudbyderen:"
-      upsale:
+      upsell:
+        title: "Single Sign-On (SSO) with SAML"
         description: Forbind OpenProject til en SAML-identitetsudbyder
       request_attributes:
         title: 'Anmodede attributter'

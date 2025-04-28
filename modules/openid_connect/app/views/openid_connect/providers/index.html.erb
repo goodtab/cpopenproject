@@ -21,6 +21,7 @@
       ) do |menu|
         menu.with_show_button(
           scheme: :primary,
+          disabled: !EnterpriseToken.allows_to?(:sso_auth_providers),
           aria: { label: I18n.t("openid_connect.providers.label_add_new") }
         ) do |button|
           button.with_leading_visual_icon(icon: :plus)
@@ -39,4 +40,5 @@
   end
 %>
 
+<%= render EnterpriseEdition::BannerComponent.new(:sso_auth_providers, i18n_scope: "openid_connect.providers.upsell") %>
 <%= render ::OpenIDConnect::Providers::TableComponent.new(rows: @providers) %>

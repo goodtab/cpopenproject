@@ -20,10 +20,6 @@ class AnnouncementsController < ApplicationController
 
   private
 
-  def show_local_breadcrumb
-    false
-  end
-
   def announcement_params
     params.require(:announcement).permit("text", "show_until", "active")
   end

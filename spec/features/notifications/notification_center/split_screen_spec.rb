@@ -67,7 +67,7 @@ RSpec.describe "Split screen in the notification center", :js do
       split_screen.switch_to_tab tab: "relations"
       split_screen.expect_tab :relations
       relations_tab = Components::WorkPackages::Relations.new(work_package)
-      relations_tab.expect_no_relation work_package
+      relations_tab.expect_no_relations
 
       # Navigate to full view and back
       wp_full = split_screen.switch_to_fullscreen

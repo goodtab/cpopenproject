@@ -1,14 +1,15 @@
 #English strings go here
 kk:
+  ee:
+    upsell:
+      board_view:
+        description: 'Өзіңіздегі жұмыс ағымын автоматтандырғыңыз келеді ме? Жетілдірілген тақталар Enterprise қосымшасы болып келеді. Ақылы жоспарға өтуіңізді сұраймыз.'
   js:
     boards:
       create_new: 'Create new board'
       label_unnamed_board: 'Unnamed board'
       label_unnamed_list: 'Unnamed list'
       label_board_type: 'Board type'
-      upsale:
-        teaser_text: 'Өзіңіздегі жұмыс ағымын автоматтандырғыңыз келеді ме? Жетілдірілген тақталар Enterprise қосымшасы болып келеді. Ақылы жоспарға өтуіңізді сұраймыз.'
-        upgrade: 'Upgrade now'
       lists:
         delete: 'Delete list'
       version:

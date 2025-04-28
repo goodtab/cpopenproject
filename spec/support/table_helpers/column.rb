@@ -40,6 +40,7 @@ require_relative "column_type/related_to_relations"
 require_relative "column_type/schedule"
 require_relative "column_type/scheduling_mode"
 require_relative "column_type/status"
+require_relative "column_type/successor_relations"
 require_relative "column_type/subject"
 
 module TableHelpers
@@ -61,6 +62,7 @@ module TableHelpers
       schedule_manually: ColumnType::SchedulingMode,
       status: ColumnType::Status,
       subject: ColumnType::Subject,
+      successor_relations: ColumnType::SuccessorRelations,
       __fallback__: ColumnType::Generic
     }.freeze
 
@@ -100,6 +102,8 @@ module TableHelpers
         :schedule_manually
       when /\s*predecessors\s*/
         :predecessor_relations
+      when /\s*successors\s*/
+        :successor_relations
       when /\s*relate[ds][ _]to\s*/
         :related_to_relations
       when /status/, /hierarchy/

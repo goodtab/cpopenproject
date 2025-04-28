@@ -30,7 +30,7 @@ export class BoardActionsRegistryService {
       icon: '',
       description: '',
       image: '',
-      disabled: this.bannersService.eeShowBanners,
+      disabled: this.bannersService.showBannerFor('board_view'),
     }));
   }
 

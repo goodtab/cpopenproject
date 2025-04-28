@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -29,9 +30,8 @@
 
 require "spec_helper"
 
-require_relative "../../support/pages/meetings/new"
-require_relative "../../support/pages/structured_meeting/show"
-require_relative "../../support/pages/structured_meeting/history"
+require_relative "../../support/pages/meetings/show"
+require_relative "../../support/pages/meetings/history"
 
 RSpec.describe "history",
                :js do
@@ -72,7 +72,7 @@ RSpec.describe "history",
   end
   shared_let(:meeting) do
     User.execute_as(user) do
-      create(:structured_meeting,
+      create(:meeting,
              project:,
              start_time: DateTime.parse("2024-03-28T13:30:00Z"),
              title: "Some title",
@@ -82,8 +82,8 @@ RSpec.describe "history",
     end
   end
 
-  let(:show_page) { Pages::StructuredMeeting::Show.new(meeting) }
-  let(:history_page) { Pages::StructuredMeeting::History.new(meeting) }
+  let(:show_page) { Pages::Meetings::Show.new(meeting) }
+  let(:history_page) { Pages::Meeting::History.new(meeting) }
   let(:editor) { Components::WysiwygEditor.new "#content", "opce-ckeditor-augmented-textarea" }
 
   it "allows browsing the history", with_settings: { journal_aggregation_time_minutes: 0 } do

@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.expand_path("../../../../spec_helper", __dir__)
+require_relative "../../../../spec_helper"
 
 RSpec.describe OpenProject::GithubIntegration::NotificationHandler::Helper do
   subject(:handler) { Class.new.include(described_class).new }
@@ -83,7 +83,7 @@ RSpec.describe OpenProject::GithubIntegration::NotificationHandler::Helper do
         allow(WorkPackage).to receive(:where).with(id: ids).and_return(work_packages)
 
         mock_permissions_for(user) do |mock|
-          mock.allow_in_project :add_work_package_notes, project: :project_with_permissions
+          mock.allow_in_project :add_work_package_comments, project: :project_with_permissions
         end
       end
 

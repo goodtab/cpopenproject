@@ -31,7 +31,7 @@ module Notifications::CreateFromModelService::DocumentStrategy
     %i(subscribed)
   end
 
-  def self.permission
+  def self.permission(*)
     :view_documents
   end
 

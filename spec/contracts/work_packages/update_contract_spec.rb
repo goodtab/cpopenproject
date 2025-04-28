@@ -124,7 +124,7 @@ RSpec.describe WorkPackages::UpdateContract do
     end
 
     context "only comment permission" do
-      let(:permissions) { %i[view_work_packages add_work_package_notes] }
+      let(:permissions) { %i[view_work_packages add_work_package_comments] }
 
       context "when only adding a journal" do
         let(:attributes) { { journal_notes: "some notes" } }

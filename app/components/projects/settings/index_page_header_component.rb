@@ -36,4 +36,8 @@ class Projects::Settings::IndexPageHeaderComponent < ApplicationComponent
 
     @project = project
   end
+
+  attr_reader :project
+
+  delegate :public?, to: :project
 end

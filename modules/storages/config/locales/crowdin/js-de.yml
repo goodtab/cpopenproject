@@ -2,7 +2,7 @@
 de:
   js:
     storages:
-      authentication_error: "Authentication with %{storageType} failed"
+      authentication_error: "Authentifizierung mit %{storageType} fehlgeschlagen"
       link_files_in_storage: "Verknüpfen Sie Dateien in %{storageType}"
       link_existing_files: "Vorhandene Dateien verknüpfen"
       upload_files: "Dateien hochladen"
@@ -20,7 +20,7 @@ de:
         one_drive: "OneDrive/SharePoint"
         default: "Speicher"
       information:
-        authentication_error: "The request to %{storageType} could not be authenticated, that's an error."
+        authentication_error: "Die Anfrage an %{storageType} konnte nicht authentifiziert werden, das ist ein Fehler."
         connection_error: >
           Einige %{storageType} Einstellungen funktionieren nicht. Bitte kontaktieren Sie Ihren %{storageType} Administrator.
         live_data_error: "Fehler beim Abrufen der Dateidetails"
@@ -29,8 +29,8 @@ de:
         no_file_links: "Verknüpfen Sie Dateien mit diesem Arbeitspaket bitte über %{storageType}."
         not_logged_in: >
           Um einen Link hinzuzufügen, mit diesem Arbeitspaket verknüpfte Dateien zu sehen oder hochzuladen, melden Sie sich bitte bei %{storageType} an.
-        suggest_logout: You can try whether logging out and back in fixes this problem.
-        suggest_relink: You can try whether re-linking your account via the login button below fixes this problem.
+        suggest_logout: Sie können ausprobieren, ob Aus- und Einloggen dieses Problem behebt.
+        suggest_relink: Sie können überprüfen, ob die erneute Verknüpfung Ihres Kontos über die unten stehende Login-Taste das Problem behebt.
       files:
         already_existing_header: "Diese Datei existiert bereits"
         already_existing_body: >

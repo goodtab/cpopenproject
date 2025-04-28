@@ -49,7 +49,7 @@ In addition to listing files directly attached to a work package, the **Files** 
 
 To link a SharePoint file to the current work package, you can either:
 
-- select a local file, which  will be uploaded to OneDrive/SharePoint storage and linked to this work package
+- select a local file, which will be uploaded to OneDrive/SharePoint storage and linked to this work package
 - select an existing file in OneDrive/SharePoint to link to
 
 ![Link existing files to OneDrive/SharePoint from an OpenProject work package](openproject_onedrive_link_existing_files_link.png)

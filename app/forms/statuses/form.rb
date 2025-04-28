@@ -88,12 +88,7 @@ module Statuses
 
       if readonly_work_packages_restricted?
         statuses_form.html_content do
-          angular_component_tag "opce-enterprise-banner",
-                                inputs: {
-                                  collapsible: true,
-                                  textMessage: t("text_wp_status_read_only_html"),
-                                  moreInfoLink: OpenProject::Static::Links.links[:enterprise_docs][:status_read_only][:href]
-                                }
+          render(EnterpriseEdition::BannerComponent.new(:readonly_work_packages))
         end
       end
 

@@ -40,6 +40,11 @@ type TokenElement = HTMLElement&{ dataset:{ role:'token', prop:string } };
 type ListElement = HTMLElement&{ dataset:{ role:'list_item', prop:string } };
 
 const COMPLETION_CHARACTER = '/';
+const TOKEN_REGEX = /{{([0-9A-Za-z_]+)}}/g;
+
+// A zero-width space character, which is used
+// to have a caret position after tokens
+const CONTROL_SPACE = '\u200B';
 
 export default class PatternInputController extends Controller {
   static targets = [
@@ -68,21 +73,21 @@ export default class PatternInputController extends Controller {
 
   static values = {
     patternInitial: String,
+    headingLocales: Object,
     suggestionsInitial: Object,
     insertAsTextTemplate: String,
   };
 
   declare readonly patternInitialValue:string;
   declare readonly suggestionsInitialValue:Record<string, Record<string, string>>;
+  declare readonly headingLocalesValue:Record<string, string>;
   declare readonly insertAsTextTemplateValue:string;
 
   validTokenMap:Record<string, string> = {};
   currentRange:Range|undefined = undefined;
 
   connect() {
-    this.validTokenMap = Object.values(this.suggestionsInitialValue)
-      .reduce((acc, val) => ({ ...acc, ...val }), {});
-
+    this.validTokenMap = this.flatLocalizedTokenMap();
     this.contentTarget.innerHTML = this.toHtml(this.patternInitialValue) || ' ';
     this.tagInvalidTokens();
     this.clearSuggestionsFilter();
@@ -110,13 +115,13 @@ export default class PatternInputController extends Controller {
       }
     }
 
+    this.setRange();
+
     // close the suggestions
     if (['Escape', 'ArrowLeft', 'ArrowRight', 'End', 'Home'].includes(event.key)) {
       this.clearSuggestionsFilter();
+      this.sanitizeContent();
     }
-
-    // update cursor
-    this.setRange();
   }
 
   input_change():void {
@@ -132,8 +137,6 @@ export default class PatternInputController extends Controller {
       this.filterSuggestions(word);
     }
 
-    this.tagInvalidTokens();
-
     // This resets the cursor position without changing it.
     // It is necessary because chromium based browsers try to
     // retain styling and adds an unwanted <font> tag,
@@ -144,7 +147,10 @@ export default class PatternInputController extends Controller {
       selection.removeAllRanges();
       selection.addRange(range);
     }
+
     this.setRange();
+    this.tagInvalidTokens();
+    this.sanitizeContent();
   }
 
   input_mouseup() {
@@ -157,7 +163,9 @@ export default class PatternInputController extends Controller {
       this.insertSpaceIfLastCharacter();
     }
 
+    this.clearSuggestionsFilter();
     this.setRange();
+    this.sanitizeContent();
   }
 
   input_focus() {
@@ -180,7 +188,7 @@ export default class PatternInputController extends Controller {
     }
 
     const parentNode = this.currentRange.startContainer.parentNode;
-    if (parentNode !== null && this.isToken(parentNode)) {
+    if (this.isToken(parentNode)) {
       this.replaceToken(token, parentNode);
     } else {
       this.insertNodeAtCurrentRange(token);
@@ -195,13 +203,26 @@ export default class PatternInputController extends Controller {
     const target = event.currentTarget as ListElement;
     const parentNode = this.currentRange.startContainer.parentNode;
     const text = document.createTextNode(target.dataset.prop);
-    if (parentNode !== null && this.isToken(parentNode)) {
+    if (this.isToken(parentNode)) {
       this.replaceToken(text, parentNode);
     } else {
       this.insertNodeAtCurrentRange(text);
     }
 
     this.clearSuggestionsFilter();
+  }
+
+  private flatLocalizedTokenMap():Record<string, string> {
+    return Object.entries(this.suggestionsInitialValue)
+      .reduce((acc, [groupKey, attributes]) => {
+        if (groupKey !== 'work_package') {
+          Object.entries(attributes).forEach(([key, value]) => {
+            attributes[key] = `${this.tokenPrefix(groupKey)} ${value}`;
+          });
+        }
+
+        return { ...acc, ...attributes };
+      }, {});
   }
 
   private updateFormInputValue():void {
@@ -231,8 +252,7 @@ export default class PatternInputController extends Controller {
 
       // if the resulting range is empty it is at the start of the input
       if (testRange.toString() === '') {
-        // add a space
-        const beforeToken = document.createTextNode(' ');
+        const beforeToken = document.createTextNode(CONTROL_SPACE);
         const firstContent = this.contentTarget.firstChild as HTMLElement;
         this.contentTarget.insertBefore(beforeToken, firstContent);
 
@@ -254,8 +274,7 @@ export default class PatternInputController extends Controller {
 
       // if the resulting range is empty it is at the end of the input
       if (testRange.toString() === '') {
-        // add a space
-        const afterToken = document.createTextNode(' ');
+        const afterToken = document.createTextNode(CONTROL_SPACE);
         this.contentTarget.appendChild(afterToken);
 
         this.setRealCaretPositionAtNode(afterToken);
@@ -269,10 +288,17 @@ export default class PatternInputController extends Controller {
 
     const postRange = document.createRange();
     if (position === 'after') {
-      postRange.setStartAfter(target);
+      if (this.isToken(target) && target.nextSibling?.textContent === CONTROL_SPACE) {
+        postRange.setStartAfter(target.nextSibling);
+      } else if (this.isToken(target) && this.isText(target.nextSibling)) {
+        postRange.setStart(target.nextSibling, 1);
+      } else {
+        postRange.setStartAfter(target);
+      }
     } else {
       postRange.setStartBefore(target);
     }
+
     selection.removeAllRanges();
     selection.addRange(postRange);
   }
@@ -286,6 +312,10 @@ export default class PatternInputController extends Controller {
   }
 
   private replaceToken(node:Node, token:TokenElement):void {
+    if (this.isText(node) && token.nextSibling?.textContent === CONTROL_SPACE) {
+      token.nextSibling.remove();
+    }
+
     token.replaceWith(node);
     this.setRealCaretPositionAtNode(node);
     this.updateFormInputValue();
@@ -311,6 +341,7 @@ export default class PatternInputController extends Controller {
     wordRange.deleteContents();
     wordRange.insertNode(node);
 
+    this.sanitizeContent();
     this.setRealCaretPositionAtNode(node);
     this.updateFormInputValue();
     this.setRange();
@@ -330,7 +361,11 @@ export default class PatternInputController extends Controller {
     if (textContent === null) { return null; }
 
     if (this.isToken(parent)) {
-      return textContent.slice(0, selection.anchorOffset);
+      const key = parent.dataset.prop;
+      const prefix = this.tokenPrefix(key.slice(0, key.indexOf('_')));
+      const start = prefix && textContent.startsWith(`${prefix} `) ? prefix.length + 1 : 0;
+
+      return textContent.slice(start, selection.anchorOffset);
     }
 
     const posKey = textContent.lastIndexOf(COMPLETION_CHARACTER);
@@ -358,7 +393,7 @@ export default class PatternInputController extends Controller {
       if (groupHeader) {
         const headerElement = groupHeader.querySelector('h2');
         if (headerElement) {
-          headerElement.innerText = group.key;
+          headerElement.innerText = this.headingLocalesValue[group.key];
         }
 
         this.suggestionsTarget.appendChild(groupHeader);
@@ -388,7 +423,7 @@ export default class PatternInputController extends Controller {
   private appendInsertAsTextElement(word:string):void {
     const template = this.insertAsTextTemplateTarget.content.cloneNode(true) as DocumentFragment;
     const item = template.firstElementChild;
-    if (item === null || !this.isListItem(item)) { return; }
+    if (!this.isListItem(item)) { return; }
 
     const textElement = item.querySelector('span');
     if (textElement === null) { return; }
@@ -420,15 +455,34 @@ export default class PatternInputController extends Controller {
   }
 
   private tagInvalidTokens():void {
-    this.contentTarget.querySelectorAll('[data-role="token"]').forEach((element:HTMLElement) => {
+    this.contentTarget.querySelectorAll('[data-role="token"]').forEach((element:TokenElement) => {
       const exists = Object.keys(this.validTokenMap).some((key) => key === element.dataset.prop);
 
       if (exists) {
-        element.classList.remove('Label--danger');
+        this.setStyle(element, 'accent');
       } else {
-        element.classList.add('Label--danger');
+        this.setStyle(element, 'danger');
       }
     });
+  }
+
+  private setStyle(token:TokenElement, style:'accent'|'danger'|'secondary'):void {
+    switch (style) {
+      case 'accent':
+        token.classList.remove('Label--danger', 'Label--secondary');
+        token.classList.add('Label--accent');
+        break;
+      case 'danger':
+        token.classList.remove('Label--accent', 'Label--secondary');
+        token.classList.add('Label--danger');
+        break;
+      case 'secondary':
+        token.classList.remove('Label--accent', 'Label--danger');
+        token.classList.add('Label--secondary');
+        break;
+      default:
+        throw new Error('Invalid label style');
+    }
   }
 
   private createToken(value:string):TokenElement {
@@ -439,11 +493,67 @@ export default class PatternInputController extends Controller {
     return contentElement;
   }
 
+  private sanitizeContent():void {
+    this.contentTarget.childNodes.forEach((node) => {
+      if (this.isToken(node)) {
+        this.setStyle(node, 'accent');
+
+        const key = node.dataset.prop;
+        if (node.textContent !== this.validTokenMap[key]) {
+          if (this.containsCursor(node)) {
+            this.setStyle(node, 'secondary');
+          } else {
+            node.innerText = this.validTokenMap[key] || key;
+          }
+        }
+
+        const follower = node.nextSibling;
+        if (follower === null) {
+          node.after(document.createTextNode(CONTROL_SPACE));
+        } else {
+          if (this.isToken(follower)) {
+            node.after(document.createTextNode(CONTROL_SPACE));
+          }
+
+          if (this.isText(follower) && !this.isWhitespaceOrControlSpace(follower.wholeText[0])) {
+            node.after(document.createTextNode(CONTROL_SPACE));
+          }
+        }
+      }
+    });
+  }
+
   private toHtml(blueprint:string):string {
-    return blueprint
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/{{([0-9A-Za-z_]+)}}/g, (_, token:string) => this.createToken(token).outerHTML);
+    let html = blueprint.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    html = this.insertControlSpaces(html);
+    return html.replace(TOKEN_REGEX, (_, token:string) => this.createToken(token).outerHTML);
+  }
+
+  private insertControlSpaces(blueprint:string):string {
+    const regex = TOKEN_REGEX;
+    let match = regex.exec(blueprint);
+    const controlSpacesIndices = [];
+
+    while (match !== null) {
+      const endOfMatch = match.index + match[0].length;
+      if (endOfMatch < match.input.length && !this.isWhitespaceOrControlSpace(match.input[endOfMatch])) {
+        // add a control space when the token is not followed by a whitespace
+        controlSpacesIndices.push(endOfMatch);
+      }
+
+      match = regex.exec(blueprint);
+    }
+
+    return controlSpacesIndices
+      .reverse()
+      .reduce((acc, index) => {
+        return `${acc.slice(0, index)}${CONTROL_SPACE}${acc.slice(index)}`;
+      }, blueprint);
+  }
+
+  private tokenPrefix(groupKey:string):string {
+    const locale = this.headingLocalesValue[groupKey];
+    return locale ? `${locale}:` : '';
   }
 
   private toBlueprint():string {
@@ -455,26 +565,37 @@ export default class PatternInputController extends Controller {
         result += `{{${node.dataset.prop}}}`;
       }
     });
-    return result.trim();
+
+    // remove any padding whitespaces and control spaces,
+    // which were used for usability
+    return result.trim().replace(new RegExp(CONTROL_SPACE, 'g'), '');
   }
 
-  private isToken(node:Node):node is TokenElement {
+  private containsCursor(node:Node):boolean {
+    if (!this.currentRange) { return false; }
+
+    return node === this.currentRange.startContainer.parentNode;
+  }
+
+  private isToken(node:Node|null):node is TokenElement {
     return this.isElement(node) && node.dataset.role === 'token';
   }
 
-  private isListItem(node:Node):node is ListElement {
+  private isListItem(node:Node|null):node is ListElement {
     return this.isElement(node) && node.dataset.role === 'list_item';
   }
 
-  private isText(node:Node):node is Text {
-    return node.nodeType === Node.TEXT_NODE;
+  private isText(node:Node|null):node is Text {
+    return node !== null && node.nodeType === Node.TEXT_NODE;
   }
 
-  private isElement(node:Node):node is HTMLElement {
-    return node.nodeType === Node.ELEMENT_NODE;
+  private isElement(node:Node|null):node is HTMLElement {
+    return node !== null && node.nodeType === Node.ELEMENT_NODE;
   }
 
-  private isWhitespace(value:string):boolean {
-    return /\s/.test(value);
+  private isWhitespaceOrControlSpace(value:string|undefined|null):boolean {
+    if (!value || value.length !== 1) { return false; }
+
+    return new RegExp(`[${CONTROL_SPACE}\\s]`).test(value);
   }
 }

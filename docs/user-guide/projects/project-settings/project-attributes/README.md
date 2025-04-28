@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Project attributes
-  priority: 985
+  priority: 800
 description: Enabling and disabling project attributes for individual projects in OpenProject
 keywords: project attributes, project settings, enable, disable, project admin
 ---

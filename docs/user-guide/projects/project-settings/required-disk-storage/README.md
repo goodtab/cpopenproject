@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Required disk storage
-  priority: 150
+  priority: 200
 description: Monitor required disk storage.
 keywords: required storage, project folder, storages
 ---

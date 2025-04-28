@@ -404,14 +404,6 @@ RSpec.describe Users::ReplaceMentionsService, "integration" do
       it_behaves_like "rewritten mention", :document, :description
     end
 
-    context "for meeting_contents text" do
-      it_behaves_like "rewritten mention", :meeting_agenda, :text
-    end
-
-    context "for meeting_content_journals text" do
-      it_behaves_like "rewritten mention", :journal_meeting_content_journal, :text
-    end
-
     context "for messages content" do
       it_behaves_like "rewritten mention", :message, :content
     end

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -81,7 +82,7 @@ RSpec.describe "Recurring meetings complete template",
   end
 
   context "when first occurrence is already created" do
-    let!(:meeting) { create(:structured_meeting, recurring_meeting:, start_time: recurring_meeting.start_time) }
+    let!(:meeting) { create(:meeting, recurring_meeting:, start_time: recurring_meeting.start_time) }
     let!(:schedule) do
       create :scheduled_meeting,
              meeting:,

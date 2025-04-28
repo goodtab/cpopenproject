@@ -69,7 +69,7 @@ RSpec.describe Meetings::DeleteDialogComponent, type: :component do
 
   context "with an associated recurring/templated meeting" do
     let(:series) { build_stubbed(:recurring_meeting) }
-    let(:meeting) { build_stubbed(:structured_meeting_template, recurring_meeting: series) }
+    let(:meeting) { build_stubbed(:meeting_template, recurring_meeting: series) }
 
     it "shows a heading" do
       expect(subject).to have_text "Cancel this meeting occurrence?"
