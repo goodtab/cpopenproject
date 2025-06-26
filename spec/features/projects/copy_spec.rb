@@ -343,8 +343,6 @@ RSpec.describe "Projects copy", :js,
 
       context "with non-admin user" do
         it "does not show invisible fields in the form and but still activates them" do
-          pending "Admin-only project attributes currently prevent users from creating projects (OP#64479)"
-
           expect(page).to have_heading "Copy project \"#{project.name}\""
 
           expect(page).to have_no_content "Text for Admins only"

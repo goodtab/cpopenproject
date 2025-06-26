@@ -29,8 +29,6 @@
 module Projects::CustomFields
   extend ActiveSupport::Concern
 
-  attr_accessor :_limit_custom_fields_validation_to_section_id
-
   included do
     has_many :project_custom_field_project_mappings, class_name: "ProjectCustomFieldProjectMapping",
                                                      foreign_key: :project_id, dependent: :destroy,
@@ -61,17 +59,6 @@ module Projects::CustomFields
 
     def all_visible_custom_fields
       all_available_custom_fields.visible(project: self)
-    end
-
-    def custom_field_values_to_validate
-      # Limit the set of available custom fields when the validation is limited to a section
-      if _limit_custom_fields_validation_to_section_id
-        custom_field_values.select do |cfv|
-          cfv.custom_field.custom_field_section_id == _limit_custom_fields_validation_to_section_id
-        end
-      else
-        custom_field_values
-      end
     end
   end
 end
