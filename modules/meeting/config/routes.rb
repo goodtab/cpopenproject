@@ -97,6 +97,8 @@ Rails.application.routes.draw do
       get :new_dialog
       get "menu" => "meetings/menus#show"
       get :fetch_timezone
+
+      get "ical/:token", controller: "meetings/ical", action: :index, as: "ical_feed"
     end
 
     resources :agenda_items, controller: "meeting_agenda_items" do
@@ -164,9 +166,7 @@ Rails.application.routes.draw do
     end
 
     member do
-      match "/:tab" => "meetings#show", :constraints => { tab: /(agenda|minutes)/ },
-            :via => :get,
-            :as => "tab"
+      get "/:tab" => "meetings#show", :constraints => { tab: /(agenda|minutes)/ }, :as => "tab"
     end
   end
 end
