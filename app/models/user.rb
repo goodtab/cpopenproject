@@ -68,6 +68,7 @@ class User < Principal
   # unlike on other token types, all previously generated ical_tokens are kept
   # in order to keep all previously generated ical urls valid and usable
   has_many :ical_tokens, class_name: "::Token::ICal", dependent: :destroy
+  has_many :ical_meeting_tokens, class_name: "::Token::ICalMeeting", dependent: :destroy
 
   belongs_to :ldap_auth_source, optional: true
 
