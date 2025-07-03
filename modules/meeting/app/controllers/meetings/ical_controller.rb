@@ -37,7 +37,7 @@ module Meetings
 
       user = token.user
 
-      service = Meetings::UnifiedICalService.new(user:)
+      service = AllMeetingsICalService.new(user:)
 
       respond_to do |format|
         format.ics do
