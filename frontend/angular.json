@@ -58,7 +58,6 @@
               },
               "src/styles.scss",
               "node_modules/@blocknote/mantine/dist/style.css",
-              "node_modules/codemirror/lib/codemirror.css",
               "node_modules/jquery-ui/themes/base/core.css",
               "node_modules/jquery-ui/themes/base/datepicker.css",
               "node_modules/jquery-ui/themes/base/dialog.css",

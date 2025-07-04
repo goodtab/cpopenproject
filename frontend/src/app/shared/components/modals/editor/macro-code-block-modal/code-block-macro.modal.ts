@@ -92,18 +92,18 @@ export class CodeBlockMacroModalComponent extends OpModalComponent implements Af
   }
 
   ngAfterViewInit():void {
-    import('codemirror').then((imported:any) => {
-      const CodeMirror = imported.default;
-      this.codeMirrorInstance = CodeMirror.fromTextArea(
-        this.codeMirrorPane.nativeElement,
-        {
-          lineNumbers: true,
-          smartIndent: true,
-          autofocus: true,
-          value: this.content,
-          mode: '',
-        },
-      );
+    import('codemirror').then((imported) => {
+      const { EditorView, basicSetup } = imported;
+      // this.codeMirrorInstance = CodeMirror.fromTextArea(
+      //   this.codeMirrorPane.nativeElement,
+      //   {
+      //     lineNumbers: true,
+      //     smartIndent: true,
+      //     autofocus: true,
+      //     value: this.content,
+      //     mode: '',
+      //   },
+      // );
     });
   }
 
@@ -122,14 +122,14 @@ export class CodeBlockMacroModalComponent extends OpModalComponent implements Af
       return this.updateCodeMirrorMode('');
     }
 
-    import(/* webpackChunkName: "codemirror-mode" */ `codemirror/mode/${language}/${language}.js`)
-      .then(() => {
-        this.updateCodeMirrorMode(language);
-      })
-      .catch((e) => {
-        console.error(`Failed to load language ${language}: ${e}`);
-        this.updateCodeMirrorMode('');
-      });
+    // import(/* webpackChunkName: "codemirror-mode" */ `codemirror/mode/${language}/${language}.js`)
+    //   .then(() => {
+    //     this.updateCodeMirrorMode(language);
+    //   })
+    //   .catch((e) => {
+    //     console.error(`Failed to load language ${language}: ${e}`);
+    //     this.updateCodeMirrorMode('');
+    //   });
   }
 
   updateCodeMirrorMode(newLanguage:string) {
