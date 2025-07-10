@@ -31,6 +31,7 @@
 module Projects
   class UpdateService < ::BaseServices::Update
     prepend Projects::Concerns::UpdateDemoData
+    prepend Projects::Concerns::UpdateCalculatedCustomFieldValues
 
     private
 

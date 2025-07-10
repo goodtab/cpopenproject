@@ -39,6 +39,27 @@ module CustomField::CalculatedValue
   # Field formats that can be used within a formula.
   FIELD_FORMATS_FOR_FORMULA = %w[int float calculated_value].freeze
 
+  class_methods do
+    def affected_calculated_fields(changed_cf_ids)
+      return [] if changed_cf_ids.empty?
+
+      to_check = select(&:field_format_calculated_value?)
+
+      # include calculated value fields themselves
+      all_affected, to_check = to_check.partition { it.id.in?(changed_cf_ids) }
+
+      loop do
+        affected, to_check = to_check.partition { it.formula_referenced_custom_field_ids.intersect?(changed_cf_ids) }
+        break if affected.empty?
+
+        all_affected += affected
+        changed_cf_ids = affected.map(&:id)
+      end
+
+      all_affected
+    end
+  end
+
   included do
     validate :validate_formula, if: :field_format_calculated_value?
     validate :validate_referenced_custom_fields_allowed, if: :field_format_calculated_value?
@@ -64,6 +85,10 @@ module CustomField::CalculatedValue
     # Returns the formula as a string. Will return an empty string if the formula is not set.
     def formula_string
       formula ? formula.fetch("formula", "") : ""
+    end
+
+    def formula_referenced_custom_field_ids
+      formula ? formula.fetch("referenced_custom_fields", []) : []
     end
 
     def usable_custom_field_references_for_formula
