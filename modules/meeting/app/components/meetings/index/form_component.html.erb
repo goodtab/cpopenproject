@@ -116,6 +116,10 @@
           end
         end
 
+        modal_body.with_row(mt: 3) do
+          render(Meeting::SendEmailUpdates.new(f, meeting: @meeting))
+        end
+
         if @copy_from
           modal_body.with_row do
             render(Meeting::CopiedFrom.new(f, id: @copy_from.id))

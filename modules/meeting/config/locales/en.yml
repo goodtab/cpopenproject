@@ -135,6 +135,7 @@ en:
   label_meeting_date_time: "Date/Time"
   label_meeting_date_and_time: "Date and time"
   label_meeting_diff: "Diff"
+  label_meeting_send_updates: "Send email calendar updates"
   label_recurring_meeting: "Recurring meeting"
   label_recurring_meeting_part_of: "Part of a meeting series"
   label_recurring_meeting_new: "New recurring meeting"

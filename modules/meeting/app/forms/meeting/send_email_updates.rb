@@ -28,30 +28,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Meetings
-  class DeleteService < ::BaseServices::Delete
-    protected
+class Meeting::SendEmailUpdates < ApplicationForm
+  form do |meeting_form|
+    meeting_form.check_box(
+      name: "notify",
+      label: I18n.t("label_meeting_send_updates"),
+      checked: @meeting.notify? != false
+    )
+  end
 
-    def after_validate(call)
-      send_cancellation_mail(model) if model.notify?
-      cancel_scheduled_meeting(model)
+  def initialize(meeting:)
+    super()
 
-      call
-    end
-
-    def send_cancellation_mail(meeting)
-      meeting.participants.where(invited: true).find_each do |participant|
-        MeetingMailer
-          .cancelled(meeting, participant.user, User.current)
-          .deliver_now
-      end
-    end
-
-    def cancel_scheduled_meeting(meeting)
-      schedule = meeting.scheduled_meeting
-      return if schedule.nil?
-
-      schedule.update_column(:cancelled, true)
-    end
+    @meeting = meeting
   end
 end

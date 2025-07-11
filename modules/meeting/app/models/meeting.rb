@@ -185,6 +185,10 @@ class Meeting < ApplicationRecord
     !closed? && user.allowed_in_project?(:edit_meetings, project)
   end
 
+  def notify?
+    notify
+  end
+
   def invited_or_attended_participants
     participants.where(invited: true).or(participants.where(attended: true))
   end
@@ -304,7 +308,7 @@ class Meeting < ApplicationRecord
   end
 
   def send_participant_added_mail(participant)
-    return if templated? || new_record?
+    return if templated? || new_record? || !notify?
 
     if Journal::NotificationConfiguration.active?
       MeetingMailer.invited(self, participant.user, User.current).deliver_later
@@ -312,7 +316,7 @@ class Meeting < ApplicationRecord
   end
 
   def send_rescheduling_mail
-    return if templated? || new_record?
+    return if templated? || new_record? || !notify?
 
     MeetingNotificationService
       .new(self)

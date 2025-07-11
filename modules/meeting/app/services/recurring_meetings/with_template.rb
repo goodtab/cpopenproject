@@ -41,7 +41,7 @@ module RecurringMeetings
       end
 
       def extract_template_params(params)
-        params.slice(:start_date, :start_time_hour, :title, :location, :duration)
+        params.slice(:start_date, :start_time_hour, :title, :location, :duration, :notify)
       end
     end
   end

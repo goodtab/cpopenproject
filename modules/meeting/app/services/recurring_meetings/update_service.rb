@@ -151,6 +151,8 @@ module RecurringMeetings
     end
 
     def send_rescheduled_mail(recurring_meeting)
+      return unless recurring_meeting.notify?
+
       recurring_meeting
         .template
         .participants

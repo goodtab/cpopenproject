@@ -43,6 +43,7 @@ module Meetings
     attribute :start_time
     attribute :start_time_hour
     attribute :template
+    attribute :notify
 
     validate :template_requires_series
 

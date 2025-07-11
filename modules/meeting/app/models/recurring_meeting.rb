@@ -99,12 +99,14 @@ class RecurringMeeting < ApplicationRecord
       .merge(Project.allowed_to(args.first || User.current, :view_meetings))
   }
 
-  # Keep location and duration as a virtual attribute
-  # so it can be passed to the template on save
+  # Virtual attributes that can be passed on to the template on save
   virtual_attribute :location do
     nil
   end
   virtual_attribute :duration do
+    nil
+  end
+  virtual_attribute :notify do
     nil
   end
 
@@ -114,6 +116,10 @@ class RecurringMeeting < ApplicationRecord
 
   def has_ended?
     will_end? && last_occurrence < Time.zone.now
+  end
+
+  def notify?
+    template&.notify?
   end
 
   def human_frequency

@@ -33,8 +33,9 @@ module Meetings
     protected
 
     def after_perform(call)
-      if call.success? && Journal::NotificationConfiguration.active?
-        meeting = call.result
+      meeting = call.result
+
+      if call.success? && Journal::NotificationConfiguration.active? && meeting.notify?
 
         meeting.participants.where(invited: true).each do |participant|
           MeetingMailer
