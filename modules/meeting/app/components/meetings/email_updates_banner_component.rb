@@ -28,22 +28,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Meeting::SendEmailUpdates < ApplicationForm
-  form do |meeting_form|
-    meeting_form.check_box(
-      name: "notify",
-      label: I18n.t("label_meeting_send_updates"),
-      checked: @meeting.notify? != false,
-      data: {
-        "show-when-checked-target": "cause",
-        "show-when-checked-target-name": "notification-banner"
-      }
-    )
-  end
+module Meetings
+  class EmailUpdatesBannerComponent < ApplicationComponent
+    def initialize(meeting, override: nil)
+      super
+      @meeting = meeting
+      @override = override
+    end
 
-  def initialize(meeting:)
-    super()
+    def call
+      render(Primer::Alpha::Banner.new(description:, scheme:))
+    end
 
-    @meeting = meeting
+    private
+
+    def description
+      return I18n.t("text_email_updates_enabled") if @override == :enabled
+      return I18n.t("text_email_updates_muted") if @override == :muted
+
+      @meeting.notify? ? I18n.t("text_email_updates_enabled") : I18n.t("text_email_updates_muted")
+    end
+
+    def scheme
+      return :default if @override == :enabled
+      return :warning if @override == :muted
+
+      @meeting.notify? ? :default : :warning
+    end
   end
 end

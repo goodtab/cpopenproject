@@ -8,6 +8,7 @@
         turbo: true,
         controller: [
           "show-when-value-selected",
+          "show-when-checked",
           @meeting.is_a?(RecurringMeeting) ? "recurring-meetings--form" : nil
         ].compact.join(" "),
         "recurring-meetings--form-persisted-value": @meeting.persisted?
@@ -118,6 +119,31 @@
 
         modal_body.with_row(mt: 3) do
           render(Meeting::SendEmailUpdates.new(f, meeting: @meeting))
+        end
+
+        modal_body.with_row(
+          mt: 3,
+          data: {
+            "show-when-checked-target-name": "notification-banner",
+            "show-when-checked-target": "effect",
+            "show-when": "checked",
+            visibility_class: "d-none"
+          }
+        ) do
+          render(Meetings::EmailUpdatesBannerComponent.new(@meeting, override: :enabled))
+        end
+
+        modal_body.with_row(
+          mt: 3,
+          classes: "d-none",
+          data: {
+            "show-when-checked-target-name": "notification-banner",
+            "show-when-checked-target": "effect",
+            "show-when": "unchecked",
+            visibility_class: "d-none"
+          }
+        ) do
+          render(Meetings::EmailUpdatesBannerComponent.new(@meeting, override: :muted))
         end
 
         if @copy_from
