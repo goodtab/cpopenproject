@@ -145,6 +145,10 @@ RSpec.describe ProjectQuery do
                             status_explanation
                             cf_23
                             cf_42
+                            budget_available
+                            budget_planned
+                            budget_spent
+                            budget_spent_ratio
                           ])
       end
     end
@@ -169,6 +173,10 @@ RSpec.describe ProjectQuery do
                             required_disk_space
                             cf_23
                             cf_42
+                            budget_available
+                            budget_planned
+                            budget_spent
+                            budget_spent_ratio
                           ])
       end
     end

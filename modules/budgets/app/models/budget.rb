@@ -164,6 +164,10 @@ class Budget < ApplicationRecord
                      end
   end
 
+  def available
+    budget - spent
+  end
+
   def new_material_budget_item_attributes=(material_budget_item_attributes)
     material_budget_item_attributes.each do |_index, attributes|
       correct_material_attributes!(attributes)

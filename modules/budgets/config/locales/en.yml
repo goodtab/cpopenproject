@@ -77,9 +77,13 @@ en:
   help_override_rate: "Enter a value here to override the default rate."
 
   label_budget: "Budget"
-  label_budget_new: "New budget"
-  label_budget_plural: "Budgets"
+  label_budget_available: "Budget available"
   label_budget_id: "Budget #%{id}"
+  label_budget_new: "New budget"
+  label_budget_planned: "Budget planned"
+  label_budget_plural: "Budgets"
+  label_budget_spent: "Budget spent"
+  label_budget_spent_ratio: "Budget spent ratio"
   label_deliverable: "Budget"
   label_example_placeholder: 'e.g., %{decimal}'
   label_view_all_budgets: "View all budgets"

@@ -93,7 +93,7 @@ See COPYRIGHT and LICENSE files for more details.
           <%= content_tag(:td, link_to(h(budget.subject), budget_path(budget.id)), class: "subject") %>
           <%= content_tag(:td, number_to_currency(budget.budget, precision: 0), class: "currency") %>
           <%= content_tag(:td, number_to_currency(budget.spent, precision: 0), class: "currency") %>
-          <%= content_tag(:td, number_to_currency(budget.budget - budget.spent, precision: 0), class: "currency") %>
+          <%= content_tag(:td, number_to_currency(budget.available, precision: 0), class: "currency") %>
           <%= content_tag(:td, extended_progress_bar(budget.budget_ratio, legend: budget.budget_ratio.to_s)) %>
           <%-
             total_budget += budget.budget
