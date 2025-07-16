@@ -29,13 +29,14 @@
 ---
 en:
   plugin_budgets_engine:
-    name: 'Budgets'
+    name: "Budgets"
 
   activerecord:
     attributes:
       budget:
         author: "Author"
         available: "Available"
+        allocated_to_children: "Allocated"
         budget: "Planned"
         budget_ratio: "Spent (ratio)"
         description: "Description"
@@ -45,6 +46,14 @@ en:
         type: "Cost type"
         labor_budget: "Planned labor costs"
         material_budget: "Planned unit costs"
+        supplementary_amount: "Supplementary amount"
+        state: "State"
+        states:
+          planned: "Planned"
+          draft: "Draft"
+          submitted: "Submitted"
+          approved: "Approved"
+          rejected: "Rejected"
       work_package:
         budget_subject: "Budget title"
     models:
@@ -84,8 +93,9 @@ en:
   label_budget_plural: "Budgets"
   label_budget_spent: "Budget spent"
   label_budget_spent_ratio: "Budget spent ratio"
+  label_budget_allocated: "Budget allocated to children"
   label_deliverable: "Budget"
-  label_example_placeholder: 'e.g., %{decimal}'
+  label_example_placeholder: "e.g., %{decimal}"
   label_view_all_budgets: "View all budgets"
   label_yes: "Yes"
 

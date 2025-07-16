@@ -28,20 +28,38 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-FactoryBot.define do
-  factory :budget do
-    sequence(:subject) { |n| "Budget No. #{n}" }
-    sequence(:description) { |n| "I am Budget No. #{n}" }
-    project
-    author factory: :user
-    fixed_date { Date.current }
-    created_at { 3.days.ago }
-    updated_at { 3.days.ago }
+class BudgetRelationsController < ApplicationController
+  include AttachableServiceCall
 
-    traits_for_enum(:state)
+  before_action :find_budget, only: %i[index edit update new create destroy]
+  before_action :authorize
 
-    trait :with_supplementary_amount do
-      supplementary_amount { BigDecimal(250000000) }
-    end
+  menu_item :budgets
+
+  def index
+    @parent_relations = @budget.parent_budget_relations.includes(parent_budget: :project)
+    @child_relations = @budget.child_budget_relations.includes(child_budget: :project)
+  end
+
+  def new
+  end
+
+  def edit
+  end
+
+  def create
+  end
+
+  def update
+  end
+
+  def destroy
+  end
+
+  private
+
+  def find_budget
+    @budget = Budget.includes(:project, :author).find_by(id: params[:budget_id])
+    @project = @budget.project if @budget
   end
 end

@@ -35,6 +35,8 @@ Rails.application.routes.draw do
   end
 
   resources :budgets, only: %i[show update destroy edit] do
+    resources :budget_relations, path: :relations, except: %i[show]
+
     get :copy, on: :member
     get :destroy_info, on: :member
   end

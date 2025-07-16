@@ -44,7 +44,7 @@ module Costs::Patches::PermittedParamsPatch
     def budget
       params.require(:budget).permit(:subject,
                                      :description,
-                                     :fixed_date,
+                                     :fixed_date, :supplementary_amount, :state,
                                      { new_material_budget_item_attributes: %i[units cost_type_id comments amount] },
                                      { new_labor_budget_item_attributes: %i[hours user_id comments amount] },
                                      { existing_material_budget_item_attributes: %i[units cost_type_id comments amount] },

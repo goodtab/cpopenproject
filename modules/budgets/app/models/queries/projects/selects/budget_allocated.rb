@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,22 +26,14 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-FactoryBot.define do
-  factory :budget do
-    sequence(:subject) { |n| "Budget No. #{n}" }
-    sequence(:description) { |n| "I am Budget No. #{n}" }
-    project
-    author factory: :user
-    fixed_date { Date.current }
-    created_at { 3.days.ago }
-    updated_at { 3.days.ago }
+class Queries::Projects::Selects::BudgetAllocated < Queries::Selects::Base
+  def self.key
+    :budget_allocated
+  end
 
-    traits_for_enum(:state)
-
-    trait :with_supplementary_amount do
-      supplementary_amount { BigDecimal(250000000) }
-    end
+  def caption
+    I18n.t(:label_budget_allocated)
   end
 end

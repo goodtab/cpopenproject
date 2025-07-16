@@ -55,7 +55,12 @@ module Budgets::Patches::Projects::RowComponentPatch
     end
 
     def total_ratio
-      @total_ratio ||= total_planned.zero? ? 0 : ((total_spent / total_planned) * 100).round
+      gone = total_spent + total_allocated
+      @total_ratio ||= total_planned.zero? ? 0 : ((gone / total_planned) * 100).round
+    end
+
+    def total_allocated
+      @total_allocated ||= budgets.sum(&:allocated_to_children)
     end
 
     def budgets
@@ -80,6 +85,12 @@ module Budgets::Patches::Projects::RowComponentPatch
       with_project_budgets do |project_budgets|
         helpers.extended_progress_bar(project_budgets.total_ratio,
                                       legend: project_budgets.total_ratio.to_s)
+      end
+    end
+
+    def budget_allocated
+      with_project_budgets do |project_budgets|
+        number_to_currency(project_budgets.total_allocated, precision: 0)
       end
     end
 

@@ -42,6 +42,22 @@ See COPYRIGHT and LICENSE files for more details.
 <div class="form--field">
   <%= f.date_picker :fixed_date %>
 </div>
+<div class="form--field">
+  <%= f.text_field :supplementary_amount,
+                   size: 12,
+                   inputmode: :decimal,
+                   container_class: "-wide",
+                   value: unitless_currency_number(@budget.supplementary_amount) %>
+  <span class="form-label">
+    <%= Setting.costs_currency %>
+  </span>
+</div>
+
+<div class="form--field">
+    <%= f.select :state,
+                 Budget.states.keys.map { |state| [I18n.t(state, scope: %i[activerecord attributes budget states]), state] },
+                 { include_blank: true } %>
+</div>
 
 <%= render partial: "budgets/subform/material_budget_subform" %>
 <%= render partial: "budgets/subform/labor_budget_subform" %>

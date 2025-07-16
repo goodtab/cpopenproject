@@ -29,19 +29,10 @@
 #++
 
 FactoryBot.define do
-  factory :budget do
-    sequence(:subject) { |n| "Budget No. #{n}" }
-    sequence(:description) { |n| "I am Budget No. #{n}" }
-    project
-    author factory: :user
-    fixed_date { Date.current }
-    created_at { 3.days.ago }
-    updated_at { 3.days.ago }
+  factory :budget_relation do
+    parent_budget factory: :budget
+    child_budget factory: :budget
 
-    traits_for_enum(:state)
-
-    trait :with_supplementary_amount do
-      supplementary_amount { BigDecimal(250000000) }
-    end
+    traits_for_enum(:relation_type)
   end
 end
