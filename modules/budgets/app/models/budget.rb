@@ -132,9 +132,17 @@ class Budget < ApplicationRecord
     @allocated_to_children ||= child_budget_relations.includes(:child_budget).sum { |rel| rel.child_budget.budget }
   end
 
+  def allocated_unused
+    allocated_to_children - spent_on_children
+  end
+
   def spent_with_children
+    spent + spent_on_children
+  end
+
+  def spent_on_children
     # TODO: Efficient with query
-    @spent_with_children ||= spent + child_budget_relations.includes(:child_budget).sum do |rel|
+    @spent_on_children ||= child_budget_relations.includes(:child_budget).sum do |rel|
       rel.child_budget.spent_with_children
     end
   end
