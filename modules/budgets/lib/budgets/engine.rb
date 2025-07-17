@@ -9,15 +9,11 @@ module Budgets
              bundled: true do
       project_module :budgets do
         permission :view_budgets,
-                   {
-                     budgets: %i[index show],
-                     budget_relations: %i[index]
-                   },
+                   { budgets: %i[index show] },
                    permissible_on: :project
         permission :edit_budgets,
                    {
-                     budgets: %i[index show edit update destroy destroy_info new create copy],
-                     budget_relations: %i[index edit update new create destroy]
+                     budgets: %i[index show edit update destroy destroy_info new create copy parent destroy_parent update_parent]
                    },
                    permissible_on: :project
       end

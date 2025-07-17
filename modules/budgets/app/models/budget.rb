@@ -46,10 +46,12 @@ class Budget < ApplicationRecord
   has_many :cost_entries, through: :work_packages
   has_many :time_entries, through: :work_packages
 
-  has_many :parent_budget_relations, class_name: "BudgetRelation",
-                                     foreign_key: "child_budget_id",
-                                     dependent: :destroy,
-                                     inverse_of: :child_budget
+  has_one :parent_budget_relation, class_name: "BudgetRelation",
+                                   foreign_key: "child_budget_id",
+                                   dependent: :destroy,
+                                   inverse_of: :child_budget
+
+  has_one :parent_budget, through: :parent_budget_relation, source: :parent_budget
 
   has_many :child_budget_relations, class_name: "BudgetRelation",
                                     foreign_key: "parent_budget_id",

@@ -37,6 +37,7 @@ en:
         author: "Author"
         available: "Available"
         allocated_to_children: "Allocated"
+        budget_added_by_children: "Added by children"
         budget: "Planned"
         budget_ratio: "Spent (ratio)"
         description: "Description"
@@ -47,6 +48,7 @@ en:
         labor_budget: "Planned labor costs"
         material_budget: "Planned unit costs"
         supplementary_amount: "Supplementary amount"
+        parent_budget: "Parent budget"
         state: "State"
         states:
           planned: "Planned"
@@ -56,6 +58,13 @@ en:
           rejected: "Rejected"
       work_package:
         budget_subject: "Budget title"
+      budget_relation:
+        parent_budget: "Parent budget"
+        child_budget: "Child budget"
+        relation_type: "Relation to this"
+        relation_types:
+          add: "add budget to parent"
+          subtract: "allocated budget from parent"
     models:
       budget: "Budget"
       material_budget_item: "Unit"
@@ -72,6 +81,9 @@ en:
   button_add_cost_type: "Add cost type"
   button_cancel_edit_budget: "Cancel editing budget"
   button_cancel_edit_costs: "Cancel editing costs"
+  button_manage_parent: "Manage parent budget"
+  button_set_parent: "Set parent"
+  button_delete_link_to_parent: "Delete link to parent budget"
 
   caption_labor: "Labor"
   caption_labor_costs: "Actual labor costs"
@@ -98,9 +110,13 @@ en:
   label_example_placeholder: "e.g., %{decimal}"
   label_view_all_budgets: "View all budgets"
   label_yes: "Yes"
+  label_budget_child_budgets: "Child budgets"
+  label_budget_totals: "Totals"
+  label_budget_details: "Budget details"
 
   notice_budget_conflict: "Work packages must be of the same project."
   notice_no_budgets_available: "No budgets available."
+  notice_relation_destroyed: "The budget relation has been removed."
 
   permission_edit_budgets: "Edit budgets"
   permission_view_budgets: "View budgets"
@@ -109,3 +125,18 @@ en:
   text_budget_reassign_to: "Reassign them to this budget:"
   text_budget_delete: "Delete the budget from all work packages"
   text_budget_destroy_assigned_wp: "There are %{count} work packages assigned to this budget. What do you want to do?"
+
+  budgets:
+    parent_relation:
+      heading: "Mark this project as a child budget to another budget"
+      description: "This will set up a dependency from this budget to its parent. Depending on the type of relation, the budgeted amount will be added to or subtracted from the parent's budget."
+    delete_parent_relation:
+      heading: "Delete parent budget relation"
+      description: "This will remove the dependency from this budget to its parent. The budgeted amount of the parent budget and all its ancestors will also change!"
+    relation_types:
+      add:
+        label: "Add budget to parent"
+        helptext: "The budgeted amount for this budget will be added to the parent's budget and also mark the amount as allocated to this budget."
+      subtract:
+        label: "Subtract budget from parent"
+        helptext: "The budgeted amount for this budget will be subtracted from the parent's budget and marked as allocated to this budget."

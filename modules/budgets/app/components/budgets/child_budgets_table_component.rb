@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,21 +28,43 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-Rails.application.routes.draw do
-  scope "projects/:project_id", as: "projects" do
-    resources :budgets, only: %i[new create index] do
-      match :update_labor_budget_item, on: :collection, via: %i[get post]
-      match :update_material_budget_item, on: :collection, via: %i[get post]
-    end
-  end
+module Budgets
+  class ChildBudgetsTableComponent < ::OpPrimer::BorderBoxTableComponent
+    columns :id, :subject, :project, :relation_type, :budget_amount
+    main_column :subject, :proejct, :relation_type, :budget_amount
 
-  resources :budgets, only: %i[show update destroy edit] do
-    member do
-      get :parent
-      post :parent, to: "budgets#update_parent"
-      delete :parent, to: "budgets#destroy_parent"
-      get :copy
-      get :destroy_info
+    def sortable?
+      false
+    end
+
+    def paginated?
+      false
+    end
+
+    def has_actions?
+      false
+    end
+
+    def empty_row_message
+      I18n.t :no_results_title_text
+    end
+
+    def row_class
+      Budgets::ChildBudgetsRowComponent
+    end
+
+    def mobile_title
+      I18n.t(:label_budget_child_budgets)
+    end
+
+    def headers
+      [
+        [:id, { caption: Budget.human_attribute_name(:id) }],
+        [:subject, { caption: Budget.human_attribute_name(:subject) }],
+        [:project, { caption: Budget.human_attribute_name(:project) }],
+        [:relation_type, { caption: BudgetRelation.human_attribute_name(:relation_type) }],
+        [:budget_amount, { caption: Budget.human_attribute_name(:budget) }]
+      ]
     end
   end
 end

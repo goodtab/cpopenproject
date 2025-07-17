@@ -32,7 +32,8 @@ class BudgetRelation < ApplicationRecord
   belongs_to :parent_budget, class_name: "Budget"
   belongs_to :child_budget, class_name: "Budget"
 
-  enum :relation_type, { add: "add", subtract: "subtract" }
+  enum :relation_type, { add: "add", subtract: "subtract" }, default: :subtract
 
   validates :child_budget, uniqueness: true
+  validates :child_budget, :parent_budget, :relation_type, presence: true
 end

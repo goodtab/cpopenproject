@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,40 +26,34 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-class BudgetRelationsController < ApplicationController
-  include AttachableServiceCall
+module Budgets
+  class ParentPageHeaderComponent < ApplicationComponent
+    include OpPrimer::ComponentHelpers
+    include ApplicationHelper
 
-  before_action :find_budget, only: %i[index edit update new create destroy]
-  before_action :authorize
+    def initialize(budget:, project:)
+      super
 
-  menu_item :budgets
+      @budget = budget
+      @project = project
+    end
 
-  def index
-    @parent_relations = @budget.parent_budget_relations.includes(parent_budget: :project)
-    @child_relations = @budget.child_budget_relations.includes(child_budget: :project)
-  end
+    def breadcrumb_items
+      [
+        { href: project_overview_path(@project.id), text: @project.name },
+        { href: projects_budgets_path(@project.id), text: t(:label_budget_plural) },
+        { href: budget_path(@budget.id), text: t(:label_budget_id, id: @budget.id) },
+        t(:button_manage_parent)
+      ]
+    end
 
-  def new
-  end
-
-  def edit
-  end
-
-  def create
-  end
-
-  def update
-  end
-
-  def destroy
-  end
-
-  private
-
-  def find_budget
-    @budget = Budget.includes(:project, :author).find_by(id: params[:budget_id])
-    @project = @budget.project if @budget
+    def call
+      render(Primer::OpenProject::PageHeader.new) do |header|
+        header.with_title { t(:button_manage_parent) }
+        header.with_breadcrumbs(breadcrumb_items)
+      end
+    end
   end
 end

@@ -1,0 +1,53 @@
+de:
+  activerecord:
+    attributes:
+      budget:
+        parent_budget: "Übergeordnetes Budget"
+        supplementary_amount: "Basisbetrag"
+        budget_added_by_children: "Von Unterbudgets übernommen"
+        allocated_to_children: "Zugewiesen an Unterbudgets"
+        state: "Status"
+        states:
+          planned: "Geplant"
+          draft: "Entwurf"
+          submitted: "Eingereicht"
+          approved: "Genehmigt"
+          rejected: "Abgelehnt"
+      budget_relation:
+        parent_budget: "Übergeordnetes Budget"
+        child_budget: "Unterbudget"
+        relation_type: "Verbindung zu diesem Budget"
+        relation_types:
+          add: "Betrag wird hinzugefügt"
+          subtract: "Betrag wird abgezogen"
+      project:
+        ancestor_or_self: "Projekt (inkl. untergeordnete)"
+  label_budget_child_budgets: "Unterbudgets"
+  label_budget_totals: "Summen"
+  label_budget_details: "Budget Informationen"
+  label_budget_planned: "Geplantes Budget"
+  label_budget_allocated: "Zugewiesen an Unterbudgets"
+  label_budget_available: "Verfügbares Budget"
+  label_budget_spent: "Ausgegebenes Budget"
+  label_budget_spent_ratio: "Ausgegebenes Budget (Anteil)"
+
+  notice_relation_destroyed: "Die Verknüpfung wurde erfolgreich entfernt."
+
+  button_manage_parent: "Übergeordnetes Budget verwalten"
+  button_set_parent: "Übergeordnetes Budget setzen"
+  button_delete_link_to_parent: "Verknüpfung zum übergeordneten Budget entfernen"
+
+  budgets:
+    parent_relation:
+      heading: "Verknüpfe dieses Budget mit einem übergeordneten Budget"
+      description: "Hiermit wird eine Abhängigkeit von diesem Budget zu seinem übergeordneten Budget hergestellt. Je nach Art der Beziehung wird der budgetierte Betrag zum Budget übergeordneten Budget hinzugefügt oder abgezogen."
+    delete_parent_relation:
+      heading: "Verknüpfung zum übergeordneten Budget entfernen"
+      description: "Hiermit wird die Verknüpfung zum übergeordneten Budget entfernt. Der budgetierte oder verfügbare Betrag des übergeordneten Budgets und aller seiner Vorgänger wird ebenfalls geändert!"
+    relation_types:
+      add:
+        label: "Betrag zum übergeordneten Budget hinzufügen"
+        helptext: "Der Betrag dieses Budgets wird zum geplanten Betrag des übergeordneten Budget hinzugefügt. Gleichzeitig wird der Betrag an dieses Budget zugewiesen. Der verfügbare Betrag des übergeordneten Budgets ändert sich dadurch nicht."
+      subtract:
+        label: "Betrag vom übergeordneten Budget abziehen"
+        helptext: "Der Betrag dieses Budgets wird vom geplanten Betrag des übergeordneten Budgets abgezogen und diesem Budget zugewiesen. Der verfügbare Betrag des übergeordneten Budgets reduziert sich dadurch."

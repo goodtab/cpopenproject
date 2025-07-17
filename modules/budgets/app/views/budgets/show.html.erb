@@ -40,6 +40,7 @@ See COPYRIGHT and LICENSE files for more details.
   <div class="grid-block">
     <div class="grid-content medium-6">
   <%= render(AttributeGroups::AttributeGroupComponent.new) do |component|
+        component.with_header(title: I18n.t(:label_budget_details))
         component.with_attribute(key: Budget.human_attribute_name(:type), value: @budget.type_label)
         component.with_attribute(key: Budget.human_attribute_name(:fixed_date), value: format_date(@budget.fixed_date))
         component.with_attribute(
@@ -49,6 +50,17 @@ See COPYRIGHT and LICENSE files for more details.
         component.with_attribute(
           key: Budget.human_attribute_name(:state),
           value: @budget.state.present? ? I18n.t(@budget.state, scope: %i[activerecord attributes budget states]) : "-"
+        )
+        component.with_attribute(
+          key: Budget.human_attribute_name(:parent_budget),
+          value: if @budget.parent_budget_relation.present?
+                   link_to(
+                     "#{@budget.parent_budget.project.name}: #{@budget.parent_budget.subject} (#{I18n.t(@budget.parent_budget_relation.relation_type, scope: %i[activerecord attributes budget_relation relation_types])})",
+                     budget_path(@budget.parent_budget)
+                   )
+                 else
+                   "-"
+                 end
         )
         component.with_attribute(
           key: Budget.human_attribute_name(:description),
@@ -61,7 +73,7 @@ See COPYRIGHT and LICENSE files for more details.
     <div class="grid-content medium-6">
 
   <%= render(AttributeGroups::AttributeGroupComponent.new) do |component|
-        component.with_header(title: "Totals")
+        component.with_header(title: I18n.t(:label_budget_totals))
         component.with_attribute(
           key: Budget.human_attribute_name(:supplementary_amount),
           value: number_to_currency(@budget.supplementary_amount)
@@ -74,6 +86,12 @@ See COPYRIGHT and LICENSE files for more details.
           key: Budget.human_attribute_name(:labor_budget),
           value: number_to_currency(@budget.labor_budget)
         )
+        if @budget.child_budget_relations.add.any?
+          component.with_attribute(
+            key: Budget.human_attribute_name(:budget_added_by_children),
+            value: number_to_currency(@budget.budget_added_by_children)
+          )
+        end
         component.with_attribute(
           key: Budget.human_attribute_name(:budget),
           value: content_tag(:strong, number_to_currency(@budget.budget))
@@ -82,10 +100,12 @@ See COPYRIGHT and LICENSE files for more details.
           key: Budget.human_attribute_name(:spent),
           value: number_to_currency(@budget.spent * -1)
         )
-        component.with_attribute(
-          key: Budget.human_attribute_name(:allocated_to_children),
-          value: number_to_currency(@budget.allocated_to_children * -1)
-        )
+        if @budget.child_budget_relations.subtract.any?
+          component.with_attribute(
+            key: Budget.human_attribute_name(:allocated_to_children),
+            value: number_to_currency(@budget.allocated_to_children * -1)
+          )
+        end
         component.with_attribute(
           key: Budget.human_attribute_name(:available),
           value: content_tag(:strong, number_to_currency(@budget.available))
@@ -99,24 +119,12 @@ See COPYRIGHT and LICENSE files for more details.
 
   <%= render partial: "budget_items" %>
 
-<h2>Child Budgets</h2>
-  <table>
-    <tr>
-      <th>Budget</th>
-      <th>Projekt</th>
-      <th>Art</th>
-      <th>Betrag</th>
-    </tr>
-
-<%- @budget.child_budget_relations.includes(child_budget: :project).find_each do |rel| -%>
-<tr>
-  <td> <%= link_to rel.child_budget.subject, budget_path(rel.child_budget) %> </td>
-  <td> <%= link_to rel.child_budget.project.name, project_path(rel.child_budget.project) %> </td>
-  <td> <%= rel.relation_type %> </td>
-  <td> <%= number_to_currency(rel.child_budget.budget) %></td>
-  </tr>
-<%- end %>
-    </table>
+<fieldset class="form--fieldset">
+  <legend class="form--fieldset-legend">
+    <%= I18n.t(:label_budget_child_budgets) %>
+  </legend>
+  <%= render(Budgets::ChildBudgetsTableComponent.new(rows: @child_budget_relations)) %>
+</fieldset>
 
 </div>
 

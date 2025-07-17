@@ -1,0 +1,70 @@
+<% html_title "#{t(:button_manage_parent)} #{t(:label_budget_id, id: @budget.id)}: #{@budget.subject}" %>
+
+<%= render Budgets::ParentPageHeaderComponent.new(budget: @budget, project: @project) %>
+<%-
+  parent_budget_relation = @parent_budget_relation
+  parent_candidates = @budget_candidates
+%>
+<%=
+  primer_form_with(scope: :budget_relation, action: :update_parent, method: :post) do |budget_parent_form|
+    render_inline_form(budget_parent_form) do |form|
+      form.html_content do
+        render(Primer::Beta::Subhead.new(hide_border: true)) do |subhead|
+          subhead.with_heading(tag: :h3, size: :medium) { I18n.t("budgets.parent_relation.heading") }
+          subhead.with_description { I18n.t("budgets.parent_relation.description") }
+        end
+      end
+
+      form.select_list(
+        name: :parent_budget_id,
+        label: BudgetRelation.human_attribute_name(:parent_budget),
+        required: true,
+        input_width: :large
+      ) do |select|
+        parent_candidates.each do |budget|
+          select.option(
+            label: "#{budget.project.name}: ##{budget.id} - #{budget.subject}",
+            value: budget.id,
+            selected: budget.id == parent_budget_relation.parent_budget_id
+          )
+        end
+      end
+
+      form.radio_button_group(name: :relation_type) do |group|
+        group.radio_button(
+          value: :add,
+          checked: parent_budget_relation.add?,
+          label: I18n.t("budgets.relation_types.add.label"),
+          caption: I18n.t("budgets.relation_types.add.helptext")
+        )
+
+        group.radio_button(
+          value: :subtract,
+          checked: parent_budget_relation.subtract?,
+          label: I18n.t("budgets.relation_types.subtract.label"),
+          caption: I18n.t("budgets.relation_types.subtract.helptext")
+        )
+      end
+
+      form.submit(name: :submit, label: I18n.t(:button_set_parent))
+    end
+  end
+%>
+
+<% if @budget.parent_budget_relation.present? %>
+      <%= render(Primer::Beta::Subhead.new(mt: 5, hide_border: true)) do |subhead|
+            subhead.with_heading(tag: :h3, size: :medium) { I18n.t("budgets.delete_parent_relation.heading") }
+            subhead.with_description { I18n.t("budgets.delete_parent_relation.description") }
+          end %>
+
+<%= render Primer::Beta::Button.new(
+      tag: :a,
+      scheme: :danger,
+      title: I18n.t(:button_delete_link_to_parent),
+      href: parent_budget_path(@budget),
+      data: { "method" => :delete }
+    ) do |button|
+      button.with_leading_visual_icon(icon: :trash)
+      I18n.t(:button_delete_link_to_parent)
+    end %>
+<% end %>
