@@ -100,7 +100,7 @@ export class WorkPackageEmbeddedGraphComponent {
 
   protected setChartOptions() {
     const bodyFontColor= getComputedStyle(document.body).getPropertyValue('--body-font-color');
-    const gridLineColor= getComputedStyle(document.body).getPropertyValue('--borderColor-default');
+    const gridLineColor= getComputedStyle(document.body).getPropertyValue('--borderColor-muted');
     const backdropColor= getComputedStyle(document.body).getPropertyValue('--overlay-backdrop-bgColor');
 
     const defaults:ChartOptions = {
