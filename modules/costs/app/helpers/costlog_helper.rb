@@ -45,6 +45,7 @@ module CostlogHelper
   end
 
   def extended_progress_bar(pcts, options = {})
+    options.reverse_merge!(hide_total_progress: true)
     return progress_bar(pcts, options) unless pcts.is_a?(Numeric) && pcts > 100
 
     closed = ((100.0 / pcts) * 100).round
