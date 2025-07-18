@@ -31,6 +31,24 @@
 module CustomFields::CustomFieldRendering
   include ActiveSupport::Concern
 
+  SINGLE_VALUE_INPUT_CLASS_NAMES = OpenProject::MultiKeyHash.expand(
+    %w[string link] => "CustomFields::Inputs::String",
+    "text" => "CustomFields::Inputs::Text",
+    "int" => "CustomFields::Inputs::Int",
+    "float" => "CustomFields::Inputs::Float",
+    %w[hierarchy list] => "CustomFields::Inputs::SingleSelectList",
+    "date" => "CustomFields::Inputs::Date",
+    "bool" => "CustomFields::Inputs::Bool",
+    "user" => "CustomFields::Inputs::SingleUserSelectList",
+    "version" => "CustomFields::Inputs::SingleVersionSelectList"
+  ).freeze
+
+  MULTI_VALUE_INPUT_CLASS_NAMES = OpenProject::MultiKeyHash.expand(
+    ["hierarchy", "list"] => "CustomFields::Inputs::MultiSelectList",
+    "user" => "CustomFields::Inputs::MultiUserSelectList",
+    "version" => "CustomFields::Inputs::MultiVersionSelectList"
+  ).freeze
+
   def render_custom_fields(form:)
     custom_fields.each do |custom_field|
       form.fields_for(:custom_field_values) do |builder|
@@ -73,42 +91,20 @@ module CustomFields::CustomFieldRendering
   # - hierarchy should not use a flat list
 
   def single_value_custom_field_input(builder, custom_field)
-    form_args = form_arguments(custom_field)
+    input_class_name = SINGLE_VALUE_INPUT_CLASS_NAMES[custom_field.field_format]
 
-    case custom_field.field_format
-    when "string", "link"
-      CustomFields::Inputs::String.new(builder, **form_args)
-    when "text"
-      CustomFields::Inputs::Text.new(builder, **form_args)
-    when "int"
-      CustomFields::Inputs::Int.new(builder, **form_args)
-    when "float"
-      CustomFields::Inputs::Float.new(builder, **form_args)
-    when "hierarchy", "list"
-      CustomFields::Inputs::SingleSelectList.new(builder, **form_args)
-    when "date"
-      CustomFields::Inputs::Date.new(builder, **form_args)
-    when "bool"
-      CustomFields::Inputs::Bool.new(builder, **form_args)
-    when "user"
-      CustomFields::Inputs::SingleUserSelectList.new(builder, **form_args)
-    when "version"
-      CustomFields::Inputs::SingleVersionSelectList.new(builder, **form_args)
+    if input_class_name
+      input_class_name.constantize.new(builder, **form_arguments(custom_field))
     else
       raise "Unhandled custom field format #{custom_field.field_format}"
     end
   end
 
   def multi_value_custom_field_input(builder, custom_field)
-    form_args = form_arguments(custom_field)
+    input_class_name = MULTI_VALUE_INPUT_CLASS_NAMES[custom_field.field_format]
 
-    case custom_field.field_format
-    when "hierarchy", "list"
-      CustomFields::Inputs::MultiSelectList.new(builder, **form_args)
-    when "user"
-      CustomFields::Inputs::MultiUserSelectList.new(builder, **form_args)
-    when "version"
-      CustomFields::Inputs::MultiVersionSelectList.new(builder, **form_args)
+    if input_class_name
+      input_class_name.constantize.new(builder, **form_arguments(custom_field))
     else
       raise "Unhandled custom field format #{custom_field.field_format}"
     end
