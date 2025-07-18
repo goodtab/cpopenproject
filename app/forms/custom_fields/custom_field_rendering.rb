@@ -40,7 +40,8 @@ module CustomFields::CustomFieldRendering
     "date" => "CustomFields::Inputs::Date",
     "bool" => "CustomFields::Inputs::Bool",
     "user" => "CustomFields::Inputs::SingleUserSelectList",
-    "version" => "CustomFields::Inputs::SingleVersionSelectList"
+    "version" => "CustomFields::Inputs::SingleVersionSelectList",
+    "calculated_value" => "CustomFields::Inputs::CalculatedValue"
   ).freeze
 
   MULTI_VALUE_INPUT_CLASS_NAMES = OpenProject::MultiKeyHash.expand(
