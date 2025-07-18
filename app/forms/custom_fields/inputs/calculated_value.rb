@@ -34,6 +34,6 @@ class CustomFields::Inputs::CalculatedValue < CustomFields::Inputs::Base::Input
   end
 
   def input_attributes
-    super.merge({ readonly: true })
+    super.merge({ disabled: true })
   end
 end
