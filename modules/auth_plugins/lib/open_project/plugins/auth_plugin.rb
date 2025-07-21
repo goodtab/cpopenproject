@@ -28,14 +28,24 @@
 
 module OpenProject::Plugins
   module AuthPlugin
-    def register_auth_providers(&)
+    def register_auth_providers(persist: true, &)
+      builder = ProviderBuilder.new
       initializer "#{engine_name}.middleware" do |app|
-        builder = ProviderBuilder.new
         builder.instance_eval(&)
 
         app.config.middleware.use OmniAuth::FlexibleBuilder do
           builder.new_strategies.each do |strategy|
             provider strategy
+          end
+        end
+      end
+
+      config.to_prepare do
+        if persist
+          builder.provider_callbacks.each do |callback|
+            callback.call.each do |config|
+              PluginAuthProvider.create_for_plugin(config)
+            end
           end
         end
       end
@@ -125,10 +135,16 @@ module OpenProject::Plugins
         AuthPlugin.strategies[key] = [providers]
         new_strategies << strategy
       end
+
+      provider_callbacks.push(providers)
     end
 
     def new_strategies
       @new_strategies ||= []
+    end
+
+    def provider_callbacks
+      @provider_callbacks ||= []
     end
   end
 end

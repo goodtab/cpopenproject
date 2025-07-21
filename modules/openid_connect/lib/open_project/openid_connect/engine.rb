@@ -60,7 +60,7 @@ module OpenProject::OpenIDConnect
 
     class_inflection_override("openid_connect" => "OpenIDConnect")
 
-    register_auth_providers do
+    register_auth_providers(persist: false) do
       OmniAuth::OpenIDConnect::Providers.configure custom_options: %i[
         display_name?
         icon?

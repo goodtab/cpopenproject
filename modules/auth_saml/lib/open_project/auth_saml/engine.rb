@@ -37,7 +37,7 @@ module OpenProject
         auth_provider-saml.png
       )
 
-      register_auth_providers do
+      register_auth_providers(persist: false) do
         strategy :saml do
           OpenProject::AuthSaml.configuration.values.map do |h|
             # Remember saml session values when logging in user

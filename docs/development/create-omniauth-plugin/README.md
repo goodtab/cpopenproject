@@ -103,6 +103,19 @@ module OmniAuth
 You can register any number of providers using different strategies (or the same) with different options.
 For instance you could configure two OpenID Connect providers using the same strategy (OpenIDConnect) but with different options according to the service to be used (e.g. Google vs Microsoft).
 
+OpenProject expects a database entry in the `auth_providers` table to be stored for each provider registered for SSO login (via subclasses of the
+`AuthProvider` model), so that they can be referenced, for example by users logging in through those providers.
+By default the call to `register_auth_providers` will make sure that a record exists for each registered provider.
+However, if your plugin manages configuration of each provider in such a subclass itself, you can pass `persist: false`, to indicate that:
+
+```ruby
+register_auth_providers(persist: false) do
+  strategy :my_advanced_auth_plugin_strategy do
+    # ...
+  end
+end
+```
+
 ### Add your plugin to Gemfile.plugins
 
 All that’s that left to do is declaring your plugin in the file `Gemfile.plugins` in your OpenProject application’s root directory.

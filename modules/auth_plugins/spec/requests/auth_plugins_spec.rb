@@ -64,6 +64,9 @@ RSpec.describe OpenProject::Plugins::AuthPlugin, with_ee: %i[sso_auth_providers]
     without_partial_double_verification do
       allow(dummy_engine_klass).to receive(:engine_name).and_return("foobar")
       allow(dummy_engine_klass).to receive(:initializer) { |_, &block| app.instance_eval(&block) }
+      allow(dummy_engine_klass).to receive_message_chain(:config, :to_prepare) { |_, &block| # rubocop:disable RSpec/MessageChain
+        block.call
+      }
     end
   end
 
@@ -97,7 +100,11 @@ RSpec.describe OpenProject::Plugins::AuthPlugin, with_ee: %i[sso_auth_providers]
       expect(strategies.keys.to_a).to eq %i[strategy_a strategy_b]
     end
 
-    it "registers register each strategy (i.e. middleware) only once" do
+    it "persists all strategies in the database" do
+      expect(PluginAuthProvider.pluck(:slug)).to contain_exactly("a1", "a2", "b1", "c1")
+    end
+
+    it "registers each strategy (i.e. middleware) only once" do
       expect(middlewares.size).to eq 2
       expect(middlewares).to eq %i[strategy_a strategy_b]
     end
