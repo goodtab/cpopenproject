@@ -47,7 +47,7 @@ en:
         type: "Cost type"
         labor_budget: "Planned labor costs"
         material_budget: "Planned unit costs"
-        supplementary_amount: "Supplementary amount"
+        base_amount: "Supplementary amount"
         parent_budget: "Parent budget"
         state: "State"
         states:

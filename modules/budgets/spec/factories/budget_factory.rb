@@ -40,8 +40,8 @@ FactoryBot.define do
 
     traits_for_enum(:state)
 
-    trait :with_supplementary_amount do
-      supplementary_amount { BigDecimal(250000000) }
+    trait :with_base_amount do
+      base_amount { BigDecimal(250000000) }
     end
   end
 end

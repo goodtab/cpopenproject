@@ -40,17 +40,17 @@ RSpec.describe BudgetRelation do
     describe "bottom->up" do
       let(:portfolio) { create(:project, project_type: :portfolio, name: "Portfolio") }
       let(:portfolio_budget) do
-        create(:budget, project: portfolio, supplementary_amount: 0, subject: "Portfolio Budget")
+        create(:budget, project: portfolio, base_amount: 0, subject: "Portfolio Budget")
       end
 
       let(:program1) { create(:project, project_type: :program, parent: portfolio, name: "Program 1") }
-      let(:program1_budget) { create(:budget, project: program1, supplementary_amount: 0, subject: "Program 1 Budget") }
+      let(:program1_budget) { create(:budget, project: program1, base_amount: 0, subject: "Program 1 Budget") }
 
       let(:project1) { create(:project, project_type: :project, parent: program1, name: "Project 1") }
-      let(:project1_budget) { create(:budget, project: project1, supplementary_amount: 5_000, subject: "Project 1 Budget") }
+      let(:project1_budget) { create(:budget, project: project1, base_amount: 5_000, subject: "Project 1 Budget") }
 
       let(:project2) { create(:project, project_type: :project, parent: program1, name: "Project 2") }
-      let(:project2_budget) { create(:budget, project: project2, supplementary_amount: 2_500, subject: "Project 2 Budget") }
+      let(:project2_budget) { create(:budget, project: project2, base_amount: 2_500, subject: "Project 2 Budget") }
 
       context "without any relations" do
         it "calculates the correct values" do
@@ -197,19 +197,19 @@ RSpec.describe BudgetRelation do
 
     describe "top->down" do
       let(:portfolio) { create(:project, project_type: :portfolio, name: "Portfolio") }
-      let(:portfolio_budget) { create(:budget, project: portfolio, supplementary_amount: 10_000, subject: "Portfolio Budget") }
+      let(:portfolio_budget) { create(:budget, project: portfolio, base_amount: 10_000, subject: "Portfolio Budget") }
 
       let(:program1) { create(:project, project_type: :program, parent: portfolio, name: "Program 1") }
-      let(:program1_budget) { create(:budget, project: program1, supplementary_amount: 7_000, subject: "Program 1 Budget") }
+      let(:program1_budget) { create(:budget, project: program1, base_amount: 7_000, subject: "Program 1 Budget") }
 
       let(:project1) { create(:project, project_type: :project, parent: program1, name: "Project 1") }
-      let(:project1_budget) { create(:budget, project: project1, supplementary_amount: 5_000, subject: "Project 1 Budget") }
+      let(:project1_budget) { create(:budget, project: project1, base_amount: 5_000, subject: "Project 1 Budget") }
 
       let(:program2) { create(:project, project_type: :program, parent: portfolio, name: "Program 2") }
-      let(:program2_budget) { create(:budget, project: program2, supplementary_amount: 3_000, subject: "Program 2 Budget") }
+      let(:program2_budget) { create(:budget, project: program2, base_amount: 3_000, subject: "Program 2 Budget") }
 
       let(:project2) { create(:project, project_type: :project, parent: program2, name: "Project 2") }
-      let(:project2_budget) { create(:budget, project: project2, supplementary_amount: 2_000, subject: "Project 2 Budget") }
+      let(:project2_budget) { create(:budget, project: project2, base_amount: 2_000, subject: "Project 2 Budget") }
 
       context "without any relations" do
         it "calculates the correct values" do
@@ -344,17 +344,17 @@ RSpec.describe BudgetRelation do
       # - The projects have half of their budgets already spent.
 
       let!(:portfolio) { create(:project, project_type: :portfolio, name: "Portfolio") }
-      let!(:portfolio_budget) { create(:budget, project: portfolio, supplementary_amount: 10_000, subject: "Portfolio Budget") }
+      let!(:portfolio_budget) { create(:budget, project: portfolio, base_amount: 10_000, subject: "Portfolio Budget") }
 
       let!(:program1) { create(:project, project_type: :program, parent: portfolio, name: "Program 1") }
-      let!(:program1_budget) { create(:budget, project: program1, supplementary_amount: 0, subject: "Program 1 Budget") }
+      let!(:program1_budget) { create(:budget, project: program1, base_amount: 0, subject: "Program 1 Budget") }
 
       let!(:portfolio_program_relation) do
         create(:budget_relation, parent_budget: portfolio_budget, child_budget: program1_budget, relation_type: :subtract)
       end
 
       let!(:project1) { create(:project, project_type: :project, parent: program1, name: "Project 1") }
-      let!(:project1_budget) { create(:budget, project: project1, supplementary_amount: 5_000, subject: "Project 1 Budget") }
+      let!(:project1_budget) { create(:budget, project: project1, base_amount: 5_000, subject: "Project 1 Budget") }
 
       let!(:project1_program_relation) do
         create(:budget_relation, parent_budget: program1_budget, child_budget: project1_budget, relation_type: :add)
@@ -366,7 +366,7 @@ RSpec.describe BudgetRelation do
       end
 
       let!(:project2) { create(:project, project_type: :project, parent: program1, name: "Project 2") }
-      let!(:project2_budget) { create(:budget, project: project2, supplementary_amount: 2_500, subject: "Project 2 Budget") }
+      let!(:project2_budget) { create(:budget, project: project2, base_amount: 2_500, subject: "Project 2 Budget") }
 
       let!(:project2_program_relation) do
         create(:budget_relation, parent_budget: program1_budget, child_budget: project2_budget, relation_type: :add)

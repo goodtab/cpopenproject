@@ -30,7 +30,7 @@
 
 class AddSupplementaryAmountToBudget < ActiveRecord::Migration[8.0]
   def change
-    add_column :budgets, :supplementary_amount, :decimal, precision: 20, scale: 2, null: false, default: "0.0"
-    add_column :budget_journals, :supplementary_amount, :decimal, precision: 20, scale: 2, null: false, default: "0.0"
+    add_column :budgets, :base_amount, :decimal, precision: 20, scale: 2, null: false, default: "0.0"
+    add_column :budget_journals, :base_amount, :decimal, precision: 20, scale: 2, null: false, default: "0.0"
   end
 end

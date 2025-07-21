@@ -75,8 +75,8 @@ See COPYRIGHT and LICENSE files for more details.
   <%= render(AttributeGroups::AttributeGroupComponent.new) do |component|
         component.with_header(title: I18n.t(:label_budget_totals))
         component.with_attribute(
-          key: Budget.human_attribute_name(:supplementary_amount),
-          value: number_to_currency(@budget.supplementary_amount)
+          key: Budget.human_attribute_name(:base_amount),
+          value: number_to_currency(@budget.base_amount)
         )
         component.with_attribute(
           key: Budget.human_attribute_name(:material_budget),

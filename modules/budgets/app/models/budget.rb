@@ -100,7 +100,7 @@ class Budget < ApplicationRecord
 
     def copy_attributes(source)
       source.attributes.slice("project_id", "subject", "description", "fixed_date", "state",
-                              "supplementary_amount").merge("author" => User.current)
+                              "base_amount").merge("author" => User.current)
     end
 
     def copy_budget_items(source, sink, items:)
@@ -119,7 +119,7 @@ class Budget < ApplicationRecord
   end
 
   def budget
-    supplementary_amount + material_budget + labor_budget + budget_added_by_children
+    base_amount + material_budget + labor_budget + budget_added_by_children
   end
 
   def budget_added_by_children

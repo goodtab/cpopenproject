@@ -3,7 +3,7 @@ de:
     attributes:
       budget:
         parent_budget: "Übergeordnetes Budget"
-        supplementary_amount: "Basisbetrag"
+        base_amount: "Basisbetrag"
         budget_added_by_children: "Von Unterbudgets übernommen"
         allocated_to_children: "Zugewiesen an Unterbudgets"
         state: "Status"
