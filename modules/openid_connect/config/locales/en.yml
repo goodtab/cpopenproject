@@ -10,7 +10,6 @@ en:
       openid_connect/provider:
         name: Name
         slug: Unique identifier
-        display_name: Display name
         client_id: Client ID
         client_secret: Client secret
         secret: Secret

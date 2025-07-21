@@ -30,7 +30,7 @@
                                           provider,
                                           view_mode:,
                                           target_state: :name,
-                                          heading: t("activerecord.attributes.openid_connect/provider.display_name"),
+                                          heading: OpenIDConnect::Provider.human_attribute_name(:display_name),
                                           description: t("openid_connect.providers.section_texts.display_name")
                                         )
                                       end

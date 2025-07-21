@@ -59,7 +59,7 @@ module Authentication
             hash = auth_hash || {}
             hash.dig(:info, :uid) || hash[:uid] || "unknown"
           end
-          "[OmniAuth strategy #{strategy.name}] Failed to process omniauth response for #{auth_uid}: #{result.message}"
+          "[OmniAuth strategy '#{strategy&.name}'] Failed to process omniauth response for #{auth_uid}: #{result.message}"
         end
         inspect_response(Logger::ERROR)
 
