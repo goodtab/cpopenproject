@@ -2,6 +2,9 @@
   component_wrapper do
     render(Primer::OpenProject::SidePanel.new) do |panel|
       panel.with_section(Meetings::SidePanel::DetailsComponent.new(meeting: @meeting))
+
+      panel.with_section(Meetings::SidePanel::NotificationsButtonComponent.new(meeting: @meeting))
+
       unless @meeting.template?
         panel.with_section(Meetings::SidePanel::StateComponent.new(meeting: @meeting))
       end

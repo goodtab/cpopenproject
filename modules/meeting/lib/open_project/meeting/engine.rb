@@ -62,8 +62,8 @@ module OpenProject::Meeting
                    contract_actions: { meetings: %i[create] }
         permission :edit_meetings,
                    {
-                     meetings: %i[edit cancel_edit update update_title change_state
-                                  details_dialog update_details update_participants],
+                     meetings: %i[edit cancel_edit update update_title change_state toggle_notifications_dialog
+                                  details_dialog update_details update_participants toggle_notifications],
                      recurring_meetings: %i[edit cancel_edit update update_title details_dialog update_details
                                             notify end_series end_series_dialog],
                      work_package_meetings_tab: %i[add_work_package_to_meeting_dialog add_work_package_to_meeting]

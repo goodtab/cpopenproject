@@ -186,7 +186,11 @@ class Meeting < ApplicationRecord
   end
 
   def notify?
-    notify
+    if recurring?
+      recurring_meeting.template.notify
+    else
+      notify
+    end
   end
 
   def invited_or_attended_participants

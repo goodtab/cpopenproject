@@ -29,37 +29,55 @@
 #++
 
 module Meetings
-  class SidePanel::DetailsComponent < ApplicationComponent
+  class SidePanel::ToggleNotificationsDialogComponent < ApplicationComponent
     include ApplicationHelper
     include OpTurbo::Streamable
-    include OpPrimer::ComponentHelpers
 
-    def initialize(meeting:)
+    def initialize(meeting)
       super
 
       @meeting = meeting
-      @project = @meeting.project
-      @series = meeting.recurring_meeting
+      @project = meeting.project
     end
 
     private
 
-    def render_truncated_location
-      render(Primer::Beta::Truncate.new) do |component|
-        component.with_item(max_width: 250) do
-          @meeting.location
-        end
+    def id = "toggle-notifications-dialog"
+
+    def title
+      if @meeting.notify?
+        I18n.t("meeting.notifications_dialog.title.mute")
+      else
+        I18n.t("meeting.notifications_dialog.title.enable")
       end
     end
 
-    def render_meeting_attribute_row(icon, &)
-      flex_layout(align_items: :center, justify_content: :space_between) do |flex|
-        flex.with_column do
-          render(Primer::Beta::Octicon.new(icon:))
-        end
-
-        flex.with_column(flex: 1, ml: 1, &)
+    def heading
+      if @meeting.notify?
+        I18n.t("meeting.notifications_dialog.title.mute")
+      else
+        I18n.t("meeting.notifications_dialog.title.enable")
       end
+    end
+
+    def confirmation_message
+      if @meeting.notify?
+        I18n.t("meeting.notifications_dialog.message.mute")
+      else
+        I18n.t("meeting.notifications_dialog.message.enable")
+      end
+    end
+
+    def confirm_button_text
+      if @meeting.notify?
+        I18n.t("meeting.notifications_dialog.confirm_label.mute")
+      else
+        I18n.t("meeting.notifications_dialog.confirm_label.enable")
+      end
+    end
+
+    def cancel_button_text
+      I18n.t("button_cancel")
     end
   end
 end

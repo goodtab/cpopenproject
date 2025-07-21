@@ -350,6 +350,19 @@ class MeetingsController < ApplicationController
     )
   end
 
+  def toggle_notifications_dialog
+    respond_with_dialog Meetings::SidePanel::ToggleNotificationsDialogComponent.new(@meeting)
+  end
+
+  def toggle_notifications
+    @meeting.update!(notify: !@meeting.notify)
+
+    update_sidebar_component_via_turbo_stream
+    update_header_component_via_turbo_stream
+
+    respond_with_turbo_streams
+  end
+
   private
 
   def load_query

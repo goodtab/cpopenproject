@@ -29,7 +29,7 @@
 #++
 
 module Meetings
-  class SidePanel::DetailsComponent < ApplicationComponent
+  class SidePanel::NotificationsButtonComponent < ApplicationComponent
     include ApplicationHelper
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
@@ -38,28 +38,19 @@ module Meetings
       super
 
       @meeting = meeting
-      @project = @meeting.project
-      @series = meeting.recurring_meeting
+      @project = meeting.project
     end
 
     private
 
-    def render_truncated_location
-      render(Primer::Beta::Truncate.new) do |component|
-        component.with_item(max_width: 250) do
-          @meeting.location
-        end
-      end
+    def title
+      @meeting.notify? ? I18n.t("label_mute") : I18n.t("label_enable")
     end
 
-    def render_meeting_attribute_row(icon, &)
-      flex_layout(align_items: :center, justify_content: :space_between) do |flex|
-        flex.with_column do
-          render(Primer::Beta::Octicon.new(icon:))
-        end
+    def show_button?
+      return false unless @meeting.editable?
 
-        flex.with_column(flex: 1, ml: 1, &)
-      end
+      !@meeting.recurring? || @meeting.templated?
     end
   end
 end
