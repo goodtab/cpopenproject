@@ -46,6 +46,7 @@ module API
               .journals
               .internal_visible
               .includes(:data,
+                        :commentable_journals,
                         :customizable_journals,
                         :attachable_journals,
                         :storable_journals,

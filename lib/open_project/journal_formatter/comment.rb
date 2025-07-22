@@ -28,31 +28,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Journals::CreateService
-  class Association
-    include Helpers
+class OpenProject::JournalFormatter::Comment < JournalFormatter::Base
+  def render(_key, values, _options = { html: true })
+    label_text = label("comment")
 
-    ASSOCIATION_NAMES = %i[
-      AgendaItemable
-      Attachable
-      Commentable
-      Customizable
-      ProjectPhase
-      Storable
-    ].freeze
-
-    def self.for(journable)
-      ASSOCIATION_NAMES
-        .map { "Journals::CreateService::#{it}".constantize.new(journable) }
-        .select(&:associated?)
+    if values.last
+      I18n.t(:text_journal_comment_added, label: label_text)
+    else
+      I18n.t(:text_journal_comment_deleted, label: label_text)
     end
-
-    attr_reader :journable
-
-    def initialize(journable)
-      @journable = journable
-    end
-
-    def name = self.class.name.demodulize.underscore
   end
 end

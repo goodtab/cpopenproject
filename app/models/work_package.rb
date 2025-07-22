@@ -62,6 +62,7 @@ class WorkPackage < ApplicationRecord
   has_many :time_entries, dependent: :delete_all
 
   has_many :file_links, dependent: :delete_all, class_name: "Storages::FileLink", as: :container
+  has_many :comments, dependent: :delete_all, class_name: "Comment"
 
   has_many :storages, through: :project
 
@@ -269,7 +270,7 @@ class WorkPackage < ApplicationRecord
   end
 
   def to_s
-    "#{type.is_standard ? '' : type.name} ##{id}: #{subject}"
+    "#{type.name unless type.is_standard} ##{id}: #{subject}"
   end
 
   # Return true if the work_package is closed, otherwise false

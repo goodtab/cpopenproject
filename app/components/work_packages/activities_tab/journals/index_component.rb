@@ -72,7 +72,7 @@ module WorkPackages
             work_package
               .journals
               .internal_visible
-              .includes(:user, :customizable_journals, :attachable_journals, :storable_journals, :notifications)
+              .includes(:user, :commentable_journals, :customizable_journals, :attachable_journals, :storable_journals, :notifications)
               .reorder(version: journal_sorting)
               .with_sequence_version
           )

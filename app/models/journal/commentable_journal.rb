@@ -28,31 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Journals::CreateService
-  class Association
-    include Helpers
+class Journal::CommentableJournal < Journal::AssociatedJournal
+  self.table_name = "comments_journals"
 
-    ASSOCIATION_NAMES = %i[
-      AgendaItemable
-      Attachable
-      Commentable
-      Customizable
-      ProjectPhase
-      Storable
-    ].freeze
-
-    def self.for(journable)
-      ASSOCIATION_NAMES
-        .map { "Journals::CreateService::#{it}".constantize.new(journable) }
-        .select(&:associated?)
-    end
-
-    attr_reader :journable
-
-    def initialize(journable)
-      @journable = journable
-    end
-
-    def name = self.class.name.demodulize.underscore
-  end
+  belongs_to :comment, class_name: "Comment"
 end
