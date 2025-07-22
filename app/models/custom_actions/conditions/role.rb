@@ -48,9 +48,7 @@ class CustomActions::Conditions::Role < CustomActions::Conditions::Base
     private
 
     def custom_action_scope_has_current(work_packages, user)
-      CustomAction
-        .includes(association_key)
-        .where(habtm_table => { key_id => roles_in_project(work_packages, user) })
+      join_scope roles_in_project(work_packages, user).map(&:id)
     end
 
     def projects_of(work_packages)

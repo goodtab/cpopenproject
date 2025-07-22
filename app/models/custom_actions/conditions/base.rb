@@ -92,33 +92,31 @@ class CustomActions::Conditions::Base
   end
 
   def self.custom_action_scope_has_current(work_packages, _user)
-    CustomAction
-      .includes(association_key)
-      .where(habtm_table => { key_id => Array(work_packages).map { |w| w.send(key_id) }.uniq })
+    join_scope Array(work_packages).map { |w| w.send(key_id) }.uniq
   end
   private_class_method :custom_action_scope_has_current
 
   def self.custom_action_scope_has_no
-    CustomAction
-      .includes(association_key)
-      .where(habtm_table => { key_id => nil })
+    join_scope nil
   end
   private_class_method :custom_action_scope_has_no
-
-  def self.pluralized_key
-    key.to_s.pluralize.to_sym
-  end
-  private_class_method :pluralized_key
-
-  def self.habtm_table
-    :"custom_actions_#{pluralized_key}"
-  end
-  private_class_method :habtm_table
 
   def self.key_id
     @key_id ||= :"#{key}_id"
   end
-  private_class_method :key_id
+
+  def self.join_scope(ids)
+    CustomAction
+      .joins("LEFT OUTER JOIN custom_action_conditions #{association_key} ON #{association_key}.conditionable_id = custom_actions.id AND #{association_key}.conditionable_type = '#{conditionable_type}'")
+      .joins("LEFT OUTER JOIN #{conditionable_type.table_name} ON #{conditionable_type.table_name}.id = #{association_key}.conditionable_id AND #{association_key}.conditionable_type = '#{conditionable_type}'")
+      .where(association_key => { conditionable_id: ids })
+  end
+  private_class_method :join_scope
+
+  def self.conditionable_type
+    @conditionable_type ||= key.to_s.camelize.constantize
+  end
+  private_class_method :conditionable_type
 
   def self.association_key
     :"#{key}_conditions"

@@ -1,0 +1,71 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<fieldset class="form--fieldset" id="custom-actions-form--conditions">
+  <legend class="form--fieldset-legend">
+    <%= t("custom_actions.conditions") %>
+  </legend>
+
+  <% all_conditions.each do |condition| %>
+    <div class="form--field">
+      <%= styled_label_tag("custom_action_conditions_#{condition.key}", condition.human_name, class: "-top") %>
+      <% input_name = "custom_action[conditions][#{condition.key}]" %>
+
+      <div class="form--field-container">
+        <div class="form--select-container -middle">
+          <% if condition.key == :project %>
+            <%= angular_component_tag "opce-project-autocompleter",
+                                      inputs: {
+                                        multiple: true,
+                                        filters: [{ name: "active", operator: "=", values: ["t"] }],
+                                        resource: "projects",
+                                        inputName: input_name,
+                                        appendTo: "body",
+                                        labelForId: "custom_action_actions_#{condition.key}",
+                                        inputValue: condition.values
+                                      } %>
+          <% else %>
+            <%= angular_component_tag "opce-autocompleter",
+                                      inputs: {
+                                        multiple: true,
+                                        defaultData: false,
+                                        items: condition.allowed_values.map { |v| { id: v[:value], name: v[:label] } },
+                                        model: condition.value_objects.map { |v| { id: v[:value], name: v[:label] } },
+                                        inputName: input_name,
+                                        bindLabel: "name",
+                                        labelForId: "custom_action_conditions_#{condition.key}",
+                                        appendTo: "body"
+                                      } %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="form--space"></div>
+  <% end %>
+</fieldset>

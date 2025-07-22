@@ -29,10 +29,14 @@
 class CustomAction < ApplicationRecord
   validates :name, length: { maximum: 255, minimum: 1 }
   serialize :actions, coder: CustomActions::Actions::Serializer
-  has_and_belongs_to_many :status_conditions, class_name: "Status"
-  has_and_belongs_to_many :role_conditions, class_name: "Role"
-  has_and_belongs_to_many :type_conditions, class_name: "Type"
-  has_and_belongs_to_many :project_conditions, class_name: "Project"
+
+  has_many :custom_action_conditions, dependent: :destroy
+
+  %w[Project Role Status Type].each do |source_type|
+    has_many :"#{source_type.underscore}_conditions", through: :custom_action_conditions,
+                                                      source: :conditionable,
+                                                      source_type:
+  end
 
   after_save :persist_conditions
 
