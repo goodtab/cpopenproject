@@ -30,5 +30,16 @@
 
 module Comments
   class CreateService < ::BaseServices::Create
+    private
+
+    def after_perform(service_result)
+      commented = service_result.result.commented
+
+      return service_result unless commented&.class&.journaled?
+
+      commented.save_journals
+
+      service_result
+    end
   end
 end
