@@ -144,8 +144,6 @@ gem "browser", "~> 6.2.0"
 # Providing health checks
 gem "okcomputer", "~> 1.19.0"
 
-gem "gon", "~> 6.4.0"
-
 # Lograge to provide sane and non-verbose logging
 gem "lograge", "~> 0.14.0"
 
