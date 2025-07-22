@@ -47,6 +47,9 @@ OpenProject::FeatureDecisions.add :built_in_oauth_applications,
 OpenProject::FeatureDecisions.add :calculated_value_project_attribute,
                                   description: "Allows the use of calculated values as a project attribute."
 
+OpenProject::FeatureDecisions.add :oidc_group_sync,
+                                  description: "Allows to synchronize groups from OpenID Connect providers"
+
 OpenProject::FeatureDecisions.add :scim_api,
                                   description: "Enables SCIM API.",
                                   force_active: true

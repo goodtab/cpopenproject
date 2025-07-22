@@ -46,17 +46,20 @@ module OpenIDConnect
 
         super
 
-        update_grant_types_supported if params.key?(:grant_types_supported)
+        update_string_list(:grant_types_supported, delimiter: " ")
+        update_string_list(:group_regexes, delimiter: "\n")
         update_available_state
       end
 
-      # This is a workaround for a non-ideal UI
-      # We only offer users to edit the supported grant types in a text input field,
-      # though they are indeed editing a list of grants.
-      def update_grant_types_supported
-        return unless params[:grant_types_supported].is_a? String
+      # This is a workaround for UI where users edit a single input field or text area, but are indeed editing
+      # an array of items
+      def update_string_list(attribute, delimiter:)
+        return unless params[attribute].is_a? String
 
-        model.grant_types_supported = params[:grant_types_supported].split
+        model.public_send(
+          "#{attribute}=",
+          params[attribute].split(delimiter)
+        )
       end
 
       def update_available_state

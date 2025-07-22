@@ -155,9 +155,11 @@ sysadmin_docs:
   oidc:
     href: https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/
   oidc_acr_values:
-    href: https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/#step-7-claims
+    href: https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/#step-8-claims
   oidc_claims:
-    href: https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/#step-7-claims
+    href: https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/#step-8-claims
+  oidc_groups:
+    href: https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/#step-7-group-mapping
   saml:
     href: https://www.openproject.org/docs/system-admin-guide/authentication/saml/
   scim:

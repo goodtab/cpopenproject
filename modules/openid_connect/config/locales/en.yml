@@ -13,8 +13,10 @@ en:
         display_name: Display name
         client_id: Client ID
         client_secret: Client secret
+        groups_claim: Groups claim
         secret: Secret
         scope: Scope
+        sync_groups: Synchronize groups
         grant_types_supported: Supported grant types
         limit_self_registration: Limit self registration
         authorization_endpoint: Authorization endpoint
@@ -59,6 +61,10 @@ en:
     instructions:
       redirect_url: This is the redirect URL that the OpenID Connect provider should use to redirect back to OpenProject after a successful login.
       endpoint_url: The endpoint URL given to you by the OpenID Connect provider
+      group_regexes: One regular expression pattern per line. Please read [the documentation](docs_url) for more information on how to do this.
+      group_regexes_detail: Define patterns using regular expressions to match group names from the groups claim. For example, entering a pattern like <code>^Level1/Level2/([\w/]+)$</code> will extract the group “Groupname/SubGroup” from a response including “Level1/Level2/GroupName/SubGroup”.
+      group_sync: Automatically extract and synchronise group membership information from the identity provider.
+      groups_claim: Specify the name of the claim that's expected to indicate the group names that the user is a member of.
       metadata_none: I don't have this information
       metadata_url: I have a discovery endpoint URL
       client_id: This is the client ID given to you by your OpenID Connect provider
@@ -103,6 +109,8 @@ en:
       label_edit: Edit OpenID provider %{name}
       label_empty_title: No OpenID providers configured yet.
       label_empty_description: Add a provider to see them here.
+      label_group_mapping: Group mapping
+      label_group_regexes: Pattern (regular expression)
       label_metadata: OpenID Connect Discovery Endpoint
       label_automatic_configuration: Automatic configuration
       label_optional_configuration: Optional configuration
@@ -115,6 +123,7 @@ en:
       plural: OpenID providers
       singular: OpenID provider
       section_texts:
+        group_mapping: Map group names provided by the identity provider to groups in OpenProject.
         metadata: Pre-fill configuration using an OpenID Connect discovery endpoint URL
         metadata_form_banner: Editing the discovery endpoint may override existing pre-filled metadata values.
         metadata_form_title: OpenID Connect Discovery endpoint

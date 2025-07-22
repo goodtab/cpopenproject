@@ -32,6 +32,8 @@ module OpenIDConnect::Providers::Sections
   class FormComponent < ::Saml::Providers::Sections::SectionComponent
     attr_reader :edit_state, :next_edit_state, :edit_mode, :fetch_metadata
 
+    delegate :form_data, to: :@form_class
+
     def initialize(provider,
                    edit_state:,
                    form_class:,

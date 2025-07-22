@@ -7,7 +7,7 @@ keywords: OpenID providers
 ---
 # OpenID providers (Enterprise add-on)
 
-> [!IMPORTANT] 
+> [!IMPORTANT]
 > OpenID Connect providers is an Enterprise add-on. If you do not see the button you will have to activate the Enterprise edition first.
 
 | Topic                                                              | Content                                                                         |
@@ -23,7 +23,7 @@ To activate and configure OpenID providers in OpenProject, navigate to *Administ
 
 To add a new OpenID provider, click the green **+ OpenID provider** button.
 
-![OpenIDprovider selection in OpenProject administration](openproject_system-admin-guide_authentication_openid_provider_empty.png) 
+![OpenIDprovider selection in OpenProject administration](openproject_system-admin-guide_authentication_openid_provider_empty.png)
 
 
 
@@ -84,7 +84,7 @@ After pressing **CREATE** you will see a following pop-up window.
 ### Step 3: Add Google as an OpenID Provider to OpenProject
 
 1. Login as OpenProject Administrator
-2. Navigate to *Administration* -> *Authentication* and choose -> *OpenID providers*. 
+2. Navigate to *Administration* -> *Authentication* and choose -> *OpenID providers*.
    - **Click** the green *+ OpenID Connect provider* button
    - **Choose** Choose the Option Google
    - Set a **Display Name**, this is the name of the login button shown to users.
@@ -148,7 +148,7 @@ The steps are as follows:
 
 ![Azure Active Directory New Client Secret](07-client-secret.png)
 
-9. A secret should have been generated and will be displayed on the page. 
+9. A secret should have been generated and will be displayed on the page.
 
 > [!IMPORTANT]
 > Make sure to save it because it will only be displayed once.
@@ -162,7 +162,7 @@ At the end of this step, you should have a copy of the Application client ID as 
 Next, you need to create the OpenID Connect provider in OpenProject:
 
 1. Login as OpenProject Administrator
-2. Navigate to *Administration* -> *Authentication* and choose -> *OpenID providers*. 
+2. Navigate to *Administration* -> *Authentication* and choose -> *OpenID providers*.
    - **Click** the green *+ OpenID Connect provider* button
    - **Choose** Choose the option **Microsoft Entra**
    - Set display name **Microsoft Entra**. Please note that if you change this value, the redirect URI in step 1) might change. The redirect URI is shown in the side panel on the right side once you saved the configuration.
@@ -185,7 +185,7 @@ Starting with OpenProject 15.0., you can also create custom OpenID Connect provi
 To start creating a custom provider, please follow these steps:
 
 1. Login as OpenProject Administrator
-2. Navigate to *Administration* -> *Authentication* and choose -> *OpenID providers*. 
+2. Navigate to *Administration* -> *Authentication* and choose -> *OpenID providers*.
    - **Click** the green *+ OpenID Connect provider* button
    - **Choose** the *Option* **Custom**
 
@@ -235,7 +235,35 @@ If you need to set some of these values, enter the attribute key used/returned i
 
 For example: Keycloak allows you to map custom properties of the user. This allows you to specify a login with, e.g, `preferred_username` userinfo. In this case, you would fill out `Mapping for: Username` with that attribute returned in the userinfo JSON response.
 
-#### Step 7: Claims
+#### Step 7: Group mapping
+
+> [!IMPORTANT]
+> Group mapping is an experimental feature that's not yet intended for production usage. It must be enabled on the page for experimental
+> features of your OpenProject instance (found under `/admin/settings/experimental`). Future versions might change this feature in a breaking
+> way, as we still look for user feedback on this feature.
+
+OpenProject can optionally synchronize groups of users when they log in. If you want to enable this, you have to enable the checkbox
+"Synchronize groups". OpenProject will expect a claim with an array of group names that the user is a member of. By default this claim
+is expected to be named `groups`, but you can change this if desired.
+
+The default behaviour of OpenProject is to create a new group for each unknown group listed in this claim. It will match existing groups
+by their name before creating a new group. You can later rename groups created this way in the group management UI, they will still be linked
+to the ID with which they are referenced in OpenID Connect claims and recognized that way.
+
+##### Matching groups with regular expressions
+
+For advanced use cases, it's possible to filter which groups will be imported into OpenProject and which part of the group name will be considered.
+
+The input under "Pattern (regular expression)" expects a list of regular expressions that will be used to match against the name of a group. If
+the group name matches one of the regular expressions, it will be synchronized. If it matches none of the expressions, it will not be synchronized.
+
+The match groups inside the first matching regular expression are used to extract the name of the imported group. For example if groups in your identity
+provider are called `gA`, `gB` and `gC`, and you only want to extract the group names "A", "B" and "C", you could use a regular expression of `^g([A-Z])$`. The `^` and `$` ensure that only full group names are matched, otherwise it would also be possible to match on parts of the group name.
+
+OpenProject parses regular expressions using syntax accepted by the Ruby programming language. One good online resource to understand
+Ruby regular expressions is [Rubular](https://rubular.com/).
+
+#### Step 8: Claims
 
 You can optionally request [claims](https://openid.net/specs/openid-connect-core-1_0-final.html#Claims) for both the id_token and userinfo endpoint. Keep in mind that currently only claims requested for the id_token returned with the authorize response are validated. That means that the authentication will fail if a requested essential claim is not returned.
 
@@ -374,7 +402,7 @@ OPENPROJECT_OPENID__CONNECT_OKTA_IDENTIFIER="<identifier or client id>"
 
 Underscores in option names must be escaped by doubling them. So make sure to really do use two consecutive underscores in `DISPLAY__NAME`, `TOKEN__ENDPOINT` and so forth
 
-Use the following configuration as a template for your configuration. 
+Use the following configuration as a template for your configuration.
 
 > [!NOTE]
 >

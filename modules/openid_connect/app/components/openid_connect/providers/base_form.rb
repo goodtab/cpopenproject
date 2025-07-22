@@ -33,6 +33,12 @@ module OpenIDConnect
     class BaseForm < ApplicationForm
       attr_reader :provider
 
+      class << self
+        def form_data
+          {}
+        end
+      end
+
       def initialize(provider:)
         super()
         @provider = provider
