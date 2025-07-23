@@ -29,13 +29,18 @@
 #++
 
 class OpenProject::JournalFormatter::Comment < JournalFormatter::Base
-  def render(_key, values, _options = { html: true })
-    label_text = label("comment")
+  def render(key, values, _options = { html: true })
+    _id = key.to_s.sub("comments_", "").to_i
 
-    if values.last
-      I18n.t(:text_journal_comment_added, label: label_text)
+    label = label("comment")
+    old_value, current_value = values
+
+    return if old_value && current_value
+
+    if current_value.blank?
+      I18n.t(:text_journal_comment_deleted, label:, value: old_value)
     else
-      I18n.t(:text_journal_comment_deleted, label: label_text)
+      I18n.t(:text_journal_comment_added, label:, value: current_value)
     end
   end
 end
