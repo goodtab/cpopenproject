@@ -225,6 +225,10 @@ class Journal < ApplicationRecord
     journable.respond_to?(:file_links)
   end
 
+  def has_comments?
+    journable.respond_to?(:comments) && journable.comments.any?
+  end
+
   def predecessor
     return @predecessor if defined?(@predecessor)
 

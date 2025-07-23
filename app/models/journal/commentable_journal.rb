@@ -32,4 +32,6 @@ class Journal::CommentableJournal < Journal::AssociatedJournal
   self.table_name = "comments_journals"
 
   belongs_to :comment, class_name: "Comment"
+
+  delegate :text, to: :comment
 end
