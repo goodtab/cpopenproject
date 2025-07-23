@@ -471,7 +471,6 @@ class MeetingsController < ApplicationController
 
     @converted_params[:project] = @project if @project.present?
     @converted_params[:duration] = @converted_params[:duration].to_hours if @converted_params[:duration].present?
-    @converted_params[:send_notifications] = params[:send_notifications] == "1"
 
     # Handle participants separately for each meeting type
     @converted_params[:participants_attributes] ||= {}
@@ -542,7 +541,7 @@ class MeetingsController < ApplicationController
     {
       copy_agenda: copy_param(:copy_agenda),
       copy_attachments: copy_param(:copy_attachments),
-      send_notifications: copy_param(:send_notifications)
+      send_notifications: meeting_params[:notify] == "1" && params[:meeting][:copied_from_meeting_id].present?
     }
   end
 

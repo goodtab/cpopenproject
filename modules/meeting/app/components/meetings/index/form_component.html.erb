@@ -123,9 +123,27 @@
           end
         end
 
+        if @copy_from
+          modal_body.with_row do
+            render(Meeting::CopiedFrom.new(f, id: @copy_from.id))
+          end
+
+          modal_body.with_row(mt: 3) do
+            render(Meeting::CopyItems.new(f))
+          end
+
+          modal_body.with_row(mt: 3) do
+            render(Meeting::CopyParticipants.new(f))
+          end
+
+          modal_body.with_row(mt: 3) do
+            render(Meeting::CopyAttachments.new(f))
+          end
+        end
+
         if (@meeting.is_a?(RecurringMeeting) && !@meeting.persisted?) || @meeting.is_a?(Meeting)
           modal_body.with_row(mt: 3) do
-            render(Meeting::SendEmailUpdates.new(f, meeting: @meeting))
+            render(Meeting::SendEmailUpdates.new(f, meeting: @meeting, copy_from: @copy_from))
           end
 
           modal_body.with_row(
@@ -151,28 +169,6 @@
             }
           ) do
             render(Meetings::EmailUpdatesBannerComponent.new(@meeting, override: :muted))
-          end
-        end
-
-        if @copy_from
-          modal_body.with_row do
-            render(Meeting::CopiedFrom.new(f, id: @copy_from.id))
-          end
-
-          modal_body.with_row(mt: 3) do
-            render(Meeting::CopyItems.new(f))
-          end
-
-          modal_body.with_row(mt: 3) do
-            render(Meeting::CopyParticipants.new(f))
-          end
-
-          modal_body.with_row(mt: 3) do
-            render(Meeting::CopyAttachments.new(f))
-          end
-
-          modal_body.with_row(mt: 3) do
-            render(Meeting::EmailParticipants.new(f))
           end
         end
       end
