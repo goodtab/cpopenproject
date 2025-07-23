@@ -5,9 +5,6 @@ import jasmine from 'eslint-plugin-jasmine';
 import angular from 'angular-eslint';
 import stylistic from '@stylistic/eslint-plugin';
 
-// import airbnb from 'eslint-config-airbnb-base';
-// import tsairbnb from 'eslint-config-airbnb-typescript';
-
 import { defineConfig, globalIgnores } from 'eslint/config';
 
 export default defineConfig([
@@ -31,8 +28,6 @@ export default defineConfig([
       ...tseslint.configs.stylistic,
       // This is required if you use inline templates in Components
       ...angular.configs.tsRecommended,
-      // ...airbnb.configs.recommended,
-      // ...tsairbnb.configs.airbnb,
       {
         languageOptions: {
           parserOptions: {
