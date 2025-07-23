@@ -14,7 +14,6 @@ module.exports = {
   },
   plugins: [
     "@typescript-eslint",
-    "change-detection-strategy",
     "jasmine",
   ],
   overrides: [
@@ -54,7 +53,7 @@ module.exports = {
         "@angular-eslint/prefer-standalone": "off",
 
         // Warn when new components are being created without OnPush
-        "change-detection-strategy/on-push": "error",
+        "@angular-eslint/prefer-on-push-component-change-detection": "error",
         "no-console": [
           "error",
           {
