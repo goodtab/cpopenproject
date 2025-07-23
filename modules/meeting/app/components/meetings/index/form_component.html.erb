@@ -29,6 +29,12 @@
           end
         end
 
+        if @meeting.is_a?(RecurringMeeting) && @meeting.persisted?
+          modal_body.with_row(mb: 3) do
+            render(Meetings::EmailUpdatesBannerComponent.new(@meeting))
+          end
+        end
+
         if @project.nil?
           modal_body.with_row(mb: 3) do
             render(Meeting::ProjectAutocompleter.new(f))
@@ -117,33 +123,35 @@
           end
         end
 
-        modal_body.with_row(mt: 3) do
-          render(Meeting::SendEmailUpdates.new(f, meeting: @meeting))
-        end
+        if (@meeting.is_a?(RecurringMeeting) && !@meeting.persisted?) || @meeting.is_a?(Meeting)
+          modal_body.with_row(mt: 3) do
+            render(Meeting::SendEmailUpdates.new(f, meeting: @meeting))
+          end
 
-        modal_body.with_row(
-          mt: 3,
-          data: {
-            "show-when-checked-target-name": "notification-banner",
-            "show-when-checked-target": "effect",
-            "show-when": "checked",
-            visibility_class: "d-none"
-          }
-        ) do
-          render(Meetings::EmailUpdatesBannerComponent.new(@meeting, override: :enabled))
-        end
+          modal_body.with_row(
+            mt: 3,
+            data: {
+              "show-when-checked-target-name": "notification-banner",
+              "show-when-checked-target": "effect",
+              "show-when": "checked",
+              visibility_class: "d-none"
+            }
+          ) do
+            render(Meetings::EmailUpdatesBannerComponent.new(@meeting, override: :enabled))
+          end
 
-        modal_body.with_row(
-          mt: 3,
-          classes: "d-none",
-          data: {
-            "show-when-checked-target-name": "notification-banner",
-            "show-when-checked-target": "effect",
-            "show-when": "unchecked",
-            visibility_class: "d-none"
-          }
-        ) do
-          render(Meetings::EmailUpdatesBannerComponent.new(@meeting, override: :muted))
+          modal_body.with_row(
+            mt: 3,
+            classes: "d-none",
+            data: {
+              "show-when-checked-target-name": "notification-banner",
+              "show-when-checked-target": "effect",
+              "show-when": "unchecked",
+              visibility_class: "d-none"
+            }
+          ) do
+            render(Meetings::EmailUpdatesBannerComponent.new(@meeting, override: :muted))
+          end
         end
 
         if @copy_from
