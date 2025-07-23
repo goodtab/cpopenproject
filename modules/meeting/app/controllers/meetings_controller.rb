@@ -488,10 +488,9 @@ class MeetingsController < ApplicationController
   def meeting_params
     if params[:meeting].present?
       params
-        .require(:meeting)
-        .permit(:title, :location, :start_time, :project_id,
-                :duration, :start_date, :start_time_hour, :notify,
-                participants_attributes: %i[email name invited attended user user_id meeting id])
+        .expect(meeting: [:title, :location, :start_time, :project_id,
+                          :duration, :start_date, :start_time_hour, :notify,
+                          { participants_attributes: %i[email name invited attended user user_id meeting id] }])
     end
   end
 
@@ -558,7 +557,7 @@ class MeetingsController < ApplicationController
   end
 
   def timezone_params
-    @timezone_params ||= params.require(:meeting).permit(:start_date, :start_time_hour).compact_blank
+    @timezone_params ||= params.expect(meeting: %i[start_date start_time_hour]).compact_blank
   end
 
   def export_pdf
