@@ -137,18 +137,4 @@ describe('WorkPackage', () => {
       expect(workPackage.canAddAttachments).toEqual(true);
     });
   });
-
-  describe('when a work package is created with attachments and activities', () => {
-    beforeEach(() => {
-      source = {
-        _links: {
-          schema: { _type: 'Schema', href: 'schema' },
-          attachments: { href: 'attachments' },
-          activities: { href: 'activities' },
-        },
-        isNew: true,
-      };
-      createWorkPackage();
-    });
-  });
 });
