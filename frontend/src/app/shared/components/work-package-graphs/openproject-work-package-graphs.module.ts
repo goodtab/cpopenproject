@@ -39,7 +39,7 @@ import { WorkPackageEmbeddedGraphComponent } from 'core-app/shared/components/wo
 import { WorkPackageOverviewGraphComponent } from 'core-app/shared/components/work-package-graphs/overview/wp-overview-graph.component';
 import * as ChartDataLabels from 'chartjs-plugin-datalabels';
 import { OpenprojectTabsModule } from 'core-app/shared/components/tabs/openproject-tabs.module';
-import { NgChartsModule } from 'ng2-charts';
+import { BaseChartDirective } from 'ng2-charts';
 
 @NgModule({
   imports: [
@@ -49,7 +49,7 @@ import { NgChartsModule } from 'ng2-charts';
 
     OpenprojectWorkPackagesModule,
 
-    NgChartsModule,
+    BaseChartDirective,
     OpenprojectTabsModule,
   ],
   declarations: [
