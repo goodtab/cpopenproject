@@ -3,6 +3,8 @@ import globals from 'globals';
 import tseslint from 'typescript-eslint';
 import jasmine from 'eslint-plugin-jasmine';
 import angular from 'angular-eslint';
+import stylistic from '@stylistic/eslint-plugin';
+
 // import airbnb from 'eslint-config-airbnb-base';
 // import tsairbnb from 'eslint-config-airbnb-typescript';
 
@@ -11,8 +13,9 @@ import { defineConfig, globalIgnores } from 'eslint/config';
 export default defineConfig([
   {
     files: ['**/*.{js,mjs,cjs,ts,mts,cts}'],
-    plugins: { eslint },
-    extends: ['eslint/recommended'],
+    extends: [
+      eslint.configs.recommended,
+    ]
   },
   {
     files: ['**/*.{js,mjs,cjs,ts,mts,cts}'],
@@ -68,18 +71,8 @@ export default defineConfig([
       'no-unused-vars': ['error', { varsIgnorePattern: '^_', argsIgnorePattern: '^_' }],
       '@typescript-eslint/no-unused-vars': ['error', { varsIgnorePattern: '^_', argsIgnorePattern: '^_' }],
 
-      // Who cares about line length
-      'max-len': 'off',
-
-      // Disable forcing newlines in braces to prevent empty objects and import errors
-      'object-curly-newline': 'off',
-
       // Allow short circuit evaluations
       '@typescript-eslint/no-unused-expressions': ['error', { allowShortCircuit: true }],
-
-      // Force single quotes to align with ruby
-      quotes: 'off',
-      //'@typescript-eslint/quotes': ['error', 'single', { avoidEscape: true }],
 
       // Disable webpack loader definitions
       'import/no-webpack-loader-syntax': 'off',
@@ -95,9 +88,6 @@ export default defineConfig([
       // destructuring doesn't always look better, only when object/array destructuring
       'prefer-destructuring': 'off',
 
-      // Sometimes, arrow functions implicit return looks better below, so allow both
-      'implicit-arrow-linebreak': 'off',
-
       // Sometimes, arrow functions look better broken down
       'arrow-body-style': 'off',
 
@@ -109,13 +99,6 @@ export default defineConfig([
       'no-use-before-define': ['error', { functions: false, classes: false }],
       '@typescript-eslint/no-use-before-define': ['error', { functions: false, classes: false }],
 
-      // Allow subsequent single fields in typescript classes
-      // '@typescript-eslint/lines-between-class-members': ['error', 'always', { exceptAfterSingleLine: true }],
-
-      // Disable indentation rule as it breaks in edge cases and is covered by editorconfig
-      indent: 'off',
-      '@typescript-eslint/indent': 'off',
-
       // Allow namespaces, they are generated into flat functions and we don't care about modules for helpers
       '@typescript-eslint/no-namespace': 'off',
 
@@ -124,21 +107,6 @@ export default defineConfig([
         'no-use-before-define': 'off',
         '@typescript-eslint/no-use-before-define': 'off',
       */
-
-      // Whitespace configuration
-      // '@typescript-eslint/type-annotation-spacing': [
-      //   'error',
-      //   {
-      //     before: false,
-      //     after: false,
-      //     overrides: {
-      //       arrow: {
-      //         before: true,
-      //         after: true,
-      //       },
-      //     },
-      //   },
-      // ],
 
       // Allow writing type union and type intersections without space
       '@typescript-eslint/space-infix-ops': 'off',
@@ -179,8 +147,6 @@ export default defineConfig([
 
       // It's common in Angular to wrap even pure functions in classes for injection purposes
       'class-methods-use-this': 'off',
-
-      'spaced-comment': 'off',
     },
   },
   {
@@ -208,6 +174,47 @@ export default defineConfig([
 
       // Allow more than one class definitions per file (test components)
       'max-classes-per-file': 'off',
+    },
+  },
+  {
+    plugins: { '@stylistic': stylistic },
+    rules: {
+      '@stylistic/semi': ['error', 'always'],
+
+      // Who cares about line length
+      '@stylistic/max-len': 'off',
+
+      // Disable forcing newlines in braces to prevent empty objects and import errors
+      '@stylistic/object-curly-newline': 'off',
+
+      // Force single quotes to align with ruby
+      '@stylistic/quotes': ['error', 'single', { avoidEscape: true }],
+
+      // Sometimes, arrow functions implicit return looks better below, so allow both
+      '@stylistic/implicit-arrow-linebreak': 'off',
+
+      // Allow subsequent single fields in typescript classes
+      '@stylistic/lines-between-class-members': ['error', 'always', { exceptAfterSingleLine: true }],
+
+      // Disable indentation rule as it breaks in edge cases and is covered by editorconfig
+      '@stylistic/indent': 'off',
+
+      // Whitespace configuration
+      '@stylistic/type-annotation-spacing': [
+        'error',
+        {
+          before: false,
+          after: false,
+          overrides: {
+            arrow: {
+              before: true,
+              after: true,
+            },
+          },
+        },
+      ],
+
+      '@stylistic/spaced-comment': 'off',
     },
   },
   globalIgnores([

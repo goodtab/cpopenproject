@@ -17,6 +17,7 @@
     "@html-eslint/eslint-plugin": "^0.43.0",
     "@html-eslint/parser": "^0.43.0",
     "@jsdevtools/coverage-istanbul-loader": "3.0.5",
+    "@stylistic/eslint-plugin": "^5.2.2",
     "@types/codemirror": "5.60.5",
     "@types/dom-navigation": "^1.0.3",
     "@types/dragula": "^3.7.5",
