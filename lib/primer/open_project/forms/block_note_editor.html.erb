@@ -29,13 +29,19 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%=
   render FormControl.new(
-    input: @input, class: @input.classes, data: {
+    input: @input,
+    class: @input.classes,
+    data: {
       controller: "block-note",
-      block_note_input_text_value: value
+      block_note_input_text_value: value,
+      block_note_user_name_value: user_name,
+      block_note_hocuspocus_url_value: hocuspocus_url,
+      block_note_hocuspocus_access_token_value: hocuspocus_access_token,
+      block_note_document_id_value: document_id,
     }
   ) do
 %>
-  <%= @input.builder.hidden_field(name, value: @value, data: { block_note_target: "blockNoteInputField" }) %>
+  <%= @input.builder.hidden_field(name, value:, data: { block_note_target: "blockNoteInputField" }) %>
   <%=
     render(
       Primer::BaseComponent.new(

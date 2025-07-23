@@ -33,14 +33,23 @@ module Primer
     module Forms
       # :nodoc:
       class BlockNoteEditor < Primer::Forms::BaseComponent
-        attr_reader :input, :value
+        attr_reader :input,
+                    :value,
+                    :user_name,
+                    :hocuspocus_url,
+                    :hocuspocus_access_token,
+                    :document_id
 
         delegate :name, to: :@input
 
-        def initialize(input:, value:)
+        def initialize(input:, value:, document_id:)
           super()
           @input = input
           @value = value
+          @user_name = User.current.name
+          @document_id = document_id
+          @hocuspocus_url = Setting.collaborative_editing_hocuspocus_url
+          @hocuspocus_access_token = ::CollaborativeEditing::DocumentAccessTokenGenerator.call(document_id, value)
         end
       end
     end

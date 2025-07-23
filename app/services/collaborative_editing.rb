@@ -28,35 +28,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Primer
-  module OpenProject
-    module Forms
-      module Dsl
-        class BlockNoteEditorInput < Primer::Forms::Dsl::Input
-          attr_reader :name, :label, :value, :classes, :document_id
+module CollaborativeEditing
+  module DocumentIdGenerator
+    module_function
 
-          def initialize(name:, label:, value:, document_id:, **system_arguments)
-            @name = name
-            @label = label
-            @value = value
-            @classes = system_arguments[:classes]
-            @document_id = document_id
+    def call(category, id)
+      OpenSSL::HMAC.hexdigest("SHA256", Rails.application.secret_key_base, "#{category}#{id}")
+    end
+  end
 
-            super(**system_arguments)
-          end
+  module DocumentAccessTokenGenerator
+    module_function
 
-          def to_component
-            BlockNoteEditor.new(input: self, value:, document_id:)
-          end
-
-          def type
-            :block_note_editor
-          end
-
-          def focusable?
-            true
-          end
-        end
+    def call(document_id, document_text)
+      if Setting.collaborative_editing_hocuspocus_secret.present?
+        JWT.encode(
+          {
+            document_id:,
+            document_text:,
+            exp: 20.minutes.from_now.to_i
+          },
+          Setting.collaborative_editing_hocuspocus_secret,
+          "HS256"
+        )
       end
     end
   end

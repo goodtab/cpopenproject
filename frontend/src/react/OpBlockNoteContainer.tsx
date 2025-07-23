@@ -33,10 +33,16 @@ import { BlockNoteView } from "@blocknote/mantine";
 import { getDefaultReactSlashMenuItems, SuggestionMenuController, useCreateBlockNote } from "@blocknote/react";
 import { dummyBlockSpec, getDefaultOpenProjectSlashMenuItems, openProjectWorkPackageBlockSpec } from "op-blocknote-extensions";
 import { useEffect, useState } from "react";
+import { HocuspocusProvider } from "@hocuspocus/provider";
+import * as Y from 'yjs';
 
 export interface OpBlockNoteContainerProps {
   inputField: HTMLInputElement;
   inputText?: string;
+  hocuspocusUrl: string;
+  hocuspocusAccessToken: string;
+  userName: string;
+  documentId: string;
 }
 
 type OpTheme = "light" | "dark";
@@ -56,10 +62,38 @@ const detectTheme = (): OpTheme => {
   return 'light';
 };
 
-export default function OpBlockNoteContainer({ inputField, inputText }: OpBlockNoteContainerProps) {
+export default function OpBlockNoteContainer({ inputField,
+                                               inputText,
+                                               userName,
+                                               hocuspocusUrl,
+                                               hocuspocusAccessToken,
+                                               documentId }: OpBlockNoteContainerProps) {
   const [isLoading, setIsLoading] = useState(true);
 
-  const editor = useCreateBlockNote({ schema });
+  let collaboration: any;
+  const collaborationEnabled: boolean = Boolean(hocuspocusUrl && documentId && hocuspocusAccessToken && userName);
+  let provider: HocuspocusProvider | null = null;
+
+  if(collaborationEnabled) {
+    const doc = new Y.Doc()
+    provider = new HocuspocusProvider({
+      url: hocuspocusUrl,
+      name: documentId,
+      token: hocuspocusAccessToken,
+      document: doc
+    });
+    const cursorColor = '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
+    collaboration = {
+      provider,
+      fragment: doc.getXmlFragment("document-store"),
+      user: {
+        name: userName,
+        color: cursorColor,
+      },
+      showCursorLabels: "activity"
+    }
+  }
+  const editor = useCreateBlockNote(collaboration ? { collaboration, schema } : { schema });
   type EditorType = typeof editor;
 
   const getCustomSlashMenuItems = (editor: EditorType) => {
@@ -70,13 +104,28 @@ export default function OpBlockNoteContainer({ inputField, inputText }: OpBlockN
   };
 
   useEffect(() => {
-    async function loadInitialContent() {
-      const blocks = await editor.tryParseMarkdownToBlocks(inputText || "");
-      editor.replaceBlocks(editor.document, blocks);
-      setIsLoading(false);
+    async function prepareEditor() {
+      if(collaborationEnabled && provider) {
+        provider.on('synced', async () => {
+          console.log('BlockNote collaboration synced');
+          setIsLoading(false);
+        });
+        provider.on('disconnect', () => {
+          console.error('BlockNote collaboration disconnected');
+        });
+      } else {
+        const blocks = await editor.tryParseMarkdownToBlocks(inputText || "");
+        editor.replaceBlocks(editor.document, blocks);
+        setIsLoading(false);
+      }
     }
-    loadInitialContent();
-  }, [editor]);
+    void prepareEditor();
+    return  ()  => {
+      if (provider) {
+        provider.destroy();
+      }
+    };
+  }, []);
 
   return (
     <>

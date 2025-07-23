@@ -80,6 +80,14 @@ module SettingsHelper
     end
   end
 
+  def setting_url_field(setting, options = {})
+    setting_field_wrapper(setting, options) do
+      styled_url_field_tag("settings[#{setting}]",
+                           Setting.send(setting),
+                           disabled_setting_option(setting).merge(options))
+    end
+  end
+
   def setting_number_field(setting, options = {})
     setting_field_wrapper(setting, options) do
       styled_number_field_tag("settings[#{setting}]",

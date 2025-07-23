@@ -1,0 +1,20 @@
+services:
+  hocuspocus:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.hocuspocus.rule=Host(`hocuspocus.local`)"
+      - "traefik.http.routers.hocuspocus.service=hocuspocus-service"
+      - "traefik.http.routers.hocuspocus.tls=true"
+      - "traefik.http.services.hocuspocus-service.loadbalancer.server.port=1234"
+      - "traefik.http.routers.hocuspocus.tls.certresolver=step"
+      # - "traefik.http.serversTransports.insecureTransport.insecureSkipVerify=true"
+      # - "traefik.http.services.my-wss-service.loadBalancer.serversTransport=insecureTransport"
+    networks:
+      - gateway
+networks:
+  gateway:
+    external: true
+    name: gateway

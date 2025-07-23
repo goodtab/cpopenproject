@@ -60,7 +60,8 @@
     "theo": "^8.1.5",
     "ts-node": "~8.3.0",
     "typescript": "5.8.3",
-    "webpack-bundle-analyzer": "^4.4.2"
+    "webpack-bundle-analyzer": "^4.4.2",
+    "wscat": "^6.1.0"
   },
   "dependencies": {
     "@angular/animations": "^20.1.2",
@@ -97,6 +98,7 @@
     "@fullcalendar/resource-timeline": "^6.1.11",
     "@fullcalendar/timegrid": "^6.1.11",
     "@github/webauthn-json": "^2.1.1",
+    "@hocuspocus/provider": "^3.2.0",
     "@hotwired/stimulus": "^3.2.2",
     "@hotwired/turbo": "^8.0.10",
     "@hotwired/turbo-rails": "^8.0.10",

@@ -29,6 +29,12 @@
 #++
 
 module DynamicContentSecurityPolicy
+  extend ActiveSupport::Concern
+
+  included do
+    before_action :add_hocuspocus_host_to_csp
+  end
+
   ##
   # Dynamically append sources to CSP directives
   # This replaces the secure_headers named append functionality
@@ -45,6 +51,18 @@ module DynamicContentSecurityPolicy
 
       policy.send(directive, *new_values)
       request.content_security_policy = policy
+    end
+  end
+
+  private
+
+  def add_hocuspocus_host_to_csp
+    hocuspocus_url = Setting.collaborative_editing_hocuspocus_url
+    if hocuspocus_url.present?
+      uri = URI.parse(hocuspocus_url)
+      base_url = "#{uri.scheme}://#{uri.host}"
+
+      append_content_security_policy_directives(connect_src: [base_url])
     end
   end
 end
