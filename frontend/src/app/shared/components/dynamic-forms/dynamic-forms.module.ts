@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormlyModule } from '@ngx-formly/core';
-import { NgOptionHighlightModule } from '@ng-select/ng-option-highlight';
+import { NgOptionHighlightDirective } from '@ng-select/ng-option-highlight';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   FormsModule,
@@ -59,7 +59,7 @@ import { OpSpotModule } from 'core-app/spot/spot.module';
     // Input dependencies
     FormsModule,
     NgSelectModule,
-    NgOptionHighlightModule,
+    NgOptionHighlightDirective,
     InviteUserButtonModule,
     FormattableControlModule,
   ],

@@ -33,7 +33,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { PortalModule } from '@angular/cdk/portal';
 import { CommonModule } from '@angular/common';
-import { NgOptionHighlightModule } from '@ng-select/ng-option-highlight';
+import { NgOptionHighlightDirective } from '@ng-select/ng-option-highlight';
 import { DragulaModule } from 'ng2-dragula';
 import { DynamicModule } from 'ng-dynamic-component';
 import { UIRouterModule } from '@uirouter/angular';
@@ -114,7 +114,7 @@ export function bootstrapModule(injector:Injector):void {
     CurrentUserModule,
     FormsModule,
     NgSelectModule,
-    NgOptionHighlightModule,
+    NgOptionHighlightDirective,
 
     OpenprojectPrincipalRenderingModule,
     OpenprojectContentLoaderModule,
@@ -139,7 +139,7 @@ export function bootstrapModule(injector:Injector):void {
     IconModule,
     AttributeHelpTextModule,
     FormsModule,
-    NgOptionHighlightModule,
+    NgOptionHighlightDirective,
     OpenprojectPrincipalRenderingModule,
     OpenprojectAutocompleterModule,
     OpenprojectContentLoaderModule,

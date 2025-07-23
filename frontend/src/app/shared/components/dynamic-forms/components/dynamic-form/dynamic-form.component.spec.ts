@@ -1,5 +1,5 @@
 import { NgSelectModule } from '@ng-select/ng-select';
-import { NgOptionHighlightModule } from '@ng-select/ng-option-highlight';
+import { NgOptionHighlightDirective } from '@ng-select/ng-option-highlight';
 import {
   Component,
   forwardRef,
@@ -334,7 +334,7 @@ describe('DynamicFormComponent', () => {
             ],
         }),
         NgSelectModule,
-        NgOptionHighlightModule],
+        NgOptionHighlightDirective],
     providers: [
         DynamicFieldsService,
         { provide: I18nService, useValue: I18nServiceStub },

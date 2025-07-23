@@ -11,7 +11,7 @@ import { DateInputComponent } from 'core-app/shared/components/dynamic-forms/com
 import { FormattableTextareaInputComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-inputs/formattable-textarea-input/formattable-textarea-input.component';
 import { DynamicFieldGroupWrapperComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-field-group-wrapper/dynamic-field-group-wrapper.component';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { NgOptionHighlightModule } from '@ng-select/ng-option-highlight';
+import { NgOptionHighlightDirective } from '@ng-select/ng-option-highlight';
 import { FormlyForm, FormlyModule } from '@ngx-formly/core';
 import { IOPFormlyFieldSettings } from 'core-app/shared/components/dynamic-forms/typings';
 
@@ -107,7 +107,7 @@ export function createDynamicInputFixture(fields:IOPFormlyFieldSettings[], model
           ],
         }),
         NgSelectModule,
-        NgOptionHighlightModule,
+        NgOptionHighlightDirective,
       ],
       declarations: [
         TextInputComponent,

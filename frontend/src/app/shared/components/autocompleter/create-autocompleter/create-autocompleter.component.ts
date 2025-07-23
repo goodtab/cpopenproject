@@ -42,12 +42,13 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { AddTagFn } from '@ng-select/ng-select/lib/ng-select.component';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { Subject } from 'rxjs';
 import { compareByHref } from 'core-app/shared/helpers/angular/tracking-functions';
 import { repositionDropdownBugfix } from 'core-app/shared/components/autocompleter/op-autocompleter/autocompleter.helper';
+
+export type AddTagFn = (term:string) => any | Promise<any>;
 
 export interface CreateAutocompleterValueOption {
   name:string;
