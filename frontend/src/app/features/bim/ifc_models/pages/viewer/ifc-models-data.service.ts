@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { GonService } from 'core-app/core/gon/gon.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { getMetaElement } from 'core-app/core/setup/globals/global-helpers';
 
 export interface IFCPermissionMap {
   manage_ifc_models:boolean;
@@ -19,7 +19,7 @@ export interface IfcModelDefinition {
   default:boolean;
 }
 
-export interface IFCGonDefinition {
+export interface IFCModelData {
   models:IfcModelDefinition[];
   shown_models:number[];
   projects:IfcProjectDefinition[];
@@ -29,22 +29,41 @@ export interface IFCGonDefinition {
 
 @Injectable()
 export class IfcModelsDataService {
-  constructor(
-    readonly paths:PathHelperService,
-    readonly currentProjectService:CurrentProjectService,
-    readonly gon:GonService,
-  ) { }
+  private data:IFCModelData = {
+    models: [],
+    shown_models: [],
+    projects: [],
+    xkt_attachment_ids: {},
+    permissions: {
+      manage_ifc_models: false,
+      manage_bcf: false,
+    },
+  };
+
+  readonly paths = inject(PathHelperService);
+  readonly currentProjectService = inject(CurrentProjectService);
+
+  constructor() {
+    const models = getMetaElement('openproject_ifc_models')?.dataset.models;
+    if (models) {
+      this.data = JSON.parse(models) as IFCModelData;
+    }
+  }
 
   public get models():IfcModelDefinition[] {
-    return this.gonIFC.models;
+    return this.data.models;
   }
 
   public get projects():IfcProjectDefinition[] {
-    return this.gonIFC.projects;
+    return this.data.projects;
+  }
+
+  public get xktAttachmentIds():{ [id:number]:number } {
+    return this.data.xkt_attachment_ids;
   }
 
   public get shownModels():number[] {
-    return this.gonIFC.shown_models;
+    return this.data.shown_models;
   }
 
   public isSingleModel() {
@@ -62,10 +81,6 @@ export class IfcModelsDataService {
   }
 
   public allowed(permission:keyof IFCPermissionMap):boolean {
-    return !!this.gonIFC.permissions[permission];
-  }
-
-  private get gonIFC():IFCGonDefinition {
-    return (this.gon.get('ifc_models') as IFCGonDefinition);
+    return !!this.data.permissions[permission];
   }
 }

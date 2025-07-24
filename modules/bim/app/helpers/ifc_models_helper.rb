@@ -1,8 +1,8 @@
 module IfcModelsHelper
-  def provision_gon_for_ifc_model(all_models, shown_models)
+  def ifc_model_data_object(all_models, shown_models)
     all_converted_models = converted_ifc_models(all_models)
 
-    gon.ifc_models = {
+    {
       models: gon_ifc_model_models(all_converted_models),
       shown_models: gon_ifc_shown_models(all_converted_models, shown_models),
       projects: [{ id: @project.identifier, name: @project.name }],

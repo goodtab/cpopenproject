@@ -37,7 +37,10 @@ import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decora
 import { ViewpointsService } from 'core-app/features/bim/bcf/helper/viewpoints.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { HttpClient } from '@angular/common/http';
-import { IfcProjectDefinition } from 'core-app/features/bim/ifc_models/pages/viewer/ifc-models-data.service';
+import {
+  IfcModelsDataService,
+  IfcProjectDefinition,
+} from 'core-app/features/bim/ifc_models/pages/viewer/ifc-models-data.service';
 import { BIMViewer } from '@xeokit/xeokit-bim-viewer/dist/xeokit-bim-viewer.es';
 import { BcfViewpointData, CreateBcfViewpointData } from 'core-app/features/bim/bcf/api/bcf-api.model';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
@@ -113,6 +116,8 @@ export class IFCViewerService extends ViewerBridgeService {
 
   @InjectField() viewpointsService:ViewpointsService;
 
+  @InjectField() ifcModelsDataService:IfcModelsDataService;
+
   @InjectField() currentProjectService:CurrentProjectService;
 
   @InjectField() httpClient:HttpClient;
@@ -122,7 +127,7 @@ export class IFCViewerService extends ViewerBridgeService {
   }
 
   public newViewer(elements:XeokitElements, projects:IfcProjectDefinition[]):void {
-    const server = new XeokitServer(this.pathHelper);
+    const server = new XeokitServer(this.pathHelper, this.ifcModelsDataService);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     const viewerUI = new BIMViewer(server, elements) as XeokitBimViewer;
 
