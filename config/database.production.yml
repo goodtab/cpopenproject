@@ -27,46 +27,52 @@
 #++
 
 <%
-DATABASE_OPTIONS = %w[
-  url
-  database
-  encoding
-  pool
-  username
-  password
-  passfile
-  sslmode
-  sslcompression
-  sslcert
-  sslkey
-  sslpassword
-  sslrootcert
-  sslcrl
-  ssl_min_protocol_version
-  application_name
-  statement_timeout
-  channel_binding
-  connect_timeout
-  client_encoding
-  keepalives
-  keepalives_idle
-  keepalives_interval
-  keepalives_count
-  gssencmode
-  replication
-].freeze
+unless defined?(DATABASE_OPTIONS)
+  DATABASE_OPTIONS = %w[
+    url
+    database
+    encoding
+    pool
+    username
+    password
+    passfile
+    sslmode
+    sslcompression
+    sslcert
+    sslkey
+    sslpassword
+    sslrootcert
+    sslcrl
+    ssl_min_protocol_version
+    application_name
+    statement_timeout
+    channel_binding
+    connect_timeout
+    client_encoding
+    keepalives
+    keepalives_idle
+    keepalives_interval
+    keepalives_count
+    gssencmode
+    replication
+  ].freeze
+end
 
-DATABASE_VARIABLES = %w[
-  statement_timeout
-]
+unless defined?(DATABASE_VARIABLES)
+  DATABASE_VARIABLES = %w[
+    statement_timeout
+  ]
+end
 
-DATABASE_DEFAULTS = {
-  # Fallback to unprefixed DATABASE_URL if present
-  'url' => ENV['DATABASE_URL'],
-  'statement_timeout' => ENV.fetch("POSTGRES_STATEMENT_TIMEOUT", "90s"),
-  'encoding' => 'unicode',
-  'application_name' => 'openproject',
-}.freeze
+unless defined?(DATABASE_DEFAULTS)
+  DATABASE_DEFAULTS = {
+    # Fallback to unprefixed DATABASE_URL if present
+    'url' => ENV['DATABASE_URL'],
+    'statement_timeout' => ENV.fetch("POSTGRES_STATEMENT_TIMEOUT", "90s"),
+    'encoding' => 'unicode',
+    'application_name' => 'openproject',
+  }.freeze
+end
 %>
 
 production:
