@@ -40,7 +40,83 @@ module Storages
             let(:user) { create(:admin) }
             let(:storage) { create(:share_point_storage, oauth_client_token_user: user) }
 
+            let(:auth_strategy) { Registry["share_point.authentication.userless"].call(false) }
+            let(:input_data) { Input::Files.build(folder:).value! }
+
             it_behaves_like "adapter files_query: basic query setup"
+
+            context "when parent folder is root, return a list of drives", vcr: "share_point/files_query_root" do
+              let(:folder) { "/" }
+              let(:files_result) do
+                Results::StorageFileCollection.new(
+                  files: [
+                    Results::StorageFile.new(
+                      id: "b!FeOZEMfQx0eGQKqVBLcP__BG8mq-4-9FuRqOyk3MXY8Qconfm2i6SKEoCmuGYqQK",
+                      name: "OpenProject",
+                      mime_type: "application/x-op-drive",
+                      location: "/drives/b!FeOZEMfQx0eGQKqVBLcP__BG8mq-4-9FuRqOyk3MXY8Qconfm2i6SKEoCmuGYqQK",
+                      permissions: %i[readable writeable]
+                    ),
+                    Results::StorageFile.new(
+                      id: "b!FeOZEMfQx0eGQKqVBLcP__BG8mq-4-9FuRqOyk3MXY87vnZ6fgfvQanZHX-XCAyw",
+                      name: "Shared Documents",
+                      mime_type: "application/x-op-drive",
+                      location: "/drives/b!FeOZEMfQx0eGQKqVBLcP__BG8mq-4-9FuRqOyk3MXY87vnZ6fgfvQanZHX-XCAyw",
+                      permissions: %i[readable writeable]
+                    ),
+                    Results::StorageFile.new(
+                      id: "b!FeOZEMfQx0eGQKqVBLcP__BG8mq-4-9FuRqOyk3MXY8Pmdpc8mQ1QJkyIbbWQJol",
+                      name: "Selected Permissions",
+                      mime_type: "application/x-op-drive",
+                      location: "/drives/b!FeOZEMfQx0eGQKqVBLcP__BG8mq-4-9FuRqOyk3MXY8Pmdpc8mQ1QJkyIbbWQJol",
+                      permissions: %i[readable writeable]
+                    ),
+                    Results::StorageFile.new(
+                      id: "b!FeOZEMfQx0eGQKqVBLcP__BG8mq-4-9FuRqOyk3MXY_YoKf1JPvYSJeFRsyx4zF_",
+                      name: "Chris document library",
+                      mime_type: "application/x-op-drive",
+                      location: "/drives/b!FeOZEMfQx0eGQKqVBLcP__BG8mq-4-9FuRqOyk3MXY_YoKf1JPvYSJeFRsyx4zF_",
+                      permissions: %i[readable writeable]
+                    ),
+                    Results::StorageFile.new(
+                      id: "b!FeOZEMfQx0eGQKqVBLcP__BG8mq-4-9FuRqOyk3MXY8CfNaHr_0ERYs5kgmEWFrX",
+                      name: "Marcello AMPF",
+                      mime_type: "application/x-op-drive",
+                      location: "/drives/b!FeOZEMfQx0eGQKqVBLcP__BG8mq-4-9FuRqOyk3MXY8CfNaHr_0ERYs5kgmEWFrX",
+                      permissions: %i[readable writeable]
+                    ),
+                    Results::StorageFile.new(
+                      id: "b!FeOZEMfQx0eGQKqVBLcP__BG8mq-4-9FuRqOyk3MXY8opHtYeMANTahXlS54FgHn",
+                      name: "Dominic",
+                      mime_type: "application/x-op-drive",
+                      location: "/drives/b!FeOZEMfQx0eGQKqVBLcP__BG8mq-4-9FuRqOyk3MXY8opHtYeMANTahXlS54FgHn",
+                      permissions: %i[readable writeable]
+                    ),
+                    Results::StorageFile.new(
+                      id: "b!FeOZEMfQx0eGQKqVBLcP__BG8mq-4-9FuRqOyk3MXY93AQ5rgPKoR7tMwpspgj95",
+                      name: "Markus",
+                      mime_type: "application/x-op-drive",
+                      location: "/drives/b!FeOZEMfQx0eGQKqVBLcP__BG8mq-4-9FuRqOyk3MXY93AQ5rgPKoR7tMwpspgj95",
+                      permissions: %i[readable writeable]
+                    ),
+                    Results::StorageFile.new(
+                      id: "b!FeOZEMfQx0eGQKqVBLcP__BG8mq-4-9FuRqOyk3MXY9jo6leJDqrT7muzvmiWjFW",
+                      name: "Marcello VCR",
+                      mime_type: "application/x-op-drive",
+                      location: "/drives/b!FeOZEMfQx0eGQKqVBLcP__BG8mq-4-9FuRqOyk3MXY9jo6leJDqrT7muzvmiWjFW",
+                      permissions: %i[readable writeable]
+                    )
+                  ],
+                  parent: Results::StorageFile.new(id: "1269877d26360587caf07834bc72ee3ad3c3698f1651bf85d8562e7fda19aa0f",
+                                                   name: "OPTest",
+                                                   location: "/",
+                                                   permissions: %i[readable writeable]),
+                  ancestors: []
+                )
+              end
+
+              it_behaves_like "adapter files_query: successful files response"
+            end
           end
         end
       end

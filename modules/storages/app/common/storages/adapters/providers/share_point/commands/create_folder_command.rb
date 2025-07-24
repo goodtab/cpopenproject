@@ -32,30 +32,29 @@ module Storages
   module Adapters
     module Providers
       module SharePoint
-        module Queries
-          class FilesQuery < Base
-            def call(auth_strategy:, **)
-              Authentication[auth_strategy].call(storage: @storage) do |http|
-                Internal::ListsQuery.call(storage: @storage, http:).bind { build_collection(it) }
+        module Commands
+          class CreateFolderCommand < Base
+            # @param auth_strategy [Result(Input::Strategy)]
+            # @param input_data [Input::CreateFolder]
+            def call(auth_strategy:, input_data:)
+              Authentication[auth_strategy].call(storage: @storage) do |_http|
+                # Input data has: folder name, parent_location
+                # Parent Location here need to be eiter a Drive
+                #   Or a pair of Drive + Parent Folder
+                Rails.logger.debug request_uri(**drive_and_location(input_data.parent_location))
               end
             end
 
             private
 
-            def build_collection(files)
-              Results::StorageFileCollection.build(
-                files:,
-                parent: root(Digest::SHA256.hexdigest("i_am_site_root")),
-                ancestors: []
-              )
-            end
+            def request_uri(drive_id:, location:)
+              last_fragment = if location.root?
+                                ["/root/children"]
+                              else
+                                ["/items", parent_location.path, "/children"]
+                              end
 
-            def root(id)
-              Results::StorageFile.new(
-                name: URI(@storage.host).path&.split("/")&.last,
-                location: "/", id:,
-                permissions: %i[readable writeable]
-              )
+              UrlBuilder.url(base_uri, "/drives/", drive_id, *last_fragment)
             end
           end
         end

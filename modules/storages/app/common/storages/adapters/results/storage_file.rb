@@ -65,6 +65,10 @@ module Storages
         def folder?
           mime_type.present? && mime_type == "application/x-op-directory"
         end
+
+        def drive?
+          mime_type.present? && mime_type == "application/x-op-drive"
+        end
       end
     end
   end

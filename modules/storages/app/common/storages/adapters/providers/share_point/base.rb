@@ -49,9 +49,7 @@ module Storages
             @storage = storage
           end
 
-          def base_uri
-            UrlBuilder.url(@storage.uri, "/v1.0")
-          end
+          def base_uri = @storage.uri
 
           private
 

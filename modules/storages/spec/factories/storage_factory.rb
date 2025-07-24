@@ -241,7 +241,8 @@ FactoryBot.define do
 
 
   factory :share_point_dev_storage, parent: :storage, class: "::Storages::SharePointStorage" do
-    tenant_id { ENV.fetch("ONE_DRIVE_TEST_TENANT_ID", "MISSING_SHAREPOINT_TENANT_ID") }
+    tenant_id { ENV.fetch("SHARE_POINT_TEST_TENANT_ID", "MISSING_SHAREPOINT_TENANT_ID") }
+    host { ENV.fetch("SHARE_POINT_TEST_HOST", "MISSING_SHARE_POINT_HOST") }
 
     transient do
       oauth_client_token_user { association :user }
@@ -249,7 +250,7 @@ FactoryBot.define do
 
     after(:create) do |storage, evaluator|
       create(:oauth_client,
-             client_id: ENV.fetch("SHARE_POINT_OAUTH_CLIENT_ID", "MISSING_SHARE_POINT_TEST_OAUTH_CLIENT_ID"),
+             client_id: ENV.fetch("SHARE_POINT_TEST_OAUTH_CLIENT_ID", "MISSING_SHARE_POINT_TEST_OAUTH_CLIENT_ID"),
              client_secret: ENV.fetch("SHARE_POINT_TEST_OAUTH_CLIENT_SECRET", "MISSING_SHARE_POINT_TEST_OAUTH_CLIENT_SECRET"),
              integration: storage)
 
