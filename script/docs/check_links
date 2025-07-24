@@ -229,8 +229,13 @@ class DocsChecker
   end
 
   def extract_urls(nested_links)
-    nested_links.values.map do |h|
-      next h[:href] if h.key?(:href)
+    nested_links.values.flat_map do |h|
+      if h.key?(:href)
+        link = h[:href]
+        next link if link.is_a?(String)
+
+        next link.values
+      end
 
       extract_urls(h)
     end.flatten

@@ -47,7 +47,11 @@ module OpenProject
         end
 
         def url_for(*items)
-          links.dig(*items, :href)
+          link = links.dig(*items, :href)
+          return link if link.is_a?(String)
+          return nil if link.nil?
+
+          link[I18n.locale] || link[:default]
         end
 
         def has?(name)

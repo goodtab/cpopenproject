@@ -38,7 +38,9 @@ docker_installation:
   label: Docker installation
 enterprise_features:
   attribute_highlighting:
-    href: https://www.openproject.org/docs/user-guide/work-packages/work-package-table-configuration/#attribute-highlighting-enterprise-add-on
+    href:
+      de: https://www.openproject.org/de/docs/nutzungshandbuch/arbeitspakete/arbeitspaket-tabellen-konfiguration/#attribute-hervorheben-enterprise-add-on
+      default: https://www.openproject.org/docs/user-guide/work-packages/work-package-table-configuration/#attribute-highlighting-enterprise-add-on
   board_view:
     href: https://www.openproject.org/docs/user-guide/agile-boards/#action-boards-enterprise-add-on
   boards:

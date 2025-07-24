@@ -116,7 +116,13 @@ module Redmine
       translation = ::I18n.t(i18n_key.to_s, locale:)
       result = translation.scan(link_regex).inject(translation) do |t, matches|
         link, text, key = matches
-        href = String(links[key.to_sym])
+        link_reference = links[key.to_sym]
+        href = case link_reference
+               when Array
+                 OpenProject::Static::Links.url_for(*link_reference)
+               else
+                 String(link_reference)
+               end
         link_tag = render(Primer::Beta::Link.new(href:, target:)) { text }
 
         t.sub(link, link_tag)

@@ -114,8 +114,8 @@ module EnterpriseEdition
     end
 
     def enterprise_link
-      href_value = OpenProject::Static::Links.links.dig(:enterprise_features, feature_key, :href)
-      default_value = OpenProject::Static::Links.links.dig(:enterprise_features, :default, :href)
+      href_value = OpenProject::Static::Links.url_for(:enterprise_features, feature_key)
+      default_value = OpenProject::Static::Links.url_for(:enterprise_features, :default)
 
       href_value || default_value
     end
