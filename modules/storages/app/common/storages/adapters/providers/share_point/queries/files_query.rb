@@ -29,41 +29,14 @@
 #++
 
 module Storages
-  class SharePointStorage < Storage
-    IDENTIFIER_SEPARATOR = "||"
-
-    # For now SharePoint is visible only in tests.
-    # This is to prevent it from being shown in the UI, as it is not ready yet.
-    def self.visible?
-      Rails.env.test?
-    end
-
-    store_attribute :provider_fields, :tenant_id, :string
-
-    def self.short_provider_name = :share_point
-    def audience = nil
-
-    def authenticate_via_idp? = false
-
-    def authenticate_via_storage? = true
-
-    def available_project_folder_modes
-      if automatic_management_enabled?
-        ProjectStorage.project_folder_modes.keys
-      else
-        %w[inactive manual]
+  module Adapters
+    module Providers
+      module SharePoint
+        module Queries
+          class FilesQuery < Base
+          end
+        end
       end
     end
-
-    def uri
-      @uri ||= URI("https://graph.microsoft.com").normalize
-    end
-
-    def oauth_configuration = Adapters::Providers::SharePoint::OAuthConfiguration.new(self)
-
-    # To implement
-    # configuration_checks
-    # automatic_management_new_record?
-    # provider_fields_defaults
   end
 end

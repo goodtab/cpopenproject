@@ -41,6 +41,11 @@ module Storages
           namespace("contracts") do
             register(:storage, SharePointContract)
           end
+
+          namespace("queries") do
+            register(:files, Queries::FilesQuery)
+            register(:user, OneDrive::Queries::UserQuery)
+          end
         end
       end
     end
