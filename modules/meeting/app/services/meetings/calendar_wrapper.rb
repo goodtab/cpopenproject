@@ -88,6 +88,32 @@ module Meetings
       add_instantiated_occurences(recurring_meeting: recurring_meeting)
     end
 
+    def add_single_recurring_occurence(scheduled_meeting:) # rubocop:disable Metrics/AbcSize
+      recurring_meeting = scheduled_meeting.recurring_meeting
+      meeting = scheduled_meeting.meeting
+
+      calendar.event do |e|
+        e.uid = recurring_meeting.uid
+        e.summary = "[#{recurring_meeting.project.name}] #{recurring_meeting.title}"
+        e.description = "[#{recurring_meeting.project.name}] #{I18n.t(:label_meeting_series)}: #{recurring_meeting.title}"
+        e.organizer = ical_organizer
+
+        e.recurrence_id = ical_datetime(scheduled_meeting.start_time)
+        e.dtstart = ical_datetime(meeting.start_time)
+        e.dtend = ical_datetime(meeting.end_time)
+        e.url = url_helpers.project_meeting_url(meeting.project, meeting)
+        e.location = meeting.location.presence
+        e.sequence = meeting.lock_version
+
+        add_attendees(event: e, meeting: meeting)
+        e.status = if scheduled_meeting.cancelled?
+                     "CANCELLED"
+                   else
+                     "CONFIRMED"
+                   end
+      end
+    end
+
     def update_calendar_status(cancelled:)
       if cancelled
         calendar.cancel
@@ -158,33 +184,7 @@ module Meetings
     # Methods for recurrence meetings
     def add_instantiated_occurences(recurring_meeting:)
       upcoming_instantiated_schedules(recurring_meeting).find_each do |scheduled_meeting|
-        add_occurence(scheduled_meeting:)
-      end
-    end
-
-    def add_occurence(scheduled_meeting:) # rubocop:disable Metrics/AbcSize
-      recurring_meeting = scheduled_meeting.recurring_meeting
-      meeting = scheduled_meeting.meeting
-
-      calendar.event do |e|
-        e.uid = recurring_meeting.uid
-        e.summary = "[#{recurring_meeting.project.name}] #{recurring_meeting.title}"
-        e.description = "[#{recurring_meeting.project.name}] #{I18n.t(:label_meeting_series)}: #{recurring_meeting.title}"
-        e.organizer = ical_organizer
-
-        e.recurrence_id = ical_datetime(scheduled_meeting.start_time)
-        e.dtstart = ical_datetime(meeting.start_time)
-        e.dtend = ical_datetime(meeting.end_time)
-        e.url = url_helpers.project_meeting_url(meeting.project, meeting)
-        e.location = meeting.location.presence
-        e.sequence = meeting.lock_version
-
-        add_attendees(event: e, meeting: meeting)
-        e.status = if scheduled_meeting.cancelled?
-                     "CANCELLED"
-                   else
-                     "CONFIRMED"
-                   end
+        add_single_recurring_occurence(scheduled_meeting:)
       end
     end
 
