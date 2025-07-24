@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,13 +27,10 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require "icalendar"
-require "icalendar/tzinfo"
 
 module Meetings
   class ICalService
-    include ICalHelpers
-    attr_reader :user, :meeting, :timezone, :url_helpers
+    attr_reader :user, :meeting, :url_helpers
 
     def initialize(meeting:, user:)
       @user = user
@@ -42,39 +40,15 @@ module Meetings
 
     def call(cancelled: false)
       User.execute_as(user) do
-        @timezone = Time.zone || Time.zone_default
-        ServiceResult.success(result: generate_ical(cancelled:))
+        calendar = Meetings::CalendarWrapper.new(timezone: Time.zone || Time.zone_default)
+        calendar.add_single_meeting_event(meeting:, cancelled:)
+        calendar.update_calendar_status(cancelled:)
+
+        ServiceResult.success(result: calendar.to_ical)
       end
     rescue StandardError => e
       Rails.logger.error("Failed to generate ICS for meeting #{@meeting.id}: #{e.message}")
       ServiceResult.failure(message: e.message)
-    end
-
-    private
-
-    # rubocop:disable Metrics/AbcSize
-    def generate_ical(cancelled:)
-      ical_event(meeting.start_time, cancelled:) do |e|
-        tzinfo = timezone.tzinfo
-        tzid = tzinfo.canonical_identifier
-
-        e.dtstart = ical_datetime meeting.start_time, tzid
-        e.dtend = ical_datetime meeting.end_time, tzid
-        e.url = url_helpers.meeting_url(meeting)
-        e.summary = "[#{meeting.project.name}] #{meeting.title}"
-        e.description = ical_subject
-        e.uid = meeting.uid
-        e.organizer = ical_organizer
-        e.location = meeting.location.presence
-
-        set_status(cancelled, e)
-        add_attendees(e, meeting)
-      end
-    end
-    # rubocop:enable Metrics/AbcSize
-
-    def ical_subject
-      "[#{meeting.project.name}] #{I18n.t(:label_meeting)}: #{meeting.title}"
     end
   end
 end

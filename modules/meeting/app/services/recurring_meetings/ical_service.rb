@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,140 +27,31 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require "icalendar"
-require "icalendar/tzinfo"
 
 module RecurringMeetings
   class ICalService
-    include ::Meetings::ICalHelpers
     attr_reader :user,
-                :series,
-                :schedule,
-                :timezone,
-                :calendar,
-                :url_helpers
+                :series
 
     delegate :template, to: :series
 
     def initialize(series:, user:)
       @user = user
       @series = series
-      @schedule = series.schedule
-      @url_helpers = OpenProject::StaticRouting::StaticUrlHelpers.new
     end
 
-    def generate_series(cancelled: false)
-      ical_result(series) do
-        series_event(cancelled:)
-        occurrences_events
-        calendar_status(cancelled:)
+    def generate_series(cancelled: false) # rubocop:disable Metrics/AbcSize
+      User.execute_as(user) do
+        calendar = Meetings::CalendarWrapper.new(timezone: Time.zone || Time.zone_default)
+        calendar.add_series_event(recurring_meeting: series, cancelled:)
+
+        calendar.update_calendar_status(cancelled:)
+
+        ServiceResult.success(result: calendar.to_ical)
       end
     rescue StandardError => e
       Rails.logger.error("Failed to generate ICS for meeting series #{series.id}: #{e.message}")
       ServiceResult.failure(message: e.message)
-    end
-
-    def generate_occurrence(meeting, cancelled: false)
-      # Get the time the meeting was scheduled to take place
-      scheduled_meeting = meeting.scheduled_meeting
-      ical_result(scheduled_meeting) do
-        occurrence_event(scheduled_meeting.start_time, meeting, cancelled:)
-        calendar_status(cancelled:)
-      end
-    rescue StandardError => e
-      Rails.logger.error("Failed to generate ICS for meeting #{meeting.id}: #{e.message}")
-      ServiceResult.failure(message: e.message)
-    end
-
-    private
-
-    def calendar_status(cancelled:)
-      if cancelled
-        calendar.cancel
-      else
-        calendar.request
-      end
-    end
-
-    def ical_result(meeting)
-      User.execute_as(user) do
-        @timezone = Time.zone || Time.zone_default
-        @calendar = build_icalendar(meeting.start_time)
-
-        yield
-
-        ServiceResult.success(result: calendar.to_ical)
-      end
-    end
-
-    def tzinfo
-      timezone.tzinfo
-    end
-
-    def tzid
-      tzinfo.canonical_identifier
-    end
-
-    def series_event(cancelled:) # rubocop:disable Metrics/AbcSize
-      calendar.event do |e|
-        base_series_attributes(e)
-
-        e.rrule = schedule.rrules.first.to_ical # We currently only have one recurrence rule
-        e.dtstart = ical_datetime template.start_time, tzid
-        e.dtend = ical_datetime template.end_time, tzid
-        e.url = url_helpers.project_recurring_meeting_url(series.project, series)
-        e.location = template.location.presence
-
-        add_attendees(e, template)
-        e.exdate = cancelled_schedules
-
-        set_status(cancelled, e)
-      end
-    end
-
-    def occurrences_events
-      upcoming_instantiated_schedules.find_each do |schedule|
-        occurrence_event(schedule.start_time, schedule.meeting, cancelled: false)
-      end
-    end
-
-    def occurrence_event(schedule_start_time, meeting, cancelled:) # rubocop:disable Metrics/AbcSize
-      calendar.event do |e|
-        base_series_attributes(e)
-
-        e.recurrence_id = ical_datetime schedule_start_time, tzid
-        e.dtstart = ical_datetime meeting.start_time, tzid
-        e.dtend = ical_datetime meeting.end_time, tzid
-        e.url = url_helpers.project_meeting_url(meeting.project, meeting)
-        e.location = meeting.location.presence
-        e.sequence = meeting.lock_version
-
-        add_attendees(e, meeting)
-        set_status(cancelled, e)
-      end
-    end
-
-    def upcoming_instantiated_schedules
-      series
-        .scheduled_meetings
-        .not_cancelled
-        .instantiated
-        .includes(:meeting)
-    end
-
-    def base_series_attributes(event) # rubocop:disable Metrics/AbcSize
-      event.uid = series.uid
-      event.summary = "[#{series.project.name}] #{series.title}"
-      event.description = "[#{series.project.name}] #{I18n.t(:label_meeting_series)}: #{series.title}"
-      event.organizer = ical_organizer
-    end
-
-    def cancelled_schedules
-      series
-        .scheduled_meetings
-        .cancelled
-        .pluck(:start_time)
-        .map { |time| Icalendar::Values::DateTime.new time.in_time_zone(tzid), "tzid" => tzid }
     end
   end
 end

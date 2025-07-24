@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -67,7 +68,7 @@ RSpec.describe Meetings::ICalService, type: :model do # rubocop:disable RSpec/Sp
       subject { service.call }
 
       before do
-        allow(service).to receive(:generate_ical).and_raise StandardError.new("Oh noes")
+        allow(Meetings::CalendarWrapper).to receive(:new).and_raise StandardError.new("Oh noes")
       end
 
       it "returns a failure" do

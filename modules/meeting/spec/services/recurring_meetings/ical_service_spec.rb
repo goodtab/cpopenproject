@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -28,6 +29,7 @@
 #++
 
 require "spec_helper"
+require "icalendar"
 
 RSpec.describe RecurringMeetings::ICalService, type: :model do # rubocop:disable RSpec/SpecFilePathFormat
   shared_let(:user) do
@@ -166,19 +168,6 @@ RSpec.describe RecurringMeetings::ICalService, type: :model do # rubocop:disable
       expect(moved).to include("DTSTART;TZID=America/New_York:20241216T063000")
       expect(moved).to include("DTEND;TZID=America/New_York:20241216T073000")
       expect(moved).to include("URL:http://#{Setting.host_name}/projects/my-project/meetings/#{moved_schedule.meeting_id}")
-    end
-
-    context "when passing a specific occurrence" do
-      let(:result) { service.generate_occurrence(schedule.meeting).result }
-
-      it "creates the specific event when requested" do
-        expect(parsed_events.count).to eq(1)
-        occurrence = parsed_events.first.to_ical
-
-        expect(occurrence).to include("DTSTART;TZID=America/New_York:20241208T050000")
-        expect(occurrence).to include("DTEND;TZID=America/New_York:20241208T060000")
-        expect(occurrence).to include("URL:http://#{Setting.host_name}/projects/my-project/meetings/#{schedule.meeting_id}")
-      end
     end
   end
 end
