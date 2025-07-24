@@ -202,8 +202,8 @@ module OpenProject
         translated = link_translate :translation_with_a_link, links: urls
 
         expect(translated).to eq(
-          "There is a <a href=\"http://openproject.com/foobar\">link</a> in this translation!" +
-          " Maybe even <a href=\"/baz\">two</a>?"
+          'There is a <a href="http://openproject.com/foobar" data-view-component="true" class="Link">link</a> in this' +
+          ' translation! Maybe even <a href="/baz" data-view-component="true" class="Link">two</a>?'
         )
       end
 
@@ -214,9 +214,10 @@ module OpenProject
           translated = link_translate(:translation_with_a_link, links: urls, locale:)
 
           expect(translated).to eq(
-            "There is a <a href=\"http://openproject.com/foobar\">link</a> in this translation!" +
-            " Maybe even <a href=\"/baz\">two</a>?"
+            'There is a <a href="http://openproject.com/foobar" data-view-component="true" class="Link">link</a> in this' +
+            ' translation! Maybe even <a href="/baz" data-view-component="true" class="Link">two</a>?'
           )
+          expect(I18n).to have_received(:t).with(anything, locale:)
         end
       end
     end

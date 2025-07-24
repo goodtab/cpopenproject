@@ -117,7 +117,7 @@ module Redmine
       result = translation.scan(link_regex).inject(translation) do |t, matches|
         link, text, key = matches
         href = String(links[key.to_sym])
-        link_tag = content_tag(:a, text, href:, target:)
+        link_tag = render(Primer::Beta::Link.new(href:, target:)) { text }
 
         t.sub(link, link_tag)
       end

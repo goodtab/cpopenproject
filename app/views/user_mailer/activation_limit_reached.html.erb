@@ -38,10 +38,10 @@ See COPYRIGHT and LICENSE files for more details.
     <span><%= t("mail_user_activation_limit_reached.steps.label") %></span>
     <ul>
         <li>
-            <%= link_translate("mail_user_activation_limit_reached.steps.a", links: { upgrade_url: OpenProject::Enterprise.upgrade_url }).html_safe %>
+            <%= link_translate("mail_user_activation_limit_reached.steps.a", links: { upgrade_url: OpenProject::Enterprise.upgrade_url }) %>
         </li>
         <li>
-            <%= link_translate("mail_user_activation_limit_reached.steps.b", links: { users_url: users_url }).html_safe %>
+            <%= link_translate("mail_user_activation_limit_reached.steps.b", links: { users_url: users_url }) %>
         </li>
     </ul>
 </p>
