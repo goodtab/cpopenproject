@@ -30,6 +30,8 @@
 
 module WorkPackageTypes
   class SubjectConfigurationForm < ApplicationForm
+    include Redmine::I18n
+
     form do |subject_form|
       subject_form.radio_button_group(name: :subject_configuration) do |group|
         group.radio_button(
@@ -84,17 +86,9 @@ module WorkPackageTypes
     end
 
     def pattern_input_caption
-      I18n.t(
-        "types.edit.subject_configuration.pattern.caption_with_supported_attributes_link",
-        link: make_link(
-          ::OpenProject::Static::Links.url_for(:enterprise_features, :work_package_subject_generation),
-          I18n.t("types.edit.subject_configuration.pattern.supported_attributes_link")
-        )
-      ).html_safe
-    end
-
-    def make_link(href, link_text)
-      render(Primer::Beta::Link.new(href:, target: "_blank", underline: true)) { link_text }
+      link_translate("types.edit.subject_configuration.pattern.caption", links: {
+                       attributes_url: ::OpenProject::Static::Links.url_for(:enterprise_features, :work_package_subject_generation)
+                     })
     end
   end
 end

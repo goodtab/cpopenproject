@@ -30,6 +30,8 @@
 
 module ScimClients
   class Form < ApplicationForm
+    include Redmine::I18n
+
     form do |client_form|
       client_form.text_field(
         name: :name,
@@ -79,8 +81,9 @@ module ScimClients
           name: :jwt_sub,
           label: ScimClient.human_attribute_name(:jwt_sub),
           required: true,
-          caption: I18n.t("admin.scim_clients.form.jwt_sub_description_html",
-                          docs_url: ::OpenProject::Static::Links.url_for(:sysadmin_docs, :scim_jwt_authetication_method)).html_safe,
+          caption: link_translate("admin.scim_clients.form.jwt_sub_description", links: {
+                                    docs_url: ::OpenProject::Static::Links.url_for(:sysadmin_docs, :scim_jwt_authetication_method)
+                                  }),
           input_width: :large
         )
       end
