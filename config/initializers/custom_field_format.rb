@@ -97,5 +97,6 @@ OpenProject::CustomFieldFormat.map do |fields|
                                                      order: 13,
                                                      enabled: lambda do
                                                        OpenProject::FeatureDecisions.calculated_value_project_attribute_active?
-                                                     end)
+                                                     end,
+                                                     formatter: "CustomValue::CalculatedValueStrategy")
 end
