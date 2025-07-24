@@ -281,20 +281,33 @@ en:
         label: Footer text
         caption: This text will appear on every page on the right of the footer.
       submit_button: Download
-    notifications_dialog:
-      title:
-        enable: "Enable email calendar updates?"
-        mute: "Mute email calendar updates?"
-      message:
-        enable: >
-          All participants will receive updated calendar invites via email informing them of changes to the meeting.
-          One will be sent immediately now.
-        mute: >
-          Participants will no longer receive updated calendar invites via email with changes to the meeting. 
-          If they already had an invite for this meeting, it might no longer be accurate.
-      confirm_label:
-        enable: "Enable email updates"
-        mute: "Mute email updates"
+    notifications:
+      sidepanel:
+        title: "Email calendar updates"
+        state:
+          disabled: "Disabled."
+          enabled: "Enabled."
+        description:
+          disabled: "Participants will not receive an email informing them of changes."
+          enabled: "All participants will receive updated calendar invites via email informing them of changes."
+          change_via_template: "To change this, edit the series template."
+        button:
+          disable: "Disable"
+          enable: "Enable"
+      dialog:
+        title:
+          enable: "Enable email calendar updates?"
+          mute: "Mute email calendar updates?"
+        message:
+          enable: >
+            All participants will receive updated calendar invites via email informing them of changes to the meeting.
+            One will be sent immediately now.
+          mute: >
+            Participants will no longer receive updated calendar invites via email with changes to the meeting. 
+            If they already had an invite for this meeting, it might no longer be accurate.
+        confirm_label:
+          enable: "Enable email updates"
+          mute: "Mute email updates"
 
   meeting_section:
     untitled_title: "Untitled section"
@@ -546,11 +559,4 @@ en:
 
   text_email_updates_muted: "Email calendar updates are muted. Participants will not receive updated invites via email when you make changes."
   text_email_updates_enabled: "Email calendar updates are enabled. All participants will receive updated invites via email when you make changes."
-
-  label_send_email_updates: "Send email calendar updates"
-  label_mute: "Mute"
-  label_enable: "Enable"
-  label_status_muted: "muted"
-  label_status_enabled: "enabled"
-
 

@@ -43,13 +43,32 @@ module Meetings
 
     private
 
-    def title
-      @meeting.notify? ? I18n.t("label_mute") : I18n.t("label_enable")
+    def key
+      @key ||= @meeting.notify? ? "enabled" : "disabled"
+    end
+
+    def state
+      I18n.t("meeting.notifications.sidepanel.state.#{key}")
+    end
+
+    def description
+      I18n.t("meeting.notifications.sidepanel.description.#{key}")
+    end
+
+    def additional_text
+      I18n.t("meeting.notifications.sidepanel.description.change_via_template")
+    end
+
+    def button_label
+      label_key = @meeting.notify? ? "disable" : "enable"
+      I18n.t("meeting.notifications.sidepanel.button.#{label_key}")
+    end
+
+    def button_icon
+      @meeting.notify? ? :"bell-slash" : :bell
     end
 
     def show_button?
-      return false unless @meeting.editable?
-
       !@meeting.recurring? || @meeting.templated?
     end
   end

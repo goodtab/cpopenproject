@@ -29,43 +29,32 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%=
   component_wrapper do
-    render(Primer::OpenProject::FlexLayout.new) do |flex|
-      flex.with_row do
-        render(Primer::OpenProject::FlexLayout.new(align_items: :center)) do |row|
-          row.with_column do
-            render(Primer::Beta::Heading.new(tag: :h5)) { I18n.t("label_send_email_updates") }
-          end
+    render(Primer::OpenProject::SidePanel::Section.new) do |section|
+      section.with_title { I18n.t("meeting.notifications.sidepanel.title") }
 
-          row.with_column(ml: 2) do
-            if @meeting.notify?
-              concat(
-                render(Primer::Beta::Text.new(color: :success, font_size: :small)) do
-                  I18n.t("label_status_enabled")
-                end
-              )
-            else
-              concat(
-                render(Primer::Beta::Text.new(color: :danger, font_size: :small)) do
-                  I18n.t("label_status_muted")
-                end
-              )
-            end
-          end
+      if show_button?
+        section.with_footer_button(
+          color: :accent,
+          tag: :a,
+          href: toggle_notifications_dialog_project_meeting_path(@project, @meeting),
+          classes: "hide-when-print",
+          data: { "turbo-stream": true }
+        ) do |button|
+          button.with_leading_visual_icon(icon: button_icon)
+          button_label
         end
       end
 
-      if show_button?
-        flex.with_row(mt: 2) do
-          render(
-            Primer::Beta::Button.new(
-              scheme: :default,
-              block: true,
-              tag: :a,
-              href: toggle_notifications_dialog_project_meeting_path(@project, @meeting),
-              title: I18n.t("label_send_email_updates"),
-              data: { "turbo-stream": true }
-            )
-          ) { title }
+      flex_layout do |flex|
+        flex.with_row do
+          concat(render(Primer::Beta::Text.new(font_weight: :semibold)) { "#{state} " })
+          concat(render(Primer::Beta::Text.new) { description })
+        end
+
+        unless show_button?
+          flex.with_row(mt: 2) do
+            render(Primer::Beta::Text.new) { additional_text }
+          end
         end
       end
     end

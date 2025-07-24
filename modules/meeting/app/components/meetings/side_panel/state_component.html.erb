@@ -16,6 +16,7 @@
 
           if edit_enabled?
             section.with_footer_button(
+              color: :accent,
               tag: :a,
               href: href("in_progress"),
               classes: "hide-when-print",
@@ -40,7 +41,9 @@
 
           if edit_enabled?
             section.with_footer_button(
+              color: :accent,
               tag: :a,
+              scheme: :link,
               href: href("open"),
               classes: "hide-when-print",
               data: button_data_attributes(href("open"))
@@ -63,7 +66,9 @@
 
           if edit_enabled?
             section.with_footer_button(
+              color: :accent,
               tag: :a,
+              scheme: :link,
               href: href("closed"),
               classes: "hide-when-print",
               test_selector: "close-meeting-button",

@@ -3,7 +3,9 @@
     render(Primer::OpenProject::SidePanel.new) do |panel|
       panel.with_section(Meetings::SidePanel::DetailsComponent.new(meeting: @meeting))
 
-      panel.with_section(Meetings::SidePanel::NotificationsButtonComponent.new(meeting: @meeting))
+      if @meeting.editable?
+        panel.with_section(Meetings::SidePanel::NotificationsButtonComponent.new(meeting: @meeting))
+      end
 
       unless @meeting.template?
         panel.with_section(Meetings::SidePanel::StateComponent.new(meeting: @meeting))
