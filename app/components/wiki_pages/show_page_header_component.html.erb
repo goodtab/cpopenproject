@@ -80,7 +80,7 @@ See COPYRIGHT and LICENSE files for more details.
             label: lock_data[:label],
             tag: :a,
             size: :medium,
-            content_arguments: { data: { method: :post } },
+            content_arguments: { data: { turbo_method: :post } },
             href: url_for(controller: "wiki", action: "protect", id: @page, protected: lock_data[:protected])
           ) do |item|
             item.with_leading_visual_icon(icon: lock_data[:icon])
@@ -116,7 +116,7 @@ See COPYRIGHT and LICENSE files for more details.
             scheme: :danger,
             tag: :a,
             size: :medium,
-            content_arguments: { data: { confirm: t(:text_are_you_sure), method: :delete } },
+            content_arguments: { data: { turbo_confirm: t(:text_are_you_sure), turbo_method: :delete } },
             href: url_for(controller: "wiki", action: "destroy", id: @page),
             data: { "test-selector": "wiki-delete-action-menu-item" }
           ) do |item|

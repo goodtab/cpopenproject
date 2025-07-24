@@ -47,11 +47,12 @@ class Projects::ArchiveController < ApplicationController
     service_call = change_status(status)
 
     if service_call.success?
-      redirect_to(projects_path)
+      redirect_to(projects_path, status: :see_other)
     else
       flash[:error] = t(:"error_can_not_#{status}_project",
                         errors: service_call.errors.full_messages.join(", "))
-      redirect_back fallback_location: projects_path
+      redirect_back fallback_location: projects_path,
+                    status: :see_other
     end
   end
 

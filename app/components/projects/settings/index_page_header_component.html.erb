@@ -81,7 +81,7 @@
           label: t(:button_archive),
           href: project_archive_path(@project, status: "", name: @project.name),
           content_arguments: {
-            data: { confirm: t("project.archive.are_you_sure", name: @project.name), method: :post },
+            data: { turbo_confirm: t("project.archive.are_you_sure", name: @project.name), method: :post },
             test_selector: "project-settings--archive"
           }
         ) do |item|
@@ -96,7 +96,7 @@
           label: t("project.template.#{label}"),
           href: project_templated_path(@project),
           content_arguments: {
-            data: { method: @project.templated ? :delete : :post },
+            data: { turbo_method: @project.templated ? :delete : :post },
             test_selector: "project-settings--mark-template"
           }
         ) do |item|

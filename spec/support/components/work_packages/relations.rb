@@ -418,7 +418,9 @@ module Components
 
       def remove_relation_with_work_package(relatable)
         open_action_menu_with_work_package(relatable) do
-          relatable_delete_button(relatable).click
+          accept_confirm do
+            relatable_delete_button(relatable).click
+          end
         end
 
         expect_no_row(relatable)

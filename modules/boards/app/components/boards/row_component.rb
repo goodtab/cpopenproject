@@ -60,10 +60,10 @@ module Boards
         link_to(
           "",
           work_package_board_path(model),
-          method: :delete,
           class: "icon icon-delete",
           data: {
-            confirm: I18n.t(:text_are_you_sure),
+            turbo_method: :delete,
+            turbo_confirm: I18n.t(:text_are_you_sure),
             "test-selector": "board-remove-#{model.id}"
           },
           title: t(:button_delete)

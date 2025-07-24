@@ -55,8 +55,12 @@ RSpec.describe "user memberships through user page", :js, :selenium do
         # Remove the global role from the user
         principal_page.remove_global_role!(global_role.id)
 
+        wait_for_network_idle
+
         # Verify that it is gone
-        principal_page.expect_global_roles([])
+        retry_block do
+          principal_page.expect_global_roles([])
+        end
       end
     end
   end

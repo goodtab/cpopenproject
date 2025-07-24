@@ -100,7 +100,7 @@ See COPYRIGHT and LICENSE files for more details.
     <div style="float:none;display:inline-block;font-weight:bold;">
       <%= link_to t(:label_send_test_email),
                   { controller: "/admin", action: "test_email" },
-                  method: :post %>
+                  data: { turbo_method: :post } %>
     </div>
   <% end %>
 <% end %>

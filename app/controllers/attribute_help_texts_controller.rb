@@ -93,7 +93,8 @@ class AttributeHelpTextsController < ApplicationController
       flash[:error] = t(:error_can_not_delete_entry)
     end
 
-    redirect_to attribute_help_texts_path(tab: @attribute_help_text.attribute_scope)
+    redirect_to attribute_help_texts_path(tab: @attribute_help_text.attribute_scope),
+                status: :see_other
   end
 
   protected

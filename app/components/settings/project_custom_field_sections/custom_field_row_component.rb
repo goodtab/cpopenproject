@@ -70,7 +70,7 @@ module Settings
         menu.with_item(label: label_text,
                        href: move_admin_settings_project_custom_field_path(@project_custom_field, move_to:),
                        form_arguments: {
-                         method: :put, data: { "turbo-stream": true, test_selector: "project-custom-field-move-#{move_to}" }
+                         method: :put, data: { turbo_stream: true, test_selector: "project-custom-field-move-#{move_to}" }
                        }) do |item|
           item.with_leading_visual_icon(icon:)
         end
@@ -81,8 +81,9 @@ module Settings
                        scheme: :danger,
                        href: admin_settings_project_custom_field_path(@project_custom_field),
                        form_arguments: {
-                         method: :delete, data: { confirm: t("text_are_you_sure_with_project_custom_fields"),
-                                                  "turbo-stream": true, test_selector: "project-custom-field-delete" }
+                         method: :delete,
+                         data: { turbo_confirm: t("text_are_you_sure_with_project_custom_fields"),
+                                 turbo_stream: true, test_selector: "project-custom-field-delete" }
                        }) do |item|
           item.with_leading_visual_icon(icon: :trash)
         end

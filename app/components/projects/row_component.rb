@@ -337,8 +337,8 @@ module Projects
           label: I18n.t(:button_archive),
           href: project_archive_path(project, status: params[:status]),
           data: {
-            confirm: t("project.archive.are_you_sure", name: project.name),
-            method: :post
+            turbo_confirm: t("project.archive.are_you_sure", name: project.name),
+            turbo_method: :post
           }
         }
       end
@@ -351,7 +351,7 @@ module Projects
           icon: :unlock,
           label: I18n.t(:button_unarchive),
           href: project_archive_path(project, status: params[:status]),
-          data: { method: :delete }
+          data: { turbo_method: :delete }
         }
       end
     end

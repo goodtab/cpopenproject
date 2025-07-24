@@ -123,7 +123,7 @@ See COPYRIGHT and LICENSE files for more details.
                                            title: t(:button_edit) %>
                       <%= link_to(icon_wrapper('icon icon-remove', t(:button_remove)),
                                   polymorphic_path([@individual_principal, :membership], id: membership),
-                                  method: :delete,
+                                  data: { turbo_method: :delete },
                                   title: t(:button_remove)) if membership.deletable? %>
                     <% end %>
                   </td>

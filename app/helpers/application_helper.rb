@@ -99,8 +99,7 @@ module ApplicationHelper
 
   def delete_link(url, options = {})
     options = {
-      method: :delete,
-      data: { confirm: I18n.t(:text_are_you_sure) },
+      data: { turbo_method: :delete, turbo_confirm: I18n.t(:text_are_you_sure) },
       class: "icon icon-delete"
     }.merge(options)
 
@@ -199,10 +198,10 @@ module ApplicationHelper
 
   def time_tag(time)
     text = distance_of_time_in_words(Time.now, time)
-    if @project and @project.module_enabled?("activity")
+    if @project&.module_enabled?("activity") # rubocop:disable Rails/HelperInstanceVariable
       link_to(text, { controller: "/activities",
                       action: "index",
-                      project_id: @project,
+                      project_id: @project, # rubocop:disable Rails/HelperInstanceVariable
                       from: time.to_date },
               title: format_time(time))
     else

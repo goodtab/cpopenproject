@@ -160,8 +160,10 @@ See COPYRIGHT and LICENSE files for more details.
                 <%= link_to(
                       op_icon("icon icon-delete"),
                       custom_field_path(custom_field),
-                      method: :delete,
-                      data: { confirm: I18n.t(:text_are_you_sure) },
+                      data: {
+                        turbo_method: :delete,
+                        turbo_confirm: I18n.t(:text_are_you_sure)
+                      },
                       title: t(:button_delete)
                     ) %>
               </td>

@@ -156,7 +156,7 @@ module MeetingAgendaItems
         form_arguments: {
           method: :post,
           data: {
-            confirm: t(:text_agenda_item_move_next_meeting,
+            turbo_confirm: t(:text_agenda_item_move_next_meeting,
                        date: format_date(next_date),
                        time: format_time(next_date, include_date: false)),
             "turbo-stream": true
@@ -184,7 +184,7 @@ module MeetingAgendaItems
                      scheme: :danger,
                      href: meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item),
                      form_arguments: {
-                       method: :delete, data: { confirm: t("text_are_you_sure"), "turbo-stream": true }
+                       method: :delete, data: { turbo_confirm: t("text_are_you_sure"), "turbo-stream": true }
                      }) do |item|
         item.with_leading_visual_icon(icon: :trash)
       end

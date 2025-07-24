@@ -100,7 +100,7 @@ module CustomFields
         rescue StandardError
           flash[:error] = I18n.t(:error_can_not_delete_custom_field)
         end
-        redirect_to index_path(@custom_field, tab: @custom_field.class.name)
+        redirect_to index_path(@custom_field, tab: @custom_field.class.name), status: :see_other
       end
 
       def delete_option
@@ -114,7 +114,7 @@ module CustomFields
           flash[:error] = @custom_option.errors.full_messages
         end
 
-        redirect_to edit_path(@custom_field, id: @custom_field.id)
+        redirect_to edit_path(@custom_field, id: @custom_field.id), status: :see_other
       end
 
       def new_custom_field

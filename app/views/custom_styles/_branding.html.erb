@@ -37,7 +37,7 @@ See COPYRIGHT and LICENSE files for more details.
           <%= tag("img", src: custom_style_logo_path(digest: @custom_style.digest, filename: @custom_style.logo_identifier), class: "custom-logo-preview") %>
           <%= link_to t(:button_delete),
                       custom_style_logo_delete_path,
-                      method: :delete,
+                      data: { turbo_method: :delete },
                       class: "icon icon-delete confirm-form-submit" %>
         </div>
       <% end %>
@@ -68,7 +68,7 @@ See COPYRIGHT and LICENSE files for more details.
           <%= tag("img", src: custom_style_favicon_path(digest: @custom_style.digest, filename: @custom_style.favicon_identifier), class: "custom-favicon-preview") %>
           <%= link_to t(:button_delete),
                       custom_style_favicon_delete_path,
-                      method: :delete,
+                      turbo_method: :delete,
                       class: "icon icon-delete confirm-form-submit" %>
         </div>
       <% end %>
@@ -97,7 +97,7 @@ See COPYRIGHT and LICENSE files for more details.
           <%= tag("img", src: custom_style_touch_icon_path(digest: @custom_style.digest, filename: @custom_style.touch_icon_identifier), class: "custom-touch-icon-preview") %>
           <%= link_to t(:button_delete),
                       custom_style_touch_icon_delete_path,
-                      method: :delete,
+                      turbo_method: :delete,
                       class: "icon icon-delete confirm-form-submit" %>
         </div>
       <% end %>

@@ -84,7 +84,11 @@ module MeetingAgendaItems
                      scheme: :danger,
                      href: meeting_outcome_path(@meeting, @meeting_outcome),
                      form_arguments: {
-                       method: :delete, data: { confirm: t("text_are_you_sure"), "turbo-stream": true }
+                       method: :delete,
+                       data: {
+                         turbo_confirm: t("text_are_you_sure"),
+                         turbo_stream: true
+                       }
                      }) do |item|
         item.with_leading_visual_icon(icon: :trash)
       end

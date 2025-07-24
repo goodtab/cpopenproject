@@ -280,9 +280,9 @@ class WikiController < ApplicationController
 
   # Removes a wiki page and its history
   # Children can be either set as root pages, removed or reassigned to another parent page
-  def destroy
+  def destroy # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
     unless editable?
-      flash[:error] = I18n.t(:error_unable_delete_wiki)
+      flash.now[:error] = I18n.t(:error_unable_delete_wiki)
       return render_403
     end
 
@@ -311,10 +311,10 @@ class WikiController < ApplicationController
 
     if page = @wiki.find_page(@wiki.start_page) || @wiki.pages.first
       flash[:notice] = I18n.t(:notice_successful_delete)
-      redirect_to action: "index", project_id: @project, id: page
+      redirect_to action: "index", project_id: @project, id: page, status: :see_other
     else
       flash[:notice] = I18n.t(:notice_successful_delete)
-      redirect_to project_path(@project)
+      redirect_to project_path(@project), status: :see_other
     end
   end
 

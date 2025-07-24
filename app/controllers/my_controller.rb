@@ -146,7 +146,7 @@ class MyController < ApplicationController
     Rails.logger.error "Failed to revoke rss token ##{current_user.id}: #{e}"
     flash[:error] = t("my.access_token.failed_to_reset_token", error: e.message)
   ensure
-    redirect_to action: "access_token"
+    redirect_to action: "access_token", status: :see_other
   end
 
   # rubocop:disable Metrics/AbcSize
@@ -190,7 +190,7 @@ class MyController < ApplicationController
     end
     # rubocop:enable Rails/ActionControllerFlashBeforeRender
 
-    redirect_to action: "access_token"
+    redirect_to action: "access_token", status: :see_other
   end
 
   # rubocop:enable Metrics/AbcSize
@@ -203,7 +203,7 @@ class MyController < ApplicationController
     Rails.logger.error "Failed to revoke all ical tokens for ##{current_user.id}: #{e}"
     flash[:error] = t("my.access_token.failed_to_reset_token", error: e.message)
   ensure
-    redirect_to action: "access_token"
+    redirect_to action: "access_token", status: :see_other
   end
 
   private

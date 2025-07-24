@@ -97,7 +97,7 @@ class MembersController < ApplicationController
       display_error(service_call)
     end
 
-    redirect_to project_members_path(project_id: @project)
+    redirect_to project_members_path(project_id: @project), status: :see_other
   end
 
   def autocomplete_for_member

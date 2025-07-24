@@ -36,7 +36,7 @@ See COPYRIGHT and LICENSE files for more details.
           <%= tag("img", src: custom_style_export_logo_path(digest: @custom_style.digest, filename: @custom_style.export_logo_identifier), class: "custom-export-logo-preview") %>
           <%= link_to t(:button_delete),
                       custom_style_export_logo_delete_path,
-                      method: :delete,
+                      data: { turbo_method: :delete },
                       class: "icon icon-delete confirm-form-submit" %>
         </div>
       <% end %>
@@ -68,7 +68,7 @@ See COPYRIGHT and LICENSE files for more details.
           <%= tag("img", src: custom_style_export_cover_path(digest: @custom_style.digest, filename: @custom_style.export_cover_identifier), class: "custom-export-cover-preview") %>
           <%= link_to t(:button_delete),
                       custom_style_export_cover_delete_path,
-                      method: :delete,
+                      turbo_method: :delete,
                       class: "icon icon-delete confirm-form-submit" %>
         </div>
       <% end %>

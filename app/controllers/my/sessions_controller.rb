@@ -64,7 +64,7 @@ module My
       @session.delete
 
       flash[:notice] = I18n.t(:notice_successful_delete)
-      redirect_to action: :index
+      redirect_to action: :index, status: :see_other
     end
 
     private

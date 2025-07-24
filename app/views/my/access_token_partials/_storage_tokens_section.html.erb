@@ -63,9 +63,9 @@ See COPYRIGHT and LICENSE files for more details.
                 <td class="buttons">
                   <%= link_to "",
                               storage_token_delete_path(token.id),
-                              data: { confirm: t("my_account.access_tokens.storages.revoke_token", storage: token.oauth_client.integration.name),
+                              data: { turbo_confirm: t("my_account.access_tokens.storages.revoke_token", storage: token.oauth_client.integration.name),
                                       test_selector: "storages-token-row-#{token.id}-revoke" },
-                              method: :delete,
+                              turbo_method: :delete,
                               class: "icon icon-delete" %>
                 </td>
               </tr>

@@ -81,8 +81,7 @@ module ::Webhooks
           link_to(
             helpers.op_icon("icon icon-delete button--link"),
             { controller: table.target_controller, action: :destroy, webhook_id: webhook.id },
-            method: :delete,
-            data: { confirm: I18n.t(:text_are_you_sure) },
+            data: { turbo_method: :delete, turbo_confirm: I18n.t(:text_are_you_sure) },
             title: t(:button_delete)
           )
         end

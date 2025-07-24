@@ -111,7 +111,7 @@ class VersionsController < ApplicationController
       flash[:error] << archived_project_mesage if archived_projects.any?
     end
 
-    redirect_to project_settings_versions_path(@project)
+    redirect_to project_settings_versions_path(@project), status: :see_other
   end
 
   private

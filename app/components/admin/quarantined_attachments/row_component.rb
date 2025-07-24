@@ -86,8 +86,11 @@ module Admin
           helpers.op_icon("icon icon-delete"),
           { controller: "/admin/attachments/quarantined_attachments", action: :destroy, id: model },
           title: I18n.t("antivirus_scan.quarantined_attachments.delete"),
-          method: :delete,
-          data: { confirm: I18n.t(:text_are_you_sure), disable_with: I18n.t(:label_loading) }
+          data: {
+            turbo_method: :delete,
+            turbo_confirm: I18n.t(:text_are_you_sure),
+            turbo_submits_with: I18n.t(:label_loading)
+          }
         )
       end
     end

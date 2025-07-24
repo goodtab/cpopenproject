@@ -64,8 +64,8 @@ module Enumerations
       helpers.link_to(
         helpers.op_icon("icon icon-delete"),
         helpers.enumeration_path(enumeration),
-        method: :delete,
-        data: { confirm: I18n.t(:text_are_you_sure) },
+        turbo_method: :delete,
+        data: { turbo_confirm: I18n.t(:text_are_you_sure) },
         title: t(:button_delete)
       )
     end

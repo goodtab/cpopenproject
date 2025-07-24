@@ -156,8 +156,12 @@ module MeetingSections
                      scheme: :danger,
                      href: meeting_section_path(@meeting_section.meeting, @meeting_section),
                      form_arguments: {
-                       method: :delete, data: { confirm: confirm_text, "turbo-stream": true,
-                                                test_selector: "meeting-section-delete" }
+                       method: :delete,
+                       data: {
+                         turbo_confirm: confirm_text,
+                         turbo_stream: true,
+                         test_selector: "meeting-section-delete"
+                       }
                      }) do |item|
         item.with_leading_visual_icon(icon: :trash)
       end
