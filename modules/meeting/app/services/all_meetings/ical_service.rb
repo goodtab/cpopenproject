@@ -31,30 +31,35 @@ require "icalendar"
 require "icalendar/tzinfo"
 module AllMeetings
   class ICalService
-    include Meetings::ICalHelpers
-    attr_reader :user, :url_helpers, :include_historic, :calendar, :timezone
+    attr_reader :user, :include_historic
 
     def initialize(user:, include_historic: false)
       @user = user
-      @timezone = user.time_zone
-      @url_helpers = OpenProject::StaticRouting::StaticUrlHelpers.new
       @include_historic = include_historic
-      @calendar = build_icalendar(Time.current.in_time_zone(user.time_zone))
     end
 
-    def call
-      single_meetings.each do |meeting|
-        build_single_meeting(meeting)
-      end
+    def call # rubocop:disable Metrics/AbcSize
+      User.execute_as(user) do
+        calendar = Meetings::CalendarWrapper.new(timezone: Time.zone || Time.zone_default)
 
-      ServiceResult.success(result: calendar.to_ical)
+        single_meetings.each do |meeting|
+          calendar.add_single_meeting_event(meeting:, cancelled: false)
+        end
+
+        # This generates a lot of subqueries.
+        # TODO: Optimize this to avoid subqueries.
+        recurring_meetings.each do |recurring_meeting|
+          calendar.add_series_event(recurring_meeting:, cancelled: false)
+        end
+
+        ServiceResult.success(result: calendar.to_ical)
+      end
+    rescue StandardError => e
+      Rails.logger.error("Failed to generate ICS for meeting #{@meeting.id}: #{e.message}")
+      ServiceResult.failure(message: e.message)
     end
 
     private
-
-    def ical_subject(meeting)
-      "[#{meeting.project.name}] #{I18n.t(:label_meeting)}: #{meeting.title}"
-    end
 
     def recurring_meetings
       @recurring_meetings ||= RecurringMeeting.visible(user)
