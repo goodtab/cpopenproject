@@ -62,7 +62,7 @@ class WorkPackage < ApplicationRecord
   has_many :time_entries, dependent: :delete_all
 
   has_many :file_links, dependent: :delete_all, class_name: "Storages::FileLink", as: :container
-  has_many :comments, dependent: :delete_all, class_name: "Comment"
+  has_many :comments, dependent: :delete_all, class_name: "Comment", as: :commented
 
   has_many :storages, through: :project
 
