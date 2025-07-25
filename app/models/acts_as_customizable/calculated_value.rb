@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -28,38 +26,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Projects::Concerns
-  module UpdateCalculatedCustomFieldValues
-    private
+module ActsAsCustomizable::CalculatedValue
+  extend ActiveSupport::Concern
 
-    def before_perform(call)
-      super.tap do
-        changed_custom_values = model.custom_values.select(&:changed?)
+  included do
+    def calculate_custom_fields(custom_fields)
+      return if custom_fields.empty?
 
-        if changed_custom_values.present?
-          changed_cf_ids = changed_custom_values.map(&:custom_field_id)
-          affected_cfs = model.available_custom_fields.affected_calculated_fields(changed_cf_ids)
+      given = calculated_value_fields_referenced_values(custom_fields)
+      to_compute = custom_fields.to_h { [it.column_name, it.formula_str_without_patterns] }
 
-          update_calculated_value_fields(affected_cfs) if affected_cfs.present?
-        end
-      end
-    end
-
-    def update_calculated_value_fields(cfs)
-      given = calculated_value_fields_referenced_values(cfs)
-      to_compute = cfs.to_h { [it.column_name, it.formula_string] }
-
-      calculator = Dentaku::Calculator.new
+      calculator = CustomField::CalculatedValue.calculator_instance
       calculator.store(given)
-      result = calculator.solve(to_compute) { nil }.transform_keys { it.delete_prefix("cf_") }
+      result = calculator.solve(to_compute) { nil } # nil is the value when calculation is not possible
 
-      model.custom_field_values = result
+      self.custom_field_values = custom_fields.to_h { [it.id, result[it.column_name]] }
     end
 
-    def calculated_value_fields_referenced_values(cfs)
-      given_cf_ids = cfs.flat_map(&:formula_referenced_custom_field_ids).uniq - cfs.map(&:id)
-      model
-        .custom_field_values
+  private
+
+    def calculated_value_fields_referenced_values(custom_fields)
+      given_cf_ids = custom_fields.flat_map(&:formula_referenced_custom_field_ids).uniq - custom_fields.map(&:id)
+
+      custom_field_values
         .select { it.custom_field_id.in?(given_cf_ids) }
         .to_h { [it.custom_field.column_name, it.typed_value] }
     end

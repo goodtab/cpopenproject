@@ -30,6 +30,8 @@
 
 module Projects
   class SetAttributesService < ::BaseServices::SetAttributes
+    prepend Projects::Concerns::SetCalculatedCustomFieldValues
+
     private
 
     def set_attributes(params)

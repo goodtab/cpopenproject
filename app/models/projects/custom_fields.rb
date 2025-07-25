@@ -31,6 +31,8 @@
 module Projects::CustomFields
   extend ActiveSupport::Concern
 
+  include ActsAsCustomizable::CalculatedValue
+
   attr_accessor :_limit_custom_fields_validation_to_section_id
 
   included do
