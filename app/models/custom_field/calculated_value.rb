@@ -121,6 +121,12 @@ module CustomField::CalculatedValue
       end
     end
 
+    # Returns `formula_string` with all custom field references detokenized so that they are parseable by Dentaku.
+    # For example, for `2 + {{cf_12}} + {{cf_4}}` it returns `2 + cf_12 + cf_4`.
+    def formula_str_without_patterns
+      formula_string.gsub(/\{\{(cf_\d+)}}/, '\1')
+    end
+
     private
 
     def valid_formula_syntax?
@@ -152,12 +158,6 @@ module CustomField::CalculatedValue
     # For a formula like `2 + {{cf_12}} + {{cf_4}}` it returns `[12, 4]`.
     def cf_ids_used_in_formula(formula_str)
       formula_str.scan(/(?<=\{\{cf_)\d+(?=}})/).map(&:to_i)
-    end
-
-    # Returns `formula_string` with all custom field references detokenized so that they are parseable by Dentaku.
-    # For example, for `2 + {{cf_12}} + {{cf_4}}` it returns `2 + cf_12 + cf_4`.
-    def formula_str_without_patterns
-      formula_string.gsub(/\{\{(cf_\d+)}}/, '\1')
     end
 
     def has_circular_reference?(custom_field, original_id, visited = Set.new)
