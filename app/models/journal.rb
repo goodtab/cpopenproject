@@ -202,7 +202,7 @@ class Journal < ApplicationRecord
   end
 
   def noop?
-    (!notes || notes&.empty?) && get_changes.empty?
+    !has_notes_or_comments? && get_changes.empty?
   end
 
   def has_cause?
@@ -227,6 +227,14 @@ class Journal < ApplicationRecord
 
   def has_comments?
     journable.respond_to?(:comments) && journable.comments.any?
+  end
+
+  def has_notes?
+    notes && !notes&.empty?
+  end
+
+  def has_notes_or_comments?
+    has_notes? || has_comments?
   end
 
   def predecessor

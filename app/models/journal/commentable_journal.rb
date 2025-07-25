@@ -33,5 +33,7 @@ class Journal::CommentableJournal < Journal::AssociatedJournal
 
   belongs_to :comment, class_name: "Comment"
 
-  delegate :text, to: :comment
+  def text
+    comment&.text
+  end
 end

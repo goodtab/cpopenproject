@@ -33,12 +33,10 @@ class OpenProject::JournalFormatter::Comment < JournalFormatter::Base
     _id = key.to_s.sub("comments_", "").to_i
 
     label = label("comment")
-    old_value, current_value = values
-
-    return if old_value && current_value
+    _old_value, current_value = values
 
     if current_value.blank?
-      I18n.t(:text_journal_comment_deleted, label:, value: old_value)
+      I18n.t(:text_journal_comment_deleted, label:)
     else
       I18n.t(:text_journal_comment_added, label:, value: current_value)
     end
