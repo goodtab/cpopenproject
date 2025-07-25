@@ -34,28 +34,20 @@ module Storages
       module SharePoint
         module Queries
           class FilesQuery < Base
-            def call(auth_strategy:, **)
+            def call(auth_strategy:, input_data:)
               Authentication[auth_strategy].call(storage: @storage) do |http|
-                Internal::ListsQuery.call(storage: @storage, http:).bind { build_collection(it) }
+                files_request(input_data.folder, http)
               end
             end
 
             private
 
-            def build_collection(files)
-              Results::StorageFileCollection.build(
-                files:,
-                parent: root(Digest::SHA256.hexdigest("i_am_site_root")),
-                ancestors: []
-              )
-            end
-
-            def root(id)
-              Results::StorageFile.new(
-                name: URI(@storage.host).path&.split("/")&.last,
-                location: "/", id:,
-                permissions: %i[readable writeable]
-              )
+            def files_request(folder, http)
+              if folder.root?
+                Internal::ListsQuery.call(storage: @storage, http:)
+              else
+                Internal::ChildrenQuery.call(storage: @storage, http:, **drive_and_location(folder))
+              end
             end
           end
         end

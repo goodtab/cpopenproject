@@ -35,7 +35,7 @@ module Storages
         class StorageFileTransformer
           def transform(json)
             Results::StorageFile.build(
-              id: json[:id],
+              id: id(json),
               name: json[:name],
               size: json[:size],
               mime_type: mime_type(json),
@@ -80,6 +80,8 @@ module Storages
           # rubocop:enable Metrics/AbcSize
 
           private
+
+          def id(json) = json[:id]
 
           def mime_type(json)
             json.dig(:file, :mimeType) || (json.key?(:folder) ? "application/x-op-directory" : nil)

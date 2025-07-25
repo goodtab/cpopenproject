@@ -77,11 +77,11 @@ module Storages
             end
 
             def storage_files(json_files)
-              files = json_files.map { |json| @transformer.transform(json).value_or(nil) }
+              files = json_files.filter_map { |json| @transformer.transform(json).value_or(nil) }
 
               parent_reference = json_files.first[:parentReference]
               Results::StorageFileCollection
-                .build(files: files.compact, parent: parent(parent_reference), ancestors: forge_ancestors(parent_reference))
+                .build(files: files, parent: parent(parent_reference), ancestors: forge_ancestors(parent_reference))
             end
 
             def empty_response(http, folder)

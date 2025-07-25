@@ -42,13 +42,13 @@ module Storages
               end
 
               def call(http)
-                handle_response(http.get(request_uri + FIELDS)).fmap { parse_response(it) }
+                handle_response(http.get(request_uri + FIELDS)).bind { parse_response(it) }
               end
 
               private
 
               def handle_response(response)
-                error = Results::Error.new(source: self, payload: response)
+                error = Results::Error.new(source: self.class, payload: response)
 
                 case response
                 in { status: 200..299 }
@@ -67,20 +67,41 @@ module Storages
               end
 
               def parse_response(json)
-                json[:value].filter_map do |entry|
+                files = json[:value].filter_map do |entry|
+                  next unless entry.key?(:drive)
+
                   Results::StorageFile.build(
                     name: entry[:name],
-                    id: entry.dig(:drive, :id),
+                    id: "#{entry.dig(:drive, :id)}#{SharePointStorage::IDENTIFIER_SEPARATOR}",
                     mime_type: "application/x-op-drive",
-                    location: "/drives/#{entry.dig(:drive, :id)}",
+                    location: UrlBuilder.path("/#{site_name}/#{entry[:name]}"),
                     permissions: %i[readable writeable]
                   ).value_or { nil }
                 end
+
+                build_collection(files)
               end
 
               def request_uri
                 storage_host = URI(@storage.host)
                 URI.join(base_uri.origin, "/v1.0/sites/#{storage_host.host}:#{storage_host.path}:/lists").to_s
+              end
+
+              def build_collection(files)
+                Results::StorageFileCollection.build(
+                  files:,
+                  parent: root(Digest::SHA256.hexdigest("i_am_site_root")),
+                  ancestors: []
+                )
+              end
+
+              def root(id)
+                Results::StorageFile.new(
+                  id:,
+                  name: URI(@storage.host).path&.split("/")&.last,
+                  location: "/#{site_name}",
+                  permissions: %i[readable writeable]
+                )
               end
             end
           end
