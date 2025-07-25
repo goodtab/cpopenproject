@@ -1,10 +1,10 @@
 <%=
   component_wrapper do
-    if journal.notes.present?
+    if show_journal_text?
       flex_layout do |journal_container|
         journal_container.with_row do
           render(Primer::Box.new(mt: 1, classes: "op-uc-container")) do
-            format_text(journal, :notes)
+            journal_text
           end
         end
         journal_container.with_row(flex_layout: true) do |reactions_container|

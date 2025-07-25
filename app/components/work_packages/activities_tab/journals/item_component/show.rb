@@ -51,6 +51,26 @@ module WorkPackages
         def wrapper_uniq_by
           journal.id
         end
+
+        def show_journal_text?
+          journal.notes.present? || journal.commentable_journals.any?
+        end
+
+        def journal_text
+          if journal.notes.present?
+            format_text(journal, :notes)
+          elsif journal.commentable_journals.any?
+            journal_comment_details.map do |detail|
+              journal.render_detail(detail)
+            end.join("\n---\n")
+          else
+            ""
+          end
+        end
+
+        def journal_comment_details
+          journal.details.select { |key, _| key.starts_with?("comments") }
+        end
       end
     end
   end

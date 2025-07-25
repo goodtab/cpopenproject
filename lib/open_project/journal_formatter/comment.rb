@@ -35,10 +35,6 @@ class OpenProject::JournalFormatter::Comment < JournalFormatter::Base
     label = label("comment")
     _old_value, current_value = values
 
-    if current_value.blank?
-      I18n.t(:text_journal_comment_deleted, label:)
-    else
-      I18n.t(:text_journal_comment_added, label:, value: current_value)
-    end
+    current_value.presence || I18n.t(:text_journal_comment_deleted, label:)
   end
 end

@@ -85,7 +85,7 @@ module WorkPackages
         end
 
         def show_comment_container?
-          (journal.notes.present? || noop?) && filter != :only_changes
+          (journal.notes.present? || journal.commentable_journals.any? || noop?) && filter != :only_changes
         end
 
         def noop?
