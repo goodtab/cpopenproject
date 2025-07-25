@@ -46,15 +46,7 @@ module Meetings
 
     def title
       if @meeting.notify?
-        I18n.t("meeting.notifications.dialog.title.mute")
-      else
-        I18n.t("meeting.notifications.dialog.title.enable")
-      end
-    end
-
-    def heading
-      if @meeting.notify?
-        I18n.t("meeting.notifications.dialog.title.mute")
+        I18n.t("meeting.notifications.dialog.title.disable")
       else
         I18n.t("meeting.notifications.dialog.title.enable")
       end
@@ -62,7 +54,7 @@ module Meetings
 
     def confirmation_message
       if @meeting.notify?
-        I18n.t("meeting.notifications.dialog.message.mute")
+        I18n.t("meeting.notifications.dialog.message.disable")
       else
         I18n.t("meeting.notifications.dialog.message.enable")
       end
@@ -70,7 +62,7 @@ module Meetings
 
     def confirm_button_text
       if @meeting.notify?
-        I18n.t("meeting.notifications.dialog.confirm_label.mute")
+        I18n.t("meeting.notifications.dialog.confirm_label.disable")
       else
         I18n.t("meeting.notifications.dialog.confirm_label.enable")
       end

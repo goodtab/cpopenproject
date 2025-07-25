@@ -37,23 +37,41 @@ module Meetings
     end
 
     def call
-      render(Primer::Alpha::Banner.new(description:, scheme:))
+      render(Primer::Alpha::Banner.new(description:, scheme:, icon:))
     end
 
     private
 
-    def description
-      return I18n.t("text_email_updates_enabled") if @override == :enabled
-      return I18n.t("text_email_updates_muted") if @override == :muted
+    def type
+      if @meeting.is_a?(RecurringMeeting) || (@meeting.recurring? && @meeting.templated?)
+        "template"
+      elsif @meeting.recurring?
+        "occurrence"
+      else
+        "onetime"
+      end
+    end
 
-      @meeting.notify? ? I18n.t("text_email_updates_enabled") : I18n.t("text_email_updates_muted")
+    def status
+      if @override.present?
+        @override.to_s
+      elsif @meeting.notify?
+        "enabled"
+      else
+        "disabled"
+      end
+    end
+
+    def description
+      I18n.t("meeting.notifications.banner.#{type}.#{status}")
     end
 
     def scheme
-      return :default if @override == :enabled
-      return :warning if @override == :muted
+      status == "enabled" ? :default : :warning
+    end
 
-      @meeting.notify? ? :default : :warning
+    def icon
+      status == "enabled" ? :info : nil
     end
   end
 end

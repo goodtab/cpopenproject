@@ -29,12 +29,6 @@
           end
         end
 
-        if @meeting.is_a?(RecurringMeeting) && @meeting.persisted?
-          modal_body.with_row(mb: 3) do
-            render(Meetings::EmailUpdatesBannerComponent.new(@meeting))
-          end
-        end
-
         if @project.nil?
           modal_body.with_row(mb: 3) do
             render(Meeting::ProjectAutocompleter.new(f))
@@ -141,6 +135,12 @@
           end
         end
 
+        if @meeting.is_a?(RecurringMeeting) && @meeting.persisted?
+          modal_body.with_row(mt: 3) do
+            render(Meetings::EmailUpdatesBannerComponent.new(@meeting))
+          end
+        end
+
         if (@meeting.is_a?(RecurringMeeting) && !@meeting.persisted?) || @meeting.is_a?(Meeting)
           modal_body.with_row(mt: 3) do
             render(Meeting::SendEmailUpdates.new(f, meeting: @meeting, copy_from: @copy_from))
@@ -168,7 +168,7 @@
               visibility_class: "d-none"
             }
           ) do
-            render(Meetings::EmailUpdatesBannerComponent.new(@meeting, override: :muted))
+            render(Meetings::EmailUpdatesBannerComponent.new(@meeting, override: :disabled))
           end
         end
       end

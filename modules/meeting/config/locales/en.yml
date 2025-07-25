@@ -297,17 +297,37 @@ en:
       dialog:
         title:
           enable: "Enable email calendar updates?"
-          mute: "Mute email calendar updates?"
+          disable: "Disable email calendar updates?"
         message:
           enable: >
-            All participants will receive updated calendar invites via email informing them of changes to the meeting.
-            One will be sent immediately now.
-          mute: >
-            Participants will no longer receive updated calendar invites via email with changes to the meeting. 
+            All participants will receive updated calendar invites via email every time there is a change to the meeting date, time, location or participants.
+          disable: >
+            Participants will no longer receive updated calendar invites via email when there are changes to the meeting date, time, location or participants.
             If they already had an invite for this meeting, it might no longer be accurate.
         confirm_label:
           enable: "Enable email updates"
-          mute: "Mute email updates"
+          disable: "Disable email updates"
+      banner:
+        onetime:
+          enabled: >
+            All participants will receive updated calendar invites via email informing them of your changes.
+          disabled: >
+            Email calendar updates are disabled. Participants will not receive an email informing them of your changes.
+        occurrence:
+          enabled: >
+            Email calendar updates are enabled for the meeting series.
+            All participants will receive updated calendar invites informing them of your changes to this occurrence.
+          disabled: >
+            Email calendar updates are disabled for the meeting series.
+            Participants will not receive an email informing them of your changes to this occurrence.
+        template:
+          enabled: >
+            Email calendar updates are enabled for the meeting series.
+            All participants will receive updated calendar invites informing them of your changes to this template or to individual occurrences.
+          disabled: >
+            Email calendar updates are disabled for the meeting series.
+            Participants will not receive an email informing them of your changes to this template or to individual occurrences. 
+
 
   meeting_section:
     untitled_title: "Untitled section"

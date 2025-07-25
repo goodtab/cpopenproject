@@ -40,7 +40,7 @@ See COPYRIGHT and LICENSE files for more details.
     )
   ) do |dialog|
     dialog.with_confirmation_message do |message|
-      message.with_heading(tag: :h2) { heading }
+      message.with_heading(tag: :h2) { title }
       message.with_description_content(confirmation_message)
     end
   end
