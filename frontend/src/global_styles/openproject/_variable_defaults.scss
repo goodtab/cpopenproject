@@ -91,7 +91,7 @@
   --main-menu-resizer-color: var(--main-menu-border-color);
   --main-menu-selected-font-color: var(--main-menu-font-color);
   --main-menu-font-size: 14px;
-  --main-menu-fieldset-header-color: #59636e;
+  --main-menu-fieldset-header-color: var(--main-menu-font-color);
   --main-menu-hover-border-color: transparent;
   --main-menu-bg-selected-border: transparent;
   --breadcrumb-height: 40px;

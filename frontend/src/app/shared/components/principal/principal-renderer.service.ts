@@ -129,8 +129,7 @@ export class PrincipalRendererService {
     const userInitials = this.getInitials(principal.name);
     const colorMode = this.colors.colorMode();
     const text = `${principal.id}${principal.name}`;
-    const colorCode = this.colors.toHsl(text, colorMode);
-    const textColor = this.colors.getContrastTextColor(colorCode);
+    const colorCode = this.colors.toHsl(text);
 
     const fallback = document.createElement('div');
     fallback.classList.add('op-principal--avatar');
@@ -146,10 +145,8 @@ export class PrincipalRendererService {
     if (type === 'placeholder_user' && colorMode !== colorModes.lightHighContrast) {
       fallback.style.color = colorCode;
       fallback.style.borderColor = colorCode;
-      fallback.style.color = textColor;
     } else {
       fallback.style.background = colorCode;
-      fallback.style.color = textColor;
     }
 
     // Image avatars are only supported for users
