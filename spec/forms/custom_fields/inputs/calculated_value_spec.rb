@@ -28,12 +28,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class CustomFields::Inputs::CalculatedValue < CustomFields::Inputs::Base::Input
-  form do |custom_value_form|
-    custom_value_form.text_field(**input_attributes)
+require "spec_helper"
+
+RSpec.describe CustomFields::Inputs::CalculatedValue, type: :forms, with_flag: { calculated_value_project_attribute: true } do
+  include_context "with rendered custom field input form"
+
+  let(:custom_field) { create(:calculated_value_project_custom_field, name: "Calculated value field", formula: "1 + 1") }
+
+  it_behaves_like "rendering label with help text", "Calculated value field"
+
+  context "without a value" do
+    it "renders field" do
+      expect(rendered_form).to have_field "Calculated value field", type: :number, disabled: true, with: ""
+    end
   end
 
-  def input_attributes
-    super.merge({ type: "number", step: :any, disabled: true })
+  context "with a value" do
+    let(:value) { 78.23 }
+
+    it "renders field" do
+      expect(rendered_form).to have_field "Calculated value field", type: :number, disabled: true, with: "78.23"
+    end
   end
 end
